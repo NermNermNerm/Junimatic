@@ -54,7 +54,8 @@ namespace NermNermNerm.Junimatic
                 var farm = Game1.getFarm();
                 int x = 71;
                 int y = 17;
-                farm.characters.Add(new JunimoShuffler(new Vector2(x, y) * 64f, Color.AliceBlue));
+                farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
+                this.isCreated = true;
             }
         }
     }
