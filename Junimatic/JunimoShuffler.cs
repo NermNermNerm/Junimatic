@@ -34,6 +34,8 @@ namespace NermNermNerm.Junimatic
 
         protected readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
 
+        private readonly List<Item> carrying = new List<Item>();
+
         public JunimoShuffler()
         {
         }
@@ -70,12 +72,17 @@ namespace NermNermNerm.Junimatic
         {
             l.playSound("Ship");
             this.controller = new PathFindController(this, base.currentLocation, new Point(74, 15), 0, this.junimoReached7415);
+            this.carrying.Clear();
+            this.carrying.Add(new StardewValley.Object("382", 1));
+            this.carrying.Add(new StardewValley.Object("378", 1));
         }
 
         private void junimoReached7415(Character c, GameLocation l)
         {
             l.playSound("dwop");
             this.controller = new PathFindController(this, base.currentLocation, new Point(74, 11), 0, this.junimoReached7411);
+            this.carrying.Clear();
+            this.carrying.Add(new StardewValley.Object("334", 1));
         }
 
 
@@ -390,11 +397,43 @@ namespace NermNermNerm.Junimatic
             if (this.alpha > 0f)
             {
                 float num = (float)base.StandingPixel.Y / 10000f;
-                b.Draw(this.Sprite.Texture, this.getLocalPosition(Game1.viewport) + new Vector2(this.Sprite.SpriteWidth * 4 / 2, (float)this.Sprite.SpriteHeight * 3f / 4f * 4f / (float)Math.Pow(this.Sprite.SpriteHeight / 16, 2.0) + (float)this.yJumpOffset - 8f) + ((this.shakeTimer > 0) ? new Vector2(Game1.random.Next(-1, 2), Game1.random.Next(-1, 2)) : Vector2.Zero), this.Sprite.SourceRect, this.color.Value * this.alpha, this.rotation, new Vector2(this.Sprite.SpriteWidth * 4 / 2, (float)(this.Sprite.SpriteHeight * 4) * 3f / 4f) / 4f, Math.Max(0.2f, this.Scale) * 4f, this.flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, this.drawOnTop ? 0.991f : num));
+                b.Draw(
+                    this.Sprite.Texture,
+                    this.getLocalPosition(Game1.viewport)
+                        + new Vector2(
+                            this.Sprite.SpriteWidth * 4 / 2,
+                            (float)this.Sprite.SpriteHeight * 3f / 4f * 4f / (float)Math.Pow(this.Sprite.SpriteHeight / 16, 2.0) + (float)this.yJumpOffset - 8f)
+                        + ((this.shakeTimer > 0)
+                            ? new Vector2(Game1.random.Next(-1, 2), Game1.random.Next(-1, 2))
+                            : Vector2.Zero),
+                    this.Sprite.SourceRect,
+                    this.color.Value * this.alpha, this.rotation,
+                    new Vector2(this.Sprite.SpriteWidth * 4 / 2,
+                    (float)(this.Sprite.SpriteHeight * 4) * 3f / 4f) / 4f,
+                    Math.Max(0.2f, this.Scale) * 4f, this.flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                    Math.Max(0f, this.drawOnTop ? 0.991f : num));
                 if (!this.swimming.Value)
                 {
                     b.Draw(Game1.shadowTexture, Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2((float)(this.Sprite.SpriteWidth * 4) / 2f, 44f)), Game1.shadowTexture.Bounds, this.color.Value * this.alpha, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), (4f + (float)this.yJumpOffset / 40f) * this.Scale, SpriteEffects.None, Math.Max(0f, num) - 1E-06f);
                 }
+
+                if ((bool)this.carrying.Any())
+                {
+                    var carried = this.carrying.First();
+
+                    ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(carried.QualifiedItemId);
+                    b.Draw(
+                        dataOrErrorItem.GetTexture(),
+                        Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset)),
+                        dataOrErrorItem.GetSourceRect(0, carried.ParentSheetIndex),
+                        Color.White * this.alpha,
+                        0f,
+                        Vector2.Zero,
+                        4f * (float)this.Scale,
+                        SpriteEffects.None,
+                        base.Position.Y / 10000f + 0.0001f);
+                }
+
             }
         }
     }
