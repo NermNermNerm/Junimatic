@@ -22,7 +22,7 @@ namespace NermNermNerm.Junimatic
 
         public Harmony Harmony = null!;
 
-        public bool isCreated = true;
+        public bool isCreated = false;
 
         public ModEntry()
         {
@@ -33,6 +33,26 @@ namespace NermNermNerm.Junimatic
             this.Harmony = new Harmony(this.ModManifest.UniqueID);
 
             this.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
+            this.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
+        }
+
+        private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
+        {
+            if (e.Button.TryGetKeyboard(out Microsoft.Xna.Framework.Input.Keys k))
+            {
+                if (k == Microsoft.Xna.Framework.Input.Keys.D9)
+                {
+                    if (!this.isCreated)
+                    {
+                        var farm = Game1.getFarm();
+                        int x = 71;
+                        int y = 17;
+                        farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
+                        this.isCreated = true;
+                    }
+                }
+            }
+            throw new NotImplementedException();
         }
 
         void ISimpleLog.WriteToLog(string message, LogLevel level, bool isOnceOnly)
@@ -49,14 +69,14 @@ namespace NermNermNerm.Junimatic
 
         private void GameLoop_OneSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
         {
-            if (!this.isCreated)
-            {
-                var farm = Game1.getFarm();
-                int x = 71;
-                int y = 17;
-                farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
-                this.isCreated = true;
-            }
+            //if (!this.isCreated)
+            //{
+            //    var farm = Game1.getFarm();
+            //    int x = 71;
+            //    int y = 17;
+            //    farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
+            //    this.isCreated = true;
+            //}
         }
     }
 }

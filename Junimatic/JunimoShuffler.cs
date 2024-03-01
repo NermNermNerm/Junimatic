@@ -392,6 +392,8 @@ namespace NermNermNerm.Junimatic
             }
         }
 
+        private static readonly int[] yBounceBasedOnFrame = new int[] { 12, 10, 8, 6, 4, 4, 8, 10 };
+        private static readonly int[] xBounceBasedOnFrame = new int[] { -3, -1, 1, 0, 1, 3, 1, -1 };
         public override void draw(SpriteBatch b, float alpha = 1f)
         {
             if (this.alpha > 0f)
@@ -402,8 +404,8 @@ namespace NermNermNerm.Junimatic
                     this.getLocalPosition(Game1.viewport)
                         + new Vector2(
                             this.Sprite.SpriteWidth * 4 / 2,
-                            (float)this.Sprite.SpriteHeight * 3f / 4f * 4f / (float)Math.Pow(this.Sprite.SpriteHeight / 16, 2.0) + (float)this.yJumpOffset - 8f)
-                        + ((this.shakeTimer > 0)
+                            (float)this.Sprite.SpriteHeight * 3f / 4f * 4f / (float)Math.Pow(this.Sprite.SpriteHeight / 16, 2.0) + (float)this.yJumpOffset - 8f)  // Apparently yJumpOffset is always 0.
+                        + ((this.shakeTimer > 0) // Apparently shakeTimer is always 0.
                             ? new Vector2(Game1.random.Next(-1, 2), Game1.random.Next(-1, 2))
                             : Vector2.Zero),
                     this.Sprite.SourceRect,
@@ -421,10 +423,18 @@ namespace NermNermNerm.Junimatic
                 {
                     var carried = this.carrying.First();
 
+
+                    //this.Sprite.currentAnimationIndex;
+                    //var millisec = Game1.currentGameTime.ElapsedGameTime.Milliseconds;
+                    //StardewValley.Object o;
+                    //o.drawInMenu();
+
+                    var bounce = new Vector2(xBounceBasedOnFrame[this.Sprite.CurrentFrame & 7], yBounceBasedOnFrame[this.Sprite.CurrentFrame & 7]);
+                    System.Diagnostics.Debug.WriteLine($"this.Sprite.CurrentFrame = {this.Sprite.CurrentFrame}  bounce.y={bounce.Y}");
                     ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(carried.QualifiedItemId);
                     b.Draw(
                         dataOrErrorItem.GetTexture(),
-                        Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset)),
+                        Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset) + bounce),
                         dataOrErrorItem.GetSourceRect(0, carried.ParentSheetIndex),
                         Color.White * this.alpha,
                         0f,
