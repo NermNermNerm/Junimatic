@@ -393,7 +393,7 @@ namespace NermNermNerm.Junimatic
         }
 
         private static readonly int[] yBounceBasedOnFrame = new int[] { 12, 10, 8, 6, 4, 4, 8, 10 };
-        private static readonly int[] xBounceBasedOnFrame = new int[] { -3, -1, 1, 0, 1, 3, 1, -1 };
+        private static readonly int[] xBounceBasedOnFrame = new int[] { 1, 3, 1, -1, -3, -1, 1, 0  };
         public override void draw(SpriteBatch b, float alpha = 1f)
         {
             if (this.alpha > 0f)
@@ -423,14 +423,12 @@ namespace NermNermNerm.Junimatic
                 {
                     var carried = this.carrying.First();
 
-
-                    //this.Sprite.currentAnimationIndex;
-                    //var millisec = Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-                    //StardewValley.Object o;
-                    //o.drawInMenu();
+                    // This makes it vary between 0% and 5% bigger, independent of the animation frame because...  Well, I don't know if it's good or bad.
+                    //  It also probably ought to affect bounce, if we were trying for some kind of specific effect, but we aren't, so it doesn't.
+                    float scaleFactor = (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) + 1.0) * 0.05f);
 
                     var bounce = new Vector2(xBounceBasedOnFrame[this.Sprite.CurrentFrame & 7], yBounceBasedOnFrame[this.Sprite.CurrentFrame & 7]);
-                    System.Diagnostics.Debug.WriteLine($"this.Sprite.CurrentFrame = {this.Sprite.CurrentFrame}  bounce.y={bounce.Y}");
+                    System.Diagnostics.Debug.WriteLine($"this.Sprite.CurrentFrame = {this.Sprite.CurrentFrame}  bounce.y={bounce.Y}  scaleFactor={scaleFactor}");
                     ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(carried.QualifiedItemId);
                     b.Draw(
                         dataOrErrorItem.GetTexture(),
@@ -439,11 +437,10 @@ namespace NermNermNerm.Junimatic
                         Color.White * this.alpha,
                         0f,
                         Vector2.Zero,
-                        4f * (float)this.Scale,
+                        4f * (float)this.Scale*(1 + scaleFactor),
                         SpriteEffects.None,
                         base.Position.Y / 10000f + 0.0001f);
                 }
-
             }
         }
     }

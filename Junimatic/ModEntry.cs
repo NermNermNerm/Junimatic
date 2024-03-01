@@ -52,7 +52,6 @@ namespace NermNermNerm.Junimatic
                     }
                 }
             }
-            throw new NotImplementedException();
         }
 
         void ISimpleLog.WriteToLog(string message, LogLevel level, bool isOnceOnly)
