@@ -62,7 +62,22 @@ namespace NermNermNerm.Junimatic
 
             this.collidesWithOtherCharacters.Value = false;
 
+            // go to 74,11  and bounce to 74,15
+            this.controller = new PathFindController(this, base.currentLocation, new Point(74, 11), 0, this.junimoReached7411);
         }
+
+        private void junimoReached7411(Character c, GameLocation l)
+        {
+            l.playSound("Ship");
+            this.controller = new PathFindController(this, base.currentLocation, new Point(74, 15), 0, this.junimoReached7415);
+        }
+
+        private void junimoReached7415(Character c, GameLocation l)
+        {
+            l.playSound("dwop");
+            this.controller = new PathFindController(this, base.currentLocation, new Point(74, 11), 0, this.junimoReached7411);
+        }
+
 
 
         protected override void initNetFields()
