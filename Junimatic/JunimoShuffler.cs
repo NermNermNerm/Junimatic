@@ -66,6 +66,8 @@ namespace NermNermNerm.Junimatic
 
             // go to 74,11  and bounce to 74,15
             this.controller = new PathFindController(this, base.currentLocation, new Point(74, 11), 0, this.junimoReached7411);
+            this.alpha = 0;
+            this.alphaChange = 0.05f;
         }
 
         private void junimoReached7411(Character c, GameLocation l)
