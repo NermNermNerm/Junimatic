@@ -95,6 +95,7 @@ namespace NermNermNerm.Junimatic
 
         private void GameLoop_OneSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
         {
+            var farm = Game1.getFarm();
             //if (!this.isCreated)
             //{
             //    var farm = Game1.getFarm();
@@ -103,6 +104,8 @@ namespace NermNermNerm.Junimatic
             //    farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
             //    this.isCreated = true;
             //}
+            //farm.getObjectAt(75 * 64, 15 * 64).heldObject.Value = null;
+
         }
     }
 }
