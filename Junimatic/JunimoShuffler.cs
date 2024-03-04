@@ -39,7 +39,7 @@ namespace NermNermNerm.Junimatic
         private JunimoAssignment assignment;
 
         public JunimoShuffler(JunimoAssignment assignment)
-            : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin, 2, "Junimo")
+            : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin*64, 2, "Junimo")
         {
             // base.currentLocation = assignment.hut.Location;
             this.color.Value = Color.Brown; // <- todo figure it out from the assignment
