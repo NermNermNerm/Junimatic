@@ -12,9 +12,11 @@ using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using static StardewValley.Menus.CharacterCustomization;
 
+
 namespace NermNermNerm.Junimatic
 {
-    internal class WorkFinder
+
+    public class WorkFinder
     {
         public enum JunimoType
         {
@@ -24,12 +26,6 @@ namespace NermNermNerm.Junimatic
         };
 
         private readonly int[] numAvailableWorkers = { 1, 0, 0 };
-
-        public record JunimoAssignment(
-            GameLocation location,
-            StardewValley.Object hut,
-            StardewValley.Object source,
-            StardewValley.Object target);
 
         public IEnumerable<JunimoAssignment> GlobalFindProjects()
         {
@@ -42,7 +38,7 @@ namespace NermNermNerm.Junimatic
                     var portals = location.objects.Values.Where(o => o.ItemId == ObjectIds.JunimoPortal);
                     foreach (var portal in portals)
                     {
-                        var project = this.FindProject(portal, JunimoType.Furnace);
+                        var project = this.FindProject(portal, JunimoType.Furnace, null);
                         if (project is not null)
                         {
                             yield return project;
@@ -62,7 +58,7 @@ namespace NermNermNerm.Junimatic
         private static readonly Vector2[] walkableDirections = new Vector2[] { new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, -1), new Vector2(0, 1) };
         private static readonly Vector2[] placeableDirections = new Vector2[] {
             new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
-            new Vector2(-1, 0), new Vector2(0, 0), new Vector2(1, 0),
+            new Vector2(-1, 0), new Vector2(1, 0),
             new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1) };
 
         /// <summary>
@@ -96,7 +92,7 @@ namespace NermNermNerm.Junimatic
             var machineData = machine.GetMachineData();
 
             // Ensure it has the coal (aka all the 'AdditionalConsumedItems')
-            if (!machineData.AdditionalConsumedItems.All(consumedItem => source.Items.Any(chestItem => chestItem.ItemId == consumedItem.ItemId && chestItem.Stack >= consumedItem.RequiredCount)))
+            if (!machineData.AdditionalConsumedItems.All(consumedItem => source.Items.Any(chestItem => chestItem.QualifiedItemId == consumedItem.ItemId && chestItem.Stack >= consumedItem.RequiredCount)))
             {
                 return false;
             }
@@ -105,7 +101,7 @@ namespace NermNermNerm.Junimatic
             {
                 foreach (var trigger in rule.Triggers)
                 {
-                    int totalItems = source.Items.Where(i => i.ItemId == trigger.RequiredItemId).Sum(i => i.Stack);
+                    int totalItems = source.Items.Where(i => i.QualifiedItemId == trigger.RequiredItemId).Sum(i => i.Stack);
                     if (totalItems >= trigger.RequiredCount)
                     {
                         return true;
@@ -132,14 +128,13 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType)
+        public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType, Vector2? junimoLocation)
         {
             var location = portal.Location;
             // These lists are all in order of nearest to farthest from the portal
-            var emptyMachines = new List<StardewValley.Object>();
-            var fullMachines = new List<StardewValley.Object>();
-            var knownChests = new List<Chest>();
-            var tilesToInvestigate = new Queue<Vector2>();
+            var emptyMachines = new List<(Vector2 location, StardewValley.Object machine)>();
+            var fullMachines = new List<(Vector2 location, StardewValley.Object machine)>();
+            var knownChests = new List<(Vector2 location, Chest chest)>();
             var visitedTiles = new HashSet<Vector2>();
 
             var x = walkableDirections
@@ -153,82 +148,105 @@ namespace NermNermNerm.Junimatic
                 .Where(id => id is not null)
                 .Select(s=>s!) /* compiler does not understand the above where clause guarantees a non-null result. */);
 
-            foreach (var tile in walkableDirections.Where(d => this.getFlooringId(location, portal.TileLocation + d) is not null))
-            {
-                tilesToInvestigate.Enqueue(tile);
-            }
+            var staringPoints = junimoLocation.HasValue
+                ? new Vector2[] { junimoLocation.Value }
+                : walkableDirections
+                    .Select(direction => portal.TileLocation + direction)
+                    .Where(tile => this.getFlooringId(location, tile) is not null)
+                    .ToArray();
 
-            while (tilesToInvestigate.TryDequeue(out var tile))
+            foreach (var startingTile in staringPoints)
             {
-                foreach (var direction in placeableDirections)
+                var tilesToInvestigate = new Queue<Vector2>();
+                tilesToInvestigate.Enqueue(startingTile);
+
+                while (tilesToInvestigate.TryDequeue(out var tile))
                 {
-                    var adjacentTile = tile + direction;
-                    if (visitedTiles.Contains(adjacentTile))
+                    System.Diagnostics.Debug.WriteLine($"Walking {tile}");
+
+                    if (visitedTiles.Contains(tile))
                     {
                         continue;
                     }
-                    visitedTiles.Add(adjacentTile);
 
-                    var objectAtTile = location.getObjectAtTile((int)adjacentTile.X, (int)adjacentTile.Y);
-                    if (objectAtTile is Chest chest)
+                    foreach (var direction in placeableDirections)
                     {
-                        // See if we can create a mission to carry from a full machine to this chest
-                        foreach (var machineNeedingPickup in fullMachines)
+                        var adjacentTile = tile + direction;
+                        if (visitedTiles.Contains(adjacentTile))
                         {
-                            if (this.IsChestGoodForStoring(chest, machineNeedingPickup.heldObject.Value))
-                            {
-                                return new JunimoAssignment(location, portal, machineNeedingPickup, chest);
-                            }
+                            continue;
                         }
 
-                        // See if we can create a mission to carry from this chest to an idle machine
-                        foreach (var machineNeedingDelivery in emptyMachines)
+                        var objectAtTile = location.getObjectAtTile((int)adjacentTile.X, (int)adjacentTile.Y);
+                        if (objectAtTile is Chest chest)
                         {
-                            if (this.CanMachineBeSuppliedWithChest(machineNeedingDelivery, chest))
+                            System.Diagnostics.Debug.WriteLine($"Looking at chest at {adjacentTile}");
+                            // See if we can create a mission to carry from a full machine to this chest
+                            foreach (var machineNeedingPickup in fullMachines)
                             {
-                                return new JunimoAssignment(location, portal, chest, machineNeedingDelivery);
+                                if (this.IsChestGoodForStoring(chest, machineNeedingPickup.machine.heldObject.Value))
+                                {
+                                    return new JunimoAssignment(location, portal, startingTile, machineNeedingPickup.machine, machineNeedingPickup.location, chest, tile);
+                                }
                             }
-                        }
 
-                        knownChests.Add(chest);
-                    }
-                    else if (objectAtTile.MinutesUntilReady <= 0 && this.IsMachineCompatibleWithProjectType(objectAtTile, projectType))
-                    {
-                        if (objectAtTile.heldObject.Value is not null)
-                        {
-                            // Try and find a chest to tote it to
-                            var targetChest = knownChests.FirstOrDefault(chest => this.IsChestGoodForStoring(chest, objectAtTile.heldObject.Value));
-                            if (targetChest is not null)
+                            // See if we can create a mission to carry from this chest to an idle machine
+                            foreach (var machineNeedingDelivery in emptyMachines)
                             {
-                                return new JunimoAssignment(location, portal, objectAtTile, targetChest);
+                                if (this.CanMachineBeSuppliedWithChest(machineNeedingDelivery.machine, chest))
+                                {
+                                    return new JunimoAssignment(location, portal, startingTile, chest, tile, machineNeedingDelivery.machine, machineNeedingDelivery.location);
+                                }
                             }
+
+                            knownChests.Add((tile, chest));
+                            visitedTiles.Add(adjacentTile);
                         }
-                        else
+                        else if (objectAtTile is not null && objectAtTile.MinutesUntilReady <= 0 && this.IsMachineCompatibleWithProjectType(objectAtTile, projectType))
                         {
-                            // Try and find a chest to supply it from
-                            var sourceChest = knownChests.FirstOrDefault(chest => this.CanMachineBeSuppliedWithChest(objectAtTile, chest));
-                            if (sourceChest is not null)
+                            System.Diagnostics.Debug.WriteLine($"Looking at machine at {adjacentTile}");
+                            if (objectAtTile.heldObject.Value is not null)
                             {
-                                return new JunimoAssignment(location, portal, sourceChest, objectAtTile);
+                                // Try and find a chest to tote it to
+                                var targetChest = knownChests.FirstOrDefault(chestAndTile => this.IsChestGoodForStoring(chestAndTile.chest, objectAtTile.heldObject.Value));
+                                if (targetChest.chest is not null)
+                                {
+                                    return new JunimoAssignment(location, portal, startingTile, objectAtTile, tile, targetChest.chest, targetChest.location);
+                                }
+
+                                fullMachines.Add((tile, objectAtTile));
                             }
+                            else
+                            {
+                                // Try and find a chest to supply it from
+                                var sourceChest = knownChests.FirstOrDefault(chest => this.CanMachineBeSuppliedWithChest(objectAtTile, chest.chest));
+                                if (sourceChest.chest is not null)
+                                {
+                                    return new JunimoAssignment(location, portal, startingTile, sourceChest.chest, sourceChest.location, objectAtTile, tile);
+                                }
+
+                                emptyMachines.Add((tile, objectAtTile));
+                            }
+                            visitedTiles.Add(adjacentTile);
+                        }
+                        else if (objectAtTile is null && (direction.X == 0 || direction.Y == 0) && this.getFlooringId(location, tile) is string floorId && validFloorTilesToWalk.Contains(floorId))
+                        {
+                            tilesToInvestigate.Enqueue(adjacentTile);
                         }
                     }
-                    else if ((direction.X == 0 || direction.Y == 0) && this.getFlooringId(location, tile) is string floorId && validFloorTilesToWalk.Contains(floorId))
-                    {
-                        tilesToInvestigate.Enqueue(adjacentTile);
-                    }
+
+                    visitedTiles.Add(tile);
                 }
-            }
 
-
-            // Couldn't find any work delivering to machines.
-            var fullMachine = fullMachines.FirstOrDefault();
-            if (fullMachine is not null)
-            {
-                var chestWithSpace = knownChests.FirstOrDefault(chest => chest.Items.HasEmptySlots());
-                if (chestWithSpace is not null)
+                // Couldn't find any work delivering to machines.
+                var fullMachine = fullMachines.FirstOrDefault();
+                if (fullMachine.machine is not null)
                 {
-                    return new JunimoAssignment(location, portal, fullMachine, chestWithSpace);
+                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.chest.Items.HasEmptySlots());
+                    if (chestWithSpace.chest is not null)
+                    {
+                        return new JunimoAssignment(location, portal, startingTile, fullMachine.machine, fullMachine.location, chestWithSpace.chest, chestWithSpace.location);
+                    }
                 }
             }
 

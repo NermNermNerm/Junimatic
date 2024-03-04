@@ -69,14 +69,20 @@ namespace NermNermNerm.Junimatic
             {
                 if (k == Microsoft.Xna.Framework.Input.Keys.D9)
                 {
-                    if (!this.isCreated)
+                    var assignment = (new WorkFinder()).GlobalFindProjects().FirstOrDefault();
+                    if (assignment is not null)
                     {
-                        var farm = Game1.getFarm();
-                        int x = 71;
-                        int y = 17;
-                        farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
-                        this.isCreated = true;
+                        assignment.location.characters.Add(new JunimoShuffler(assignment));
                     }
+
+                    //if (!this.isCreated)
+                    //{
+                    //    var farm = Game1.getFarm();
+                    //    int x = 71;
+                    //    int y = 17;
+                    //    farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
+                    //    this.isCreated = true;
+                    //}
                 }
             }
         }
@@ -95,7 +101,7 @@ namespace NermNermNerm.Junimatic
 
         private void GameLoop_OneSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
         {
-            var farm = Game1.getFarm();
+            // var farm = Game1.getFarm();
             //if (!this.isCreated)
             //{
             //    var farm = Game1.getFarm();

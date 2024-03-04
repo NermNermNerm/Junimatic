@@ -36,15 +36,13 @@ namespace NermNermNerm.Junimatic
 
         private readonly List<Item> carrying = new List<Item>();
 
-        public JunimoShuffler()
-        {
-        }
+        private JunimoAssignment assignment;
 
-        public JunimoShuffler(GameLocation location, Vector2 position, Color c)
-            : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), position, 2, "Junimo")
+        public JunimoShuffler(JunimoAssignment assignment)
+            : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin, 2, "Junimo")
         {
-            base.currentLocation = location;
-            this.color.Value = c;
+            // base.currentLocation = assignment.hut.Location;
+            this.color.Value = Color.Brown; // <- todo figure it out from the assignment
 
             this.nextPosition = this.GetBoundingBox();
             base.Breather = false;
@@ -64,30 +62,47 @@ namespace NermNermNerm.Junimatic
 
             this.collidesWithOtherCharacters.Value = false;
 
-            // go to 74,11  and bounce to 74,15
-            this.controller = new PathFindController(this, base.currentLocation, new Point(74, 11), 0, this.junimoReached7411);
+            this.assignment = assignment;
+            this.controller = new PathFindController(this, assignment.hut.Location, assignment.sourceTile.ToPoint(), 0, this.junimoReachedSource);
             this.alpha = 0;
             this.alphaChange = 0.05f;
         }
 
-        private void junimoReached7411(Character c, GameLocation l)
+        private void junimoReachedSource(Character c, GameLocation l)
         {
+            if (this.assignment is null)
+            {
+                throw new InvalidOperationException();
+            }
+
             l.playSound("Ship");
-            this.controller = new PathFindController(this, base.currentLocation, new Point(74, 15), 0, this.junimoReached7415);
+            this.controller = new PathFindController(this, base.currentLocation, this.assignment.targetTile.ToPoint(), 0, this.junimoReachedTarget);
             this.carrying.Clear();
             this.carrying.Add(new StardewValley.Object("382", 1));
             this.carrying.Add(new StardewValley.Object("378", 1));
         }
 
-        private void junimoReached7415(Character c, GameLocation l)
+        private void junimoReachedTarget(Character c, GameLocation l)
         {
+            if (this.assignment is null)
+            {
+                throw new InvalidOperationException();
+            }
+
             l.playSound("dwop");
-            this.controller = new PathFindController(this, base.currentLocation, new Point(74, 11), 0, this.junimoReached7411);
+            this.controller = new PathFindController(this, base.currentLocation, this.assignment.targetTile.ToPoint(), 0, this.junimoReachedHut);
             this.carrying.Clear();
-            this.carrying.Add(new StardewValley.Object("334", 1));
+            this.carrying.Add(new StardewValley.Object("382", 1));
+            this.carrying.Add(new StardewValley.Object("378", 1));
         }
 
-
+        public void junimoReachedHut(Character c, GameLocation l)
+        {
+            this.controller = null;
+            this.motion.X = 0f;
+            this.motion.Y = -1f;
+            this.destroy = true;
+        }
 
         protected override void initNetFields()
         {
@@ -181,13 +196,6 @@ namespace NermNermNerm.Junimatic
             return false;
         }
 
-        public void junimoReachedHut(Character c, GameLocation l)
-        {
-            this.controller = null;
-            this.motion.X = 0f;
-            this.motion.Y = -1f;
-            this.destroy = true;
-        }
 
 
         public virtual void returnToJunimoHut(GameLocation location)
