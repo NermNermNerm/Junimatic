@@ -7,6 +7,7 @@ using StardewValley.Inventories;
 namespace NermNermNerm.Junimatic
 {
     public record JunimoAssignment(
+        JunimoType projectType,
         GameLocation location,
         StardewValley.Object hut,
         Vector2 origin,

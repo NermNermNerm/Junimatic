@@ -44,25 +44,16 @@ namespace NermNermNerm.Junimatic
         public JunimoShuffler(JunimoAssignment assignment)
             : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin*64, 2, "Junimo")
         {
-            // base.currentLocation = assignment.hut.Location;
-            this.color.Value = Color.Brown; // <- todo figure it out from the assignment
-
+            this.color.Value = assignment.projectType switch { JunimoType.Furnace => Color.Tan, _ => Color.Aqua };
+            this.currentLocation = assignment.hut.Location;
             this.nextPosition = this.GetBoundingBox();
-            base.Breather = false;
-            base.speed = 3;
+            this.Breather = false;
+            this.speed = 3;
             this.forceUpdateTimer = 9999;
-            this.collidesWithOtherCharacters.Value = true;
             this.ignoreMovementAnimation = true;
             this.farmerPassesThrough = true;
-            base.Scale = 0.75f;
-            base.willDestroyObjectsUnderfoot = false;
-
-            // deleted much code around popping out of the hut from random angles.
-            //if (vector != Vector2.Zero)
-            //{
-            //    this.controller = new PathFindController(this, base.currentLocation, Utility.Vector2ToPoint(vector), -1, reachFirstDestinationFromHut, 100);
-            //}
-
+            this.Scale = 0.75f;
+            this.willDestroyObjectsUnderfoot = false;
             this.collidesWithOtherCharacters.Value = false;
 
             this.assignment = assignment;
@@ -187,8 +178,16 @@ namespace NermNermNerm.Junimatic
                 l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
             }
 
-            // TODO: Try and find something else to do
-            this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
+            var newAssignment = (new WorkFinder()).FindProject(this.assignment.hut, this.assignment.projectType, this.Tile, this.assignment.origin);
+            if (newAssignment is not null)
+            {
+                this.assignment = newAssignment;
+                this.controller = new PathFindController(this, this.assignment.hut.Location, this.assignment.sourceTile.ToPoint(), 0, this.junimoReachedSource);
+            }
+            else
+            {
+                this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
+            }
         }
 
         public void junimoReachedHut(Character c, GameLocation l)
