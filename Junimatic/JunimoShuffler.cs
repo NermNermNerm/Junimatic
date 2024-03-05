@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
@@ -10,6 +12,7 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Characters;
 using StardewValley.Extensions;
+using StardewValley.Inventories;
 using StardewValley.ItemTypeDefinitions;
 using StardewValley.Objects;
 using StardewValley.Pathfinding;
@@ -34,7 +37,7 @@ namespace NermNermNerm.Junimatic
 
         protected readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
 
-        private readonly List<Item> carrying = new List<Item>();
+        private readonly Inventory carrying = new Inventory();
 
         private JunimoAssignment assignment;
 
@@ -75,25 +78,117 @@ namespace NermNermNerm.Junimatic
                 throw new InvalidOperationException();
             }
 
-            l.playSound("Ship");
+            // TODO: ensure that the source object is still placed
+
+            if (this.assignment.source is Chest chest)
+            {
+                if (this.carrying.Count != 0) throw new InvalidOperationException("inventory should be empty here");
+                if (this.assignment.itemsToRemoveFromChest is null) throw new InvalidOperationException("Should have some items to fetch");
+
+                // Ensure the chest still contains what we need
+                this.assignment.itemsToRemoveFromChest.Reverse(); // <- tidy
+                foreach (var item in this.assignment.itemsToRemoveFromChest)
+                {
+                    if (chest.Items.Where(i => i.ItemId == item.ItemId).Sum(i => i.Stack) < item.Stack)
+                    {
+                        Debug.WriteLine($"Assigned chest didn't have {item.Stack} {item.DisplayName}");
+                        this.junimoQuitsInDisgust();
+                        return;
+                    }
+                }
+
+                // Pull the stuff out of the chest's inventory
+                foreach (var item in this.assignment.itemsToRemoveFromChest)
+                {
+                    int leftToRemove = item.Stack;
+                    while (leftToRemove > 0)
+                    {
+                        var first = chest.Items.First(i => i.ItemId == item.ItemId);
+                        if (first.Stack > item.Stack)
+                        {
+                            first.Stack -= leftToRemove;
+                            leftToRemove = 0;
+                        }
+                        else
+                        {
+                            leftToRemove -= first.Stack;
+                            chest.Items.Remove(first);
+                        }
+                    }
+                }
+
+                this.carrying.AddRange(this.assignment.itemsToRemoveFromChest);
+                l.playSound("pickUpItem"); // Maybe 'openChest' instead?
+            }
+            else if (this.assignment.source.heldObject.Value is not null)
+            {
+                if (this.carrying.Count != 0) throw new InvalidOperationException("inventory should be empty here");
+
+                this.carrying.Add(this.assignment.source.heldObject.Value);
+                this.assignment.source.heldObject.Value = null;
+                l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
+            }
+            else
+            {
+                this.junimoQuitsInDisgust();
+                return;
+            }
+
+            // Head to the target
             this.controller = new PathFindController(this, base.currentLocation, this.assignment.targetTile.ToPoint(), 0, this.junimoReachedTarget);
+        }
+
+        private void junimoQuitsInDisgust()
+        {
+            foreach (Item item in this.carrying)
+            {
+                this.TurnIntoDebris(item);
+            }
             this.carrying.Clear();
-            this.carrying.Add(new StardewValley.Object("382", 1));
-            this.carrying.Add(new StardewValley.Object("378", 1));
+            this.doEmote(12);
+
+            this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
+        }
+
+        private void TurnIntoDebris(Item item)
+        {
+            // TODO: Is this the right way to do this?
+            base.currentLocation.debris.Add(new Debris(item, this.Tile*64));
         }
 
         private void junimoReachedTarget(Character c, GameLocation l)
         {
-            if (this.assignment is null)
+            this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
+
+            if (this.assignment.target is Chest chest)
             {
-                throw new InvalidOperationException();
+                l.playSound("Ship");
+                // TODO: Put what we're carrying into the chest or huck it overboard if we can't.
+                foreach (var item in this.carrying)
+                {
+                    var remainder = chest.addItem(item);
+                    if (remainder is not null)
+                    {
+                        this.TurnIntoDebris(remainder);
+                    }
+                }
+                this.carrying.Clear();
+            }
+            else
+            {
+                bool isLoaded = this.assignment.target.AttemptAutoLoad(this.carrying, Game1.MasterPlayer);
+                if (!isLoaded)
+                {
+                    Debug.WriteLine($"Junimo failed to deliver loot - AttemptAutoLoad failed");
+                    this.junimoQuitsInDisgust();
+                    return;
+                }
+
+                l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
             }
 
-            l.playSound("dwop");
-            this.controller = new PathFindController(this, base.currentLocation, this.assignment.targetTile.ToPoint(), 0, this.junimoReachedHut);
-            this.carrying.Clear();
-            this.carrying.Add(new StardewValley.Object("382", 1));
-            this.carrying.Add(new StardewValley.Object("378", 1));
+            // TODO: Try and find something else to do
+            this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
         }
 
         public void junimoReachedHut(Character c, GameLocation l)
@@ -429,20 +524,20 @@ namespace NermNermNerm.Junimatic
                     b.Draw(Game1.shadowTexture, Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2((float)(this.Sprite.SpriteWidth * 4) / 2f, 44f)), Game1.shadowTexture.Bounds, this.color.Value * this.alpha, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), (4f + (float)this.yJumpOffset / 40f) * this.Scale, SpriteEffects.None, Math.Max(0f, num) - 1E-06f);
                 }
 
-                if ((bool)this.carrying.Any())
+                float xOffset = 0;
+                foreach (var carried in this.carrying)
                 {
-                    var carried = this.carrying.First();
-
                     // This makes it vary between 0% and 5% bigger, independent of the animation frame because...  Well, I don't know if it's good or bad.
                     //  It also probably ought to affect bounce, if we were trying for some kind of specific effect, but we aren't, so it doesn't.
                     float scaleFactor = (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) + 1.0) * 0.05f);
 
                     var bounce = new Vector2(xBounceBasedOnFrame[this.Sprite.CurrentFrame & 7], yBounceBasedOnFrame[this.Sprite.CurrentFrame & 7]);
-                    System.Diagnostics.Debug.WriteLine($"this.Sprite.CurrentFrame = {this.Sprite.CurrentFrame}  bounce.y={bounce.Y}  scaleFactor={scaleFactor}");
+                    var itemOffset = new Vector2(xOffset - 2.5f * this.carrying.Count, 0);
+                    xOffset += 5f;
                     ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(carried.QualifiedItemId);
                     b.Draw(
                         dataOrErrorItem.GetTexture(),
-                        Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset) + bounce),
+                        Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset) + bounce + itemOffset),
                         dataOrErrorItem.GetSourceRect(0, carried.ParentSheetIndex),
                         Color.White * this.alpha,
                         0f,

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Inventories;
 
 
 namespace NermNermNerm.Junimatic
@@ -11,5 +13,6 @@ namespace NermNermNerm.Junimatic
         StardewValley.Object source,
         Vector2 sourceTile,
         StardewValley.Object target,
-        Vector2 targetTile);
+        Vector2 targetTile,
+        List<Item>? itemsToRemoveFromChest);
 }

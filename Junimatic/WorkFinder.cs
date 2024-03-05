@@ -56,10 +56,11 @@ namespace NermNermNerm.Junimatic
 
 
         private static readonly Vector2[] walkableDirections = new Vector2[] { new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, -1), new Vector2(0, 1) };
-        private static readonly Vector2[] placeableDirections = new Vector2[] {
-            new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
-            new Vector2(-1, 0), new Vector2(1, 0),
-            new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1) };
+        private static readonly Vector2[] placeableDirections = walkableDirections; // <- TODO: Add fancier stuff for chests only reachable at a diagonal
+            //new Vector2[] {
+            //new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
+            //new Vector2(-1, 0), new Vector2(1, 0),
+            //new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1) };
 
         /// <summary>
         ///   Gets an identifier for the floor-tile at the coordinate if the tile is indeed on a floor tile.
@@ -87,15 +88,17 @@ namespace NermNermNerm.Junimatic
             return false;
         }
 
-        private bool CanMachineBeSuppliedWithChest(StardewValley.Object machine, Chest source)
+        private bool CanMachineBeSuppliedWithChest(StardewValley.Object machine, Chest source, out List<Item> inputs)
         {
             var machineData = machine.GetMachineData();
+            inputs = new List<Item>();
 
             // Ensure it has the coal (aka all the 'AdditionalConsumedItems')
             if (!machineData.AdditionalConsumedItems.All(consumedItem => source.Items.Any(chestItem => chestItem.QualifiedItemId == consumedItem.ItemId && chestItem.Stack >= consumedItem.RequiredCount)))
             {
                 return false;
             }
+            inputs.AddRange(machineData.AdditionalConsumedItems.Select(i => ItemRegistry.Create(i.ItemId, i.RequiredCount)));
 
             foreach (var rule in machineData.OutputRules)
             {
@@ -104,6 +107,7 @@ namespace NermNermNerm.Junimatic
                     int totalItems = source.Items.Where(i => i.QualifiedItemId == trigger.RequiredItemId).Sum(i => i.Stack);
                     if (totalItems >= trigger.RequiredCount)
                     {
+                        inputs.Add(ItemRegistry.Create(trigger.RequiredItemId, trigger.RequiredCount));
                         return true;
                     }
                 }
@@ -186,16 +190,16 @@ namespace NermNermNerm.Junimatic
                             {
                                 if (this.IsChestGoodForStoring(chest, machineNeedingPickup.machine.heldObject.Value))
                                 {
-                                    return new JunimoAssignment(location, portal, startingTile, machineNeedingPickup.machine, machineNeedingPickup.location, chest, tile);
+                                    return new JunimoAssignment(location, portal, startingTile, machineNeedingPickup.machine, machineNeedingPickup.location, chest, tile, itemsToRemoveFromChest: null);
                                 }
                             }
 
                             // See if we can create a mission to carry from this chest to an idle machine
                             foreach (var machineNeedingDelivery in emptyMachines)
                             {
-                                if (this.CanMachineBeSuppliedWithChest(machineNeedingDelivery.machine, chest))
+                                if (this.CanMachineBeSuppliedWithChest(machineNeedingDelivery.machine, chest, out List<Item> inputs))
                                 {
-                                    return new JunimoAssignment(location, portal, startingTile, chest, tile, machineNeedingDelivery.machine, machineNeedingDelivery.location);
+                                    return new JunimoAssignment(location, portal, startingTile, chest, tile, machineNeedingDelivery.machine, machineNeedingDelivery.location, inputs);
                                 }
                             }
 
@@ -211,7 +215,7 @@ namespace NermNermNerm.Junimatic
                                 var targetChest = knownChests.FirstOrDefault(chestAndTile => this.IsChestGoodForStoring(chestAndTile.chest, objectAtTile.heldObject.Value));
                                 if (targetChest.chest is not null)
                                 {
-                                    return new JunimoAssignment(location, portal, startingTile, objectAtTile, tile, targetChest.chest, targetChest.location);
+                                    return new JunimoAssignment(location, portal, startingTile, objectAtTile, tile, targetChest.chest, targetChest.location, itemsToRemoveFromChest: null);
                                 }
 
                                 fullMachines.Add((tile, objectAtTile));
@@ -219,17 +223,19 @@ namespace NermNermNerm.Junimatic
                             else
                             {
                                 // Try and find a chest to supply it from
-                                var sourceChest = knownChests.FirstOrDefault(chest => this.CanMachineBeSuppliedWithChest(objectAtTile, chest.chest));
-                                if (sourceChest.chest is not null)
+                                foreach (var sourceChest in knownChests)
                                 {
-                                    return new JunimoAssignment(location, portal, startingTile, sourceChest.chest, sourceChest.location, objectAtTile, tile);
+                                    if (this.CanMachineBeSuppliedWithChest(objectAtTile, sourceChest.chest, out List<Item> inputs))
+                                    {
+                                        return new JunimoAssignment(location, portal, startingTile, sourceChest.chest, sourceChest.location, objectAtTile, tile, inputs);
+                                    }
                                 }
 
                                 emptyMachines.Add((tile, objectAtTile));
                             }
                             visitedTiles.Add(adjacentTile);
                         }
-                        else if (objectAtTile is null && (direction.X == 0 || direction.Y == 0) && this.getFlooringId(location, tile) is string floorId && validFloorTilesToWalk.Contains(floorId))
+                        else if (objectAtTile is null && (direction.X == 0 || direction.Y == 0) && this.getFlooringId(location, adjacentTile) is string floorId && validFloorTilesToWalk.Contains(floorId))
                         {
                             tilesToInvestigate.Enqueue(adjacentTile);
                         }
@@ -242,10 +248,10 @@ namespace NermNermNerm.Junimatic
                 var fullMachine = fullMachines.FirstOrDefault();
                 if (fullMachine.machine is not null)
                 {
-                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.chest.Items.HasEmptySlots());
+                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.chest.Items.Count < chest.chest.GetActualCapacity());
                     if (chestWithSpace.chest is not null)
                     {
-                        return new JunimoAssignment(location, portal, startingTile, fullMachine.machine, fullMachine.location, chestWithSpace.chest, chestWithSpace.location);
+                        return new JunimoAssignment(location, portal, startingTile, fullMachine.machine, fullMachine.location, chestWithSpace.chest, chestWithSpace.location, itemsToRemoveFromChest: null);
                     }
                 }
             }
