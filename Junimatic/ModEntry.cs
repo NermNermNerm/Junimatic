@@ -58,6 +58,7 @@ namespace NermNermNerm.Junimatic
 
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
         {
+            this.LogInfo($"OnAssetRequested({e.NameWithoutLocale}");
             if (e.NameWithoutLocale.IsEquivalentTo(BigCraftablesSpritesPseudoPath))
             {
                 e.LoadFromModFile<Texture2D>("assets/Sprites.png", AssetLoadPriority.Exclusive);
@@ -86,7 +87,15 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> recipes = editor.AsDictionary<string, string>().Data;
-                    recipes[ObjectIds.JunimoPortal] = $"{StardewValley.Object.woodID} 20 {"92" /* sap*/} 30 {-777 /*wild seeds any*/} 5/Field/{ObjectIds.JunimoPortal}/true/Mining 0/";
+                    recipes[ObjectIds.JunimoPortalRecipe] = $"{StardewValley.Object.woodID} 20 {"92" /* sap*/} 30 {-777 /*wild seeds any*/} 5/Field/{ObjectIds.JunimoPortal}/true/None/";
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/WizardHouse"))
+            {
+                e.Edit(foo =>
+                {
+                    this.LogWarning($"Here {foo}");
+                    ObjectIds.EditWizardHouseEvents(foo.AsDictionary<string,string>().Data);
                 });
             }
         }

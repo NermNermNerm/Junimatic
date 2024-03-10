@@ -10,7 +10,11 @@ namespace NermNermNerm.Junimatic
     internal class JunimoPortalQuest
         : BaseQuest
     {
-        public JunimoPortalQuest(JunimoPortalQuestController controller) : base(controller) { }
+        public JunimoPortalQuest(JunimoPortalQuestController controller) : base(controller)
+        {
+            this.questTitle = "The strange little structure";
+            this.questDescription = "I found the remnants of what looks like a little buildling.  It smells like it has some Forest Magic in it.";
+        }
 
         public override void CheckIfComplete(NPC n, Item? item)
         {
