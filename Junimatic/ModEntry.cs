@@ -19,7 +19,10 @@ namespace NermNermNerm.Junimatic
     public class ModEntry
         : Mod, ISimpleLog
     {
-        public const string SpritesPseudoPath = "Mods/NermNermNerm/Junimatic/Sprites";
+        public const string BigCraftablesSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/Sprites";
+        public const string OneTileSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/1x1Sprites";
+
+        private JunimoPortalQuestController junimoPortalQuestController = null!;
 
         public Harmony Harmony = null!;
 
@@ -32,24 +35,49 @@ namespace NermNermNerm.Junimatic
         public override void Entry(IModHelper helper)
         {
             this.Harmony = new Harmony(this.ModManifest.UniqueID);
+            this.junimoPortalQuestController = new JunimoPortalQuestController(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 
             this.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
             this.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
+
+            this.Helper.Events.GameLoop.DayStarted += this.OnDayStarted;
+            this.Helper.Events.GameLoop.DayEnding += this.OnDayEnding;
+        }
+
+        private void OnDayStarted(object? sender, DayStartedEventArgs e)
+        {
+            this.junimoPortalQuestController.OnDayStarted();
+        }
+
+        private void OnDayEnding(object? sender, DayEndingEventArgs e)
+        {
+            this.junimoPortalQuestController.OnDayEnding();
         }
 
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
         {
-            if (e.NameWithoutLocale.IsEquivalentTo(SpritesPseudoPath))
+            if (e.NameWithoutLocale.IsEquivalentTo(BigCraftablesSpritesPseudoPath))
             {
                 e.LoadFromModFile<Texture2D>("assets/Sprites.png", AssetLoadPriority.Exclusive);
+            }
+            if (e.NameWithoutLocale.IsEquivalentTo(OneTileSpritesPseudoPath))
+            {
+                e.LoadFromModFile<Texture2D>("assets/1x1_Sprites.png", AssetLoadPriority.Exclusive);
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/BigCraftables"))
             {
                 e.Edit(editor =>
                 {
-                    ObjectIds.EditAssets(editor.AsDictionary<string, BigCraftableData>().Data);
+                    ObjectIds.EditBigCraftableData(editor.AsDictionary<string, BigCraftableData>().Data);
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Objects"))
+            {
+                e.Edit(editor =>
+                {
+                    ObjectIds.EditObjectData(editor.AsDictionary<string, ObjectData>().Data);
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/CraftingRecipes"))
@@ -67,7 +95,7 @@ namespace NermNermNerm.Junimatic
         {
             if (e.Button.TryGetKeyboard(out Microsoft.Xna.Framework.Input.Keys k))
             {
-                if (k == Microsoft.Xna.Framework.Input.Keys.D9)
+                if (k == Microsoft.Xna.Framework.Input.Keys.Insert)
                 {
                     var assignment = (new WorkFinder()).GlobalFindProjects().FirstOrDefault();
                     if (assignment is not null)
@@ -83,6 +111,11 @@ namespace NermNermNerm.Junimatic
                     //    farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
                     //    this.isCreated = true;
                     //}
+                }
+
+                if (k == Microsoft.Xna.Framework.Input.Keys.Home)
+                {
+                    this.junimoPortalQuestController.TestPlacePortal();
                 }
             }
         }

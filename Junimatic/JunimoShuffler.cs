@@ -60,14 +60,12 @@ namespace NermNermNerm.Junimatic
             this.controller = new PathFindController(this, assignment.hut.Location, assignment.sourceTile.ToPoint(), 0, this.junimoReachedSource);
             this.alpha = 0;
             this.alphaChange = 0.05f;
+            Debug.WriteLine($"Junimo created {this.assignment}");
         }
 
         private void junimoReachedSource(Character c, GameLocation l)
         {
-            if (this.assignment is null)
-            {
-                throw new InvalidOperationException();
-            }
+            Debug.WriteLine($"Junimo reached its source {this.assignment}");
 
             // TODO: ensure that the source object is still placed
 
@@ -131,6 +129,7 @@ namespace NermNermNerm.Junimatic
 
         private void junimoQuitsInDisgust()
         {
+            Debug.WriteLine($"Junimo quits {this.assignment}");
             foreach (Item item in this.carrying)
             {
                 this.TurnIntoDebris(item);
@@ -149,6 +148,7 @@ namespace NermNermNerm.Junimatic
 
         private void junimoReachedTarget(Character c, GameLocation l)
         {
+            Debug.WriteLine($"Junimo reached target {this.assignment}");
             this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
 
             if (this.assignment.target is Chest chest)
@@ -192,6 +192,7 @@ namespace NermNermNerm.Junimatic
 
         public void junimoReachedHut(Character c, GameLocation l)
         {
+            Debug.WriteLine($"Junimo returned to its hut {this.assignment}");
             this.controller = null;
             this.motion.X = 0f;
             this.motion.Y = -1f;
@@ -331,8 +332,23 @@ namespace NermNermNerm.Junimatic
         {
         }
 
+        private int alreadyPostedAboutJunimo = 100;
+
         public override void update(GameTime time, GameLocation location)
         {
+            if (this.controller is null)
+            {
+                if (this.alreadyPostedAboutJunimo == 100)
+                {
+                    Debug.WriteLine($"Junimo's animation controller is null");
+                    this.alreadyPostedAboutJunimo = 0;
+                }
+                else
+                {
+                    ++this.alreadyPostedAboutJunimo;
+                }
+            }
+
             this.netAnimationEvent.Poll();
             base.update(time, location);
 
