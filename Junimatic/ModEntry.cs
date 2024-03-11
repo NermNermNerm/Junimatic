@@ -44,6 +44,16 @@ namespace NermNermNerm.Junimatic
 
             this.Helper.Events.GameLoop.DayStarted += this.OnDayStarted;
             this.Helper.Events.GameLoop.DayEnding += this.OnDayEnding;
+
+            Event.RegisterPrecondition(ObjectIds.StartAnimalJunimoEventCriteria, (GameLocation location, string eventId, string[] args) =>
+            {
+                // TODO: Relocate.  Maybe we need a cutscene class
+                var farmAnimals = Game1.getFarm().animals;
+                bool hasEnoughAnimals = farmAnimals.Length >= 6;
+                bool hasEnoughChickens = farmAnimals.Values.Count(a => a.type.Value.EndsWith(" Chicken")) >= 2;
+                return hasEnoughAnimals && hasEnoughChickens;
+            }
+            );
         }
 
         private void OnDayStarted(object? sender, DayStartedEventArgs e)
@@ -92,10 +102,23 @@ namespace NermNermNerm.Junimatic
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/WizardHouse"))
             {
-                e.Edit(foo =>
+                e.Edit(editor =>
                 {
-                    this.LogWarning($"Here {foo}");
-                    ObjectIds.EditWizardHouseEvents(foo.AsDictionary<string,string>().Data);
+                    ObjectIds.EditWizardHouseEvents(editor.AsDictionary<string, string>().Data);
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/Farm"))
+            {
+                e.Edit(editor =>
+                {
+                    ObjectIds.EditFarmEvents(editor.AsDictionary<string, string>().Data);
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Quests"))
+            {
+                e.Edit(editor =>
+                {
+                    ObjectIds.EditQuests(editor.AsDictionary<string, string>().Data);
                 });
             }
         }
