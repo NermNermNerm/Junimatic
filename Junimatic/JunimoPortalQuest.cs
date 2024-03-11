@@ -14,6 +14,7 @@ namespace NermNermNerm.Junimatic
         {
             this.questTitle = "The strange little structure";
             this.questDescription = "I found the remnants of what looks like a little buildling.  It smells like it has some Forest Magic in it.";
+            this.id.Value = ObjectIds.OldJunimoPortalQuestId;
         }
 
         public override void CheckIfComplete(NPC n, Item? item)

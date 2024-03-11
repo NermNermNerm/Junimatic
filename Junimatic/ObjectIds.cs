@@ -14,6 +14,7 @@ namespace NermNermNerm.Junimatic
         public const string JunimoPortalRecipe = "NermNermNerm.Junimatic.JunimoPortalRecipe";
         public const string OldJunimoPortal = "NermNermNerm.Junimatic.OldJunimoPortal";
         public const string JunimoPortalDiscoveryEvent = "NermNermNerm.Junimatic.OldJunimoPortalDiscovery";
+        public const string OldJunimoPortalQuestId = "NermNermNerm.Junimatic.OldJunimoPortalQuestId";
 
         internal static void EditBigCraftableData(IDictionary<string, BigCraftableData> objects)
         {
@@ -57,6 +58,7 @@ namespace NermNermNerm.Junimatic
         {
             // directions:  3 down
             eventData[$"{JunimoPortalDiscoveryEvent}/i (O){OldJunimoPortal}"] = $@"WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
+removeQuest {OldJunimoPortalQuestId}/
 setSkipActions MarkCraftingRecipeKnown All {ObjectIds.JunimoPortalRecipe}#removeItem (O){OldJunimoPortal}/
 skippable/
 showFrame Wizard 20/
@@ -107,8 +109,10 @@ pause 500/
 itemAboveHead/
 playsound getNewSpecialItem/
 addCraftingRecipe {ObjectIds.JunimoPortalRecipe}/
+pause 3300/
+message ""Learned how to craft a 'Junimo Portal'""/
 playMusic none/
-pause 1500/
+shake Wizard 1500/
 speak Wizard ""Enticing a Junimo to *use* it, well, that's up to the Junimo...""/
 end warpOut";
 
