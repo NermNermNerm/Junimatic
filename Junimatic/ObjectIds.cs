@@ -17,6 +17,8 @@ namespace NermNermNerm.Junimatic
         public const string StartAnimalJunimoEvent = "NermNermNerm.Junimatic.StartAnimalJunimoEvent";
         public const string MiddleAnimalJunimoEvent = "NermNermNerm.Junimatic.MiddleAnimalJunimoEvent";
         public const string FinalAnimalJunimoEvent = "NermNermNerm.Junimatic.FinalAnimalJunimoEvent";
+        public const string RescueCindersnapJunimo = "NermNermNerm.Junimatic.RescueCindersnapJunimo";
+
         public const string OldJunimoPortalQuestId = "NermNermNerm.Junimatic.OldJunimoPortalQuestId";
         public const string CollectLostChickenQuest = "NermNermNerm.Junimatic.CollectLostChickenQuest";
 
@@ -60,110 +62,47 @@ namespace NermNermNerm.Junimatic
                 0);
         }
 
-        internal static void EditForestEvents(Dictionary<string,string> eventData)
+        internal static void EditForestEvents(IDictionary<string,string> eventData)
         {
             eventData[$"{MiddleAnimalJunimoEvent}/sawEvent {StartAnimalJunimoEvent}/time 600 1700"]
-                = $@"playful/
+                = $@"sadpiano/
 -2000 -2000/
-farmer 84 32 2 Jas 85 39 3 Vincent 83 39 1/
+farmer 90 60 2 Junimo 95 72 3/
+removeQuest {CollectLostChickenQuest}/
+addQuest {RescueCindersnapJunimo}/
 skippable/
-specificTemporarySprite springOnion/
-move farmer 0 5 2 true/
-viewport 84 39 true/
-move false/
-faceDirection Vincent 0/
-faceDirection Jas 0/
-jump Vincent/
-pause 1000/
-faceDirection Jas 3/
-speak Vincent \""Hiya, mister @!^Hiya, miss @!\""/
+viewport 90 69 true/
+move farmer 0 3 2/
+move farmer 0 3 2 true/
+advancedMove Junimo false -5 0/
+animate Junimo false true 100 8 8 9 10 11 11 10 9/
+pause 1500/
+emote farmer 16/
+message ""That's not a chicken.""/
+advancedMove Junimo false 2 0/
+animate Junimo false true 50 8 8 9 10 11 11 10 9/
+pause 1500/
+emote Junimo 28/
+pause 1500/
+advancedMove Junimo false -1 0/
+animate Junimo false true 50 8 8 9 10 11 11 10 9/
+pause 1500/
+emote Junimo 28/
+pause 1500/
+message ""I wonder if it's lost and can't find its way home...  It seems distressed.""/
+advancedMove Junimo false 0 1/
+animate Junimo false true 50 8 8 9 10 11 11 10 9/
+emote Junimo 28/
+pause 1500/
+advancedMove Junimo false 0 -1/
 pause 500/
-emote farmer 8/
-faceDirection Vincent 1/
-move farmer 0 1 2/
-jump Vincent/
-pause 1000/
-speak Vincent \""Sp..spwing onion. Mom sends me out to pick these sometimes...\""/
-pause 100/
-faceDirection Jas 0/
-speak Jas \""They're too spicy for me!$s\""/
-faceDirection Jas 3/
-emote farmer 28/
-jump Vincent/
-faceDirection Vincent 0 true/
-pause 90/
-faceDirection Vincent 3 true/
-pause 90/
-faceDirection Vincent 2 true/
-pause 90/
-faceDirection Vincent 1 true/
-pause 90/
-faceDirection Vincent 0/
-pause 500/
-playMusic spring_day_ambient/
-speak Vincent \""You're really nice for a grown-up... so I'm going to show you a secret.$h\""/
-pause 1000/
-playMusic distantBanjo/
-fade/
-viewport -2000 -2000/
-viewport -1000 -1000 true/
-specificTemporarySprite springOnionDemo/
-pause 5000/
-speak Vincent \""When you see it like this, it looks good, right?\""/
-pause 3000/
-speak Vincent \""But if you peel it a little bit...\""/
-pause 500/
-playSound harvest/
-specificTemporarySprite springOnionPeel/
-pause 3000/
-speak Vincent \""...It's full of bugs!$s\""/
-pause 2500/
-specificTemporarySprite springOnionRemove/
-viewport 84 39 true/
-playMusic spring_day_ambient/
-pause 2000/
-speak Vincent \""Cool, huh?$h\""/
-faceDirection Vincent 1/
-speak Jas \""Um... What do you do with the bugs, Vincent?\""/
-jump Vincent/
-pause 800/
-speak Vincent \""Usually I just squash 'em!\""/
-pause 500/
-shake Jas 2000/
-jump Jas/
-textAboveHead Jas \""*gasp*!\""/
-pause 2000/
-speak Jas \""That's horrible! No, no, no, no, no...$s\""/
-faceDirection Jas 0/
-speak Jas \""Mr. @? Please... put the bugs back in the grass so they can live in peace.^Miss @? Please... put the bugs back in the grass so they can live in peace.\""/
-emote farmer 40/
-animate farmer false true 200 102 103/
-speed Vincent 4/
-move Vincent -1 0 2/
-speed Vincent 4/
-move Vincent 0 1 1/
-speed Vincent 4/
-move Vincent 1 0 0/
-speed Vincent 4/
-move Vincent 0 -1 0/
-speed Vincent 4/
-move Vincent -1 0 2/
-speed Vincent 4/
-move Vincent 0 1 1/
-speed Vincent 4/
-move Vincent 1 0 0/
-speed Vincent 4/
-move Vincent 0 -1 0/
-jump Vincent/
-fade/
-viewport -3000 -3000/
-pause 1000/
-message \""You learned how to clean the spring onion... without harming any bugs.\""/
-pause 1000/
-playSound reward/
-message \""Spring onions are now worth 5x the gold!\""/
-pause 1000/
-end";
+jump Junimo/
+emote Junimo 16/
+speed Junimo 7/
+advancedMove Junimo false 5 0/
+pause 1500/
+message ""Maybe a Junimo Portal would help it find its way home.""/
+end/";
         }
 
         internal static void EditFarmEvents(IDictionary<string, string> eventData)
@@ -209,7 +148,7 @@ stopAnimation Wizard/
 move Wizard -2 0 3/
 move Wizard 0 2 2/
 pause 1500/
-speak Wizard ""You have something for me?  Well, bring it to me!""/
+speak Wizard ""You have something to show me?  Well, bring it!""/
 move farmer -1 0 3/
 move farmer 0 -4 0/
 faceDirection farmer 1/
@@ -218,7 +157,7 @@ playSound dwop/
 faceDirection farmer 1/
 pause 1000/
 faceDirection Wizard 3/
-speak Wizard ""Ah I see why you brought it to me...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...""/
+speak Wizard ""Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...""/
 move Wizard 0 -2 0/
 faceDirection Wizard 2/
 faceDirection farmer 0/
@@ -238,14 +177,14 @@ move Wizard 2 0 1/
 move Wizard 0 2 2/
 faceDirection Wizard 3/
 faceDirection farmer 1/
-speak Wizard ""This is a sort of a crude portal, made long ago by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#Your grandfather apparently made it.  It's an easy thing to do, even the greenest apprentice could do it.  Here, let me teach it to you.""/
+speak Wizard ""This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.""/
 removeItem (O){OldJunimoPortal}/
 pause 500/
 itemAboveHead/
 playsound getNewSpecialItem/
 addCraftingRecipe {ObjectIds.JunimoPortalRecipe}/
 pause 3300/
-message ""Learned how to craft a 'Junimo Portal'""/
+message ""I learned how to craft a 'Junimo Portal'""/
 playMusic none/
 shake Wizard 1500/
 speak Wizard ""Enticing a Junimo to *use* it, well, that's up to the Junimo...""/
@@ -426,7 +365,9 @@ end warpOut";
 
         internal static void EditQuests(IDictionary<string, string> data)
         {
+            data[OldJunimoPortalQuestId] = "Basic/The strange little structure/I found the remnants of what looks like a little buildling.  It smells like it has some Forest Magic in it./Bring the remnants of the strange little structure to the wizard./null/-1/0/-1/false";
             data[CollectLostChickenQuest] = "Basic/Chicken Round-Up/Marnie says there's a lost chicken in the forest south of her farm.  I don't think I've lost any chickens, but I should have a look anyway./Enter the Cindersnap Forest during the day./null/-1/0/-1/false";
+            data[RescueCindersnapJunimo] = "Basic/Help the Junimo Go Home/I found a lost Junimo in the Cindersnap Forest - I need to help it get home./Enter the Cindersnap Forest during the day with a Junimo Portal in your inventory./null/-1/0/-1/false";
         }
     }
 }

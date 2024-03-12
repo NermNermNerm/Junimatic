@@ -13,6 +13,7 @@ using StardewValley.GameData.Buildings;
 using StardewValley.GameData.GarbageCans;
 using StardewValley.GameData.Objects;
 using StardewValley.GameData.Tools;
+using StardewValley.Quests;
 
 namespace NermNermNerm.Junimatic
 {
@@ -21,8 +22,6 @@ namespace NermNermNerm.Junimatic
     {
         public const string BigCraftablesSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/Sprites";
         public const string OneTileSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/1x1Sprites";
-
-        private JunimoPortalQuestController junimoPortalQuestController = null!;
 
         public Harmony Harmony = null!;
 
@@ -35,12 +34,13 @@ namespace NermNermNerm.Junimatic
         public override void Entry(IModHelper helper)
         {
             this.Harmony = new Harmony(this.ModManifest.UniqueID);
-            this.junimoPortalQuestController = new JunimoPortalQuestController(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 
             this.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
             this.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
+
+            this.Helper.Events.Player.InventoryChanged += this.Player_InventoryChanged;
 
             this.Helper.Events.GameLoop.DayStarted += this.OnDayStarted;
             this.Helper.Events.GameLoop.DayEnding += this.OnDayEnding;
@@ -56,14 +56,20 @@ namespace NermNermNerm.Junimatic
             );
         }
 
+        private void Player_InventoryChanged(object? sender, InventoryChangedEventArgs e)
+        {
+            if (e.Added.Any(i => i.ItemId == ObjectIds.OldJunimoPortal))
+            {
+                e.Player.addQuest(ObjectIds.OldJunimoPortalQuestId);
+            }
+        }
+
         private void OnDayStarted(object? sender, DayStartedEventArgs e)
         {
-            this.junimoPortalQuestController.OnDayStarted();
         }
 
         private void OnDayEnding(object? sender, DayEndingEventArgs e)
         {
-            this.junimoPortalQuestController.OnDayEnding();
         }
 
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
@@ -114,6 +120,13 @@ namespace NermNermNerm.Junimatic
                     ObjectIds.EditFarmEvents(editor.AsDictionary<string, string>().Data);
                 });
             }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/Forest"))
+            {
+                e.Edit(editor =>
+                {
+                    ObjectIds.EditForestEvents(editor.AsDictionary<string, string>().Data);
+                });
+            }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Quests"))
             {
                 e.Edit(editor =>
@@ -147,7 +160,7 @@ namespace NermNermNerm.Junimatic
 
                 if (k == Microsoft.Xna.Framework.Input.Keys.Home)
                 {
-                    this.junimoPortalQuestController.TestPlacePortal();
+                    this.TestPlacePortal();
                 }
             }
         }
@@ -177,6 +190,38 @@ namespace NermNermNerm.Junimatic
             //}
             //farm.getObjectAt(75 * 64, 15 * 64).heldObject.Value = null;
 
+        }
+
+
+        public void TestPlacePortal()
+        {
+            // TODO: do only when it's raining and when it hasn't been placed already.
+
+            var farm = Game1.getFarm();
+            var existing = farm.objects.Values.FirstOrDefault(o => o.ItemId == ObjectIds.OldJunimoPortal);
+            if (existing is not null)
+            {
+                this.LogInfoOnce($"{ObjectIds.OldJunimoPortal} is already placed at {existing.TileLocation.X},{existing.TileLocation.Y}");
+                return;
+            }
+
+            var k = farm.Objects.Keys.First();
+
+            List<Vector2> weedLocations = farm.objects.Pairs.Where(pair => pair.Value.ItemId == "784" /* weed*/).Select(pair => pair.Key).ToList();
+            if (weedLocations.Count == 0)
+            {
+                this.LogWarning("No weeds on farm, can't place the old junimo portal");
+                return;
+            }
+
+            var position = weedLocations[Game1.random.Next(weedLocations.Count)];
+            var o = ItemRegistry.Create<StardewValley.Object>(ObjectIds.OldJunimoPortal);
+            o.questItem.Value = true;
+            o.Location = Game1.getFarm();
+            o.TileLocation = position;
+            this.LogInfoOnce($"{ObjectIds.OldJunimoPortal} placed at {position.X},{position.Y}");
+            o.IsSpawnedObject = true;
+            farm.objects[o.TileLocation] = o;
         }
     }
 }
