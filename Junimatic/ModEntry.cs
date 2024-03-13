@@ -1,13 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Netcode;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buildings;
+using StardewValley.Characters;
+using StardewValley.Delegates;
 using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Buildings;
 using StardewValley.GameData.GarbageCans;
@@ -22,6 +27,8 @@ namespace NermNermNerm.Junimatic
     {
         public const string BigCraftablesSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/Sprites";
         public const string OneTileSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/1x1Sprites";
+
+        public const string SetJunimoColorEventCommand = "junimatic.setJunimoColor";
 
         public Harmony Harmony = null!;
 
@@ -54,7 +61,55 @@ namespace NermNermNerm.Junimatic
                 return hasEnoughAnimals && hasEnoughChickens;
             }
             );
+
+            Event.RegisterCommand(SetJunimoColorEventCommand, this.SetJunimoColor);
         }
+
+        private void SetJunimoColor(Event @event, string[] split, EventContext context)
+        {
+            try
+            {
+                Color color = Color.Goldenrod;
+                if (split.Length > 2)
+                {
+                    this.LogWarning($"{SetJunimoColorEventCommand} usage: [ <color> ]    where <color> is one of the constants in Microsoft.Xna.Framework.Color - e.g. 'Goldenrod'");
+                    return;
+                }
+
+                if (split.Length == 2)
+                {
+                    var prop = typeof(Color).GetProperty(split[1], BindingFlags.Public | BindingFlags.Static);
+                    if (prop is null)
+                    {
+                        this.LogWarning($"{SetJunimoColorEventCommand} was given '{split[1]}' as an argument, but that's not a valid Color constant.");
+                        return;
+                    }
+
+                    color = (Color)prop.GetValue(null)!;
+                }
+
+                var junimo = @event.actors.OfType<Junimo>().FirstOrDefault();
+                if (junimo is null)
+                {
+                    this.LogWarning($"{SetJunimoColorEventCommand} invoked when there wasn't a Junimo actor");
+                    return;
+                }
+
+                var property = typeof(Junimo).GetField("color", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                if (property is null)
+                {
+                    this.LogError($"{SetJunimoColorEventCommand} can't set color because the game code is changed and the 'color' field is not there anymore.");
+                    return;
+                }
+
+                ((NetColor)property.GetValue(junimo)!).Value = color;
+            }
+            finally
+            {
+                @event.CurrentCommand++;
+            }
+        }
+
 
         private void Player_InventoryChanged(object? sender, InventoryChangedEventArgs e)
         {
@@ -74,12 +129,12 @@ namespace NermNermNerm.Junimatic
 
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
         {
-            this.LogInfo($"OnAssetRequested({e.NameWithoutLocale}");
+            this.LogInfo($"OnAssetRequested({e.NameWithoutLocale})");
             if (e.NameWithoutLocale.IsEquivalentTo(BigCraftablesSpritesPseudoPath))
             {
                 e.LoadFromModFile<Texture2D>("assets/Sprites.png", AssetLoadPriority.Exclusive);
             }
-            if (e.NameWithoutLocale.IsEquivalentTo(OneTileSpritesPseudoPath))
+            else if (e.NameWithoutLocale.IsEquivalentTo(OneTileSpritesPseudoPath))
             {
                 e.LoadFromModFile<Texture2D>("assets/1x1_Sprites.png", AssetLoadPriority.Exclusive);
             }
