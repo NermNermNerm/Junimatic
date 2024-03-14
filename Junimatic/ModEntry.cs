@@ -175,6 +175,13 @@ namespace NermNermNerm.Junimatic
                     ObjectIds.EditFarmEvents(editor.AsDictionary<string, string>().Data);
                 });
             }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/FarmHouse"))
+            {
+                e.Edit(editor =>
+                {
+                    ObjectIds.EditFarmHouseEvents(editor.AsDictionary<string, string>().Data);
+                });
+            }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/Forest"))
             {
                 e.Edit(editor =>

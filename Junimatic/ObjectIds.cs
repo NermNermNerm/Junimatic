@@ -18,6 +18,7 @@ namespace NermNermNerm.Junimatic
         public const string MarnieSeesChickenJunimoEvent = "Junimatic.MarnieSeesChickenJunimoEvent";
         public const string LostJunimoDiscoveryEvent = "Junimatic.LostJunimoDiscoveryEvent";
         public const string DropPortalForJunimoEvent = "Junimatic.GivePortalForJunimoEvent";
+        public const string AnimalJunimoDreamEvent = "Junimatic.AnimalJunimoDreamEvent";
 
         public const string OldJunimoPortalQuestId = "Junimatic.OldJunimoPortalQuest";
         public const string CollectLostChickenQuest = "Junimatic.CollectLostChickenQuest";
@@ -180,6 +181,29 @@ end fade/";
 
         }
 
+        internal static void EditFarmHouseEvents(IDictionary<string, string> eventData)
+        {
+            eventData[$"{AnimalJunimoDreamEvent}/sawEvent {DropPortalForJunimoEvent}/time 600 620"]
+                = $@"communityCenter/
+-2000 -2000/
+farmer 29 14 3 Junimo 26 14 1/
+{ModEntry.SetJunimoColorEventCommand} PapayaWhip/
+skippable/
+changeLocation Woods/
+viewport 27 12 true/
+animate Junimo true true 50 16 17 18 19 20 21 22 23/
+spriteText 4 ""Thank you for helping our friend get home...""/
+pause 3000/
+playSound junimoMeep1/
+animate Junimo true true 50 0 1 2 3 4 5 6 7/
+spriteText 4 ""I can help you, like I helped your Grandfather...""/
+pause 3000/
+animate Junimo true true 100 28 29 30 31/
+spriteText 4 ""I like animals and the wonderful things you can make with their help...""/
+fade/
+end";
+        }
+
         internal static void EditFarmEvents(IDictionary<string, string> eventData)
         {
             eventData[$"{MarnieSeesChickenJunimoEvent}/{StartAnimalJunimoEventCriteria}/sawEvent {JunimoPortalDiscoveryEvent}/time 600 930/weather sunny"]
@@ -263,6 +287,9 @@ message ""I learned how to craft a 'Junimo Portal'""/
 playMusic none/
 shake Wizard 1500/
 speak Wizard ""Enticing a Junimo to *use* it, well, that's up to the Junimo...""/
+globalFade/
+viewport -1000 -1000/
+message ""Usage: After completing quests to get junimo helpers, you can place Junimo Portals either in buildings or outside.  If outside, place walkways between the hut and any chests or machines you want the Junimo to automate.  If in a building, you can place walkways or just leave a clear path.""/
 end warpOut";
         }
 
