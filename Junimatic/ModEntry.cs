@@ -18,6 +18,8 @@ using StardewValley.GameData.Buildings;
 using StardewValley.GameData.GarbageCans;
 using StardewValley.GameData.Objects;
 using StardewValley.GameData.Tools;
+using StardewValley.Locations;
+using StardewValley.Monsters;
 using StardewValley.Quests;
 
 namespace NermNermNerm.Junimatic
@@ -52,6 +54,8 @@ namespace NermNermNerm.Junimatic
             this.Helper.Events.GameLoop.DayStarted += this.OnDayStarted;
             this.Helper.Events.GameLoop.DayEnding += this.OnDayEnding;
 
+            this.Helper.Events.Player.Warped += this.Player_Warped;
+
             Event.RegisterPrecondition(ObjectIds.StartAnimalJunimoEventCriteria, (GameLocation location, string eventId, string[] args) =>
             {
                 // TODO: Relocate.  Maybe we need a cutscene class
@@ -63,6 +67,25 @@ namespace NermNermNerm.Junimatic
             );
 
             Event.RegisterCommand(SetJunimoColorEventCommand, this.SetJunimoColor);
+        }
+
+        private bool IsJunimoPortalDiscovered(Farmer p) => p.eventsSeen.Contains(ObjectIds.JunimoPortalDiscoveryEvent);
+        private bool IsJunimoChyrysalisFound(Farmer p) => p.modData.ContainsKey(ObjectIds.HasGottenJunimoChrysalisDrop);
+
+        private void Player_Warped(object? sender, WarpedEventArgs e)
+        {
+            if (e.NewLocation is MineShaft mine && e.Player.IsMainPlayer && this.IsJunimoPortalDiscovered(e.Player) && !this.IsJunimoChyrysalisFound(e.Player))
+            {
+                var x = mine.isTileClearForMineObjects(0, 0);
+
+                var bigSlime = mine.characters.OfType<BigSlime>().FirstOrDefault();
+                if (bigSlime is not null)
+                {
+                    var o = ItemRegistry.Create<StardewValley.Object>(ObjectIds.JunimoChrysalis);
+                    o.questItem.Value = true;
+                    bigSlime.heldItem.Value = o;
+                }
+            }
         }
 
         private void SetJunimoColor(Event @event, string[] split, EventContext context)
@@ -115,7 +138,25 @@ namespace NermNermNerm.Junimatic
         {
             if (e.Added.Any(i => i.ItemId == ObjectIds.OldJunimoPortal))
             {
-                e.Player.addQuest(ObjectIds.OldJunimoPortalQuestId);
+                if (e.Player.IsMainPlayer)
+                {
+                    e.Player.addQuest(ObjectIds.OldJunimoPortalQuest);
+                }
+                else
+                {
+                    Game1.addHUDMessage(new HUDMessage("Give the strange little structure to the host player - only the host can advance this quest."));
+                }
+            }
+            else if (e.Added.Any(i => i.ItemId == ObjectIds.JunimoChrysalis))
+            {
+                if (e.Player.IsMainPlayer)
+                {
+                    e.Player.addQuest(ObjectIds.JunimoChrysalisToWizardQuest);
+                }
+                else
+                {
+                    Game1.addHUDMessage(new HUDMessage("Give the strange orb to the host player - only the host can advance this quest."));
+                }
             }
         }
 
