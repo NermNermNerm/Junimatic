@@ -237,6 +237,13 @@ namespace NermNermNerm.Junimatic
                     ObjectIds.EditQuests(editor.AsDictionary<string, string>().Data);
                 });
             }
+            else if (e.NameWithoutLocale.StartsWith("Characters/Dialogue/"))
+            {
+                e.Edit(editor =>
+                {
+                    ConversationKeys.EditAssets(e.NameWithoutLocale, editor.AsDictionary<string, string>().Data);
+                });
+            }
         }
 
         private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
