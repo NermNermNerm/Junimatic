@@ -36,6 +36,8 @@ namespace NermNermNerm.Junimatic
 
         public bool isCreated = false;
 
+        public CropMachineHelper CropMachineHelperQuest = new CropMachineHelper();
+
         public ModEntry()
         {
         }
@@ -43,6 +45,8 @@ namespace NermNermNerm.Junimatic
         public override void Entry(IModHelper helper)
         {
             this.Harmony = new Harmony(this.ModManifest.UniqueID);
+
+            this.CropMachineHelperQuest.Entry(helper);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 
@@ -76,8 +80,6 @@ namespace NermNermNerm.Junimatic
         {
             if (e.NewLocation is MineShaft mine && e.Player.IsMainPlayer && this.IsJunimoPortalDiscovered(e.Player) && !this.IsJunimoChyrysalisFound(e.Player))
             {
-                var x = mine.isTileClearForMineObjects(0, 0);
-
                 var bigSlime = mine.characters.OfType<BigSlime>().FirstOrDefault();
                 if (bigSlime is not null)
                 {
