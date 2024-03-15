@@ -172,7 +172,6 @@ namespace NermNermNerm.Junimatic
 
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
         {
-            this.LogInfo($"OnAssetRequested({e.NameWithoutLocale})");
             if (e.NameWithoutLocale.IsEquivalentTo(BigCraftablesSpritesPseudoPath))
             {
                 e.LoadFromModFile<Texture2D>("assets/Sprites.png", AssetLoadPriority.Exclusive);

@@ -19,11 +19,13 @@ namespace NermNermNerm.Junimatic
     {
         public CropMachineHelper() { }
 
-        public const string GiantCropCelebrationEventId = "Junimatic.CropMachineHelper.GiantCropCelebration";
-        public const string EventCustomConditionGiantCropIsGrowingOnFarm = "Junimatic.GiantCropIsGrowingOnFarm";
-        public const string EventCustomCommandFocusOnGiantCrop = "Junimatic.FocusOnGiantCrop";
-        public const string EventCustomCommandSpringJunimosFromCrop = "Junimatic.SpringJunimosFromCrop";
-        public const string EventCustomCommandJunimosDisappear = "Junimatic.JunimosDisappear";
+        private const string GiantCropCelebrationEventId = "Junimatic.CropMachineHelper.GiantCropCelebration";
+        private const string EventCustomConditionGiantCropIsGrowingOnFarm = "Junimatic.GiantCropIsGrowingOnFarm";
+        private const string EventCustomCommandFocusOnGiantCrop = "Junimatic.FocusOnGiantCrop";
+        private const string EventCustomCommandSpringJunimosFromCrop = "Junimatic.SpringJunimosFromCrop";
+        private const string EventCustomCommandJunimosDisappear = "Junimatic.JunimosDisappear";
+
+        public const string ConversationKeyBigCrops = "Junimatic.BigCrops";
 
         public void Entry(IModHelper helper)
         {
@@ -33,6 +35,8 @@ namespace NermNermNerm.Junimatic
             Event.RegisterCommand(EventCustomCommandSpringJunimosFromCrop, this.SpringJunimosFromCrop);
             Event.RegisterCommand(EventCustomCommandJunimosDisappear, this.JunimosDisappear);
         }
+
+        public bool IsUnlocked() => Game1.MasterPlayer.eventsSeen.Contains(GiantCropCelebrationEventId);
 
         private bool GiantCropIsGrowingOnFarm(GameLocation location, string eventId, string[] args)
             => location.resourceClumps.OfType<GiantCrop>().Any();
@@ -98,9 +102,6 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public bool IsUnlocked() => Game1.MasterPlayer.eventsSeen.Contains(GiantCropCelebrationEventId);
-
-
         private void OnAssetRequested(object? sender, StardewModdingAPI.Events.AssetRequestedEventArgs e)
         {
             if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/Farm"))
@@ -125,8 +126,43 @@ end
 ";
                 });
             }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Caroline"))
+            {
+                e.Edit(editor =>
+                {
+                    var data = editor.AsDictionary<string, string>().Data;
+                    data[ConversationKeyBigCrops] = "Did you ever see the giant crops your Granddad used to crow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1";
+                    ConversationKeys.EditAssets(e.NameWithoutLocale, editor.AsDictionary<string, string>().Data);
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Pierre"))
+            {
+                e.Edit(editor =>
+                {
+                    var data = editor.AsDictionary<string, string>().Data;
+                    data[ConversationKeyBigCrops] = "Has Abby been needling you about growing giant pumpkins?$4#$b#Don't do it, really, there's no money in it.  Quantity is good, sure, but the quality isn't.$2#$b#Your grandpa grew them in his declining years in particular.  He said 'my helpers like them'.  Not sure what he meant by that, but he really enjoyed them that made it worth it to him!$1";
+                    ConversationKeys.EditAssets(e.NameWithoutLocale, editor.AsDictionary<string, string>().Data);
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Maru"))
+            {
+                e.Edit(editor =>
+                {
+                    var data = editor.AsDictionary<string, string>().Data;
+                    data[ConversationKeyBigCrops] = "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.";
+                    ConversationKeys.EditAssets(e.NameWithoutLocale, editor.AsDictionary<string, string>().Data);
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Abigail"))
+            {
+                e.Edit(editor =>
+                {
+                    var data = editor.AsDictionary<string, string>().Data;
+                    data[ConversationKeyBigCrops] = "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn't buy one and your grandad invented this cock&bull story about magical creatures.$5#$b#Didn't he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2";
+                    ConversationKeys.EditAssets(e.NameWithoutLocale, editor.AsDictionary<string, string>().Data);
+                });
+            }
+            // Penny talking about melons?  Doesn't seem quite right somehow.
         }
-
-
     }
 }
