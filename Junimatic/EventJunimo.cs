@@ -25,13 +25,13 @@ namespace NermNermNerm.Junimatic
         private const double maxStartingDelay = 1000;
 
         public EventJunimo(Vector2 starting, Vector2 targetVector)
-            : base(starting*64f, -1, temporary: true)
+            : base(starting*64f + new Vector2(0, 5), -1, temporary: true)
         {
             this.SetColor(colors[Game1.random.Next(colors.Length)]);
 
-            this.starting = starting;
+            this.starting = this.Position;
             this.startDelay = new Random().NextDouble() * maxStartingDelay;
-            this.targetVector = targetVector;
+            this.targetVector = targetVector*64f;
         }
 
         private void SetColor(Color color)
@@ -50,11 +50,18 @@ namespace NermNermNerm.Junimatic
             {
                 double msSinceStart = gameTime.TotalGameTime.TotalMilliseconds - this.firstUpdateTime.Value - this.startDelay;
                 float progressAsFraction = (float)Math.Max(0, Math.Min(1, msSinceStart/timeToGetToTarget));
-                this.Position = (this.starting + this.targetVector * progressAsFraction) * 64f + new Vector2(0,5);
+                this.Position = this.starting + this.targetVector * progressAsFraction;
                 Debug.WriteLine($"Position= {this.Position}");
             }
 
             base.update(gameTime, location);
+        }
+
+        public void GoBack()
+        {
+            this.firstUpdateTime = null;
+            this.starting = this.Position;
+            this.targetVector = new Vector2(0,0) - this.targetVector;
         }
     }
 }

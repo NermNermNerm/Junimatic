@@ -87,7 +87,10 @@ namespace NermNermNerm.Junimatic
         {
             try
             {
-
+                foreach (var junimo in @event.actors.OfType<EventJunimo>())
+                {
+                    junimo.GoBack();
+                }
             }
             finally
             {
