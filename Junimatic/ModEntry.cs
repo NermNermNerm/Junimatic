@@ -36,7 +36,9 @@ namespace NermNermNerm.Junimatic
 
         public bool isCreated = false;
 
-        public CropMachineHelper CropMachineHelperQuest = new CropMachineHelper();
+        public UnlockCropMachines CropMachineHelperQuest = new UnlockCropMachines();
+
+        private readonly WorkFinder workFinder = new WorkFinder();
 
         public ModEntry()
         {
@@ -47,11 +49,9 @@ namespace NermNermNerm.Junimatic
             this.Harmony = new Harmony(this.ModManifest.UniqueID);
 
             this.CropMachineHelperQuest.Entry(helper);
+            this.workFinder.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
-
-            this.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
-            this.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
 
             this.Helper.Events.Player.InventoryChanged += this.Player_InventoryChanged;
 
@@ -247,36 +247,7 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
-        {
-            if (e.Button.TryGetKeyboard(out Microsoft.Xna.Framework.Input.Keys k))
-            {
-                if (k == Microsoft.Xna.Framework.Input.Keys.Insert)
-                {
-                    var assignment = (new WorkFinder()).GlobalFindProjects().FirstOrDefault();
-                    if (assignment is not null)
-                    {
-                        assignment.location.characters.Add(new JunimoShuffler(assignment));
-                    }
-
-                    //if (!this.isCreated)
-                    //{
-                    //    var farm = Game1.getFarm();
-                    //    int x = 71;
-                    //    int y = 17;
-                    //    farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
-                    //    this.isCreated = true;
-                    //}
-                }
-
-                if (k == Microsoft.Xna.Framework.Input.Keys.Home)
-                {
-                    this.TestPlacePortal();
-                }
-            }
-        }
-
-        void ISimpleLog.WriteToLog(string message, LogLevel level, bool isOnceOnly)
+        public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
         {
             if (isOnceOnly)
             {
@@ -286,21 +257,6 @@ namespace NermNermNerm.Junimatic
             {
                 this.Monitor.Log(message, level);
             }
-        }
-
-        private void GameLoop_OneSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
-        {
-            // var farm = Game1.getFarm();
-            //if (!this.isCreated)
-            //{
-            //    var farm = Game1.getFarm();
-            //    int x = 71;
-            //    int y = 17;
-            //    farm.characters.Add(new JunimoShuffler(farm, new Vector2(x, y) * 64f, Color.AliceBlue));
-            //    this.isCreated = true;
-            //}
-            //farm.getObjectAt(75 * 64, 15 * 64).heldObject.Value = null;
-
         }
 
 

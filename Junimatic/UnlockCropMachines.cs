@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.Extensions;
 using StardewValley.TerrainFeatures;
 
 namespace NermNermNerm.Junimatic
@@ -15,9 +10,9 @@ namespace NermNermNerm.Junimatic
     ///   This represents all the game content related to enabling the Junimo that
     ///   works Kegs, Casks and JellyJamJar machines.
     /// </summary>
-    public class CropMachineHelper
+    public class UnlockCropMachines
     {
-        public CropMachineHelper() { }
+        public UnlockCropMachines() { }
 
         private const string GiantCropCelebrationEventId = "Junimatic.CropMachineHelper.GiantCropCelebration";
         private const string EventCustomConditionGiantCropIsGrowingOnFarm = "Junimatic.GiantCropIsGrowingOnFarm";

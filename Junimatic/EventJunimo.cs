@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley;
@@ -12,6 +8,9 @@ using StardewValley.Characters;
 
 namespace NermNermNerm.Junimatic
 {
+    /// <summary>
+    ///   A Junimo class just for the crop event.
+    /// </summary>
     public class EventJunimo : Junimo
     {
         // Random bright colors.
@@ -36,6 +35,8 @@ namespace NermNermNerm.Junimatic
 
         private void SetColor(Color color)
         {
+            // No need for try/catch here really - if this throws due to a code change, it'll break the event,
+            // but that won't block progress and it'll leave a very clear trail of destruction in the log file.
             var colorField = typeof(Junimo).GetField("color", BindingFlags.NonPublic | BindingFlags.Instance);
             ((NetColor)colorField!.GetValue(this)!).Value = color;
         }
@@ -51,7 +52,6 @@ namespace NermNermNerm.Junimatic
                 double msSinceStart = gameTime.TotalGameTime.TotalMilliseconds - this.firstUpdateTime.Value - this.startDelay;
                 float progressAsFraction = (float)Math.Max(0, Math.Min(1, msSinceStart/timeToGetToTarget));
                 this.Position = this.starting + this.targetVector * progressAsFraction;
-                Debug.WriteLine($"Position= {this.Position}");
             }
 
             base.update(gameTime, location);

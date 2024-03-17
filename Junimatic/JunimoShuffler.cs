@@ -2,49 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
+using StardewModdingAPI;
 using StardewValley;
-using StardewValley.Buildings;
-using StardewValley.Characters;
-using StardewValley.Extensions;
 using StardewValley.Inventories;
 using StardewValley.ItemTypeDefinitions;
 using StardewValley.Objects;
 using StardewValley.Pathfinding;
-using StardewValley.TerrainFeatures;
-using StardewValley.Tools;
 
 namespace NermNermNerm.Junimatic
 {
-    public class JunimoShuffler : NPC
+    public class JunimoShuffler : NPC, ISimpleLog
     {
-        protected float alpha = 1f;
-
-        protected float alphaChange;
-
-        protected Vector2 motion = Vector2.Zero;
-
-        protected new Rectangle nextPosition;
-
-        protected readonly NetColor color = new NetColor();
-
-        protected bool destroy;
-
-        protected readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
-
+        private float alpha = 1f;
+        private float alphaChange;
+        private Vector2 motion = Vector2.Zero;
+        private new Rectangle nextPosition;
+        private readonly NetColor color = new NetColor();
+        private bool destroy;
+        private readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
         private readonly Inventory carrying = new Inventory();
-
         private JunimoAssignment assignment;
+        private readonly WorkFinder workFinder;
 
-        public JunimoShuffler(JunimoAssignment assignment)
+        public JunimoShuffler(JunimoAssignment assignment, WorkFinder workFinder)
             : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin*64, 2, "Junimo")
         {
-            this.color.Value = assignment.projectType switch { JunimoType.Furnace => Color.Tan, _ => Color.Aqua };
+            this.color.Value = assignment.projectType switch { JunimoType.MiningProcessing => Color.Tan, _ => Color.Aqua };
             this.currentLocation = assignment.hut.Location;
             this.nextPosition = this.GetBoundingBox();
             this.Breather = false;
@@ -60,12 +46,13 @@ namespace NermNermNerm.Junimatic
             this.controller = new PathFindController(this, assignment.hut.Location, assignment.sourceTile.ToPoint(), 0, this.junimoReachedSource);
             this.alpha = 0;
             this.alphaChange = 0.05f;
-            Debug.WriteLine($"Junimo created {this.assignment}");
+            this.workFinder = workFinder;
+            this.LogTrace($"Junimo created {this.assignment}");
         }
 
         private void junimoReachedSource(Character c, GameLocation l)
         {
-            Debug.WriteLine($"Junimo reached its source {this.assignment}");
+            this.LogTrace($"Junimo reached its source {this.assignment}");
 
             // TODO: ensure that the source object is still placed
 
@@ -80,7 +67,7 @@ namespace NermNermNerm.Junimatic
                 {
                     if (chest.Items.Where(i => i.ItemId == item.ItemId).Sum(i => i.Stack) < item.Stack)
                     {
-                        Debug.WriteLine($"Assigned chest didn't have {item.Stack} {item.DisplayName}");
+                        this.LogTrace($"Assigned chest didn't have {item.Stack} {item.DisplayName}");
                         this.junimoQuitsInDisgust();
                         return;
                     }
@@ -129,7 +116,7 @@ namespace NermNermNerm.Junimatic
 
         private void junimoQuitsInDisgust()
         {
-            Debug.WriteLine($"Junimo quits {this.assignment}");
+            this.LogTrace($"Junimo quits {this.assignment}");
             foreach (Item item in this.carrying)
             {
                 this.TurnIntoDebris(item);
@@ -148,7 +135,7 @@ namespace NermNermNerm.Junimatic
 
         private void junimoReachedTarget(Character c, GameLocation l)
         {
-            Debug.WriteLine($"Junimo reached target {this.assignment}");
+            this.LogTrace($"Junimo reached target {this.assignment}");
             this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
 
             if (this.assignment.target is Chest chest)
@@ -160,6 +147,7 @@ namespace NermNermNerm.Junimatic
                     var remainder = chest.addItem(item);
                     if (remainder is not null)
                     {
+                        this.LogWarning($"Target chest at {chest.TileLocation} did not have room for {item.Stack} {item.Name} - turning it into debris");
                         this.TurnIntoDebris(remainder);
                     }
                 }
@@ -170,7 +158,7 @@ namespace NermNermNerm.Junimatic
                 bool isLoaded = this.assignment.target.AttemptAutoLoad(this.carrying, Game1.MasterPlayer);
                 if (!isLoaded)
                 {
-                    Debug.WriteLine($"Junimo failed to deliver loot - AttemptAutoLoad failed");
+                    this.LogTrace($"Junimo could not load {this.assignment.target.Name} at {this.assignment.target.TileLocation} - AttemptAutoLoad failed");
                     this.junimoQuitsInDisgust();
                     return;
                 }
@@ -192,7 +180,7 @@ namespace NermNermNerm.Junimatic
 
         public void junimoReachedHut(Character c, GameLocation l)
         {
-            Debug.WriteLine($"Junimo returned to its hut {this.assignment}");
+            this.LogTrace($"Junimo returned to its hut {this.assignment}");
             this.controller = null;
             this.motion.X = 0f;
             this.motion.Y = -1f;
@@ -286,67 +274,25 @@ namespace NermNermNerm.Junimatic
             this.motion = Vector2.Zero;
         }
 
-        public override bool canTalk()
-        {
-            return false;
-        }
+        public override bool canTalk() => false;
 
+        public override void faceDirection(int direction) { }
 
-
-        public virtual void returnToJunimoHut(GameLocation location)
-        {
-            // This method is not used, but maybe we'll have an idea like it?
-
-            if (Utility.isOnScreen(Utility.Vector2ToPoint(this.position.Value / 64f), 64, base.currentLocation))
-            {
-                this.jump();
-            }
-
-            this.collidesWithOtherCharacters.Value = false;
-            //if (Game1.IsMasterGame)
-            //{
-            //    JunimoHut junimoHut = home;
-            //    if (junimoHut == null)
-            //    {
-            //        return;
-            //    }
-
-            //    controller = new PathFindController(this, location, new Point((int)junimoHut.tileX + 1, (int)junimoHut.tileY + 1), 0, junimoReachedHut);
-            //    if (controller.pathToEndPoint == null || controller.pathToEndPoint.Count == 0 || location.isCollidingPosition(nextPosition, Game1.viewport, isFarmer: false, 0, glider: false, this))
-            //    {
-            //        destroy = true;
-            //    }
-            //}
-
-            if (Utility.isOnScreen(Utility.Vector2ToPoint(this.position.Value / 64f), 64, base.currentLocation))
-            {
-                location.playSound("junimoMeep1");
-            }
-        }
-
-        public override void faceDirection(int direction)
-        {
-        }
-
-        protected override void updateSlaveAnimation(GameTime time)
-        {
-        }
-
-        private int alreadyPostedAboutJunimo = 100;
+        protected override void updateSlaveAnimation(GameTime time) { }
 
         public override void update(GameTime time, GameLocation location)
         {
-            if (this.controller is null)
+            if (this.controller is null && Game1.IsMasterGame && !this.destroy)
             {
-                if (this.alreadyPostedAboutJunimo == 100)
+                this.workFinder.LogInfo("Junimo returned due to players leaving scene");
+                if (this.carrying.Count > 0)
                 {
-                    Debug.WriteLine($"Junimo's animation controller is null");
-                    this.alreadyPostedAboutJunimo = 0;
+                    this.junimoReachedTarget(this, location);
                 }
-                else
-                {
-                    ++this.alreadyPostedAboutJunimo;
-                }
+
+                this.workFinder.JunimoWentHome(this.assignment.projectType);
+                location.characters.Remove(this);
+                return;
             }
 
             this.netAnimationEvent.Poll();
@@ -374,12 +320,13 @@ namespace NermNermNerm.Junimatic
                 if (this.destroy && Game1.IsMasterGame)
                 {
                     location.characters.Remove(this);
+                    this.workFinder.JunimoWentHome(this.assignment.projectType);
+                    return;
                 }
             }
 
             if (Game1.IsMasterGame)
             {
-                // deleted much stuff to do with harvesting.
                 if (this.alpha > 0f && this.controller == null)
                 {
                     if ((this.addedSpeed > 0f || base.speed > 3 || this.isCharging) && Game1.IsMasterGame)
@@ -466,7 +413,7 @@ namespace NermNermNerm.Junimatic
 
                 flag2 |= Math.Abs(this.motion.X) > Math.Abs(this.motion.Y) && this.motion.X > 0f;
                 flag3 |= Math.Abs(this.motion.X) > Math.Abs(this.motion.Y) && this.motion.X < 0f;
-                flag4 |= Math.Abs(this.motion.Y) > Math.Abs(this.    motion.X) && this.motion.Y < 0f;
+                flag4 |= Math.Abs(this.motion.Y) > Math.Abs(this.motion.X) && this.motion.Y < 0f;
                 flag5 |= Math.Abs(this.motion.Y) > Math.Abs( this.motion.X) && this.motion.Y > 0f;
             }
             else
@@ -562,6 +509,11 @@ namespace NermNermNerm.Junimatic
                         base.Position.Y / 10000f + 0.0001f);
                 }
             }
+        }
+
+        public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
+        {
+            this.workFinder.WriteToLog(message, level, isOnceOnly);
         }
     }
 }

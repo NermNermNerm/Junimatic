@@ -1,9 +1,9 @@
-﻿namespace NermNermNerm.Junimatic
+namespace NermNermNerm.Junimatic
 {
     public enum JunimoType
     {
-        Furnace,
+        MiningProcessing,
         Animals,
-        Kegs,
+        CropProcessing,
     };
 }
