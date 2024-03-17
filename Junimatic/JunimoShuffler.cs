@@ -65,7 +65,7 @@ namespace NermNermNerm.Junimatic
                 this.assignment.itemsToRemoveFromChest.Reverse(); // <- tidy
                 foreach (var item in this.assignment.itemsToRemoveFromChest)
                 {
-                    if (chest.Items.Where(i => i.ItemId == item.ItemId).Sum(i => i.Stack) < item.Stack)
+                    if (chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).Where(i => i.ItemId == item.ItemId).Sum(i => i.Stack) < item.Stack)
                     {
                         this.LogTrace($"Assigned chest didn't have {item.Stack} {item.DisplayName}");
                         this.junimoQuitsInDisgust();
@@ -79,7 +79,7 @@ namespace NermNermNerm.Junimatic
                     int leftToRemove = item.Stack;
                     while (leftToRemove > 0)
                     {
-                        var first = chest.Items.First(i => i.ItemId == item.ItemId);
+                        var first = chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).First(i => i.ItemId == item.ItemId);
                         if (first.Stack > item.Stack)
                         {
                             first.Stack -= leftToRemove;
@@ -88,7 +88,7 @@ namespace NermNermNerm.Junimatic
                         else
                         {
                             leftToRemove -= first.Stack;
-                            chest.Items.Remove(first);
+                            chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).Remove(first);
                         }
                     }
                 }

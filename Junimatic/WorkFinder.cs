@@ -149,7 +149,7 @@ namespace NermNermNerm.Junimatic
                 {
                     foreach (var chest in network.Chests.Select(candp => candp.Machine))
                     {
-                        if (emptyMachine.AttemptAutoLoad(chest.Items, Game1.MasterPlayer))
+                        if (emptyMachine.AttemptAutoLoad(chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID), Game1.MasterPlayer))
                         {
                             this.LogInfo($"Automatic machine fill of {emptyMachine.Name} at {emptyMachine.TileLocation} on {location.Name} from chest at {chest.TileLocation}");
                             return true;
@@ -163,7 +163,7 @@ namespace NermNermNerm.Junimatic
                     var goodChest = network.Chests.Select(candp => candp.Machine).FirstOrDefault(c => this.IsChestGoodForStoring(c, fullMachine.heldObject.Value));
                     if (goodChest is null)
                     {
-                        goodChest = network.Chests.Select(candp => candp.Machine).FirstOrDefault(chest => chest.Items.Count < chest.GetActualCapacity());
+                        goodChest = network.Chests.Select(candp => candp.Machine).FirstOrDefault(chest => chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).Count < chest.GetActualCapacity());
                     }
 
                     if (goodChest is not null)
@@ -227,7 +227,7 @@ namespace NermNermNerm.Junimatic
             // Ensure it has the coal (aka all the 'AdditionalConsumedItems')
             if (machineData.AdditionalConsumedItems is not null)
             {
-                if (!machineData.AdditionalConsumedItems.All(consumedItem => source.Items.Any(chestItem => chestItem.QualifiedItemId == consumedItem.ItemId && chestItem.Stack >= consumedItem.RequiredCount)))
+                if (!machineData.AdditionalConsumedItems.All(consumedItem => source.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).Any(chestItem => chestItem.QualifiedItemId == consumedItem.ItemId && chestItem.Stack >= consumedItem.RequiredCount)))
                 {
                     return false;
                 }
@@ -238,10 +238,11 @@ namespace NermNermNerm.Junimatic
             {
                 foreach (var trigger in rule.Triggers)
                 {
-                    var possibleItem = source.Items
+                    var sourceInventory = source.GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
+                    var possibleItem = sourceInventory
                         .FirstOrDefault(i => (trigger.RequiredItemId is not null && i.QualifiedItemId == trigger.RequiredItemId)
                                  || (trigger.RequiredTags is not null && trigger.RequiredTags.Any(tag => i.HasContextTag(tag))));
-                    if (possibleItem is not null && (possibleItem.Stack >= trigger.RequiredCount || source.Items.Where(i => i.itemId == possibleItem.itemId).Sum(i => i.Stack) > trigger.RequiredCount))
+                    if (possibleItem is not null && (possibleItem.Stack >= trigger.RequiredCount || sourceInventory.Where(i => i.itemId == possibleItem.itemId).Sum(i => i.Stack) > trigger.RequiredCount))
                     {
                         inputs.Add(ItemRegistry.Create(possibleItem.ItemId, trigger.RequiredCount));
                         return true;
@@ -258,13 +259,14 @@ namespace NermNermNerm.Junimatic
         /// <returns>True if the chest has stacks of an item and room to store more.</returns>
         private bool IsChestGoodForStoring(Chest chest, StardewValley.Object objectToStore)
         {
-            if (chest.Items.HasEmptySlots())
+            var items = chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
+            if (items.HasEmptySlots())
             {
-                return chest.Items.Any(i => i.ItemId == objectToStore.ItemId);
+                return items.Any(i => i.ItemId == objectToStore.ItemId);
             }
             else
             {
-                return chest.Items.Any(i => i.ItemId == objectToStore.ItemId && i.Stack < 999 /* maximum stack size */);
+                return items.Any(i => i.ItemId == objectToStore.ItemId && i.Stack < 999 /* maximum stack size */);
             }
         }
 
@@ -466,6 +468,10 @@ namespace NermNermNerm.Junimatic
                         {
                             tilesToInvestigate.Enqueue(adjacentTile);
                         }
+                        else
+                        {
+                            visitedTiles.Add(adjacentTile);
+                        }
                     }
 
                     visitedTiles.Add(tile);
@@ -475,7 +481,7 @@ namespace NermNermNerm.Junimatic
                 var fullMachine = fullMachines.FirstOrDefault();
                 if (fullMachine.machine is not null)
                 {
-                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.chest.Items.Count < chest.chest.GetActualCapacity());
+                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).Count < chest.chest.GetActualCapacity());
                     if (chestWithSpace.chest is not null)
                     {
                         return new JunimoAssignment(projectType, location, portal, originTile, fullMachine.machine, fullMachine.location, chestWithSpace.chest, chestWithSpace.location, itemsToRemoveFromChest: null);
