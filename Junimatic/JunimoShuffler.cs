@@ -28,7 +28,7 @@ namespace NermNermNerm.Junimatic
         private readonly WorkFinder workFinder;
 
         public JunimoShuffler(JunimoAssignment assignment, WorkFinder workFinder)
-            : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin*64, 2, "Junimo")
+            : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin.ToVector2()*64, 2, "Junimo")
         {
             this.color.Value = assignment.projectType switch { JunimoType.MiningProcessing => Color.Tan, _ => Color.Aqua };
             this.currentLocation = assignment.hut.Location;
@@ -43,7 +43,7 @@ namespace NermNermNerm.Junimatic
             this.collidesWithOtherCharacters.Value = false;
 
             this.assignment = assignment;
-            this.controller = new PathFindController(this, assignment.hut.Location, assignment.sourceTile.ToPoint(), 0, this.junimoReachedSource);
+            this.controller = new PathFindController(this, assignment.hut.Location, assignment.source.AccessPoint, 0, this.junimoReachedSource);
             this.alpha = 0;
             this.alphaChange = 0.05f;
             this.workFinder = workFinder;
@@ -54,54 +54,27 @@ namespace NermNermNerm.Junimatic
         {
             this.LogTrace($"Junimo reached its source {this.assignment}");
 
-            // TODO: ensure that the source object is still placed
+            if (this.carrying.Count != 0) throw new InvalidOperationException("inventory should be empty here");
 
-            if (this.assignment.source is Chest chest)
+            if (this.assignment.source is GameStorage chest)
             {
-                if (this.carrying.Count != 0) throw new InvalidOperationException("inventory should be empty here");
                 if (this.assignment.itemsToRemoveFromChest is null) throw new InvalidOperationException("Should have some items to fetch");
 
                 // Ensure the chest still contains what we need
                 this.assignment.itemsToRemoveFromChest.Reverse(); // <- tidy
-                foreach (var item in this.assignment.itemsToRemoveFromChest)
+
+                if (!chest.TryFulfillShoppingList(this.assignment.itemsToRemoveFromChest!, this.carrying))
                 {
-                    if (chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).Where(i => i.ItemId == item.ItemId).Sum(i => i.Stack) < item.Stack)
-                    {
-                        this.LogTrace($"Assigned chest didn't have {item.Stack} {item.DisplayName}");
-                        this.junimoQuitsInDisgust();
-                        return;
-                    }
+                    this.LogTrace($"Assigned chest didn't have needed items");
+                    this.junimoQuitsInDisgust();
+                    return;
                 }
 
-                // Pull the stuff out of the chest's inventory
-                foreach (var item in this.assignment.itemsToRemoveFromChest)
-                {
-                    int leftToRemove = item.Stack;
-                    while (leftToRemove > 0)
-                    {
-                        var first = chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).First(i => i.ItemId == item.ItemId);
-                        if (first.Stack > item.Stack)
-                        {
-                            first.Stack -= leftToRemove;
-                            leftToRemove = 0;
-                        }
-                        else
-                        {
-                            leftToRemove -= first.Stack;
-                            chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID).Remove(first);
-                        }
-                    }
-                }
-
-                this.carrying.AddRange(this.assignment.itemsToRemoveFromChest);
                 l.playSound("pickUpItem"); // Maybe 'openChest' instead?
             }
-            else if (this.assignment.source.heldObject.Value is not null)
+            else if (this.assignment.source is GameMachine machine && machine.HeldObject is not null)
             {
-                if (this.carrying.Count != 0) throw new InvalidOperationException("inventory should be empty here");
-
-                this.carrying.Add(this.assignment.source.heldObject.Value);
-                this.assignment.source.heldObject.Value = null;
+                this.carrying.Add(machine.RemoveHeldObject());
                 l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
             }
             else
@@ -111,7 +84,7 @@ namespace NermNermNerm.Junimatic
             }
 
             // Head to the target
-            this.controller = new PathFindController(this, base.currentLocation, this.assignment.targetTile.ToPoint(), 0, this.junimoReachedTarget);
+            this.controller = new PathFindController(this, base.currentLocation, this.assignment.target.AccessPoint, 0, this.junimoReachedTarget);
         }
 
         private void junimoQuitsInDisgust()
@@ -124,7 +97,7 @@ namespace NermNermNerm.Junimatic
             this.carrying.Clear();
             this.doEmote(12);
 
-            this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
+            this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin, 0, this.junimoReachedHut);
         }
 
         private void TurnIntoDebris(Item item)
@@ -136,29 +109,24 @@ namespace NermNermNerm.Junimatic
         private void junimoReachedTarget(Character c, GameLocation l)
         {
             this.LogTrace($"Junimo reached target {this.assignment}");
-            this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
 
-            if (this.assignment.target is Chest chest)
+            if (this.assignment.target is GameStorage chest)
             {
                 l.playSound("Ship");
                 // TODO: Put what we're carrying into the chest or huck it overboard if we can't.
-                foreach (var item in this.carrying)
+                if (!chest.TryStore(this.carrying))
                 {
-                    var remainder = chest.addItem(item);
-                    if (remainder is not null)
-                    {
-                        this.LogWarning($"Target chest at {chest.TileLocation} did not have room for {item.Stack} {item.Name} - turning it into debris");
-                        this.TurnIntoDebris(remainder);
-                    }
+                    this.LogWarning($"Target {chest} did not have room for {this.carrying[0].Stack} {this.carrying[0].Name}");
+                    this.junimoQuitsInDisgust();
+                    return;
                 }
-                this.carrying.Clear();
             }
             else
             {
-                bool isLoaded = this.assignment.target.AttemptAutoLoad(this.carrying, Game1.MasterPlayer);
+                bool isLoaded = ((GameMachine)this.assignment.target).FillMachineFromInventory(this.carrying);
                 if (!isLoaded)
                 {
-                    this.LogTrace($"Junimo could not load {this.assignment.target.Name} at {this.assignment.target.TileLocation} - AttemptAutoLoad failed");
+                    this.LogTrace($"Junimo could not load {this.assignment} - perhaps a player loaded it?");
                     this.junimoQuitsInDisgust();
                     return;
                 }
@@ -166,15 +134,15 @@ namespace NermNermNerm.Junimatic
                 l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
             }
 
-            var newAssignment = (new WorkFinder()).FindProject(this.assignment.hut, this.assignment.projectType, this.Tile, this.assignment.origin);
+            var newAssignment = (new WorkFinder()).FindProject(this.assignment.hut, this.assignment.projectType, this.Tile.ToPoint(), this.assignment.origin);
             if (newAssignment is not null)
             {
                 this.assignment = newAssignment;
-                this.controller = new PathFindController(this, this.assignment.hut.Location, this.assignment.sourceTile.ToPoint(), 0, this.junimoReachedSource);
+                this.controller = new PathFindController(this, this.assignment.hut.Location, this.assignment.source.AccessPoint, 0, this.junimoReachedSource);
             }
             else
             {
-                this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin.ToPoint(), 0, this.junimoReachedHut);
+                this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin, 0, this.junimoReachedHut);
             }
         }
 

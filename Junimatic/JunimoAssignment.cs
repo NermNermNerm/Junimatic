@@ -10,10 +10,8 @@ namespace NermNermNerm.Junimatic
         JunimoType projectType,
         GameLocation location,
         StardewValley.Object hut,
-        Vector2 origin,
-        StardewValley.Object source,
-        Vector2 sourceTile,
-        StardewValley.Object target,
-        Vector2 targetTile,
+        Point origin,
+        GameInteractiveThing source,
+        GameInteractiveThing target,
         List<Item>? itemsToRemoveFromChest);
 }
