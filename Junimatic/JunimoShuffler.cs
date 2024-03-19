@@ -30,7 +30,7 @@ namespace NermNermNerm.Junimatic
         public JunimoShuffler(JunimoAssignment assignment, WorkFinder workFinder)
             : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin.ToVector2()*64, 2, "Junimo")
         {
-            this.color.Value = assignment.projectType switch { JunimoType.MiningProcessing => Color.Tan, _ => Color.Aqua };
+            this.color.Value = assignment.projectType switch { JunimoType.MiningProcessing => Color.Tan, JunimoType.Animals => Color.PapayaWhip, _ => Color.Chartreuse };
             this.currentLocation = assignment.hut.Location;
             this.nextPosition = this.GetBoundingBox();
             this.Breather = false;
