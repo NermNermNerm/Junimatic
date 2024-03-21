@@ -10,8 +10,10 @@ namespace NermNermNerm.Junimatic
     ///   This represents all the game content related to enabling the Junimo that
     ///   works Kegs, Casks and JellyJamJar machines.
     /// </summary>
-    public class UnlockCropMachines
+    public class UnlockCropMachines : ISimpleLog
     {
+        private ModEntry mod = null!;
+
         public UnlockCropMachines() { }
 
         private const string GiantCropCelebrationEventId = "Junimatic.CropMachineHelper.GiantCropCelebration";
@@ -22,16 +24,17 @@ namespace NermNermNerm.Junimatic
 
         public const string ConversationKeyBigCrops = "Junimatic.BigCrops";
 
-        public void Entry(IModHelper helper)
+        public void Entry(ModEntry mod)
         {
-            helper.Events.Content.AssetRequested += this.OnAssetRequested;
+            mod.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
+
             Event.RegisterPrecondition(EventCustomConditionGiantCropIsGrowingOnFarm, this.GiantCropIsGrowingOnFarm);
             Event.RegisterCommand(EventCustomCommandFocusOnGiantCrop, this.FocusOnGiantCrop);
             Event.RegisterCommand(EventCustomCommandSpringJunimosFromCrop, this.SpringJunimosFromCrop);
             Event.RegisterCommand(EventCustomCommandJunimosDisappear, this.JunimosDisappear);
         }
 
-        public bool IsUnlocked() => Game1.MasterPlayer.eventsSeen.Contains(GiantCropCelebrationEventId);
+        public bool IsUnlocked => Game1.MasterPlayer.eventsSeen.Contains(GiantCropCelebrationEventId);
 
         private bool GiantCropIsGrowingOnFarm(GameLocation location, string eventId, string[] args)
             => location.resourceClumps.OfType<GiantCrop>().Any();
@@ -104,7 +107,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     var d = editor.AsDictionary<string, string>().Data;
-                    d[$"{GiantCropCelebrationEventId}/sawEvent {ObjectIds.JunimoPortalDiscoveryEvent}/{EventCustomConditionGiantCropIsGrowingOnFarm}"] = $@"playful/
+                    d[$"{GiantCropCelebrationEventId}/sawEvent {UnlockPortal.JunimoPortalDiscoveryEvent}/{EventCustomConditionGiantCropIsGrowingOnFarm}"] = $@"playful/
 -1000 -1000/
 farmer 8 24 0/
 skippable/
@@ -158,6 +161,11 @@ end
                 });
             }
             // Penny talking about melons?  Doesn't seem quite right somehow.
+        }
+
+        public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
+        {
+            this.mod.WriteToLog(message, level, isOnceOnly);
         }
     }
 }

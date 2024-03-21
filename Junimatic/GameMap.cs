@@ -77,7 +77,7 @@ namespace NermNermNerm.Junimatic
 
         public IEnumerable<StardewValley.Object> GetPortals()
         {
-            return this.location.objects.Values.Where(o => o.ItemId == ObjectIds.JunimoPortal);
+            return this.location.objects.Values.Where(o => o.ItemId == UnlockPortal.JunimoPortal);
         }
 
         /// <summary>

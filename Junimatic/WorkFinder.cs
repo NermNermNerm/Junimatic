@@ -1,17 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.Buildings;
-using StardewValley.GameData.Machines;
-using StardewValley.Objects;
-using StardewValley.TerrainFeatures;
-using static StardewValley.Menus.CharacterCustomization;
 
 
 namespace NermNermNerm.Junimatic
@@ -121,12 +113,14 @@ namespace NermNermNerm.Junimatic
 
         private Dictionary<JunimoType, int> GetNumUnlockedJunimos()
         {
-            var result = new Dictionary<JunimoType, int>();
-            result.Add(JunimoType.CropProcessing, this.mod.CropMachineHelperQuest.IsUnlocked() ? 1 : 0);
-
-            // TODO: Fix after refactor to classes
-            result.Add(JunimoType.MiningProcessing, Game1.MasterPlayer.eventsSeen.Contains(ObjectIds.MiningJunimoDreamEvent) ? 1 : 0);
-            result.Add(JunimoType.Animals, Game1.MasterPlayer.eventsSeen.Contains(ObjectIds.AnimalJunimoDreamEvent) ? 1 : 0);
+            var result = new Dictionary<JunimoType, int>
+            {
+                { JunimoType.CropProcessing, this.mod.CropMachineHelperQuest.IsUnlocked ? 1 : 0 },
+                { JunimoType.MiningProcessing, this.mod.UnlockMiner.IsUnlocked ? 1 : 0 },
+                { JunimoType.Animals, this.mod.UnlockAnimal.IsUnlocked ? 1 : 0 },
+                { JunimoType.Fishing, 0 },
+                { JunimoType.Forestry, 0 }
+            };
             return result;
         }
 

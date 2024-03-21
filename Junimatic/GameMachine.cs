@@ -18,10 +18,7 @@ namespace NermNermNerm.Junimatic
         }
 
         internal static GameMachine? TryCreate(Object item, Point accessPoint)
-        {
-            // TODO: Use MachineData to figure this out.  Also do IsCompatibleWithJunimo
-            return new string[] { "Furnace", "Keg", "Cask", "Preserves Jar", "Mayonnaise Machine", "Loom", "Cheese Press" }.Any(s => s == item.Name) ? new GameMachine(item, accessPoint) : null;
-        }
+            => item.GetMachineData() is null ? null : new GameMachine(item, accessPoint);
 
         public virtual bool IsIdle => this.machine.heldObject.Value is null && this.machine.MinutesUntilReady == 0;
 
@@ -35,6 +32,11 @@ namespace NermNermNerm.Junimatic
             var result = this.machine.heldObject.Value;
             this.machine.heldObject.Value = null;
             this.machine.readyForHarvest.Value = false;
+            if (this.machine.ItemId == "21")
+            {
+                // Crystallarium - if we don't do this, the crystalarium just shuts down.
+                this.machine.PlaceInMachine(this.machine.GetMachineData(), result, false, Game1.player, false, false);
+            }
             return result;
         }
 
@@ -42,8 +44,13 @@ namespace NermNermNerm.Junimatic
         {
             if (this.machine.heldObject.Value is not null && storage.TryStore(this.machine.heldObject.Value))
             {
+                var oldGem = this.machine.heldObject.Value;
                 this.machine.heldObject.Value = null;
                 this.machine.readyForHarvest.Value = false;
+                if (this.machine.ItemId == "21")
+                {
+                    this.machine.PlaceInMachine(this.machine.GetMachineData(), oldGem, false, Game1.player, false, false);
+                }
                 return true;
             }
             else
@@ -59,6 +66,11 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public virtual List<Item>? GetRecipeFromChest(GameStorage storage)
         {
+            if (this.machine.ItemId == "21") // Never feed crystalariums
+            {
+                return null;
+            }
+
             var machineData = this.machine.GetMachineData();
             var inputs = new List<Item>();
 
@@ -79,7 +91,7 @@ namespace NermNermNerm.Junimatic
                     var sourceInventory = storage.RawInventory;
                     var possibleItem = sourceInventory
                         .FirstOrDefault(i => trigger.RequiredItemId is not null && i.QualifiedItemId == trigger.RequiredItemId
-                                 || trigger.RequiredTags is not null && trigger.RequiredTags.Any(tag => i.HasContextTag(tag)));
+                                 || trigger.RequiredTags is not null && trigger.RequiredTags.All(tag => i.HasContextTag(tag)));
                     if (possibleItem is not null && (possibleItem.Stack >= trigger.RequiredCount || sourceInventory.Where(i => i.itemId == possibleItem.itemId).Sum(i => i.Stack) > trigger.RequiredCount))
                     {
                         inputs.Add(ItemRegistry.Create(possibleItem.ItemId, trigger.RequiredCount));
@@ -104,24 +116,107 @@ namespace NermNermNerm.Junimatic
         public virtual bool FillMachineFromInventory(Inventory inventory)
             => this.machine.AttemptAutoLoad(inventory, Game1.MasterPlayer);
 
+        private static Dictionary<string,bool> cachedCompatList = new Dictionary<string,bool>();
+
         /// <summary>
         ///   Returns true if the machine has a recipe that the Junimo can do.
         /// </summary>
         public bool IsCompatibleWithJunimo(JunimoType projectType)
         {
-            // TODO: Make generic.
-            if (this.machine.Name == "Furnace" && projectType == JunimoType.MiningProcessing)
+            string cacheKey = this.machine.ItemId + ":" + projectType.ToString();
+            if (cachedCompatList.TryGetValue(cacheKey, out bool result))
             {
-                return true;
+                return result;
             }
-            if ((this.machine.Name == "Keg" || this.machine.Name == "Cask" || this.machine.Name == "Preserves Jar") && projectType == JunimoType.CropProcessing)
+
+            result = this.IsCompatibleWithJunimoNoCache(projectType);
+            cachedCompatList[cacheKey] = result;
+            return result;
+        }
+
+        private bool IsCompatibleWithJunimoNoCache(JunimoType projectType)
+        {
+            // The MachineData contains clues as to what the assignments should be, but it's definitely fuzzy.
+            // The game's notion of "category" is largely a matter of taste and isn't really consistent, and
+            // this mod's notion of categorization is also just a matter of taste.  By using categories, we're
+            // just trying to make it so there's a fighting chance for getting it right for mods without having
+            // to do special configuration.
+
+            // Special cases.
+            switch (this.machine.ItemId)
             {
-                return true;
+                case "12": // keg
+                    return projectType == JunimoType.CropProcessing; // Otherwise it'll return true for Animals, because there's a recipe (forget which) that involves animal stuff.
+                case "25": // seed maker
+                    return projectType == JunimoType.CropProcessing; // There's no data at all in its MachineData.
+                case "211":
+                    return projectType == JunimoType.Forestry; // Else it gets to thinking that fishing would work.
+                case "10": // bee house
+                    return projectType == JunimoType.Animals; // no good data
+                case "154": // worm bin
+                    return projectType == JunimoType.Fishing; // The output item makes it perfectly clear, but it's the only thing where OutputItem would add value.
+                case "231": // solar panel
+                case "9": // lightning rod
+                    return projectType == JunimoType.MiningProcessing; // no good data
+                case "105":
+                case "264":
+                    return projectType == JunimoType.Forestry; // no good data
             }
-            if ((this.machine.Name == "Mayonnaise Machine" || this.machine.Name == "Cheese Press" || this.machine.Name == "Loom") && projectType == JunimoType.Animals)
+
+            // TODO: Add configurable special cases.
+
+            string[][] tags = [
+                ["category_minerals", "category_gem", "bone_item"],
+                ["egg_item", "large_egg_item", "slime_egg_item"],
+                ["category_vegetable", "category_fruit", "keg_wine", "preserves_pickle", "preserves_jelly"],
+                [], // there just aren't any tags for fish or wood stuff listed
+                []]
+                ;
+
+            int[][] categories = [
+                [StardewValley.Object.GemCategory, StardewValley.Object.mineralsCategory, StardewValley.Object.metalResources, StardewValley.Object.monsterLootCategory],
+                [StardewValley.Object.EggCategory, StardewValley.Object.MilkCategory, StardewValley.Object.meatCategory, StardewValley.Object.sellAtPierresAndMarnies /* wool, duck feather, etc. */, StardewValley.Object.artisanGoodsCategory],
+                [StardewValley.Object.VegetableCategory, StardewValley.Object.FruitsCategory, StardewValley.Object.SeedsCategory, StardewValley.Object.flowersCategory, StardewValley.Object.fertilizerCategory, StardewValley.Object.artisanGoodsCategory],
+                [StardewValley.Object.junkCategory, StardewValley.Object.baitCategory],
+                [StardewValley.Object.buildingResources]
+                ];
+
+            var machineData = this.machine.GetMachineData();
+            if (machineData.OutputRules is not null)
             {
-                return true;
+                foreach (var rule in machineData.OutputRules)
+                {
+                    foreach (var trigger in rule.Triggers)
+                    {
+                        if (trigger.RequiredTags is not null && trigger.RequiredTags.Intersect(tags[(int)projectType]).Any())
+                        {
+                            return true;
+                        }
+
+                        if (trigger.RequiredItemId is not null)
+                        {
+                            var itemData = ItemRegistry.GetData(trigger.RequiredItemId);
+                            if (categories[(int)projectType].Contains(itemData.Category))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
+
+            //if (this.machine.Name == "Furnace" && projectType == JunimoType.MiningProcessing)
+            //{
+            //    return true;
+            //}
+            //if ((this.machine.Name == "Keg" || this.machine.Name == "Cask" || this.machine.Name == "Preserves Jar") && projectType == JunimoType.CropProcessing)
+            //{
+            //    return true;
+            //}
+            //if ((this.machine.Name == "Mayonnaise Machine" || this.machine.Name == "Cheese Press" || this.machine.Name == "Loom") && projectType == JunimoType.Animals)
+            //{
+            //    return true;
+            //}
             return false;
         }
 
