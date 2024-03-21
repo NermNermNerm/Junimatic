@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.GameData.Machines;
 using StardewValley.Inventories;
 
 namespace NermNermNerm.Junimatic
@@ -74,13 +75,15 @@ namespace NermNermNerm.Junimatic
             var machineData = this.machine.GetMachineData();
             var inputs = new List<Item>();
 
+            var sourceInventory = storage.RawInventory;
             // Ensure it has the coal (aka all the 'AdditionalConsumedItems')
             if (machineData.AdditionalConsumedItems is not null)
             {
-                if (!machineData.AdditionalConsumedItems.All(consumedItem => storage.RawInventory.Any(chestItem => chestItem.QualifiedItemId == consumedItem.ItemId && chestItem.Stack >= consumedItem.RequiredCount)))
+                if (!MachineDataUtility.HasAdditionalRequirements(sourceInventory, machineData.AdditionalConsumedItems, out _))
                 {
                     return null;
                 }
+
                 inputs.AddRange(machineData.AdditionalConsumedItems.Select(i => ItemRegistry.Create(i.ItemId, i.RequiredCount)));
             }
 
@@ -88,14 +91,13 @@ namespace NermNermNerm.Junimatic
             {
                 foreach (var trigger in rule.Triggers)
                 {
-                    var sourceInventory = storage.RawInventory;
-                    var possibleItem = sourceInventory
-                        .FirstOrDefault(i => trigger.RequiredItemId is not null && i.QualifiedItemId == trigger.RequiredItemId
-                                 || trigger.RequiredTags is not null && trigger.RequiredTags.All(tag => i.HasContextTag(tag)));
-                    if (possibleItem is not null && (possibleItem.Stack >= trigger.RequiredCount || sourceInventory.Where(i => i.itemId == possibleItem.itemId).Sum(i => i.Stack) > trigger.RequiredCount))
+                    foreach (var item in sourceInventory)
                     {
-                        inputs.Add(ItemRegistry.Create(possibleItem.ItemId, trigger.RequiredCount));
-                        return inputs;
+                        if (MachineDataUtility.CanApplyOutput(this.machine, rule, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.machine.Location, out var triggerRule, out _))
+                        {
+                            inputs.Add(ItemRegistry.Create(item.ItemId, trigger.RequiredCount));
+                            return inputs;
+                        }
                     }
                 }
             }
