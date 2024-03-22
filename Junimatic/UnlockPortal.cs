@@ -219,7 +219,7 @@ end warpOut";
         {
             if (Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal) && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_AlertedPlayer) && !Game1.isRaining)
             {
-                Game1.addHUDMessage(new HUDMessage("That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!"));
+                Game1.addHUDMessage(new HUDMessage("That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!") {  noIcon = true });
                 Game1.MasterPlayer.modData[ModDataKey_AlertedPlayer] = Game1.Date.TotalDays.ToString();
             }
         }

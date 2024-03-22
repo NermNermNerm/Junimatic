@@ -26,7 +26,7 @@ namespace NermNermNerm.Junimatic
         {
             this.mod = mod;
 
-            this.mod.Helper.Events.Content.AssetRequested += this.Content_AssetRequested; ;
+            this.mod.Helper.Events.Content.AssetRequested += this.Content_AssetRequested;
             this.mod.Helper.Events.Player.Warped += this.Player_Warped;
             this.mod.Helper.Events.Player.InventoryChanged += this.Player_InventoryChanged;
         }
