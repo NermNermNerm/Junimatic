@@ -41,7 +41,7 @@ namespace NermNermNerm.Junimatic
 
         internal static GameStorage? TryCreate(StardewValley.Object item, Point accessPoint)
         {
-            if (item is Chest chest && (chest.SpecialChestType == Chest.SpecialChestTypes.None || chest.SpecialChestType == Chest.SpecialChestTypes.JunimoChest))
+            if (item is Chest chest && (chest.SpecialChestType == Chest.SpecialChestTypes.None || chest.SpecialChestType == Chest.SpecialChestTypes.JunimoChest || chest.SpecialChestType == Chest.SpecialChestTypes.BigChest))
             {
                 return new GameStorage(item, accessPoint);
             }

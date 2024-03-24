@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.TerrainFeatures;
 
 namespace NermNermNerm.Junimatic
 {
@@ -56,6 +52,7 @@ namespace NermNermNerm.Junimatic
             {
                 var targetPoint = direction + portal.TileLocation.ToPoint();
                 string? floorIdAt = FlooringSet.getFlooringId(this.location, targetPoint);
+
                 if (floorIdAt is not null)
                 {
                     tilesWithFloors.Add(targetPoint);
@@ -79,30 +76,5 @@ namespace NermNermNerm.Junimatic
         {
             return this.location.objects.Values.Where(o => o.ItemId == UnlockPortal.JunimoPortal);
         }
-
-        /// <summary>
-        ///   Gets an identifier for the floor-tile at the coordinate if the tile is indeed on a floor tile.
-        /// </summary>
-        /// <returns>
-        ///   null if there's not a walkable tile at that spot, else an identifier for the type of floor it is.
-        ///   The identifier isn't guaranteed to be an itemid or anything, just unique to the floor type.
-        /// </returns>
-        private string? getFlooringId(GameLocation l, Vector2 tile)
-        {
-            l.terrainFeatures.TryGetValue(tile, out var terrainFeatures);
-            if (terrainFeatures is Flooring flooring)
-            {
-                return flooring.whichFloor.Value;
-            }
-            else if (!l.IsOutdoors && l.isTilePassable(tile) && l.isTilePlaceable(tile) && l.getObjectAtTile((int)tile.X, (int)tile.Y) is null)
-            {
-                return "#BARE_FLOOR#";
-            }
-            else
-            {
-                return null;
-            }
-        }
-
     }
 }

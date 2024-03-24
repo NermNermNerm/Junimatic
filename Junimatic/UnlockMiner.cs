@@ -40,6 +40,7 @@ namespace NermNermNerm.Junimatic
                 if (e.Player.IsMainPlayer)
                 {
                     e.Player.addQuest(JunimoChrysalisToWizardQuest);
+                    e.Player.modData[HasGottenJunimoChrysalisDrop] = "true";
                 }
                 else
                 {

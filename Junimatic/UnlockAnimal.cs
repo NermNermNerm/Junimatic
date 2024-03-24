@@ -60,7 +60,7 @@ namespace NermNermNerm.Junimatic
 
         private void EditForestEvents(IDictionary<string,string> eventData)
         {
-            eventData[$"{LostJunimoDiscoveryEvent}/sawEvent {MarnieSeesChickenJunimoEvent}/time 600 1700"]
+            eventData[$"{LostJunimoDiscoveryEvent}/sawEvent {MarnieSeesChickenJunimoEvent}/time 600 1900"]
                 = $@"sadpiano/
 -2000 -2000/
 farmer 90 60 2 Junimo 95 72 3/
@@ -101,7 +101,7 @@ advancedMove Junimo false 5 0/
 pause 1500/
 message ""Maybe a Junimo Portal would help it find its way home.""/
 end/";
-            eventData[$"{DropPortalForJunimoEvent}/sawEvent {LostJunimoDiscoveryEvent}/time 600 1700/i (BC){UnlockPortal.JunimoPortal}"]
+            eventData[$"{DropPortalForJunimoEvent}/sawEvent {LostJunimoDiscoveryEvent}/time 600 1900/i (BC){UnlockPortal.JunimoPortal}"]
     = $@"sadpiano/
 -2000 -2000/
 farmer 90 60 2 Junimo 89 72 3 Marnie 87 48 2/

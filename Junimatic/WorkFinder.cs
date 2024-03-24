@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
@@ -44,15 +45,41 @@ namespace NermNermNerm.Junimatic
             }
         }
 
+        private int timeOfDayAtLastCheck = -1;
+        private int numActionsAtThisGameTime;
+
+        // 10 minutes in SDV takes 7.17 seconds of real time.  So our setting of 3 means
+        //  that we assume that junimo actions take about 2 seconds to do.
+        private const int numActionsPerTenMines = 3;
+
         private void GameLoop_OneSecondUpdateTicked(object? sender, StardewModdingAPI.Events.OneSecondUpdateTickedEventArgs e)
         {
-            bool isAutomationInterval = e.IsMultipleOf(TickIntervalBetweenAutomatedActions);
-            bool isAnimatedInterval = e.IsMultipleOf(TickIntervalBetweenChecksForVisibleActions);
-
-            if (isAutomationInterval || isAnimatedInterval)
+            if (!Context.IsWorldReady || Game1.isTimePaused)
             {
-                // this.DoJunimos(isAutomationInterval);
+                return;
             }
+
+            // timeOfDay is the time as shown by the game's clock.  740 means 7:40AM. 1920 means 7:20PM.
+            //   I don't see how to get a more granular time than that.  The ticks given in the event args
+            //   proceed whether the game is moving along or not.
+            // currentTime is simply how much playtime has happened - perhaps it just synchronizes games?
+            //
+            if (this.timeOfDayAtLastCheck != Game1.timeOfDay)
+            {
+                this.timeOfDayAtLastCheck = Game1.timeOfDay;
+                this.numActionsAtThisGameTime = 0;
+            }
+            else
+            {
+                ++this.numActionsAtThisGameTime;
+            }
+
+            if (this.numActionsAtThisGameTime >= numActionsPerTenMines)
+            {
+                return;
+            }
+
+            this.DoJunimos(true);
         }
 
         private void DoJunimos(bool isAutomationInterval)
@@ -75,6 +102,7 @@ namespace NermNermNerm.Junimatic
             HashSet<GameLocation> animatedLocations = new HashSet<GameLocation>(Game1.getOnlineFarmers().Select(f => f.currentLocation));
             foreach (GameLocation location in animatedLocations)
             {
+                this.cachedNetworks.Remove(location);
                 foreach (var portal in new GameMap(location).GetPortals())
                 {
                     foreach (var junimoType in Enum.GetValues<JunimoType>())
@@ -95,7 +123,11 @@ namespace NermNermNerm.Junimatic
 
             if (isAutomationInterval)
             {
-                foreach (GameLocation location in Game1.locations.Where(l => !animatedLocations.Contains(l)))
+                var allLocations = Game1.locations
+                    .Union(Game1.getFarm().buildings.Select(b => b.indoors.Value).Where(l => l is not null).Select(l => l!))
+                    .Where(l => !animatedLocations.Contains(l));
+                
+                foreach (GameLocation location in allLocations)
                 {
                     foreach (var junimoType in Enum.GetValues<JunimoType>())
                     {
@@ -186,6 +218,8 @@ namespace NermNermNerm.Junimatic
 
         private List<MachineNetwork> BuildNetwork(GameLocation location)
         {
+            var watch = Stopwatch.StartNew();
+
             var map = new GameMap(location);
             var result = new List<MachineNetwork>();
             var portals = map.GetPortals();
@@ -193,7 +227,8 @@ namespace NermNermNerm.Junimatic
             {
                 var machines = new Dictionary<JunimoType, List<GameMachine>>(Enum.GetValues<JunimoType>().Select(e => new KeyValuePair<JunimoType, List<GameMachine>>(e, new List<GameMachine>())));
                 var chests = new List<GameStorage>();
-                var visitedTiles = new HashSet<Point>();
+                var checkedForWorkTiles = new HashSet<Point>();
+                var walkedTiles = new HashSet<Point>();
 
                 map.GetStartingInfo(portal, out var startingPoints, out var walkableFloorTypes);
 
@@ -204,7 +239,7 @@ namespace NermNermNerm.Junimatic
 
                     while (tilesToInvestigate.TryDequeue(out var reachableTile))
                     {
-                        if (visitedTiles.Contains(reachableTile))
+                        if (walkedTiles.Contains(reachableTile))
                         {
                             continue;
                         }
@@ -212,7 +247,7 @@ namespace NermNermNerm.Junimatic
                         foreach (var direction in reachableDirections)
                         {
                             var adjacentTile = reachableTile + direction;
-                            if (visitedTiles.Contains(adjacentTile))
+                            if (checkedForWorkTiles.Contains(adjacentTile))
                             {
                                 continue;
                             }
@@ -222,7 +257,7 @@ namespace NermNermNerm.Junimatic
                             if (storage is not null)
                             {
                                 chests.Add(storage);
-                                visitedTiles.Add(adjacentTile);
+                                checkedForWorkTiles.Add(adjacentTile);
                             }
                             else if (machine is not null)
                             {
@@ -233,7 +268,7 @@ namespace NermNermNerm.Junimatic
                                         machines[junimoType].Add(machine);
                                     }
                                 }
-                                visitedTiles.Add(adjacentTile);
+                                checkedForWorkTiles.Add(adjacentTile);
                             }
                             else if (isWalkable)
                             {
@@ -241,17 +276,19 @@ namespace NermNermNerm.Junimatic
                             }
                             else
                             {
-                                visitedTiles.Add(adjacentTile);
+                                checkedForWorkTiles.Add(adjacentTile);
                             }
                         }
 
-                        visitedTiles.Add(reachableTile);
+                        checkedForWorkTiles.Add(reachableTile);
+                        walkedTiles.Add(reachableTile);
                     }
 
                     result.Add(new MachineNetwork(machines.ToDictionary(pair => pair.Key, pair => (IReadOnlyList<GameMachine>)pair.Value), chests));
                 }
             }
 
+            this.LogTrace($"WorkFinder.BuildNetwork for {location.DisplayName} took {watch.ElapsedMilliseconds}ms");
             return result;
         }
 
