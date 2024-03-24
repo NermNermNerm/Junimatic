@@ -288,7 +288,11 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            this.LogTrace($"WorkFinder.BuildNetwork for {location.DisplayName} took {watch.ElapsedMilliseconds}ms");
+            long elapsedMs = watch.ElapsedMilliseconds;
+            if (elapsedMs > 0)
+            {
+                this.LogInfo($"WorkFinder.BuildNetwork for {location.Name} took {watch.ElapsedMilliseconds}ms");
+            }
             return result;
         }
 
