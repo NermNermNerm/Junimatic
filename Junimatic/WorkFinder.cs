@@ -253,7 +253,6 @@ namespace NermNermNerm.Junimatic
                             }
 
                             map.GetThingAt(adjacentTile, reachableTile, walkableFloorTypes, out bool isWalkable, out var machine, out var storage);
-                            isWalkable &= direction.X == 0 || direction.Y == 0; // only really walkable if it's not on a diagonal from where we are.
                             if (storage is not null)
                             {
                                 chests.Add(storage);
@@ -270,11 +269,11 @@ namespace NermNermNerm.Junimatic
                                 }
                                 checkedForWorkTiles.Add(adjacentTile);
                             }
-                            else if (isWalkable)
+                            else if (isWalkable && (direction.X == 0 || direction.Y == 0)) // && is not on a diagonal
                             {
                                 tilesToInvestigate.Enqueue(adjacentTile);
                             }
-                            else
+                            else if (!isWalkable)
                             {
                                 checkedForWorkTiles.Add(adjacentTile);
                             }
