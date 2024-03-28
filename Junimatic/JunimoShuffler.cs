@@ -267,10 +267,6 @@ namespace NermNermNerm.Junimatic
             base.update(time, location);
 
             this.forceUpdateTimer = 99999;
-            if (this.eventActor)
-            {
-                return;
-            }
 
             if (this.destroy)
             {
