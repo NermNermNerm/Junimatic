@@ -35,6 +35,18 @@ namespace NermNermNerm.Junimatic
             this.mod = mod;
             mod.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
             mod.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
+            mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
+        }
+
+        private void GameLoop_DayEnding(object? sender, StardewModdingAPI.Events.DayEndingEventArgs e)
+        {
+            foreach (var location in Game1.locations)
+            {
+                foreach (var junimo in location.characters.OfType<JunimoShuffler>().ToArray())
+                {
+                    junimo.OnDayEnding(location);
+                }
+            }
         }
 
         private void Input_ButtonPressed(object? sender, StardewModdingAPI.Events.ButtonPressedEventArgs e)
