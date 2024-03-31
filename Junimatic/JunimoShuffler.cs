@@ -18,8 +18,6 @@ namespace NermNermNerm.Junimatic
     {
         private float alpha = 1f;
         private float alphaChange;
-        private Vector2 motion = Vector2.Zero;
-        private new Rectangle nextPosition;
         private readonly NetColor color = new NetColor();
         private bool destroy;
         private readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
@@ -29,7 +27,6 @@ namespace NermNermNerm.Junimatic
 
         public JunimoShuffler()
         {
-            this.nextPosition = this.GetBoundingBox();
             this.Breather = false;
             this.speed = 3;
             this.forceUpdateTimer = 9999;
@@ -49,7 +46,6 @@ namespace NermNermNerm.Junimatic
         {
             this.color.Value = assignment.projectType switch { JunimoType.MiningProcessing => Color.Tan, JunimoType.Animals => Color.PapayaWhip, _ => Color.Chartreuse };
             this.currentLocation = assignment.hut.Location;
-            this.nextPosition = this.GetBoundingBox();
             this.Breather = false;
             this.speed = 3;
             this.forceUpdateTimer = 9999;
@@ -193,8 +189,6 @@ namespace NermNermNerm.Junimatic
 
             this.LogTrace($"Junimo returned to its hut {this.assignment}");
             this.controller = null;
-            this.motion.X = 0f;
-            this.motion.Y = -1f;
             this.destroy = true;
         }
 
@@ -215,6 +209,8 @@ namespace NermNermNerm.Junimatic
                 case 0:
                     this.Sprite.CurrentAnimation = null;
                     break;
+
+                // 2-5 are unused, as best as I can figure.
                 case 2:
                     this.Sprite.currentFrame = 0;
                     break;
@@ -227,6 +223,8 @@ namespace NermNermNerm.Junimatic
                 case 5:
                     this.Sprite.currentFrame = 44;
                     break;
+
+                // These are set randomly in Update
                 case 6:
                     this.Sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
                     {
@@ -332,109 +330,33 @@ namespace NermNermNerm.Junimatic
 
             if (Game1.IsMasterGame)
             {
-                if (this.alpha > 0f && this.controller == null)
+                if (Game1.random.NextDouble() < 0.002)
                 {
-                    if ((this.addedSpeed > 0f || base.speed > 3 || this.isCharging) && Game1.IsMasterGame)
+                    switch (Game1.random.Next(6))
                     {
-                        this.destroy = true;
+                        case 0:
+                            this.netAnimationEvent.Fire(6);
+                            break;
+                        case 1:
+                            this.netAnimationEvent.Fire(7);
+                            break;
+                        case 2:
+                            this.netAnimationEvent.Fire(0);
+                            break;
+                        case 3:
+                            this.jumpWithoutSound();
+                            this.yJumpVelocity /= 2f;
+                            this.netAnimationEvent.Fire(0);
+                            break;
+                        case 5:
+                            this.netAnimationEvent.Fire(8);
+                            break;
                     }
-
-                    this.nextPosition = this.GetBoundingBox();
-                    this.nextPosition.X += (int)this.motion.X;
-                    bool flag = false;
-                    if (!location.isCollidingPosition(this.nextPosition, Game1.viewport, this))
-                    {
-                        this.position.X += (int)this.motion.X;
-                        flag = true;
-                    }
-
-                    this.nextPosition.X -= (int)this.motion.X;
-                    this.nextPosition.Y += (int)this.motion.Y;
-                    if (!location.isCollidingPosition(this.nextPosition, Game1.viewport, this))
-                    {
-                        this.position.Y += (int)this.motion.Y;
-                        flag = true;
-                    }
-
-                    if (!this.motion.Equals(Vector2.Zero) && flag && Game1.random.NextDouble() < 0.005)
-                    {
-                        // TODO: Figure out if this matters - Game1.multiplayer is internal - there's probably a public variant somewhere.
-                        //Game1.multiplayer.broadcastSprites(location, new TemporaryAnimatedSprite(Game1.random.Choose(10, 11), base.Position, color.Value)
-                        //{
-                        //    motion = this.motion / 4f,
-                        //    alphaFade = 0.01f,
-                        //    layerDepth = 0.8f,
-                        //    scale = 0.75f,
-                        //    alpha = 0.75f
-                        //});
-                    }
-
-                    if (Game1.random.NextDouble() < 0.002)
-                    {
-                        switch (Game1.random.Next(6))
-                        {
-                            case 0:
-                                this.netAnimationEvent.Fire(6);
-                                break;
-                            case 1:
-                                this.netAnimationEvent.Fire(7);
-                                break;
-                            case 2:
-                                this.netAnimationEvent.Fire(0);
-                                break;
-                            case 3:
-                                this.jumpWithoutSound();
-                                this.yJumpVelocity /= 2f;
-                                this.netAnimationEvent.Fire(0);
-                                break;
-                            case 4:
-                                {
-                                    //JunimoHut junimoHut2 = home;
-                                    //if (junimoHut2 != null && !junimoHut2.noHarvest)
-                                    //{
-                                    //    pathfindToNewCrop();
-                                    //}
-
-                                    break;
-                                }
-                            case 5:
-                                this.netAnimationEvent.Fire(8);
-                                break;
-                        }
-                    }
-                }
-            }
-
-            bool flag2 = this.moveRight;
-            bool flag3 = this.moveLeft;
-            bool flag4 = this.moveUp;
-            bool flag5 = this.moveDown;
-            if (Game1.IsMasterGame)
-            {
-                if (this.controller == null && this.motion.Equals(Vector2.Zero))
-                {
-                    return;
-                }
-
-                flag2 |= Math.Abs(this.motion.X) > Math.Abs(this.motion.Y) && this.motion.X > 0f;
-                flag3 |= Math.Abs(this.motion.X) > Math.Abs(this.motion.Y) && this.motion.X < 0f;
-                flag4 |= Math.Abs(this.motion.Y) > Math.Abs(this.motion.X) && this.motion.Y < 0f;
-                flag5 |= Math.Abs(this.motion.Y) > Math.Abs( this.motion.X) && this.motion.Y > 0f;
-            }
-            else
-            {
-                flag3 = this.IsRemoteMoving() && this.FacingDirection == 3;
-                flag2 = this.IsRemoteMoving() && this.FacingDirection == 1;
-                flag4 = this.IsRemoteMoving() && this.FacingDirection == 0;
-                flag5 = this.IsRemoteMoving() && this.FacingDirection == 2;
-                if (!flag2 && !flag3 && !flag4 && !flag5)
-                {
-                    return;
                 }
             }
 
             this.Sprite.CurrentAnimation = null;
-            if (flag2)
+            if (this.moveRight)
             {
                 this.flip = false;
                 if (this.Sprite.Animate(time, 16, 8, 50f))
@@ -442,7 +364,7 @@ namespace NermNermNerm.Junimatic
                     this.Sprite.currentFrame = 16;
                 }
             }
-            else if (flag3)
+            else if (this.moveLeft)
             {
                 if (this.Sprite.Animate(time, 16, 8, 50f))
                 {
@@ -451,14 +373,14 @@ namespace NermNermNerm.Junimatic
 
                 this.flip = true;
             }
-            else if (flag4)
+            else if (this.moveUp)
             {
                 if (this.Sprite.Animate(time, 32, 8, 50f))
                 {
                     this.Sprite.currentFrame = 32;
                 }
             }
-            else if (flag5)
+            else if (this.moveDown)
             {
                 this.Sprite.Animate(time, 0, 8, 50f);
             }
