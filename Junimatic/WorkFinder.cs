@@ -40,6 +40,11 @@ namespace NermNermNerm.Junimatic
 
         private void GameLoop_DayEnding(object? sender, StardewModdingAPI.Events.DayEndingEventArgs e)
         {
+            if (!Game1.IsMasterGame)
+            {
+                return;
+            }
+
             foreach (var location in Game1.locations)
             {
                 foreach (var junimo in location.characters.OfType<JunimoShuffler>().ToArray())
@@ -66,7 +71,7 @@ namespace NermNermNerm.Junimatic
 
         private void GameLoop_OneSecondUpdateTicked(object? sender, StardewModdingAPI.Events.OneSecondUpdateTickedEventArgs e)
         {
-            if (!Context.IsWorldReady || Game1.isTimePaused)
+            if (!Context.IsWorldReady || Game1.isTimePaused || !Game1.IsMasterGame)
             {
                 return;
             }
@@ -111,7 +116,7 @@ namespace NermNermNerm.Junimatic
             }
 
             // Try to employ junimos in visible locations first:
-            HashSet<GameLocation> animatedLocations = new HashSet<GameLocation>(Game1.getOnlineFarmers().Select(f => f.currentLocation));
+            HashSet<GameLocation> animatedLocations = new HashSet<GameLocation>(Game1.getOnlineFarmers().Select(f => f.currentLocation).Where(l => l is not null));
             foreach (GameLocation location in animatedLocations)
             {
                 this.cachedNetworks.Remove(location);

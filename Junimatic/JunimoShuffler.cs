@@ -39,6 +39,7 @@ namespace NermNermNerm.Junimatic
 
             this.alpha = 0;
             this.alphaChange = 0.05f;
+            this.LogTrace("Junimo cloned");
         }
 
         public JunimoShuffler(JunimoAssignment assignment, WorkFinder workFinder)
