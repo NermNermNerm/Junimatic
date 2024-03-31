@@ -70,7 +70,7 @@ namespace NermNermNerm.Junimatic
                 }
                 else
                 {
-                    Game1.addHUDMessage(new HUDMessage("Give the strange little structure to the host player - only the host can advance this quest."));
+                    Game1.addHUDMessage(new HUDMessage("Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)") { noIcon = true });
                 }
             }
         }
@@ -144,8 +144,8 @@ namespace NermNermNerm.Junimatic
         {
             eventData[$"{JunimoPortalDiscoveryEvent}/i (O){OldJunimoPortal}"] = $@"WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
 removeQuest {OldJunimoPortalQuest}/
-addConversationTopic {ConversationKeys.JunimosLastTripToMine} 200
-addConversationTopic {UnlockCropMachines.ConversationKeyBigCrops} 200
+addConversationTopic {ConversationKeys.JunimosLastTripToMine} 200/
+addConversationTopic {UnlockCropMachines.ConversationKeyBigCrops} 200/
 setSkipActions MarkCraftingRecipeKnown All {JunimoPortalRecipe}#removeItem (O){OldJunimoPortal}/
 skippable/
 showFrame Wizard 20/

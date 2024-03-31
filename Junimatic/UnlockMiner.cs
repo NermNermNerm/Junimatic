@@ -44,7 +44,7 @@ namespace NermNermNerm.Junimatic
                 }
                 else
                 {
-                    Game1.addHUDMessage(new HUDMessage("Give the strange orb to the host player - only the host can advance this quest."));
+                    Game1.addHUDMessage(new HUDMessage("Give the strange orb to the host player - only the host can advance this quest.  (Put it in a chest for them)") { noIcon = true });
                 }
             }
         }
