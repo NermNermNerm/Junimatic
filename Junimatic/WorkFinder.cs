@@ -144,7 +144,7 @@ namespace NermNermNerm.Junimatic
                     {
                         if (numAvailableJunimos[junimoType] > 0)
                         {
-                            var project = this.FindProject(portal, junimoType, null, null);
+                            var project = this.FindProject(portal, junimoType, null);
                             if (project is not null)
                             {
                                 this.LogTrace($"Starting Animated Junimo for {project}");
@@ -328,7 +328,7 @@ namespace NermNermNerm.Junimatic
             return result;
         }
 
-        public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType, Point? junimoLocation, Point? oldOrigin)
+        public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType, JunimoShuffler? forJunimo)
         {
             // This duplicates the logic in BuildNetwork, except that it's trying to find the closest path and
             // it stops as soon as it cooks up something to do.
@@ -343,13 +343,14 @@ namespace NermNermNerm.Junimatic
             var map = new GameMap(location);
 
             map.GetStartingInfo(portal, out var startingPoints, out var walkableFloorTypes);
-            if (junimoLocation.HasValue)
+            if (forJunimo is not null)
             {
-                startingPoints = new List<Point>() { junimoLocation.Value };
+                startingPoints = new List<Point>() { forJunimo.Tile.ToPoint() };
             }
 
             HashSet<StardewValley.Object> busyMachines = portal.Location.characters
                 .OfType<JunimoShuffler>()
+                .Where(j => j != forJunimo)
                 .Select(junimo =>
                     junimo.Assignment?.source is GameMachine machine
                     ? machine.Machine
@@ -362,7 +363,7 @@ namespace NermNermNerm.Junimatic
 
             foreach (var startingTile in startingPoints)
             {
-                var originTile = oldOrigin ?? startingTile;
+                var originTile = forJunimo?.Assignment?.origin ?? startingTile;
                 var tilesToInvestigate = new Queue<Point>();
                 tilesToInvestigate.Enqueue(startingTile);
 

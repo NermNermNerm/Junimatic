@@ -162,7 +162,7 @@ namespace NermNermNerm.Junimatic
                 l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
             }
 
-            var newAssignment = (new WorkFinder()).FindProject(this.Assignment.hut, this.Assignment.projectType, this.Tile.ToPoint(), this.Assignment.origin);
+            var newAssignment = (new WorkFinder()).FindProject(this.Assignment.hut, this.Assignment.projectType, this);
             if (newAssignment is not null)
             {
                 this.Assignment = newAssignment;
