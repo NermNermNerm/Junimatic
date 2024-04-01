@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
@@ -9,7 +7,6 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Inventories;
 using StardewValley.ItemTypeDefinitions;
-using StardewValley.Objects;
 using StardewValley.Pathfinding;
 
 namespace NermNermNerm.Junimatic
@@ -22,7 +19,6 @@ namespace NermNermNerm.Junimatic
         private bool destroy;
         private readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
         private readonly NetRef<Inventory> carrying = new NetRef<Inventory>(new Inventory());
-        private JunimoAssignment? assignment;
         private readonly WorkFinder? workFinder;
 
         public JunimoShuffler()
@@ -43,7 +39,7 @@ namespace NermNermNerm.Junimatic
         }
 
         public JunimoShuffler(JunimoAssignment assignment, WorkFinder workFinder)
-            : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), assignment.origin.ToVector2()*64, 2, "Junimo")
+            : base(new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), assignment.origin.ToVector2()*64, 2, "Junimo")
         {
             this.color.Value = assignment.projectType switch { JunimoType.MiningProcessing => Color.Tan, JunimoType.Animals => Color.PapayaWhip, _ => Color.Chartreuse };
             this.currentLocation = assignment.hut.Location;
@@ -57,68 +53,68 @@ namespace NermNermNerm.Junimatic
             this.collidesWithOtherCharacters.Value = false;
             this.SimpleNonVillagerNPC = true;
 
-            this.assignment = assignment;
-            this.controller = new PathFindController(this, assignment.hut.Location, assignment.source.AccessPoint, 0, this.junimoReachedSource);
+            this.Assignment = assignment;
+            this.controller = new PathFindController(this, assignment.hut.Location, assignment.source.AccessPoint, 0, this.JunimoReachedSource);
             this.alpha = 0;
             this.alphaChange = 0.05f;
             this.workFinder = workFinder;
-            this.LogTrace($"Junimo created {this.assignment}");
+            this.LogTrace($"Junimo created {this.Assignment}");
         }
+
+        public JunimoAssignment? Assignment { get; private set; }
 
         private Inventory Carrying => this.carrying.Value;
 
-        private void junimoReachedSource(Character c, GameLocation l)
+        private void JunimoReachedSource(Character c, GameLocation l)
         {
-            if (this.assignment is null)
+            if (this.Assignment is null)
             {
-                // TODO: Multiplayer really works like this?
                 return;
             }
 
-            this.LogTrace($"Junimo reached its source {this.assignment}");
+            this.LogTrace($"Junimo reached its source {this.Assignment}");
 
             if (this.Carrying.Count != 0) throw new InvalidOperationException("inventory should be empty here");
 
-            if (this.assignment.source is GameStorage chest)
+            if (this.Assignment.source is GameStorage chest)
             {
-                if (this.assignment.itemsToRemoveFromChest is null) throw new InvalidOperationException("Should have some items to fetch");
+                if (this.Assignment.itemsToRemoveFromChest is null) throw new InvalidOperationException("Should have some items to fetch");
 
                 // Ensure the chest still contains what we need
-                this.assignment.itemsToRemoveFromChest.Reverse(); // <- tidy
+                this.Assignment.itemsToRemoveFromChest.Reverse(); // <- tidy
 
-                if (!chest.TryFulfillShoppingList(this.assignment.itemsToRemoveFromChest!, this.Carrying))
+                if (!chest.TryFulfillShoppingList(this.Assignment.itemsToRemoveFromChest!, this.Carrying))
                 {
                     this.LogTrace($"Assigned chest didn't have needed items");
-                    this.junimoQuitsInDisgust();
+                    this.JunimoQuitsInDisgust();
                     return;
                 }
 
                 l.playSound("pickUpItem"); // Maybe 'openChest' instead?
             }
-            else if (this.assignment.source is GameMachine machine && machine.HeldObject is not null)
+            else if (this.Assignment.source is GameMachine machine && machine.HeldObject is not null)
             {
                 this.Carrying.Add(machine.RemoveHeldObject());
                 l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
             }
             else
             {
-                this.junimoQuitsInDisgust();
+                this.JunimoQuitsInDisgust();
                 return;
             }
 
             // Head to the target
-            this.controller = new PathFindController(this, base.currentLocation, this.assignment.target.AccessPoint, 0, this.junimoReachedTarget);
+            this.controller = new PathFindController(this, base.currentLocation, this.Assignment.target.AccessPoint, 0, this.JunimoReachedTarget);
         }
 
-        private void junimoQuitsInDisgust()
+        private void JunimoQuitsInDisgust()
         {
-            if (this.assignment is null)
+            if (this.Assignment is null)
             {
-                // TODO: Multiplayer really works like this?
                 return;
             }
 
-            this.LogTrace($"Junimo quits {this.assignment}");
+            this.LogTrace($"Junimo quits {this.Assignment}");
             foreach (Item item in this.Carrying)
             {
                 this.TurnIntoDebris(item);
@@ -126,7 +122,7 @@ namespace NermNermNerm.Junimatic
             this.Carrying.Clear();
             this.doEmote(12);
 
-            this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin, 0, this.junimoReachedHut);
+            this.controller = new PathFindController(this, base.currentLocation, this.Assignment.origin, 0, this.JunimoReachedHut);
         }
 
         private void TurnIntoDebris(Item item)
@@ -134,61 +130,59 @@ namespace NermNermNerm.Junimatic
             base.currentLocation.debris.Add(new Debris(item, this.Tile*64));
         }
 
-        private void junimoReachedTarget(Character c, GameLocation l)
+        private void JunimoReachedTarget(Character c, GameLocation l)
         {
-            if (this.assignment is null)
+            if (this.Assignment is null)
             {
-                // TODO: Multiplayer really works like this?
                 return;
             }
 
-            this.LogTrace($"Junimo reached target {this.assignment}");
+            this.LogTrace($"Junimo reached target {this.Assignment}");
 
-            if (this.assignment.target is GameStorage chest)
+            if (this.Assignment.target is GameStorage chest)
             {
                 l.playSound("Ship");
-                // TODO: Put what we're carrying into the chest or huck it overboard if we can't.
+                // Put what we're carrying into the chest or huck it overboard if we can't.
                 if (!chest.TryStore(this.Carrying))
                 {
                     this.LogWarning($"Target {chest} did not have room for {this.Carrying[0].Stack} {this.Carrying[0].Name}");
-                    this.junimoQuitsInDisgust();
+                    this.JunimoQuitsInDisgust();
                     return;
                 }
             }
             else
             {
-                bool isLoaded = ((GameMachine)this.assignment.target).FillMachineFromInventory(this.Carrying);
+                bool isLoaded = ((GameMachine)this.Assignment.target).FillMachineFromInventory(this.Carrying);
                 if (!isLoaded)
                 {
-                    this.LogTrace($"Junimo could not load {this.assignment} - perhaps a player loaded it?");
-                    this.junimoQuitsInDisgust();
+                    this.LogTrace($"Junimo could not load {this.Assignment} - perhaps a player loaded it?");
+                    this.JunimoQuitsInDisgust();
                     return;
                 }
 
                 l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
             }
 
-            var newAssignment = (new WorkFinder()).FindProject(this.assignment.hut, this.assignment.projectType, this.Tile.ToPoint(), this.assignment.origin);
+            var newAssignment = (new WorkFinder()).FindProject(this.Assignment.hut, this.Assignment.projectType, this.Tile.ToPoint(), this.Assignment.origin);
             if (newAssignment is not null)
             {
-                this.assignment = newAssignment;
-                this.controller = new PathFindController(this, this.assignment.hut.Location, this.assignment.source.AccessPoint, 0, this.junimoReachedSource);
+                this.Assignment = newAssignment;
+                this.controller = new PathFindController(this, this.Assignment.hut.Location, this.Assignment.source.AccessPoint, 0, this.JunimoReachedSource);
             }
             else
             {
-                this.controller = new PathFindController(this, base.currentLocation, this.assignment.origin, 0, this.junimoReachedHut);
+                this.controller = new PathFindController(this, base.currentLocation, this.Assignment.origin, 0, this.JunimoReachedHut);
             }
         }
 
-        public void junimoReachedHut(Character c, GameLocation l)
+        public void JunimoReachedHut(Character c, GameLocation l)
         {
-            if (this.assignment is null)
+            if (this.Assignment is null)
             {
-                // TODO: Multiplayer really works like this?
                 return;
             }
 
-            this.LogTrace($"Junimo returned to its hut {this.assignment}");
+            this.LogTrace($"Junimo returned to its hut {this.Assignment}");
             this.controller = null;
             this.destroy = true;
         }
@@ -258,47 +252,28 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        //public override bool shouldCollideWithBuildingLayer(GameLocation location)
-        //{
-        //    return true;
-        //}
-
-        //public override void Halt()
-        //{
-        //    base.Halt();
-        //    this.motion = Vector2.Zero;
-        //}
-
-        // public override bool canTalk() => base.canTalk();
-
-        // public override void faceDirection(int direction) { }
-
-        // protected override void updateSlaveAnimation(GameTime time) { }
-
         public void OnDayEnding(GameLocation location)
         {
-            if (this.workFinder is null || this.assignment is null) // if !mastergame
+            if (this.workFinder is null || this.Assignment is null) // if !mastergame
                 return;
 
             if (this.Carrying.Count > 0)
             {
-                this.junimoReachedTarget(this, location);
+                this.JunimoReachedTarget(this, location);
             }
-            this.workFinder.JunimoWentHome(this.assignment.projectType);
             location.characters.Remove(this);
         }
 
         public override void update(GameTime time, GameLocation location)
         {
-            if (Game1.IsMasterGame && this.controller is null && this.workFinder is not null && this.assignment is not null && !this.destroy)
+            if (Game1.IsMasterGame && this.controller is null && this.workFinder is not null && this.Assignment is not null && !this.destroy)
             {
                 this.workFinder.LogInfo("Junimo returned due to players leaving scene");
                 if (this.Carrying.Count > 0)
                 {
-                    this.junimoReachedTarget(this, location);
+                    this.JunimoReachedTarget(this, location);
                 }
 
-                this.workFinder.JunimoWentHome(this.assignment.projectType);
                 location.characters.Remove(this);
                 return;
             }
@@ -321,10 +296,9 @@ namespace NermNermNerm.Junimatic
             else if (this.alpha < 0f)
             {
                 this.alpha = 0f;
-                if (this.destroy && this.workFinder is not null && this.assignment is not null)
+                if (this.destroy)
                 {
                     location.characters.Remove(this);
-                    this.workFinder.JunimoWentHome(this.assignment.projectType);
                     return;
                 }
             }

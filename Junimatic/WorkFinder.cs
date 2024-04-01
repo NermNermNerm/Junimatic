@@ -17,18 +17,11 @@ namespace NermNermNerm.Junimatic
         /// <summary>The number of Junimos that are being simulated out doing stuff.</summary>
         private readonly Dictionary<JunimoType, int> numAutomatedJumimos = Enum.GetValues<JunimoType>().ToDictionary(t => t, t => 0);
 
-        /// <summary>The number of Junimos that are on-screen doing stuff.</summary>
-        private readonly Dictionary<JunimoType, int> numAnimatedJunimos = Enum.GetValues<JunimoType>().ToDictionary(t => t, t => 0);
-
         private static readonly Point[] walkableDirections = [new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1)];
         private static readonly Point[] reachableDirections = [
             new Point(-1, -1), new Point(0, -1), new Point(1, -1),
             new Point(-1, 0), /*new Point(0, 0),*/ new Point(1, 0),
             new Point(-1, 1), new Point(0, 1), new Point(1, 1)];
-
-
-        private const int TickIntervalBetweenChecksForVisibleActions = 10;
-        private const int TickIntervalBetweenAutomatedActions = 20;
 
         public void Entry(ModEntry mod)
         {
@@ -71,7 +64,13 @@ namespace NermNermNerm.Junimatic
 
         private void GameLoop_OneSecondUpdateTicked(object? sender, StardewModdingAPI.Events.OneSecondUpdateTickedEventArgs e)
         {
-            if (!Context.IsWorldReady || Game1.isTimePaused || !Game1.IsMasterGame)
+            if (!Context.IsWorldReady)
+            {
+                this.cachedNetworks.Clear();
+                return;
+            }
+
+            if (Game1.isTimePaused || !Game1.IsMasterGame)
             {
                 return;
             }
@@ -104,14 +103,25 @@ namespace NermNermNerm.Junimatic
             var numAvailableJunimos = this.GetNumUnlockedJunimos();
             foreach (var junimoType in Enum.GetValues<JunimoType>())
             {
-                numAvailableJunimos[junimoType] -= this.numAnimatedJunimos[junimoType];
                 if (isAutomationInterval)
                 {
                     this.numAutomatedJumimos[junimoType] = 0;
                 }
-                else
+            }
+
+            foreach (var location in Game1.locations)
+            {
+                foreach (var animatedJunimo in location.characters.OfType<JunimoShuffler>())
                 {
-                    numAvailableJunimos[junimoType] -= this.numAutomatedJumimos[junimoType];
+                    if (animatedJunimo.Assignment is null)
+                    {
+                        continue; // Should not happen - Assignment is only null when on a non-master multiplayer game, and we know we're on the master game.
+                    }
+
+                    if (numAvailableJunimos[animatedJunimo.Assignment.projectType] > 0) // Should always be true
+                    {
+                        numAvailableJunimos[animatedJunimo.Assignment.projectType] -= 1;
+                    }
                 }
             }
 
@@ -122,6 +132,7 @@ namespace NermNermNerm.Junimatic
                 this.cachedNetworks.Remove(location);
                 foreach (var portal in new GameMap(location).GetPortals())
                 {
+                    bool junimoCreated = false;
                     foreach (var junimoType in Enum.GetValues<JunimoType>())
                     {
                         if (numAvailableJunimos[junimoType] > 0)
@@ -130,11 +141,13 @@ namespace NermNermNerm.Junimatic
                             if (project is not null)
                             {
                                 this.LogTrace($"Starting Animated Junimo for {project}");
-                                this.numAnimatedJunimos[junimoType] += 1;
                                 location.characters.Add(new JunimoShuffler(project, this));
+                                junimoCreated = true; // Only create one animated junimo per portal per second
                             }
                         }
+                        if (junimoCreated) break;
                     }
+                    if (junimoCreated) break;
                 }
             }
 
@@ -332,6 +345,18 @@ namespace NermNermNerm.Junimatic
                 startingPoints = new List<Point>() { junimoLocation.Value };
             }
 
+            HashSet<StardewValley.Object> busyMachines = portal.Location.characters
+                .OfType<JunimoShuffler>()
+                .Select(junimo =>
+                    junimo.Assignment?.source is GameMachine machine
+                    ? machine.Machine
+                    : (junimo.Assignment?.target is GameMachine targetMachine
+                        ? targetMachine.Machine
+                        : null))
+                .Where(machine => machine is not null)
+                .Select(machine => machine!)
+                .ToHashSet();
+
             foreach (var startingTile in startingPoints)
             {
                 var originTile = oldOrigin ?? startingTile;
@@ -379,7 +404,7 @@ namespace NermNermNerm.Junimatic
                             knownChests.Add(chest);
                             visitedTiles.Add(adjacentTile);
                         }
-                        else if (machine is not null && machine.IsCompatibleWithJunimo(projectType))
+                        else if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.Machine))
                         {
                             if (machine.HeldObject is not null)
                             {
@@ -444,19 +469,6 @@ namespace NermNermNerm.Junimatic
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
         {
             this.mod.WriteToLog(message, level, isOnceOnly);
-        }
-
-        public void JunimoWentHome(JunimoType projectType)
-        {
-            if (this.numAnimatedJunimos[projectType] == 0)
-            {
-                this.LogError($"Animated {projectType} junimo returned, but we have no record of him leaving!");
-            }
-            else
-            {
-                this.LogTrace($"Animated {projectType} junimo returned to the pool");
-                this.numAnimatedJunimos[projectType] -= 1;
-            }
         }
     }
 }

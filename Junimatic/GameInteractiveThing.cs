@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework;
 
 namespace NermNermNerm.Junimatic
 {
-    public class GameInteractiveThing
+    public abstract class GameInteractiveThing
     {
-        public GameInteractiveThing(Point accessPoint)
+        protected GameInteractiveThing(Point accessPoint)
         {
             this.AccessPoint = accessPoint;
         }

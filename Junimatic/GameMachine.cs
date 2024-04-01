@@ -10,47 +10,47 @@ namespace NermNermNerm.Junimatic
     public class GameMachine
         : GameInteractiveThing
     {
-        private readonly Object machine;
-
         internal GameMachine(Object machine, Point accessPoint)
             : base(accessPoint)
         {
-            this.machine = machine;
+            this.Machine = machine;
         }
+
+        public StardewValley.Object Machine { get; }
 
         internal static GameMachine? TryCreate(Object item, Point accessPoint)
             => item.GetMachineData() is null ? null : new GameMachine(item, accessPoint);
 
-        public virtual bool IsIdle => this.machine.heldObject.Value is null && this.machine.MinutesUntilReady == 0;
+        public virtual bool IsIdle => this.Machine.heldObject.Value is null && this.Machine.MinutesUntilReady == 0;
 
-        public virtual Object? HeldObject => this.machine.MinutesUntilReady == 0 ? this.machine.heldObject.Value : null;
+        public virtual Object? HeldObject => this.Machine.MinutesUntilReady == 0 ? this.Machine.heldObject.Value : null;
 
         /// <summary>
         ///   Returns the HeldObject and removes it from the machines.
         /// </summary>
         public Object RemoveHeldObject()
         {
-            var result = this.machine.heldObject.Value;
-            this.machine.heldObject.Value = null;
-            this.machine.readyForHarvest.Value = false;
-            if (this.machine.ItemId == "21")
+            var result = this.Machine.heldObject.Value;
+            this.Machine.heldObject.Value = null;
+            this.Machine.readyForHarvest.Value = false;
+            if (this.Machine.ItemId == "21")
             {
                 // Crystallarium - if we don't do this, the crystalarium just shuts down.
-                this.machine.PlaceInMachine(this.machine.GetMachineData(), result, false, Game1.player, false, false);
+                this.Machine.PlaceInMachine(this.Machine.GetMachineData(), result, false, Game1.player, false, false);
             }
             return result;
         }
 
         public bool TryPutHeldObjectInStorage(GameStorage storage)
         {
-            if (this.machine.heldObject.Value is not null && storage.TryStore(this.machine.heldObject.Value))
+            if (this.Machine.heldObject.Value is not null && storage.TryStore(this.Machine.heldObject.Value))
             {
-                var oldGem = this.machine.heldObject.Value;
-                this.machine.heldObject.Value = null;
-                this.machine.readyForHarvest.Value = false;
-                if (this.machine.ItemId == "21")
+                var oldGem = this.Machine.heldObject.Value;
+                this.Machine.heldObject.Value = null;
+                this.Machine.readyForHarvest.Value = false;
+                if (this.Machine.ItemId == "21")
                 {
-                    this.machine.PlaceInMachine(this.machine.GetMachineData(), oldGem, false, Game1.player, false, false);
+                    this.Machine.PlaceInMachine(this.Machine.GetMachineData(), oldGem, false, Game1.player, false, false);
                 }
                 return true;
             }
@@ -67,12 +67,12 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public virtual List<Item>? GetRecipeFromChest(GameStorage storage)
         {
-            if (this.machine.ItemId == "21") // Never feed crystalariums
+            if (this.Machine.ItemId == "21") // Never feed crystalariums
             {
                 return null;
             }
 
-            var machineData = this.machine.GetMachineData();
+            var machineData = this.Machine.GetMachineData();
             var inputs = new List<Item>();
 
             var sourceInventory = storage.RawInventory;
@@ -93,7 +93,7 @@ namespace NermNermNerm.Junimatic
                 {
                     foreach (var item in sourceInventory)
                     {
-                        if (MachineDataUtility.CanApplyOutput(this.machine, rule, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.machine.Location, out var triggerRule, out _))
+                        if (MachineDataUtility.CanApplyOutput(this.Machine, rule, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var triggerRule, out _))
                         {
                             inputs.Add(ItemRegistry.Create(item.ItemId, trigger.RequiredCount));
                             return inputs;
@@ -110,13 +110,13 @@ namespace NermNermNerm.Junimatic
         ///   succeeds, it returns true and the necessary items are removed.
         /// </summary>
         public virtual bool FillMachineFromChest(GameStorage storage)
-            => this.machine.AttemptAutoLoad(storage.RawInventory, Game1.MasterPlayer);
+            => this.Machine.AttemptAutoLoad(storage.RawInventory, Game1.MasterPlayer);
 
         /// <summary>
         ///   Fills the machine from the supplied Junimo inventory.
         /// </summary>
         public virtual bool FillMachineFromInventory(Inventory inventory)
-            => this.machine.AttemptAutoLoad(inventory, Game1.MasterPlayer);
+            => this.Machine.AttemptAutoLoad(inventory, Game1.MasterPlayer);
 
         private static Dictionary<string,bool> cachedCompatList = new Dictionary<string,bool>();
 
@@ -125,7 +125,7 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public bool IsCompatibleWithJunimo(JunimoType projectType)
         {
-            string cacheKey = this.machine.ItemId + ":" + projectType.ToString();
+            string cacheKey = this.Machine.ItemId + ":" + projectType.ToString();
             if (cachedCompatList.TryGetValue(cacheKey, out bool result))
             {
                 return result;
@@ -145,7 +145,7 @@ namespace NermNermNerm.Junimatic
             // to do special configuration.
 
             // Special cases.
-            switch (this.machine.ItemId)
+            switch (this.Machine.ItemId)
             {
                 case "12": // keg
                     return projectType == JunimoType.CropProcessing; // Otherwise it'll return true for Animals, because there's a recipe (forget which) that involves animal stuff.
@@ -183,7 +183,7 @@ namespace NermNermNerm.Junimatic
                 [StardewValley.Object.buildingResources]
                 ];
 
-            var machineData = this.machine.GetMachineData();
+            var machineData = this.Machine.GetMachineData();
             if (machineData.OutputRules is not null)
             {
                 foreach (var rule in machineData.OutputRules)
@@ -224,7 +224,7 @@ namespace NermNermNerm.Junimatic
 
         public override string ToString()
         {
-            return $"{this.machine.Name} at {this.machine.TileLocation}";
+            return $"{this.Machine.Name} at {this.Machine.TileLocation}";
         }
     }
 }
