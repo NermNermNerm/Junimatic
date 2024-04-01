@@ -89,15 +89,12 @@ namespace NermNermNerm.Junimatic
 
             foreach (var rule in machineData.OutputRules)
             {
-                foreach (var trigger in rule.Triggers)
+                foreach (var item in sourceInventory)
                 {
-                    foreach (var item in sourceInventory)
+                    if (MachineDataUtility.CanApplyOutput(this.Machine, rule, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var triggerRule, out _))
                     {
-                        if (MachineDataUtility.CanApplyOutput(this.Machine, rule, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var triggerRule, out _))
-                        {
-                            inputs.Add(ItemRegistry.Create(item.ItemId, trigger.RequiredCount));
-                            return inputs;
-                        }
+                        inputs.Add(ItemRegistry.Create(item.ItemId, triggerRule.RequiredCount));
+                        return inputs;
                     }
                 }
             }
