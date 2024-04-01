@@ -109,7 +109,14 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            foreach (var location in Game1.locations)
+            var allLocations = Game1.locations
+                .Union(
+                    Game1.getFarm().buildings
+                    .Select(b => b.indoors.Value)
+                    .Where(l => l is not null).Select(l => l!))
+                .ToArray();
+
+            foreach (var location in allLocations)
             {
                 foreach (var animatedJunimo in location.characters.OfType<JunimoShuffler>())
                 {
@@ -153,11 +160,7 @@ namespace NermNermNerm.Junimatic
 
             if (isAutomationInterval)
             {
-                var allLocations = Game1.locations
-                    .Union(Game1.getFarm().buildings.Select(b => b.indoors.Value).Where(l => l is not null).Select(l => l!))
-                    .Where(l => !animatedLocations.Contains(l));
-                
-                foreach (GameLocation location in allLocations)
+                foreach (GameLocation location in allLocations.Where(l => !animatedLocations.Contains(l)))
                 {
                     foreach (var junimoType in Enum.GetValues<JunimoType>())
                     {

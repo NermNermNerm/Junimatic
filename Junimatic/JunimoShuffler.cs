@@ -80,10 +80,9 @@ namespace NermNermNerm.Junimatic
             {
                 if (this.Assignment.itemsToRemoveFromChest is null) throw new InvalidOperationException("Should have some items to fetch");
 
-                // Ensure the chest still contains what we need
                 this.Assignment.itemsToRemoveFromChest.Reverse(); // <- tidy
 
-                if (!chest.TryFulfillShoppingList(this.Assignment.itemsToRemoveFromChest!, this.Carrying))
+                if (!chest.TryFulfillShoppingList(this.Assignment.itemsToRemoveFromChest, this.Carrying))
                 {
                     this.LogTrace($"Assigned chest didn't have needed items");
                     this.JunimoQuitsInDisgust();

@@ -143,8 +143,9 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         /// <returns>True if all the items in <paramref name="shoppingList"/> were transferred to <paramref name="totebag"/>, false if
         /// the chest didn't contain all the things on the list</returns>
-        public bool TryFulfillShoppingList(List<StardewValley.Item> shoppingList, Inventory totebag)
+        public bool TryFulfillShoppingList(List<Item> shoppingList, Inventory totebag)
         {
+            // Ensure enough stuff exists
             var chestInventory = this.RawInventory;
             foreach (var item in shoppingList)
             {
@@ -158,9 +159,10 @@ namespace NermNermNerm.Junimatic
             foreach (var item in shoppingList)
             {
                 int leftToRemove = item.Stack;
+                Item template = null!; // The while loop is guaranteed to be run once because leftToRemove will always be > 1
                 while (leftToRemove > 0)
                 {
-                    var first = chestInventory.First(i => i.ItemId == item.ItemId);
+                    var first = chestInventory.First(i => i is not null && i.Stack > 0 && i.ItemId == item.ItemId);
                     if (first.Stack > item.Stack)
                     {
                         first.Stack -= leftToRemove;
@@ -171,10 +173,15 @@ namespace NermNermNerm.Junimatic
                         leftToRemove -= first.Stack;
                         chestInventory.Remove(first);
                     }
+                    template = first;
                 }
+
+                // Note: This could be make a mistake if there was a case where a machine preserves the quality and
+                //   we actually pulled a mix of different quality items out of the chest.  As of now, there are no
+                //   such machines (stock).  I suspect if there were such machines, they'd be have the same problem.
+                totebag.Add(ItemRegistry.Create(template.QualifiedItemId, item.Stack, template.Quality));
             }
 
-            totebag.AddRange(shoppingList);
             return true;
         }
 
