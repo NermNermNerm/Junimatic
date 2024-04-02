@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.GameData.Machines;
 using StardewValley.Inventories;
+using StardewValley.TerrainFeatures;
 
 namespace NermNermNerm.Junimatic
 {
@@ -23,35 +24,21 @@ namespace NermNermNerm.Junimatic
 
         public virtual bool IsIdle => this.Machine.heldObject.Value is null && this.Machine.MinutesUntilReady == 0;
 
-        public virtual Object? HeldObject => this.Machine.MinutesUntilReady == 0 ? this.Machine.heldObject.Value : null;
+        public virtual Object? HeldObject => this.Machine.readyForHarvest.Value ? this.Machine.heldObject.Value : null;
 
         /// <summary>
         ///   Returns the HeldObject and removes it from the machines.
         /// </summary>
         public Object RemoveHeldObject()
         {
-            var result = this.Machine.heldObject.Value;
-            this.Machine.heldObject.Value = null;
-            this.Machine.readyForHarvest.Value = false;
-            if (this.Machine.ItemId == "21")
-            {
-                // Crystallarium - if we don't do this, the crystalarium just shuts down.
-                this.Machine.PlaceInMachine(this.Machine.GetMachineData(), result, false, Game1.player, false, false);
-            }
-            return result;
+            return this.TakeItemFromMachine();
         }
 
         public bool TryPutHeldObjectInStorage(GameStorage storage)
         {
             if (this.Machine.heldObject.Value is not null && storage.TryStore(this.Machine.heldObject.Value))
             {
-                var oldGem = this.Machine.heldObject.Value;
-                this.Machine.heldObject.Value = null;
-                this.Machine.readyForHarvest.Value = false;
-                if (this.Machine.ItemId == "21")
-                {
-                    this.Machine.PlaceInMachine(this.Machine.GetMachineData(), oldGem, false, Game1.player, false, false);
-                }
+                _ = this.TakeItemFromMachine();
                 return true;
             }
             else
@@ -67,7 +54,7 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public virtual List<Item>? GetRecipeFromChest(GameStorage storage)
         {
-            if (this.Machine.ItemId == "21") // Never feed crystalariums
+            if (this.IsManualFeedMachine)
             {
                 return null;
             }
@@ -87,13 +74,13 @@ namespace NermNermNerm.Junimatic
                 inputs.AddRange(machineData.AdditionalConsumedItems.Select(i => ItemRegistry.Create(i.ItemId, i.RequiredCount)));
             }
 
-            foreach (var rule in machineData.OutputRules)
+            foreach (var item in sourceInventory)
             {
-                foreach (var item in sourceInventory)
+                if (MachineDataUtility.TryGetMachineOutputRule(this.Machine, machineData, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var rule, out var triggerRule, out var ruleIgnoringCount, out var triggerIgnoringCount))
                 {
-                    if (MachineDataUtility.CanApplyOutput(this.Machine, rule, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var triggerRule, out _))
+                    if (rule.OutputItem.Any(machineItemOutput => MachineDataUtility.GetOutputItem(this.Machine, machineItemOutput, item, Game1.MasterPlayer, true, out int? overrideMinutesUntilReady) is not null))
                     {
-                        inputs.Add(ItemRegistry.Create(item.ItemId, triggerRule.RequiredCount));
+                        inputs.Add(ItemRegistry.Create(item.ItemId, amount: triggerRule.RequiredCount, quality: item.Quality));
                         return inputs;
                     }
                 }
@@ -107,13 +94,13 @@ namespace NermNermNerm.Junimatic
         ///   succeeds, it returns true and the necessary items are removed.
         /// </summary>
         public virtual bool FillMachineFromChest(GameStorage storage)
-            => this.Machine.AttemptAutoLoad(storage.RawInventory, Game1.MasterPlayer);
+            => !this.IsManualFeedMachine && this.Machine.AttemptAutoLoad(storage.RawInventory, Game1.MasterPlayer);
 
         /// <summary>
         ///   Fills the machine from the supplied Junimo inventory.
         /// </summary>
         public virtual bool FillMachineFromInventory(Inventory inventory)
-            => this.Machine.AttemptAutoLoad(inventory, Game1.MasterPlayer);
+            => !this.IsManualFeedMachine && this.Machine.AttemptAutoLoad(inventory, Game1.MasterPlayer);
 
         private static Dictionary<string,bool> cachedCompatList = new Dictionary<string,bool>();
 
@@ -133,6 +120,8 @@ namespace NermNermNerm.Junimatic
             return result;
         }
 
+        private bool IsManualFeedMachine => this.Machine.ItemId == "21"; // Crystalarium
+
         private bool IsCompatibleWithJunimoNoCache(JunimoType projectType)
         {
             // The MachineData contains clues as to what the assignments should be, but it's definitely fuzzy.
@@ -148,7 +137,7 @@ namespace NermNermNerm.Junimatic
                     return projectType == JunimoType.CropProcessing; // Otherwise it'll return true for Animals, because there's a recipe (forget which) that involves animal stuff.
                 case "25": // seed maker
                     return projectType == JunimoType.CropProcessing; // There's no data at all in its MachineData.
-                case "211":
+                case "211": // wood chipper
                     return projectType == JunimoType.Forestry; // Else it gets to thinking that fishing would work.
                 case "10": // bee house
                     return projectType == JunimoType.Animals; // no good data
@@ -157,8 +146,8 @@ namespace NermNermNerm.Junimatic
                 case "231": // solar panel
                 case "9": // lightning rod
                     return projectType == JunimoType.MiningProcessing; // no good data
-                case "105":
-                case "264":
+                case "105": // tapper
+                case "264": // heavy tapper
                     return projectType == JunimoType.Forestry; // no good data
             }
 
@@ -169,8 +158,7 @@ namespace NermNermNerm.Junimatic
                 ["egg_item", "large_egg_item", "slime_egg_item"],
                 ["category_vegetable", "category_fruit", "keg_wine", "preserves_pickle", "preserves_jelly"],
                 [], // there just aren't any tags for fish or wood stuff listed
-                []]
-                ;
+                []];
 
             int[][] categories = [
                 [StardewValley.Object.GemCategory, StardewValley.Object.mineralsCategory, StardewValley.Object.metalResources, StardewValley.Object.monsterLootCategory],
@@ -204,19 +192,64 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            //if (this.machine.Name == "Furnace" && projectType == JunimoType.MiningProcessing)
-            //{
-            //    return true;
-            //}
-            //if ((this.machine.Name == "Keg" || this.machine.Name == "Cask" || this.machine.Name == "Preserves Jar") && projectType == JunimoType.CropProcessing)
-            //{
-            //    return true;
-            //}
-            //if ((this.machine.Name == "Mayonnaise Machine" || this.machine.Name == "Cheese Press" || this.machine.Name == "Loom") && projectType == JunimoType.Animals)
-            //{
-            //    return true;
-            //}
             return false;
+        }
+
+        private StardewValley.Object TakeItemFromMachine()
+        {
+            // Adapted from Pathoschild.Stardew.Automate.Framework.Machines.GetOutput
+            StardewValley.Object machine = this.Machine;
+            var result = machine.heldObject.Value;
+            MachineData? machineData = machine.GetMachineData();
+
+            // recalculate output if needed (e.g. bee house honey)
+            if (machine.lastOutputRuleId.Value != null && machineData != null)
+            {
+                MachineOutputRule? outputRule = machineData.OutputRules?.FirstOrDefault(p => p.Id == machine.lastOutputRuleId.Value);
+                if (outputRule?.RecalculateOnCollect == true)
+                {
+                    var prevOutput = machine.heldObject.Value;
+                    machine.heldObject.Value = null;
+
+                    machine.OutputMachine(machineData, outputRule, machine.lastInputItem.Value, null, machine.Location, false);
+
+                    if (machine.heldObject.Value == null)
+                        machine.heldObject.Value = prevOutput;
+                }
+            }
+
+            // get output
+            this.OnOutputCollected(result);
+            return result;
+        }
+
+        private void OnOutputCollected(Item item)
+        {
+            // Adapted from Pathoschild.Stardew.Automate.Framework.Machines.OnOutputCollected
+            StardewValley.Object machine = this.Machine;
+            MachineData? machineData = machine.GetMachineData();
+
+            // update stats
+            MachineDataUtility.UpdateStats(machineData?.StatsToIncrementWhenHarvested, item, item.Stack);
+
+            // reset machine data
+            // This needs to happen before the OutputCollected check, which may start producing a new output.
+            machine.heldObject.Value = null;
+            machine.readyForHarvest.Value = false;
+            machine.showNextIndex.Value = false;
+            machine.ResetParentSheetIndex();
+
+            // apply OutputCollected rule
+            if (MachineDataUtility.TryGetMachineOutputRule(machine, machineData, MachineOutputTrigger.OutputCollected, item.getOne(), null, machine.Location, out MachineOutputRule outputCollectedRule, out _, out _, out _))
+                machine.OutputMachine(machineData, outputCollectedRule, machine.lastInputItem.Value, null, machine.Location, false);
+
+            // update tapper
+            if (machine.IsTapper())
+            {
+                if (machine.Location.terrainFeatures.TryGetValue(machine.TileLocation, out TerrainFeature terrainFeature) && terrainFeature is Tree tree)
+                    tree.UpdateTapperProduct(machine, item as StardewValley.Object);
+            }
+
         }
 
         public override string ToString()
