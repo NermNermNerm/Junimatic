@@ -53,7 +53,7 @@ namespace NermNermNerm.Junimatic
 
         private void Player_Warped(object? sender, WarpedEventArgs e)
         {
-            if (e.NewLocation is MineShaft mine && e.Player.IsMainPlayer && this.mod.UnlockPortalQuest.IsUnlocked() && !this.IsJunimoChyrysalisFound(e.Player))
+            if (e.NewLocation is MineShaft mine && e.Player.IsMainPlayer && this.mod.UnlockPortalQuest.IsUnlocked && !this.IsJunimoChyrysalisFound(e.Player))
             {
                 var bigSlime = mine.characters.OfType<BigSlime>().FirstOrDefault();
                 if (bigSlime is not null)

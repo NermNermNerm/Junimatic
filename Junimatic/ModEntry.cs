@@ -26,6 +26,7 @@ namespace NermNermNerm.Junimatic
         public UnlockCropMachines CropMachineHelperQuest = new UnlockCropMachines();
         public UnlockMiner UnlockMiner = new UnlockMiner();
         public UnlockAnimal UnlockAnimal = new UnlockAnimal();
+        public UnlockForest UnlockForest = new UnlockForest();
 
         private readonly WorkFinder workFinder = new WorkFinder();
 
@@ -41,6 +42,7 @@ namespace NermNermNerm.Junimatic
             this.UnlockPortalQuest.Entry(this);
             this.UnlockMiner.Entry(this);
             this.UnlockAnimal.Entry(this);
+            this.UnlockForest.Entry(this);
             this.workFinder.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;

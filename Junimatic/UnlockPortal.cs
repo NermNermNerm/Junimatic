@@ -58,7 +58,7 @@ namespace NermNermNerm.Junimatic
         }
 
 
-        public bool IsUnlocked() => Game1.MasterPlayer.eventsSeen.Contains(JunimoPortalDiscoveryEvent);
+        public bool IsUnlocked => Game1.MasterPlayer.eventsSeen.Contains(JunimoPortalDiscoveryEvent);
 
         private void Player_InventoryChanged(object? sender, InventoryChangedEventArgs e)
         {

@@ -20,7 +20,7 @@ namespace NermNermNerm.Junimatic
         private const string EventCustomConditionGiantCropIsGrowingOnFarm = "Junimatic.GiantCropIsGrowingOnFarm";
         private const string EventCustomCommandFocusOnGiantCrop = "Junimatic.FocusOnGiantCrop";
         private const string EventCustomCommandSpringJunimosFromCrop = "Junimatic.SpringJunimosFromCrop";
-        private const string EventCustomCommandJunimosDisappear = "Junimatic.JunimosDisappear";
+        public const string EventCustomCommandJunimosDisappear = "Junimatic.JunimosDisappear";
 
         public const string ConversationKeyBigCrops = "Junimatic.BigCrops";
 

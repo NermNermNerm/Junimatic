@@ -184,7 +184,7 @@ namespace NermNermNerm.Junimatic
                 { JunimoType.MiningProcessing, this.mod.UnlockMiner.IsUnlocked ? 1 : 0 },
                 { JunimoType.Animals, this.mod.UnlockAnimal.IsUnlocked ? 1 : 0 },
                 { JunimoType.Fishing, 0 },
-                { JunimoType.Forestry, 0 }
+                { JunimoType.Forestry, this.mod.UnlockForest.IsUnlocked ? 1 : 0 }
             };
             return result;
         }
