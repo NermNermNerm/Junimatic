@@ -148,6 +148,7 @@ namespace NermNermNerm.Junimatic
                     return projectType == JunimoType.MiningProcessing; // no good data
                 case "105": // tapper
                 case "264": // heavy tapper
+                case "MushroomLog":
                     return projectType == JunimoType.Forestry; // no good data
             }
 
