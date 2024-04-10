@@ -28,6 +28,8 @@ namespace NermNermNerm.Junimatic
         private const string SetExitLocationCommand = "Junimatic.SetExitLocation";
         private const string HasDoneIcePipsQuestModDataKey = "Junimatic.HasDoneIcePipsQuest";
 
+        private const string IcePipItemId = "161";
+
         public void Entry(ModEntry mod)
         {
             this.mod = mod;
@@ -63,7 +65,7 @@ namespace NermNermNerm.Junimatic
 
             var f = Game1.currentLocation.furniture;
             var tank = Game1.currentLocation.furniture.OfType<FishTankFurniture>().FirstOrDefault();
-            var iceFishInTank = tank?.heldItems.FirstOrDefault(f => f.ItemId == "161");
+            var iceFishInTank = tank?.heldItems.FirstOrDefault(f => f.ItemId == IcePipItemId);
             var quest = Game1.MasterPlayer.questLog.FirstOrDefault(q => q.id.Value == CatchIcePipsQuest);
             if (tank is null || iceFishInTank is null || quest is null)
             {
@@ -285,8 +287,9 @@ fade unfade
 
 pause 2000
 speak Linus ""I had been having these recurring dreams...  In it, there was somebody like me, but wasn't me...  You know how dreams are.""
-speak Linus ""Anyway, this other me was deep in a cave.  It was a real mess, but the whole community was pitching in to clean it up.""
-speak Linus ""They cleaned it, but there were no fish in it anymore, which made the other me sad.  But then a fish tank appeared!  And then fish started appearing in the fish tank, and the other me started netting them out and releasing them into the pond!""
+speak Linus ""Anyway, this other me was at a pool, deep in a cave.  It was filled with litter, but the whole community was pitching in to clean it up.""
+speak Linus ""They cleaned it, but there were no fish in it anymore, which made the other me sad.""
+speak Linus ""But then a fish tank appeared!  And then fish started appearing in the fish tank, and the other me started netting them out and releasing them into the pond!""
 speak Linus ""As to what happened next, well, you'd best see for yourself.  Please take the elevator down to 60.""
 
 move Linus 0 -2 0 true
@@ -324,9 +327,12 @@ faceDirection farmer 3
 pause 500
 
 speak Linus ""Well, the tank was empty, and I decided I'd try putting a fish in there, so I caught a ghostfish and put it in there.""
+jump Linus
 speak Linus ""AND IT DISAPPEARED!""
 speak Linus ""Poof!""
 speak Linus ""Gone!""
+faceDirection Linus 0
+faceDirection Linus 1
 speak Linus ""So I put in another, and it disappeared too!""
 speak Linus ""Is it going to the world in my dream?  I don't know, but after about half a dozen fish went in there they stopped disappearing.""
 speak Linus ""...But the tank is still here...""
