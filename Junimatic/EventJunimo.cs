@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Netcode;
 using StardewValley;
 using StardewValley.Characters;
@@ -62,6 +63,12 @@ namespace NermNermNerm.Junimatic
             this.firstUpdateTime = null;
             this.starting = this.Position;
             this.targetVector = new Vector2(0,0) - this.targetVector;
+        }
+
+        public override void draw(SpriteBatch b, float alpha = 1f)
+        {
+            base.draw(b, alpha);
+            base.DrawEmote(b);
         }
     }
 }
