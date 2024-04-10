@@ -92,7 +92,7 @@ namespace NermNermNerm.Junimatic
                 else
                 {
                     quest.modData[modDataIndex] = count.ToString(CultureInfo.InvariantCulture);
-                    quest.currentObjective = $"{count} of 6 collected";
+                    quest.currentObjective = $"{count} of 6 teleported";
                 }
             }
             else
