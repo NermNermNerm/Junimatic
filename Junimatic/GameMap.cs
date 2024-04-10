@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Objects;
 
 namespace NermNermNerm.Junimatic
 {
@@ -40,6 +41,12 @@ namespace NermNermNerm.Junimatic
                 machine = null;
                 storage = null;
             }
+        }
+
+        public void GetCrabPotAt(Point tileToCheck, Point reachableTile, out GameMachine? machine)
+        {
+            var item = this.location.getObjectAtTile(tileToCheck.X, tileToCheck.Y);
+            machine = item is CrabPot ? GameMachine.TryCreate(item, reachableTile) : null;
         }
 
         private static readonly Point[] walkableDirections = [new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1)];

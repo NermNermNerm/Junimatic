@@ -18,6 +18,7 @@ namespace NermNermNerm.Junimatic
         private readonly Dictionary<JunimoType, int> numAutomatedJumimos = Enum.GetValues<JunimoType>().ToDictionary(t => t, t => 0);
 
         private static readonly Point[] walkableDirections = [new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1)];
+        private static readonly Point[] crabPotReachableDirections = [new Point(-2, 0), new Point(2, 0), new Point(0, -2), new Point(0, 2)];
         private static readonly Point[] reachableDirections = [
             new Point(-1, -1), new Point(0, -1), new Point(1, -1),
             new Point(-1, 0), /*new Point(0, 0),*/ new Point(1, 0),
@@ -444,6 +445,50 @@ namespace NermNermNerm.Junimatic
                         else
                         {
                             visitedTiles.Add(adjacentTile);
+                        }
+                    }
+
+                    if (location.IsOutdoors && projectType == JunimoType.Fishing)
+                    {
+                        foreach (var direction in crabPotReachableDirections)
+                        {
+                            var adjacentTile = tile + direction;
+                            if (visitedTiles.Contains(adjacentTile))
+                            {
+                                continue;
+                            }
+
+                            map.GetCrabPotAt(adjacentTile, tile, out var machine);
+
+                            if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.Machine))
+                            {
+                                if (machine.HeldObject is not null)
+                                {
+                                    // Try and find a chest to tote it to
+                                    var targetChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine.HeldObject));
+                                    if (targetChest is not null)
+                                    {
+                                        return new JunimoAssignment(projectType, location, portal, originTile, machine, targetChest, itemsToRemoveFromChest: null);
+                                    }
+
+                                    fullMachines.Add(machine);
+                                }
+                                else if (machine.IsIdle)
+                                {
+                                    // Try and find a chest to supply it from
+                                    foreach (var sourceChest in knownChests)
+                                    {
+                                        var inputs = machine.GetRecipeFromChest(sourceChest);
+                                        if (inputs is not null)
+                                        {
+                                            return new JunimoAssignment(projectType, location, portal, originTile, sourceChest, machine, inputs);
+                                        }
+                                    }
+
+                                    emptyMachines.Add(machine);
+                                }
+                                visitedTiles.Add(adjacentTile);
+                            }
                         }
                     }
 

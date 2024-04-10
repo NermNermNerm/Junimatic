@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.GameData.Machines;
 using StardewValley.Inventories;
+using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 
 namespace NermNermNerm.Junimatic
@@ -20,7 +21,20 @@ namespace NermNermNerm.Junimatic
         public StardewValley.Object Machine { get; }
 
         internal static GameMachine? TryCreate(Object item, Point accessPoint)
-            => item.GetMachineData() is null ? null : new GameMachine(item, accessPoint);
+        {
+            if (item is CrabPot crabPot)
+            {
+                return new CrabPotMachine(crabPot, accessPoint);
+            }
+            else if (item.GetMachineData() is not null)
+            {
+                return new GameMachine(item, accessPoint);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public virtual bool IsIdle => this.Machine.heldObject.Value is null && this.Machine.MinutesUntilReady == 0;
 
@@ -29,12 +43,12 @@ namespace NermNermNerm.Junimatic
         /// <summary>
         ///   Returns the HeldObject and removes it from the machines.
         /// </summary>
-        public Object RemoveHeldObject()
+        public virtual Object RemoveHeldObject()
         {
             return this.TakeItemFromMachine();
         }
 
-        public bool TryPutHeldObjectInStorage(GameStorage storage)
+        public virtual bool TryPutHeldObjectInStorage(GameStorage storage)
         {
             if (this.Machine.heldObject.Value is not null && storage.TryStore(this.Machine.heldObject.Value))
             {
@@ -142,7 +156,12 @@ namespace NermNermNerm.Junimatic
                 case "10": // bee house
                     return projectType == JunimoType.Animals; // no good data
                 case "154": // worm bin
+                case "DeluxeWormBin":
                     return projectType == JunimoType.Fishing; // The output item makes it perfectly clear, but it's the only thing where OutputItem would add value.
+                case "BaitMaker": // This seems like a dangerous machine since the use-case is so specialized that if it gets in the network, it's likely by accident.
+                    return false;
+                case "710": // crab pot
+                    return projectType == JunimoType.Fishing; // There's no MachineData
                 case "231": // solar panel
                 case "9": // lightning rod
                     return projectType == JunimoType.MiningProcessing; // no good data
@@ -196,7 +215,7 @@ namespace NermNermNerm.Junimatic
             return false;
         }
 
-        private StardewValley.Object TakeItemFromMachine()
+        protected virtual StardewValley.Object TakeItemFromMachine()
         {
             // Adapted from Pathoschild.Stardew.Automate.Framework.Machines.GetOutput
             StardewValley.Object machine = this.Machine;
