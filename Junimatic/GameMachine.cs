@@ -155,6 +155,8 @@ namespace NermNermNerm.Junimatic
                     return projectType == JunimoType.Forestry; // Else it gets to thinking that fishing would work.
                 case "10": // bee house
                     return projectType == JunimoType.Animals; // no good data
+                case "20": // recycling machine
+                    return projectType == JunimoType.Fishing; // It has a zillion outputs, so the data isn't a good guide.
                 case "154": // worm bin
                 case "DeluxeWormBin":
                     return projectType == JunimoType.Fishing; // The output item makes it perfectly clear, but it's the only thing where OutputItem would add value.
