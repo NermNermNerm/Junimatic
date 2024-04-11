@@ -31,12 +31,11 @@ namespace NermNermNerm.Junimatic
     public class GameStorage
         : GameInteractiveThing
     {
-        private readonly StardewValley.Object item;
+        private StardewValley.Object item => (StardewValley.Object)base.GameObject;
 
         internal GameStorage(StardewValley.Object item, Point accessPoint)
-            : base(accessPoint)
+            : base(item, accessPoint)
         {
-            this.item = item;
         }
 
         internal static GameStorage? TryCreate(StardewValley.Object item, Point accessPoint)
@@ -179,7 +178,9 @@ namespace NermNermNerm.Junimatic
                 // Note: This could be make a mistake if there was a case where a machine preserves the quality and
                 //   we actually pulled a mix of different quality items out of the chest.  As of now, there are no
                 //   such machines (stock).  I suspect if there were such machines, they'd be have the same problem.
-                totebag.Add(ItemRegistry.Create(template.QualifiedItemId, item.Stack, template.Quality));
+                var newItem = ItemRegistry.Create<StardewValley.Object>(template.QualifiedItemId, item.Stack, template.Quality);
+                newItem.preservedParentSheetIndex.Value = ((StardewValley.Object)template).preservedParentSheetIndex.Value;
+                totebag.Add(newItem);
             }
 
             return true;

@@ -349,14 +349,14 @@ namespace NermNermNerm.Junimatic
                 startingPoints = new List<Point>() { forJunimo.Tile.ToPoint() };
             }
 
-            HashSet<StardewValley.Object> busyMachines = portal.Location.characters
+            HashSet<object> busyMachines = portal.Location.characters
                 .OfType<JunimoShuffler>()
                 .Where(j => j != forJunimo)
                 .Select(junimo =>
                     junimo.Assignment?.source is GameMachine machine
-                    ? machine.Machine
+                    ? machine.GameObject
                     : (junimo.Assignment?.target is GameMachine targetMachine
-                        ? targetMachine.Machine
+                        ? targetMachine.GameObject
                         : null))
                 .Where(machine => machine is not null)
                 .Select(machine => machine!)
@@ -409,7 +409,7 @@ namespace NermNermNerm.Junimatic
                             knownChests.Add(chest);
                             visitedTiles.Add(adjacentTile);
                         }
-                        else if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.Machine))
+                        else if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.GameObject))
                         {
                             if (machine.HeldObject is not null)
                             {
@@ -460,7 +460,7 @@ namespace NermNermNerm.Junimatic
 
                             map.GetCrabPotAt(adjacentTile, tile, out var machine);
 
-                            if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.Machine))
+                            if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.GameObject))
                             {
                                 if (machine.HeldObject is not null)
                                 {

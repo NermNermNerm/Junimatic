@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Buildings;
 using StardewValley.Objects;
 
 namespace NermNermNerm.Junimatic
@@ -32,21 +33,39 @@ namespace NermNermNerm.Junimatic
             if (item is not null)
             {
                 isWalkable = false;
-                machine = GameMachine.TryCreate(item, reachableTile);
+                machine = ObjectMachine.TryCreate(item, reachableTile);
                 storage = GameStorage.TryCreate(item, reachableTile);
+                return;
             }
-            else
+
+            if (validFloors.IsTileWalkable(this.location, tileToCheck))
             {
-                isWalkable = validFloors.IsTileWalkable(this.location, tileToCheck);
+                isWalkable = true;
                 machine = null;
                 storage = null;
+                return;
             }
+
+            var building = this.location.getBuildingAt(tileToCheck.ToVector2());
+            if (building != null)
+            {
+                isWalkable = false;
+                machine = BuildingMachine.TryCreate(building, reachableTile);
+                storage = null;
+                return;
+            }
+
+            isWalkable = false;
+            machine = null;
+            storage = null;
+            return;
+
         }
 
         public void GetCrabPotAt(Point tileToCheck, Point reachableTile, out GameMachine? machine)
         {
             var item = this.location.getObjectAtTile(tileToCheck.X, tileToCheck.Y);
-            machine = item is CrabPot ? GameMachine.TryCreate(item, reachableTile) : null;
+            machine = item is CrabPot pot ? new CrabPotMachine(pot, reachableTile) : null;
         }
 
         private static readonly Point[] walkableDirections = [new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1)];

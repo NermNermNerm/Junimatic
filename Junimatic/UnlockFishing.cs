@@ -10,6 +10,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Objects;
+using StardewValley.Quests;
 using xTile.Tiles;
 
 namespace NermNermNerm.Junimatic
@@ -27,6 +28,9 @@ namespace NermNermNerm.Junimatic
         private const string AddFishTankPropEventCommand = "Junimatic.AddFishTankProp";
         private const string SetExitLocationCommand = "Junimatic.SetExitLocation";
         private const string HasDoneIcePipsQuestModDataKey = "Junimatic.HasDoneIcePipsQuest";
+        private const string OnIcePipsConversationKey = "Junimatic.OnIcePipsQuest";
+        private const string AfterIcePipsConversationKey = "Junimatic.AfterIcePipsConversationKey";
+        private const string IcePipQuestCountKey = "Junimatic.IcePipCount";
 
         private const string IcePipItemId = "161";
 
@@ -40,6 +44,24 @@ namespace NermNermNerm.Junimatic
             Event.RegisterCommand(SetExitLocationCommand, this.SetExitLocation);
             mod.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
             mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
+            mod.Helper.Events.GameLoop.DayStarted += this.GameLoop_DayStarted;
+        }
+
+        private void GameLoop_DayStarted(object? sender, DayStartedEventArgs e)
+        {
+            // the Quest's objective isn't serialized - fix it up at start-of-day.
+            var quest = Game1.MasterPlayer.questLog.FirstOrDefault(q => q.id.Value == CatchIcePipsQuest);
+            if (quest is not null)
+            {
+                quest.modData.TryGetValue(IcePipQuestCountKey, out string? valueAsString);
+                int count = 0;
+                if (valueAsString is not null)
+                {
+                    int.TryParse(valueAsString, out count);
+                }
+
+                quest.currentObjective = $"{count} of 6 teleported";
+            }
         }
 
         public bool IsUnlocked => Game1.MasterPlayer.modData.ContainsKey(HasDoneIcePipsQuestModDataKey);
@@ -81,8 +103,7 @@ namespace NermNermNerm.Junimatic
                 tank.shakeTimer = 100;
                 this.secondsSinceFishWasFirstSeen = 0;
 
-                const string modDataIndex = "Junimatic.IcePipCount";
-                quest.modData.TryGetValue(modDataIndex, out string? _countStr);
+                quest.modData.TryGetValue(IcePipQuestCountKey, out string? _countStr);
                 int.TryParse(_countStr, out int count);
                 ++count;
                 if (count >= 6)
@@ -90,10 +111,12 @@ namespace NermNermNerm.Junimatic
                     quest.questComplete();
                     Game1.MasterPlayer.modData[HasDoneIcePipsQuestModDataKey] = "true";
                     DelayedAction.functionAfterDelay(this.RemoveProps, 3000);
+                    Game1.player.activeDialogueEvents.Remove(OnIcePipsConversationKey);
+                    Game1.player.activeDialogueEvents.Add(AfterIcePipsConversationKey, 30);
                 }
                 else
                 {
-                    quest.modData[modDataIndex] = count.ToString(CultureInfo.InvariantCulture);
+                    quest.modData[IcePipQuestCountKey] = count.ToString(CultureInfo.InvariantCulture);
                     quest.currentObjective = $"{count} of 6 teleported";
                 }
             }
@@ -201,28 +224,26 @@ namespace NermNermNerm.Junimatic
         {
             if ( e.NewLocation.Name == "UndergroundMine60")
             {
-                var level60 = e.NewLocation;
-                bool hasMeetAt60Quest = Game1.MasterPlayer.hasQuest(MeetLinusAt60Quest);
-                bool hasGetIcePipsQuest = Game1.MasterPlayer.hasQuest(CatchIcePipsQuest);
                 this.secondsSinceFishWasFirstSeen = 0;
 
-                if (!hasMeetAt60Quest && !hasGetIcePipsQuest )
+                if (Game1.MasterPlayer.hasQuest(MeetLinusAt60Quest)
+                    || Game1.MasterPlayer.hasQuest(CatchIcePipsQuest))
                 {
-                    return;
-                }
+                    var level60 = e.NewLocation;
+                    if (level60.getObjectAtTile(7,12) is null)
+                    {
+                        var tank = new FishTankFurniture("2414", new Vector2(8, 12)) { AllowLocalRemoval = false };
+                        e.NewLocation.furniture.Add(tank);
+                        e.NewLocation.furniture.Add(new Furniture("DecorativeBarrel", new Vector2(7, 12)) { AllowLocalRemoval = false });
+                        e.NewLocation.furniture.Add(new Furniture("DecorativeBarrel", new Vector2(10, 12)) { AllowLocalRemoval = false });
+                    }
 
-                if (level60.getObjectAtTile(7,12) is null)
-                {
-                    var tank = new FishTankFurniture("2414", new Vector2(8, 12)) { AllowLocalRemoval = false };
-                    e.NewLocation.furniture.Add(tank);
-                    e.NewLocation.furniture.Add(new Furniture("DecorativeBarrel", new Vector2(7, 12)) { AllowLocalRemoval = false });
-                    e.NewLocation.furniture.Add(new Furniture("DecorativeBarrel", new Vector2(10, 12)) { AllowLocalRemoval = false });
-                }
-
-                if (Game1.IsMasterGame && !Game1.MasterPlayer.eventsSeen.Contains(CatchIcePipsEvent))
-                {
-                    level60.currentEvent = new Event(this.GetIcePipEventText());
-                    level60.checkForEvents();
+                    if (Game1.IsMasterGame && !Game1.MasterPlayer.hasQuest(CatchIcePipsQuest))
+                    {
+                        Game1.player.activeDialogueEvents.Add(OnIcePipsConversationKey, 30);
+                        level60.currentEvent = new Event(this.GetIcePipEventText());
+                        level60.checkForEvents();
+                    }
                 }
             }
         }
@@ -249,6 +270,23 @@ namespace NermNermNerm.Junimatic
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
                     data[LinusHadADreamMailKey] = $"@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus%item quest {MeetLinusAtTentQuest}%%[#]Meet Linus at his tent";
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Linus"))
+            {
+                e.Edit(editor =>
+                {
+                    IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
+                    data[OnIcePipsConversationKey] = "I'm still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He's disappointed and puzzled.#$b#I'm pretty puzzled too.  But I'm glad you're working on it.";
+                    data[AfterIcePipsConversationKey] = "Did you finish collecting those fish?  I'm betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I've never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that's good.#$b#But I still hope they go away.";
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Demetrius"))
+            {
+                e.Edit(editor =>
+                {
+                    IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
+                    data[AfterIcePipsConversationKey] = "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground Ghostfish Ice Pip pool!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't spell out where he got the fish to repopulate from...$3";
                 });
             }
         }
@@ -327,8 +365,8 @@ faceDirection farmer 3
 pause 500
 
 speak Linus ""Well, the tank was empty, and I decided I'd try putting a fish in there, so I caught a ghostfish and put it in there.""
-jump Linus
 speak Linus ""AND IT DISAPPEARED!""
+jump Linus
 speak Linus ""Poof!""
 speak Linus ""Gone!""
 faceDirection Linus 0
@@ -336,7 +374,7 @@ faceDirection Linus 1
 speak Linus ""So I put in another, and it disappeared too!""
 speak Linus ""Is it going to the world in my dream?  I don't know, but after about half a dozen fish went in there they stopped disappearing.""
 speak Linus ""...But the tank is still here...""
-speak Linus ""I see some smaller fish darting around in there, but I haven't been able to catch any of them.""
+speak Linus ""I see some smaller fish darting around in the pool, but I haven't been able to land any of them.""
 speak Linus ""You're the only one that can help since you've got the skill, the equipment and can handle yourself this deep in the mine.""
 speak Linus ""Could you try and catch some of those little fish and put them in the tank and see what happens?""
 pause 1000

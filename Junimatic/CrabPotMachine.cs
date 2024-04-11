@@ -12,7 +12,7 @@ using StardewValley.Objects;
 namespace NermNermNerm.Junimatic
 {
     internal class CrabPotMachine
-        : GameMachine
+        : ObjectMachine
     {
         internal CrabPotMachine(CrabPot machine, Point accessPoint)
             : base(machine, accessPoint)
