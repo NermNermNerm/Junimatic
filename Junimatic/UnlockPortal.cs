@@ -19,7 +19,7 @@ namespace NermNermNerm.Junimatic
         private ModEntry mod = null!; // set in Entry
 
         private const string JunimoPortalRecipe = "Junimatic.JunimoPortalRecipe";
-        private const string OldJunimoPortal = "Junimatic.OldJunimoPortal";
+        private const string OldJunimoPortalQiid = "(O)Junimatic.OldJunimoPortal";
         private const string OldJunimoPortalQuest = "Junimatic.OldJunimoPortalQuest";
 
         public const string JunimoPortal = "Junimatic.JunimoPortal";
@@ -62,7 +62,7 @@ namespace NermNermNerm.Junimatic
 
         private void Player_InventoryChanged(object? sender, InventoryChangedEventArgs e)
         {
-            if (e.Added.Any(i => i.ItemId == OldJunimoPortal))
+            if (e.Added.Any(i => i.QualifiedItemId == OldJunimoPortalQiid))
             {
                 if (e.Player.IsMainPlayer)
                 {
@@ -72,6 +72,7 @@ namespace NermNermNerm.Junimatic
                 {
                     Game1.addHUDMessage(new HUDMessage("Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)") { noIcon = true });
                 }
+                PetFindsThings.ObjectForPetToFindHasBeenFound(e.Player.currentLocation, OldJunimoPortalQiid);
             }
         }
 
@@ -134,7 +135,7 @@ namespace NermNermNerm.Junimatic
         {
             ModEntry.AddQuestItem(
                 objects,
-                OldJunimoPortal,
+                OldJunimoPortalQiid,
                 "a strange little structure", // TODO: 18n
                 "At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard's forest-magic potion.", // TODO: 18n
                 0);
@@ -142,11 +143,11 @@ namespace NermNermNerm.Junimatic
 
         private void EditWizardHouseEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{JunimoPortalDiscoveryEvent}/i (O){OldJunimoPortal}"] = $@"WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
+            eventData[$"{JunimoPortalDiscoveryEvent}/i {OldJunimoPortalQiid}"] = $@"WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
 removeQuest {OldJunimoPortalQuest}/
 addConversationTopic {ConversationKeys.JunimosLastTripToMine} 200/
 addConversationTopic {UnlockCropMachines.ConversationKeyBigCrops} 200/
-setSkipActions MarkCraftingRecipeKnown All {JunimoPortalRecipe}#removeItem (O){OldJunimoPortal}/
+setSkipActions MarkCraftingRecipeKnown All {JunimoPortalRecipe}#removeItem {OldJunimoPortalQiid}/
 skippable/
 showFrame Wizard 20/
 viewport 8 18 true/
@@ -165,7 +166,7 @@ speak Wizard ""You have something to show me?  Well, bring it!""/
 move farmer -1 0 3/
 move farmer 0 -4 0/
 faceDirection farmer 1/
-itemAboveHead (O){OldJunimoPortal}/ 
+itemAboveHead {OldJunimoPortalQiid}/ 
 playSound dwop/
 faceDirection farmer 1/
 pause 1000/
@@ -191,7 +192,7 @@ move Wizard 0 2 2/
 faceDirection Wizard 3/
 faceDirection farmer 1/
 speak Wizard ""This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.""/
-removeItem (O){OldJunimoPortal}/
+removeItem {OldJunimoPortalQiid}/
 pause 500/
 itemAboveHead/
 playsound getNewSpecialItem/
@@ -227,11 +228,12 @@ end warpOut";
         public void PlacePortalRemains()
         {
             var farm = Game1.getFarm();
-            var existing = farm.objects.Values.FirstOrDefault(o => o.ItemId == OldJunimoPortal);
+            PetFindsThings.AddObjectForPetToFind(farm, OldJunimoPortalQiid);
+            var existing = farm.objects.Values.FirstOrDefault(o => o.QualifiedItemId == OldJunimoPortalQiid);
             if (existing is not null)
             {
                 // Perhaps this could happen if the save is passed to somebody else?
-                this.LogError($"{OldJunimoPortal} is already placed at {existing.TileLocation.X},{existing.TileLocation.Y}");
+                this.LogError($"{OldJunimoPortalQiid} is already placed at {existing.TileLocation.X},{existing.TileLocation.Y}");
                 Game1.MasterPlayer.modData[ModDataKey_PlacedOldPortal] = existing.TileLocation.ToString();
                 return;
             }
@@ -239,7 +241,7 @@ end warpOut";
             bool isObscured(Vector2 tile) => farm.isBehindTree(tile) || farm.isBehindBush(tile); // << TODO: behind building
 
             var k = farm.Objects.Keys.First();
-            List<Vector2> weedLocations = farm.objects.Pairs.Where(pair => pair.Value.ItemId == "784" /* weed*/ && !isObscured(pair.Value.TileLocation)).Select(pair => pair.Key).ToList();
+            List<Vector2> weedLocations = farm.objects.Pairs.Where(pair => pair.Value.QualifiedItemId == "(O)784" /* weed*/ && !isObscured(pair.Value.TileLocation)).Select(pair => pair.Key).ToList();
             Vector2 position;
             if (weedLocations.Any())
             {
@@ -259,11 +261,11 @@ end warpOut";
                 farm.terrainFeatures.Remove(position);
             }
 
-            var o = ItemRegistry.Create<StardewValley.Object>(OldJunimoPortal);
+            var o = ItemRegistry.Create<StardewValley.Object>(OldJunimoPortalQiid);
             o.questItem.Value = true;
             o.Location = Game1.getFarm();
             o.TileLocation = position;
-            this.LogInfoOnce($"{OldJunimoPortal} placed at {position.X},{position.Y}");
+            this.LogInfoOnce($"{OldJunimoPortalQiid} placed at {position.X},{position.Y}");
             o.IsSpawnedObject = true;
             farm.objects[o.TileLocation] = o;
             Game1.MasterPlayer.modData[ModDataKey_PlacedOldPortal] = position.ToString();

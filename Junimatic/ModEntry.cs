@@ -30,6 +30,7 @@ namespace NermNermNerm.Junimatic
         public UnlockFishing UnlockFishing = new UnlockFishing();
 
         private readonly WorkFinder workFinder = new WorkFinder();
+        public PetFindsThings PetFindsThings = new PetFindsThings();
 
         public ModEntry()
         {
@@ -46,6 +47,7 @@ namespace NermNermNerm.Junimatic
             this.UnlockForest.Entry(this);
             this.workFinder.Entry(this);
             this.UnlockFishing.Entry(this);
+            this.PetFindsThings.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 
@@ -134,7 +136,7 @@ namespace NermNermNerm.Junimatic
         {
             objects[id] = new()
             {
-                Name = id,
+                Name = id.Replace("(O)", ""), // TODO: Find a more stylish way to unqualify a name
                 DisplayName = displayName,
                 Description = description,
                 Type = "Quest",
