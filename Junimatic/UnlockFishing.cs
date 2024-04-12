@@ -23,11 +23,12 @@ namespace NermNermNerm.Junimatic
         private const string MeetLinusAtTentQuest = "Junimatic.MeetLinus";
         private const string MeetLinusAtTentEvent = "Junimatic.MeetLinusAtTent";
         private const string LinusHadADreamMailKey = "Junimatic.LinusHadADream";
-        private const string CatchIcePipsEvent = "Junimatic.CatchIcePips";
         private const string CatchIcePipsQuest = "Junimatic.CatchIcePips";
         private const string AddFishTankPropEventCommand = "Junimatic.AddFishTankProp";
         private const string SetExitLocationCommand = "Junimatic.SetExitLocation";
         private const string HasDoneIcePipsQuestModDataKey = "Junimatic.HasDoneIcePipsQuest";
+        private const string IcePipsQuestStartedDayModDataKey = "Junimatic.HasDoneIcePipsQuest";
+        private const string IcePipsQuestCompletedDayModDataKey = "Junimatic.HasDoneIcePipsQuest";
         private const string OnIcePipsConversationKey = "Junimatic.OnIcePipsQuest";
         private const string AfterIcePipsConversationKey = "Junimatic.AfterIcePipsConversationKey";
         private const string IcePipQuestCountKey = "Junimatic.IcePipCount";
@@ -61,6 +62,37 @@ namespace NermNermNerm.Junimatic
                 }
 
                 quest.currentObjective = $"{count} of 6 teleported";
+            }
+
+            // Add convo keys.  Note that all players in multiplayer get the conversation key because it's set here..
+            // Linus talks about the dreams continuing
+            if (Game1.MasterPlayer.modData.TryGetValue(IcePipsQuestStartedDayModDataKey, out string? dayString)
+                && int.TryParse(dayString, out int dayInteger))
+            {
+                if (Game1.Date.TotalDays == dayInteger + 2)
+                {
+                    Game1.player.activeDialogueEvents.Add(OnIcePipsConversationKey, 30);
+                }
+                else if (Game1.IsMasterGame && Game1.Date.TotalDays > dayInteger + 2)
+                {
+                    // clean up - no longer needed.  Waiting until the next day so that all (active) players get the key.
+                    Game1.MasterPlayer.modData.Remove(IcePipsQuestStartedDayModDataKey);
+                }
+            }
+
+            // Demetrius talks about reading a paper about the ice pips thing
+            if (Game1.MasterPlayer.modData.TryGetValue(IcePipsQuestCompletedDayModDataKey, out dayString)
+                && int.TryParse(dayString, out dayInteger))
+            {
+                if (Game1.Date.TotalDays == dayInteger + 14)
+                {
+                    Game1.player.activeDialogueEvents.Add(IcePipsQuestCompletedDayModDataKey, 30);
+                }
+                else if (Game1.Date.TotalDays > dayInteger + 14)
+                {
+                    // clean up - no longer needed
+                    Game1.MasterPlayer.modData.Remove(IcePipsQuestCompletedDayModDataKey);
+                }
             }
         }
 
@@ -110,9 +142,12 @@ namespace NermNermNerm.Junimatic
                 {
                     quest.questComplete();
                     Game1.MasterPlayer.modData[HasDoneIcePipsQuestModDataKey] = "true";
+                    Game1.MasterPlayer.modData[IcePipsQuestCompletedDayModDataKey] = Game1.Date.TotalDays.ToString(CultureInfo.InvariantCulture);
+                    Game1.MasterPlayer.modData.Remove(IcePipsQuestStartedDayModDataKey);
+                    // Should really do this for all players.  Not sure how.
+                    Game1.MasterPlayer.activeDialogueEvents.Remove(OnIcePipsConversationKey);
+
                     DelayedAction.functionAfterDelay(this.RemoveProps, 3000);
-                    Game1.player.activeDialogueEvents.Remove(OnIcePipsConversationKey);
-                    Game1.player.activeDialogueEvents.Add(AfterIcePipsConversationKey, 30);
                 }
                 else
                 {
@@ -240,7 +275,7 @@ namespace NermNermNerm.Junimatic
 
                     if (Game1.IsMasterGame && !Game1.MasterPlayer.hasQuest(CatchIcePipsQuest))
                     {
-                        Game1.player.activeDialogueEvents.Add(OnIcePipsConversationKey, 30);
+                        Game1.MasterPlayer.modData[IcePipsQuestStartedDayModDataKey] = Game1.Date.TotalDays.ToString(CultureInfo.InvariantCulture);
                         level60.currentEvent = new Event(this.GetIcePipEventText());
                         level60.checkForEvents();
                     }
