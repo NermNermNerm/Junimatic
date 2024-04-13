@@ -110,12 +110,13 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            var allLocations = Game1.locations
-                .Union(
-                    Game1.getFarm().buildings
+            // Junimos only work on the farm or in farm buildings.
+            var allLocations =
+                Game1.getFarm().buildings
                     .Select(b => b.indoors.Value)
-                    .Where(l => l is not null).Select(l => l!))
-                .ToArray();
+                    .Where(l => l is not null).Select(l => l!)
+                    .ToList();
+            allLocations.Add(Game1.getFarm());
 
             foreach (var location in allLocations)
             {
