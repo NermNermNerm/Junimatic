@@ -149,7 +149,7 @@ namespace NermNermNerm.Junimatic
                 || petInScene is null
                 || Game1.hudMessages.Any() // <- can protect against duplicate mods trying to do the same thing
                 || Game1.getOnlineFarmers().Any(f => f != e.Player && f.currentLocation == e.NewLocation)
-                || Game1.random.Next(100) < 5) // 5% for it to happen.  Perhaps make the chances configurable?
+                || Game1.random.Next(100) >= 5) // 5% for it to happen.  Perhaps make the chances configurable?
             {
                 return;
             }
