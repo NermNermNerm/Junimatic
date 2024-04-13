@@ -210,7 +210,7 @@ namespace NermNermNerm.Junimatic
                     {
                         if (emptyMachine.FillMachineFromChest(chest))
                         {
-                            this.LogInfo($"Automatic machine fill of {emptyMachine} on {location.Name} from {chest}");
+                            this.LogTrace($"Automatic machine fill of {emptyMachine} on {location.Name} from {chest}");
                             return true;
                         }
                     }
@@ -232,7 +232,7 @@ namespace NermNermNerm.Junimatic
                             string wasHolding = fullMachine.HeldObject.Name;
                             if (fullMachine.TryPutHeldObjectInStorage(goodChest))
                             {
-                                this.LogInfo($"Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {goodChest}");
+                                this.LogTrace($"Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {goodChest}");
                             }
                             else
                             {

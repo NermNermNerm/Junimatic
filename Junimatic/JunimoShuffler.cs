@@ -267,7 +267,7 @@ namespace NermNermNerm.Junimatic
         {
             if (Game1.IsMasterGame && this.controller is null && this.workFinder is not null && this.Assignment is not null && !this.destroy)
             {
-                this.workFinder.LogInfo("Junimo returned due to players leaving scene");
+                this.workFinder.LogTrace("Junimo returned due to players leaving scene");
                 if (this.Carrying.Count > 0)
                 {
                     this.JunimoReachedTarget(this, location);
