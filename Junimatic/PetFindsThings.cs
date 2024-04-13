@@ -154,15 +154,13 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            Point find = Game1.random.Choose(interestingItems.Values.Select(iandp => iandp.Point).ToArray());
-            bool isObscured(Vector2 tile) => e.NewLocation.isBehindTree(tile) || e.NewLocation.isBehindBush(tile); // << TODO: behind building
-
+            Point interestingTile = Game1.random.Choose(interestingItems.Values.Select(iandp => iandp.Point).ToArray());
             var openTiles = new List<Vector2>();
             for (int deltaX = -2; deltaX < 3; ++deltaX)
             {
                 for (int deltaY = -2; deltaY < 3; ++deltaY)
                 {
-                    var tile = new Vector2(find.X + deltaX, find.Y + deltaY);
+                    var tile = new Vector2(interestingTile.X + deltaX, interestingTile.Y + deltaY);
                     if (e.NewLocation.CanItemBePlacedHere(tile) && e.NewLocation.getObjectAt((int)tile.X, (int)tile.Y) is null && !e.NewLocation.terrainFeatures.ContainsKey(tile))
                     {
                         openTiles.Add(tile);
@@ -172,15 +170,16 @@ namespace NermNermNerm.Junimatic
 
             if (!openTiles.Any())
             {
-                this.LogWarning($"Can't put pet at {find} because the area is too crowded.");
+                this.LogWarning($"Can't put pet at {interestingTile} because the area is too crowded.");
                 return;
             }
 
+            bool isObscured(Vector2 tile) => e.NewLocation.isBehindTree(tile) || e.NewLocation.isBehindBush(tile); // << TODO: behind building
             var nonObscuredTiles = openTiles.Where(t => !isObscured(t)).ToArray();
             Vector2 landingTile = nonObscuredTiles.Any() ? Game1.random.Choose(nonObscuredTiles) : Game1.random.Choose(openTiles.ToArray());
             petInScene.Position = landingTile*64;
 
-            Game1.addHUDMessage(new HUDMessage($"I wonder what {petInScene.Name} has been up to...") { noIcon = true });
+            Game1.addHUDMessage(new HUDMessage($"I wonder what {petInScene.Name} is up to...") { noIcon = true });
             Game1.player.activeDialogueEvents[PetSawItemConversationKey] = 30;
         }
 
