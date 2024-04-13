@@ -72,7 +72,8 @@ namespace NermNermNerm.Junimatic
                 {
                     Game1.addHUDMessage(new HUDMessage("Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)") { noIcon = true });
                 }
-                PetFindsThings.ObjectForPetToFindHasBeenFound(e.Player.currentLocation, OldJunimoPortalQiid);
+                var myItem = (StardewValley.Object)e.Added.First(i => i.QualifiedItemId == OldJunimoPortalQiid);
+                this.mod.PetFindsThings.ObjectForPetToFindHasBeenPickedUp(e.Player.currentLocation, OldJunimoPortalQiid);
             }
         }
 
@@ -143,7 +144,7 @@ namespace NermNermNerm.Junimatic
 
         private void EditWizardHouseEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{JunimoPortalDiscoveryEvent}/i {OldJunimoPortalQiid}"] = $@"WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
+            eventData[$"{JunimoPortalDiscoveryEvent}/H/i {OldJunimoPortalQiid}"] = $@"WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
 removeQuest {OldJunimoPortalQuest}/
 addConversationTopic {ConversationKeys.JunimosLastTripToMine} 200/
 addConversationTopic {UnlockCropMachines.ConversationKeyBigCrops} 200/
@@ -162,7 +163,7 @@ stopAnimation Wizard/
 move Wizard -2 0 3/
 move Wizard 0 2 2/
 pause 1500/
-speak Wizard ""You have something to show me?  Well, bring it!""/
+speak Wizard ""You have something to show me?  Well, bring it to me!""/
 move farmer -1 0 3/
 move farmer 0 -4 0/
 faceDirection farmer 1/
@@ -228,12 +229,12 @@ end warpOut";
         public void PlacePortalRemains()
         {
             var farm = Game1.getFarm();
-            PetFindsThings.AddObjectForPetToFind(farm, OldJunimoPortalQiid);
             var existing = farm.objects.Values.FirstOrDefault(o => o.QualifiedItemId == OldJunimoPortalQiid);
             if (existing is not null)
             {
                 // Perhaps this could happen if the save is passed to somebody else?
                 this.LogError($"{OldJunimoPortalQiid} is already placed at {existing.TileLocation.X},{existing.TileLocation.Y}");
+                this.mod.PetFindsThings.AddObjectForPetToFind(farm, OldJunimoPortalQiid, existing.TileLocation.ToPoint());
                 Game1.MasterPlayer.modData[ModDataKey_PlacedOldPortal] = existing.TileLocation.ToString();
                 return;
             }
@@ -268,6 +269,8 @@ end warpOut";
             this.LogInfoOnce($"{OldJunimoPortalQiid} placed at {position.X},{position.Y}");
             o.IsSpawnedObject = true;
             farm.objects[o.TileLocation] = o;
+            this.mod.PetFindsThings.AddObjectForPetToFind(farm, OldJunimoPortalQiid, o.TileLocation.ToPoint());
+
             Game1.MasterPlayer.modData[ModDataKey_PlacedOldPortal] = position.ToString();
         }
 

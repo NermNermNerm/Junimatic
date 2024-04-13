@@ -18,42 +18,99 @@ namespace NermNermNerm.Junimatic
         private ModEntry mod = null!;
 
         // Using a distinct mod key, in the event this gets split out
-        public const string HiddenObjectsModDataKey = "PetFindsThings.ObjectsThePetMightFind";
-        public const string PetSawItemConversationKey = "PetFindsThings.PetSightedAnObject";
+        private const string InterestingTilesModDataKey = "PetFindsThings.InterestingTiles";
+        private const string PetSawItemConversationKey = "PetFindsThings.PetSightedAnObject";
 
-        public PetFindsThings() { }
-
-        public static void AddObjectForPetToFind(GameLocation location, string qualifiedItemId)
+        private record IdAndPoint(string Id, Point Point)
         {
-            if (location.modData.TryGetValue(HiddenObjectsModDataKey, out string? oldValue))
-            {
-                if (!oldValue.Split("\n").Contains(qualifiedItemId))
-                {
-                    location.modData[HiddenObjectsModDataKey] = oldValue + "\n" + qualifiedItemId;
-                }
-            }
-            else
-            {
-                location.modData.Add(HiddenObjectsModDataKey, qualifiedItemId);
-            }
-        }
+            public override string ToString() => FormattableString.Invariant($"{this.Point.X},{this.Point.Y},{this.Id}");
 
-        public static void ObjectForPetToFindHasBeenFound(GameLocation location, string qualifiedItemId)
-        {
-            if (location.modData.TryGetValue(HiddenObjectsModDataKey, out string? oldValue))
+            public static IdAndPoint? FromString(string serialized)
             {
-                var items = oldValue.Split("\n").ToList();
-                int index = items.IndexOf(qualifiedItemId);
-                items.Remove(qualifiedItemId);
-                string newValue = string.Join("\n", items);
-                if (newValue == "")
+                string[] splits = serialized.Split(",", 3);
+                if (splits.Length == 3 && int.TryParse(splits[0], out int x) && int.TryParse(splits[1], out int y))
                 {
-                    location.modData.Remove(HiddenObjectsModDataKey);
+                    return new IdAndPoint(splits[2], new Point(x, y));
                 }
                 else
                 {
-                    location.modData[HiddenObjectsModDataKey] = newValue;
+                    return null;
                 }
+            }
+        }
+
+        public PetFindsThings() { }
+
+        /// <summary>
+        ///   Adds a new entry to the table of stuff that the pet might find for the given location.
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <param name="id">Uniquely identifies the thing that the thing that the pet is discovering so, when the object is no longer able to be found, it can be removed without knowing the position.</param>
+        /// <param name="tileLocation">The centerpoint for the pet position.  The pet will be positioned within 2 tiles of this spot.</param>
+        /// <remarks>
+        ///   The business with the ID accounts for the idea that the mod is monitoring the inventory for the item and
+        ///   this gets triggered when the item is picked up.  In actuality, after you pick up an item, the old position
+        ///   of the thing is still there in the object, but that doesn't seem to me like it's exactly intended behavior,
+        ///   and thus might change.  So the ID provides some measure of version safety.
+        /// </remarks>
+        public void AddObjectForPetToFind(GameLocation location, string id, Point tileLocation)
+        {
+            this.LogTrace($"AddObjectForPetToFind({location.Name}, {id}, {tileLocation})");
+            var d = this.Read(location);
+            d[id] = new IdAndPoint(id, tileLocation);
+            this.Write(location, d);
+        }
+
+        /// <summary>
+        ///   Call this when the object that the pet was pointing out is no longer important.
+        /// </summary>
+        public void ObjectForPetToFindHasBeenPickedUp(GameLocation location, string id)
+        {
+            this.LogTrace($"ObjectForPetToFindHasBeenPickedUp({location.Name}, {id})");
+            var d = this.Read(location);
+            d.Remove(id);
+            this.Write(location, d);
+        }
+
+        private Dictionary<string,IdAndPoint> Read(GameLocation location)
+        {
+            var result = new Dictionary<string, IdAndPoint>();
+            bool hasErrors = false;
+            if (location.modData.TryGetValue(InterestingTilesModDataKey, out string? oldValue))
+            {
+                foreach (string line in oldValue.Split("\n"))
+                {
+                    int.TryParse("5", out int x);
+                    var value = IdAndPoint.FromString(line);
+                    if (value is null)
+                    {
+                        hasErrors = true;
+                    }
+                    else
+                    {
+                        hasErrors |= result.ContainsKey(value.Id);
+                        result[value.Id] = value;
+                    }
+                }
+            }
+
+            if (hasErrors)
+            {
+                this.LogError($"PetFindsThings mod data value is corrupt: {oldValue}");
+            }
+            return result;
+        }
+
+        private void Write(GameLocation location, Dictionary<string,IdAndPoint> values)
+        {
+            if (values.Count > 0)
+            {
+                location.modData[InterestingTilesModDataKey]
+                    = string.Join("\n", values.Values.Select(iandp => iandp.ToString()));
+            }
+            else
+            {
+                location.modData.Remove(InterestingTilesModDataKey);
             }
         }
 
@@ -86,36 +143,18 @@ namespace NermNermNerm.Junimatic
 
         private void Player_Warped(object? sender, StardewModdingAPI.Events.WarpedEventArgs e)
         {
-            if (!e.NewLocation.modData.TryGetValue(HiddenObjectsModDataKey, out string? thingsToLookFor))
-            {
-                return;
-            }
-
+            var interestingItems = this.Read(e.NewLocation);
             var petInScene = e.NewLocation.characters.OfType<Pet>().FirstOrDefault();
-            if (petInScene is null)
+            if (!interestingItems.Any()
+                || petInScene is null
+                || Game1.hudMessages.Any() // <- can protect against duplicate mods trying to do the same thing
+                || Game1.getOnlineFarmers().Any(f => f != e.Player && f.currentLocation == e.NewLocation)
+                || Game1.random.Next(100) < 5) // 5% for it to happen.  Perhaps make the chances configurable?
             {
                 return;
             }
 
-            if (Game1.hudMessages.Any())
-            {
-                // If another mod copies this class, this block will prevent both finders from firing at once.
-                // (However, it'll still double the chances of the thing firing.)
-                return;
-            }
-
-            if (Game1.random.Next(100) < 5) // 5% for it to happen.  Perhaps make the chances configurable?
-            {
-                return;
-            }
-
-            var qualifiedItemIds = thingsToLookFor.Split("\n").ToHashSet();
-            var possibleFinds = e.NewLocation.Objects.Values.Where(o => qualifiedItemIds.Contains(o.QualifiedItemId)).ToList();
-            if (!possibleFinds.Any())
-            {
-                return;
-            }
-            var find = possibleFinds[Game1.random.Next(possibleFinds.Count)];
+            Point find = Game1.random.Choose(interestingItems.Values.Select(iandp => iandp.Point).ToArray());
             bool isObscured(Vector2 tile) => e.NewLocation.isBehindTree(tile) || e.NewLocation.isBehindBush(tile); // << TODO: behind building
 
             var openTiles = new List<Vector2>();
@@ -123,7 +162,7 @@ namespace NermNermNerm.Junimatic
             {
                 for (int deltaY = -2; deltaY < 3; ++deltaY)
                 {
-                    var tile = new Vector2(find.TileLocation.X + deltaX, find.TileLocation.Y + deltaY);
+                    var tile = new Vector2(find.X + deltaX, find.Y + deltaY);
                     if (e.NewLocation.CanItemBePlacedHere(tile) && e.NewLocation.getObjectAt((int)tile.X, (int)tile.Y) is null && !e.NewLocation.terrainFeatures.ContainsKey(tile))
                     {
                         openTiles.Add(tile);
@@ -133,7 +172,7 @@ namespace NermNermNerm.Junimatic
 
             if (!openTiles.Any())
             {
-                this.LogWarning($"Area around {find.QualifiedItemId} is too crowded to move the pet to it.");
+                this.LogWarning($"Can't put pet at {find} because the area is too crowded.");
                 return;
             }
 
@@ -142,7 +181,7 @@ namespace NermNermNerm.Junimatic
             petInScene.Position = landingTile*64;
 
             Game1.addHUDMessage(new HUDMessage($"I wonder what {petInScene.Name} has been up to...") { noIcon = true });
-            Game1.player.activeDialogueEvents.Add(PetSawItemConversationKey, 30);
+            Game1.player.activeDialogueEvents[PetSawItemConversationKey] = 30;
         }
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)

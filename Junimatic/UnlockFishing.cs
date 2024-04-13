@@ -71,7 +71,7 @@ namespace NermNermNerm.Junimatic
             {
                 if (Game1.Date.TotalDays == dayInteger + 2)
                 {
-                    Game1.player.activeDialogueEvents.Add(OnIcePipsConversationKey, 30);
+                    Game1.player.activeDialogueEvents[OnIcePipsConversationKey] = 30;
                 }
                 else if (Game1.IsMasterGame && Game1.Date.TotalDays > dayInteger + 2)
                 {
@@ -86,7 +86,7 @@ namespace NermNermNerm.Junimatic
             {
                 if (Game1.Date.TotalDays == dayInteger + 14)
                 {
-                    Game1.player.activeDialogueEvents.Add(IcePipsQuestCompletedDayModDataKey, 30);
+                    Game1.player.activeDialogueEvents[IcePipsQuestCompletedDayModDataKey] = 30;
                 }
                 else if (Game1.Date.TotalDays > dayInteger + 14)
                 {
@@ -328,7 +328,7 @@ namespace NermNermNerm.Junimatic
 
         private void EditMountainEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{MeetLinusAtTentEvent}/t 600 2200/n {LinusHadADreamMailKey}"] = $@"spring_day_ambient
+            eventData[$"{MeetLinusAtTentEvent}/H/t 600 2200/n {LinusHadADreamMailKey}"] = $@"spring_day_ambient
 -1000 -1000
 farmer 5 13 1 Linus 25 9 1
 removeQuest {MeetLinusAtTentQuest}

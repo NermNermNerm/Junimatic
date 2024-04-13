@@ -60,7 +60,7 @@ namespace NermNermNerm.Junimatic
 
         private void EditForestEvents(IDictionary<string,string> eventData)
         {
-            eventData[$"{LostJunimoDiscoveryEvent}/sawEvent {MarnieSeesChickenJunimoEvent}/time 600 1900"]
+            eventData[$"{LostJunimoDiscoveryEvent}/H/sawEvent {MarnieSeesChickenJunimoEvent}/time 600 1900"]
                 = $@"sadpiano/
 -2000 -2000/
 farmer 90 60 2 Junimo 95 72 3/
@@ -101,7 +101,7 @@ advancedMove Junimo false 5 0/
 pause 1500/
 message ""Maybe a Junimo Portal would help it find its way home.""/
 end/";
-            eventData[$"{DropPortalForJunimoEvent}/sawEvent {LostJunimoDiscoveryEvent}/time 600 1900/i (BC){UnlockPortal.JunimoPortal}"]
+            eventData[$"{DropPortalForJunimoEvent}/H/sawEvent {LostJunimoDiscoveryEvent}/time 600 1900/i (BC){UnlockPortal.JunimoPortal}"]
     = $@"sadpiano/
 -2000 -2000/
 farmer 90 60 2 Junimo 89 72 3 Marnie 87 48 2/
@@ -176,7 +176,7 @@ end fade/";
 
         private void EditFarmHouseEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{AnimalJunimoDreamEvent}/sawEvent {DropPortalForJunimoEvent}/time 600 620"]
+            eventData[$"{AnimalJunimoDreamEvent}/H/sawEvent {DropPortalForJunimoEvent}/time 600 620"]
                 = $@"communityCenter/
 -2000 -2000/
 farmer 29 14 3 Junimo 26 14 1/
@@ -199,7 +199,7 @@ end bed";
 
         private void EditFarmEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{MarnieSeesChickenJunimoEvent}/{StartAnimalJunimoEventCriteria}/sawEvent {UnlockPortal.JunimoPortalDiscoveryEvent}/time 600 930/weather sunny"]
+            eventData[$"{MarnieSeesChickenJunimoEvent}/H/{StartAnimalJunimoEventCriteria}/sawEvent {UnlockPortal.JunimoPortalDiscoveryEvent}/time 600 930/weather sunny"]
                 = $@"continue/
 64 15/
 farmer 64 15 2 Marnie 65 16 0/

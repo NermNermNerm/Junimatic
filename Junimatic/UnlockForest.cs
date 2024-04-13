@@ -179,7 +179,7 @@ namespace NermNermNerm.Junimatic
 
         private void EditFarmEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{MysticTreeCelebrationEvent}/sawEvent {LinusCampingEvent}/{IsMysticTreeGrownOnFarmEventCondition}"] = $@"playful
+            eventData[$"{MysticTreeCelebrationEvent}/H/sawEvent {LinusCampingEvent}/{IsMysticTreeGrownOnFarmEventCondition}"] = $@"playful
 -1000 -1000
 farmer 8 24 0
 removeQuest {GrowMysticTreeQuest}
@@ -200,7 +200,7 @@ end
 
         private void EditWoodsEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{LinusCampingEvent}/w sunny/t 1800 2300/n {MeetLinusMailKey}"] = @$"nightTime
+            eventData[$"{LinusCampingEvent}/H/w sunny/t 1800 2300/n {MeetLinusMailKey}"] = @$"nightTime
 -1000 -1000
 farmer 40 14 3 Linus 29 13 1
 removeQuest {MeetLinusQuestKey}

@@ -16,7 +16,7 @@ namespace NermNermNerm.Junimatic
     {
         private ModEntry mod = null!;
 
-        private const string JunimoChrysalis = "Junimatic.JunimoChrysalis";
+        private const string JunimoChrysalisQiid = "(O)Junimatic.JunimoChrysalis";
         private const string ReturnJunimoOrbEvent = "Junimatic.ReturnJunimoOrbEvent";
         private const string MiningJunimoDreamEvent = "Junimatic.MiningJunimoDreamEvent";
         private const string JunimoChrysalisToWizardQuest = "Junimatic.JunimoChrysalisToWizardQuest";
@@ -35,7 +35,7 @@ namespace NermNermNerm.Junimatic
 
         private void Player_InventoryChanged(object? sender, InventoryChangedEventArgs e)
         {
-            if (e.Added.Any(i => i.ItemId == JunimoChrysalis))
+            if (e.Added.Any(i => i.QualifiedItemId == JunimoChrysalisQiid))
             {
                 if (e.Player.IsMainPlayer)
                 {
@@ -58,7 +58,7 @@ namespace NermNermNerm.Junimatic
                 var bigSlime = mine.characters.OfType<BigSlime>().FirstOrDefault();
                 if (bigSlime is not null)
                 {
-                    var o = ItemRegistry.Create<StardewValley.Object>(JunimoChrysalis);
+                    var o = ItemRegistry.Create<StardewValley.Object>(JunimoChrysalisQiid);
                     o.questItem.Value = true;
                     bigSlime.heldItem.Value = o;
                 }
@@ -89,7 +89,7 @@ namespace NermNermNerm.Junimatic
         {
             ModEntry.AddQuestItem(
                 objects,
-                JunimoChrysalis,
+                JunimoChrysalisQiid,
                 "a strange faintly glowing orb", // TODO: 18n
                 "It looks vaguely magical. It's quite hard and smooth.", // TODO: 18n
                 1);
@@ -97,7 +97,7 @@ namespace NermNermNerm.Junimatic
 
         private void EditFarmHouseEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{MiningJunimoDreamEvent}/sawEvent {ReturnJunimoOrbEvent}/time 600 620"]
+            eventData[$"{MiningJunimoDreamEvent}/H/sawEvent {ReturnJunimoOrbEvent}/time 600 620"]
                 = $@"grandpas_theme/
 -2000 -1000/
 farmer 13 23 2/
@@ -114,12 +114,12 @@ end bed";
 
         private void EditWizardHouseEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{ReturnJunimoOrbEvent}/i (O){JunimoChrysalis}"] = @$"WizardSong/
+            eventData[$"{ReturnJunimoOrbEvent}/H/i {JunimoChrysalisQiid}"] = @$"WizardSong/
 -1000 -1000/
 farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
 {ModEntry.SetJunimoColorEventCommand} OrangeRed/
 removeQuest {JunimoChrysalisToWizardQuest}/
-removeItem {JunimoChrysalis} 2/
+removeItem {JunimoChrysalisQiid} 2/
 skippable/
 showFrame Wizard 20/
 viewport 8 18 true/

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
@@ -132,11 +133,14 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        internal static void AddQuestItem(IDictionary<string, ObjectData> objects, string id, string displayName, string description, int spriteIndex)
+        private static readonly Regex unQualifier = new Regex(@"^\([a-z]\)", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+
+        internal static void AddQuestItem(IDictionary<string, ObjectData> objects, string qiid, string displayName, string description, int spriteIndex)
         {
-            objects[id] = new()
+            string itemId = unQualifier.Replace(qiid, "");  // I don't think there is a more stylish way to unqualify a name
+            objects[itemId] = new()
             {
-                Name = id.Replace("(O)", ""), // TODO: Find a more stylish way to unqualify a name
+                Name = itemId,
                 DisplayName = displayName,
                 Description = description,
                 Type = "Quest",
@@ -147,6 +151,5 @@ namespace NermNermNerm.Junimatic
                 ContextTags = new() { "not_giftable", "not_placeable", "prevent_loss_on_death" },
             };
         }
-
     }
 }

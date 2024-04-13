@@ -107,7 +107,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     var d = editor.AsDictionary<string, string>().Data;
-                    d[$"{GiantCropCelebrationEventId}/sawEvent {UnlockPortal.JunimoPortalDiscoveryEvent}/{EventCustomConditionGiantCropIsGrowingOnFarm}"] = $@"playful/
+                    d[$"{GiantCropCelebrationEventId}/H/sawEvent {UnlockPortal.JunimoPortalDiscoveryEvent}/{EventCustomConditionGiantCropIsGrowingOnFarm}"] = $@"playful/
 -1000 -1000/
 farmer 8 24 0/
 skippable/
