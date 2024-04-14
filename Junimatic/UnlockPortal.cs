@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Extensions;
 using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Objects;
 using StardewValley.TerrainFeatures;
@@ -241,16 +242,15 @@ end warpOut";
 
             bool isObscured(Vector2 tile) => farm.isBehindTree(tile) || farm.isBehindBush(tile); // << TODO: behind building
 
-            var k = farm.Objects.Keys.First();
-            List<Vector2> weedLocations = farm.objects.Pairs.Where(pair => pair.Value.QualifiedItemId == "(O)784" /* weed*/ && !isObscured(pair.Value.TileLocation)).Select(pair => pair.Key).ToList();
+            var weedLocations = farm.objects.Pairs.Where(pair => pair.Value.QualifiedItemId == "(O)784" /* weed*/ && !isObscured(pair.Value.TileLocation) && farm.isTilePassable(pair.Value.TileLocation)).Select(pair => pair.Key).ToArray();
             Vector2 position;
             if (weedLocations.Any())
             {
-                position = weedLocations[Game1.random.Next(weedLocations.Count)];
+                position = Game1.random.Choose(weedLocations);
             }
             else
             {
-                var visibleGrassPlots = farm.terrainFeatures.Values.OfType<Grass>().Where(grass => !isObscured(grass.Tile)).ToList();
+                var visibleGrassPlots = farm.terrainFeatures.Values.OfType<Grass>().Where(grass => !isObscured(grass.Tile) && farm.isTilePassable(grass.Tile)).ToList();
                 if (!visibleGrassPlots.Any())
                 {
                     // TODO: Try and find some clear ground or just pick a random spot.
