@@ -7,6 +7,6 @@
     "UniqueID": "NermNermNerm.Junimatic",
     "Description": "Allows you to automate some of the repetitive tasks with a little help from the Junimos",
     "EntryDll": "Junimatic.dll",
-    "UpdateKeys": [ ],
+    "UpdateKeys": [ "GitHub:NermNermNerm/Junimatic", "Nexus:22672" ],
     "Dependencies": [ ]
 }
