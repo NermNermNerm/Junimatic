@@ -1,17 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Objects;
-using StardewValley.Quests;
-using xTile.Tiles;
 
 namespace NermNermNerm.Junimatic
 {
