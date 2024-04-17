@@ -111,14 +111,18 @@ namespace NermNermNerm.Junimatic
             }
 
             // Junimos only work on the farm or in farm buildings.
-            var allLocations =
+            var allJunimoFriendlyLocations =
                 Game1.getFarm().buildings
                     .Select(b => b.indoors.Value)
                     .Where(l => l is not null).Select(l => l!)
                     .ToList();
-            allLocations.Add(Game1.getFarm());
+            allJunimoFriendlyLocations.Add(Game1.getFarm());
+            allJunimoFriendlyLocations.AddRange(
+                new string[] { "FarmCave", "IslandWest", "Cellar", "FarmHouse" }
+                .Select(name => Game1.getLocationFromName(name))
+                .Where(l => l is not null));
 
-            foreach (var location in allLocations)
+            foreach (var location in allJunimoFriendlyLocations)
             {
                 foreach (var animatedJunimo in location.characters.OfType<JunimoShuffler>())
                 {
@@ -135,7 +139,7 @@ namespace NermNermNerm.Junimatic
             }
 
             // Try to employ junimos in visible locations first:
-            HashSet<GameLocation> animatedLocations = new HashSet<GameLocation>(Game1.getOnlineFarmers().Select(f => f.currentLocation).Where(l => l is not null));
+            HashSet<GameLocation> animatedLocations = new HashSet<GameLocation>(Game1.getOnlineFarmers().Select(f => f.currentLocation).Where(l => l is not null && allJunimoFriendlyLocations.Contains(l)));
             foreach (GameLocation location in animatedLocations)
             {
                 this.cachedNetworks.Remove(location);
@@ -162,7 +166,7 @@ namespace NermNermNerm.Junimatic
 
             if (isAutomationInterval)
             {
-                foreach (GameLocation location in allLocations.Where(l => !animatedLocations.Contains(l)))
+                foreach (GameLocation location in allJunimoFriendlyLocations.Where(l => !animatedLocations.Contains(l)))
                 {
                     foreach (var junimoType in Enum.GetValues<JunimoType>())
                     {
