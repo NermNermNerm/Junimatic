@@ -29,6 +29,8 @@ namespace NermNermNerm.Junimatic
 
         private const string IcePipItemId = "161";
 
+        public static Color JunimoColor => Color.Cyan;
+
         public void Entry(ModEntry mod)
         {
             this.mod = mod;
@@ -180,7 +182,7 @@ namespace NermNermNerm.Junimatic
             {
                 this.MakePoof(new Vector2(7,12), 1f);
                 Game1.playSound("junimoMeep1");
-                junimo = new EventJunimo(new Vector2(7, 12), new Vector2(3, 0));
+                junimo = new EventJunimo(new Vector2(7, 12), new Vector2(3, 0), JunimoColor);
                 Game1.currentLocation.characters.Add(junimo);
                 DelayedAction.functionAfterDelay(() => junimo.doEmote(20), 2000);
                 DelayedAction.functionAfterDelay(() => junimo.jump(), 3000);

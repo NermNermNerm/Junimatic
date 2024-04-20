@@ -25,13 +25,18 @@ namespace NermNermNerm.Junimatic
         private const double maxStartingDelay = 1000;
 
         public EventJunimo(Vector2 starting, Vector2 targetVector)
-            : base(starting*64f + new Vector2(0, 5), -1, temporary: true)
+            : this(starting, targetVector, colors[Game1.random.Next(colors.Length)])
         {
-            this.SetColor(colors[Game1.random.Next(colors.Length)]);
+        }
+
+        public EventJunimo(Vector2 starting, Vector2 targetVector, Color color)
+            : base(starting * 64f + new Vector2(0, 5), -1, temporary: true)
+        {
+            this.SetColor(color);
 
             this.starting = this.Position;
             this.startDelay = new Random().NextDouble() * maxStartingDelay;
-            this.targetVector = targetVector*64f;
+            this.targetVector = targetVector * 64f;
         }
 
         private void SetColor(Color color)
