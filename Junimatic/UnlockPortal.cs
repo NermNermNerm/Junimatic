@@ -56,8 +56,9 @@ namespace NermNermNerm.Junimatic
                     this.PlacePortalRemains();
                 }
             };
-        }
 
+            mod.PetFindsThings.AddObjectFinder(OldJunimoPortalQiid, .02);
+        }
 
         public bool IsUnlocked => Game1.MasterPlayer.eventsSeen.Contains(JunimoPortalDiscoveryEvent);
 
@@ -74,7 +75,6 @@ namespace NermNermNerm.Junimatic
                     Game1.addHUDMessage(new HUDMessage("Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)") { noIcon = true });
                 }
                 var myItem = (StardewValley.Object)e.Added.First(i => i.QualifiedItemId == OldJunimoPortalQiid);
-                this.mod.PetFindsThings.ObjectForPetToFindHasBeenPickedUp(e.Player.currentLocation, OldJunimoPortalQiid);
             }
         }
 
@@ -235,7 +235,6 @@ end warpOut";
             {
                 // Perhaps this could happen if the save is passed to somebody else?
                 this.LogError($"{OldJunimoPortalQiid} is already placed at {existing.TileLocation.X},{existing.TileLocation.Y}");
-                this.mod.PetFindsThings.AddObjectForPetToFind(farm, OldJunimoPortalQiid, existing.TileLocation.ToPoint());
                 Game1.MasterPlayer.modData[ModDataKey_PlacedOldPortal] = existing.TileLocation.ToString();
                 return;
             }
@@ -269,7 +268,6 @@ end warpOut";
             this.LogInfoOnce($"{OldJunimoPortalQiid} placed at {position.X},{position.Y}");
             o.IsSpawnedObject = true;
             farm.objects[o.TileLocation] = o;
-            this.mod.PetFindsThings.AddObjectForPetToFind(farm, OldJunimoPortalQiid, o.TileLocation.ToPoint());
 
             Game1.MasterPlayer.modData[ModDataKey_PlacedOldPortal] = position.ToString();
         }
