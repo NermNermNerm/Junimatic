@@ -36,7 +36,7 @@ namespace NermNermNerm.Junimatic
             });
         }
 
-        public bool IsUnlocked => Game1.MasterPlayer.eventsSeen.Contains(AnimalJunimoDreamEvent);
+        public bool IsUnlocked => ModEntry.Config.UnlockAnimal || Game1.MasterPlayer.eventsSeen.Contains(AnimalJunimoDreamEvent);
 
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
         {

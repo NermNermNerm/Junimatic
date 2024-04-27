@@ -34,7 +34,7 @@ namespace NermNermNerm.Junimatic
             Event.RegisterCommand(EventCustomCommandJunimosDisappear, this.JunimosDisappear);
         }
 
-        public bool IsUnlocked => Game1.MasterPlayer.eventsSeen.Contains(GiantCropCelebrationEventId);
+        public bool IsUnlocked => ModEntry.Config.UnlockCropMachines || Game1.MasterPlayer.eventsSeen.Contains(GiantCropCelebrationEventId);
 
         private bool GiantCropIsGrowingOnFarm(GameLocation location, string eventId, string[] args)
             => location.resourceClumps.OfType<GiantCrop>().Any();

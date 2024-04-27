@@ -37,7 +37,7 @@ namespace NermNermNerm.Junimatic
             Event.RegisterPrecondition(IsMysticTreeGrownOnFarmEventCondition, this.IsMysticTreeGrownOnFarm);
         }
 
-        public bool IsUnlocked => Game1.MasterPlayer.eventsSeen.Contains(MysticTreeCelebrationEvent);
+        public bool IsUnlocked => ModEntry.Config.UnlockForest || Game1.MasterPlayer.eventsSeen.Contains(MysticTreeCelebrationEvent);
 
         private void JunimosSpringFromTree(Event @event, string[] args, EventContext context)
         {

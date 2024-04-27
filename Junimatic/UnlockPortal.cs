@@ -60,7 +60,7 @@ namespace NermNermNerm.Junimatic
             mod.PetFindsThings.AddObjectFinder(OldJunimoPortalQiid, .02);
         }
 
-        public bool IsUnlocked => Game1.MasterPlayer.eventsSeen.Contains(JunimoPortalDiscoveryEvent);
+        public bool IsUnlocked => ModEntry.Config.UnlockPortal || Game1.MasterPlayer.eventsSeen.Contains(JunimoPortalDiscoveryEvent);
 
         private void Player_InventoryChanged(object? sender, InventoryChangedEventArgs e)
         {
