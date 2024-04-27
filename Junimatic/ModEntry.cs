@@ -23,6 +23,9 @@ namespace NermNermNerm.Junimatic
 
         // public Harmony Harmony = null!;
 
+        public static ModConfig Config;
+        public ModConfigMenu ConfigMenu = new ModConfigMenu();
+
         public UnlockPortal UnlockPortalQuest = new UnlockPortal();
         public UnlockCropMachines CropMachineHelperQuest = new UnlockCropMachines();
         public UnlockMiner UnlockMiner = new UnlockMiner();
@@ -40,6 +43,9 @@ namespace NermNermNerm.Junimatic
         public override void Entry(IModHelper helper)
         {
             // this.Harmony = new Harmony(this.ModManifest.UniqueID);
+
+            Config = this.Helper.ReadConfig<ModConfig>();
+            this.ConfigMenu.Entry(this);
 
             this.CropMachineHelperQuest.Entry(this);
             this.UnlockPortalQuest.Entry(this);

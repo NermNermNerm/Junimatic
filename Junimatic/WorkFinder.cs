@@ -111,16 +111,23 @@ namespace NermNermNerm.Junimatic
             }
 
             // Junimos only work on the farm or in farm buildings.
-            var allJunimoFriendlyLocations =
-                Game1.getFarm().buildings
+            var allJunimoFriendlyLocations = new List<GameLocation>();
+            if (ModEntry.Config.AllowAnyLocation)
+            {
+                allJunimoFriendlyLocations = new List<GameLocation>(Game1.game1._locations);
+            }
+            else
+            {
+                allJunimoFriendlyLocations = Game1.getFarm().buildings
                     .Select(b => b.indoors.Value)
                     .Where(l => l is not null).Select(l => l!)
                     .ToList();
-            allJunimoFriendlyLocations.Add(Game1.getFarm());
-            allJunimoFriendlyLocations.AddRange(
-                new string[] { "FarmCave", "IslandWest", "Cellar", "FarmHouse", "IslandFarmHouse" }
-                .Select(name => Game1.getLocationFromName(name))
-                .Where(l => l is not null));
+                allJunimoFriendlyLocations.Add(Game1.getFarm());
+                allJunimoFriendlyLocations.AddRange(
+                    new string[] { "FarmCave", "IslandWest", "Cellar", "FarmHouse", "IslandFarmHouse" }
+                    .Select(name => Game1.getLocationFromName(name))
+                    .Where(l => l is not null));
+            }
 
             foreach (var location in allJunimoFriendlyLocations)
             {

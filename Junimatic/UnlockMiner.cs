@@ -31,7 +31,7 @@ namespace NermNermNerm.Junimatic
             this.mod.Helper.Events.Player.InventoryChanged += this.Player_InventoryChanged;
         }
 
-        public bool IsUnlocked => Game1.MasterPlayer.eventsSeen.Contains(MiningJunimoDreamEvent);
+        public bool IsUnlocked => ModEntry.Config.UnlockMiner || Game1.MasterPlayer.eventsSeen.Contains(MiningJunimoDreamEvent);
 
         private void Player_InventoryChanged(object? sender, InventoryChangedEventArgs e)
         {

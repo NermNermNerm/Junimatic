@@ -139,7 +139,7 @@ namespace NermNermNerm.Junimatic
                 case "DeluxeWormBin":
                     return projectType == JunimoType.Fishing; // The output item makes it perfectly clear, but it's the only thing where OutputItem would add value.
                 case "BaitMaker": // This seems like a dangerous machine since the use-case is so specialized that if it gets in the network, it's likely by accident.
-                    return false;
+                    return ModEntry.Config.AllowBaitMaker ? projectType == JunimoType.Fishing : false;
                 case "710": // crab pot
                     return projectType == JunimoType.Fishing; // There's no MachineData
                 case "231": // solar panel
