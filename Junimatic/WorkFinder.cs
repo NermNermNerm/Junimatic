@@ -121,7 +121,7 @@ namespace NermNermNerm.Junimatic
                     .ToList();
             allJunimoFriendlyLocations.Add(Game1.getFarm());
             allJunimoFriendlyLocations.AddRange(
-                new string[] { "FarmCave", "IslandWest", "Cellar", "FarmHouse", "IslandFarmHouse" }
+                new string[] { "FarmCave", "IslandWest", "Cellar", "FarmHouse", "IslandFarmHouse", "Greenhouse" }
                 .Select(name => Game1.getLocationFromName(name))
                 .Where(l => l is not null));
 
