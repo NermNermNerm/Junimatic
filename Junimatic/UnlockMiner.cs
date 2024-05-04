@@ -37,14 +37,18 @@ namespace NermNermNerm.Junimatic
         {
             if (e.Added.Any(i => i.QualifiedItemId == JunimoChrysalisQiid))
             {
-                if (e.Player.IsMainPlayer)
+                if (!e.Player.IsMainPlayer)
+                {
+                    Game1.addHUDMessage(new HUDMessage("Give the strange orb to the host player - only the host can advance this quest.  (Put it in a chest for them)") { noIcon = true });
+                }
+                else if (!this.IsUnlocked && !e.Player.questLog.Any(q => q.id.Value == JunimoChrysalisToWizardQuest))
                 {
                     e.Player.addQuest(JunimoChrysalisToWizardQuest);
                     e.Player.modData[HasGottenJunimoChrysalisDrop] = "true";
                 }
                 else
                 {
-                    Game1.addHUDMessage(new HUDMessage("Give the strange orb to the host player - only the host can advance this quest.  (Put it in a chest for them)") { noIcon = true });
+                    this.LogWarning($"Player received a {JunimoChrysalisQiid} when they've already got or have completed the quest");
                 }
             }
         }
