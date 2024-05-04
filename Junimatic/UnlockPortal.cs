@@ -47,16 +47,6 @@ namespace NermNermNerm.Junimatic
             this.mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
             this.mod.Helper.Events.GameLoop.DayStarted += this.GameLoop_DayStarted;
 
-            // For testing only.
-            this.mod.Helper.Events.Input.ButtonPressed += (object? sender, ButtonPressedEventArgs e) =>
-            {
-                if (e.Button == SButton.Home)
-                {
-                    // delete the old portal and the traces in the ModData too?
-                    this.PlacePortalRemains();
-                }
-            };
-
             mod.PetFindsThings.AddObjectFinder(OldJunimoPortalQiid, .02);
         }
 
