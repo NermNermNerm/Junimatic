@@ -205,7 +205,12 @@ end warpOut";
 
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
         {
-            if (Game1.isRaining && Game1.Date.TotalDays > 7 && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal))
+            if (Game1.isRaining // TODO: Consider + && it won't rain tomorrow
+                && Game1.IsMasterGame
+                && Game1.Date.TotalDays >= 7
+                && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal)
+                && !this.IsUnlocked
+                && !Game1.player.questLog.Any(q => q.id.Value == OldJunimoPortalQuest))
             {
                 this.PlacePortalRemains();
             }
