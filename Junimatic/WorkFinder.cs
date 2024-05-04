@@ -36,6 +36,7 @@ namespace NermNermNerm.Junimatic
         {
             if (!Game1.IsMasterGame)
             {
+                this.LogInfo("WorkFinder.OnDayEnding - not doing anything because this is not the master game.");
                 return;
             }
 
@@ -46,6 +47,8 @@ namespace NermNermNerm.Junimatic
                     junimo.OnDayEnding(location);
                 }
             }
+
+            this.LogInfo("WorkFinder.OnDayEnding - completed.");
         }
 
         private void Input_ButtonPressed(object? sender, StardewModdingAPI.Events.ButtonPressedEventArgs e)
