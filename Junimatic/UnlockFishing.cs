@@ -318,7 +318,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[AfterIcePipsConversationKey] = "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground Ghostfish Ice Pip pool!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't spell out where he got the fish to repopulate from...$3";
+                    data[AfterIcePipsConversationKey] = "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3";
                 });
             }
         }
