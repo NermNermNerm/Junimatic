@@ -15,7 +15,7 @@ namespace NermNermNerm.Junimatic
         private readonly Dictionary<GameLocation, IReadOnlyList<MachineNetwork>> cachedNetworks = new();
 
         /// <summary>The number of Junimos that are being simulated out doing stuff.</summary>
-        private readonly Dictionary<JunimoType, int> numAutomatedJumimos = Enum.GetValues<JunimoType>().ToDictionary(t => t, t => 0);
+        private readonly Dictionary<JunimoType, int> numAutomatedJunimos = Enum.GetValues<JunimoType>().ToDictionary(t => t, t => 0);
 
         private static readonly Point[] walkableDirections = [new Point(-1, 0), new Point(1, 0), new Point(0, -1), new Point(0, 1)];
         private static readonly Point[] crabPotReachableDirections = [new Point(-2, 0), new Point(2, 0), new Point(0, -2), new Point(0, 2)];
@@ -28,7 +28,6 @@ namespace NermNermNerm.Junimatic
         {
             this.mod = mod;
             mod.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
-            mod.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
             mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
         }
 
@@ -49,14 +48,6 @@ namespace NermNermNerm.Junimatic
             }
 
             this.LogInfo("WorkFinder.OnDayEnding - completed.");
-        }
-
-        private void Input_ButtonPressed(object? sender, StardewModdingAPI.Events.ButtonPressedEventArgs e)
-        {
-            if (e.Button == SButton.Insert)
-            {
-                this.DoJunimos(true);
-            }
         }
 
         private int timeOfDayAtLastCheck = -1;
@@ -109,7 +100,7 @@ namespace NermNermNerm.Junimatic
             {
                 if (isAutomationInterval)
                 {
-                    this.numAutomatedJumimos[junimoType] = 0;
+                    this.numAutomatedJunimos[junimoType] = 0;
                 }
             }
 
