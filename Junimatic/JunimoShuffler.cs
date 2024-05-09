@@ -260,20 +260,20 @@ namespace NermNermNerm.Junimatic
         {
             if (this.workFinder is null || this.Assignment is null)
             { // if !master game -- this should never happen since the sole caller already checks for this.
-                this.LogInfo("JunimoShuffler.OnDayEnding - not doing anything because this is not the master game");
+                this.LogTrace("JunimoShuffler.OnDayEnding - not doing anything because this is not the master game");
                 return;
             }
 
-            this.LogInfo($"JunimoShuffler.OnDayEnding - found a live junimo in {location.Name}");
+            this.LogTrace($"JunimoShuffler.OnDayEnding - found a live junimo in {location.Name}");
             if (this.Carrying.Count > 0)
             {
-                this.LogInfo("JunimoShuffler.OnDayEnding - calling JunimoReachedTarget");
+                this.LogTrace("JunimoShuffler.OnDayEnding - calling JunimoReachedTarget");
                 this.JunimoReachedTarget(this, location);
             }
 
-            this.LogInfo($"JunimoShuffler.OnDayEnding - removing the Junimo from {location.Name}");
+            this.LogTrace($"JunimoShuffler.OnDayEnding - removing the Junimo from {location.Name}");
             location.characters.Remove(this);
-            this.LogInfo($"JunimoShuffler.OnDayEnding - done cleaning up the Junimo in {location.Name}");
+            this.LogTrace($"JunimoShuffler.OnDayEnding - done cleaning up the Junimo in {location.Name}");
         }
 
         public override void update(GameTime time, GameLocation location)
