@@ -14,6 +14,11 @@ namespace NermNermNerm.Junimatic
         private ModEntry mod = null!;
         private readonly Dictionary<GameLocation, IReadOnlyList<MachineNetwork>> cachedNetworks = new();
 
+        private int timeOfDayAtLastCheck = -1;
+        private int numActionsAtThisGameTime;
+
+        private bool isDayStarted = false;
+
         /// <summary>The number of Junimos that are being simulated out doing stuff.</summary>
         private readonly Dictionary<JunimoType, int> numAutomatedJunimos = Enum.GetValues<JunimoType>().ToDictionary(t => t, t => 0);
 
@@ -29,13 +34,21 @@ namespace NermNermNerm.Junimatic
             this.mod = mod;
             mod.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
             mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
+            mod.Helper.Events.GameLoop.DayStarted += this.GameLoop_DayStarted;
+        }
+
+        private void GameLoop_DayStarted(object? sender, StardewModdingAPI.Events.DayStartedEventArgs e)
+        {
+            this.LogTrace("WorkFinder.OnDayStarted unleashed the junimos");
+            this.isDayStarted = true;
         }
 
         private void GameLoop_DayEnding(object? sender, StardewModdingAPI.Events.DayEndingEventArgs e)
         {
+            this.isDayStarted = false;
             if (!Game1.IsMasterGame)
             {
-                this.LogInfo("WorkFinder.OnDayEnding - not doing anything because this is not the master game.");
+                this.LogTrace("WorkFinder.OnDayEnding - not doing anything because this is not the master game.");
                 return;
             }
 
@@ -46,12 +59,8 @@ namespace NermNermNerm.Junimatic
                     junimo.OnDayEnding(location);
                 }
             }
-
-            this.LogInfo("WorkFinder.OnDayEnding - completed.");
+            this.LogTrace("WorkFinder.OnDayEnding - not doing anything because this is not the master game.");
         }
-
-        private int timeOfDayAtLastCheck = -1;
-        private int numActionsAtThisGameTime;
 
         // 10 minutes in SDV takes 7.17 seconds of real time.  So our setting of 3 means
         //  that we assume that junimo actions take about 2 seconds to do.
@@ -67,6 +76,12 @@ namespace NermNermNerm.Junimatic
 
             if (Game1.isTimePaused || !Game1.IsMasterGame)
             {
+                return;
+            }
+
+            if (!this.isDayStarted)
+            {
+                this.LogTrace("Canceling OnSecondUpdateTicked processing because the day hasn't started yet.");
                 return;
             }
 
