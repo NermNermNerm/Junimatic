@@ -21,8 +21,8 @@ namespace NermNermNerm.Junimatic
         private const string AddFishTankPropEventCommand = "Junimatic.AddFishTankProp";
         private const string SetExitLocationCommand = "Junimatic.SetExitLocation";
         private const string HasDoneIcePipsQuestModDataKey = "Junimatic.HasDoneIcePipsQuest";
-        private const string IcePipsQuestStartedDayModDataKey = "Junimatic.HasDoneIcePipsQuest";
-        private const string IcePipsQuestCompletedDayModDataKey = "Junimatic.HasDoneIcePipsQuest";
+        private const string IcePipsQuestStartedDayModDataKey = "Junimatic.IcePipsQuestStartedDay";
+        private const string IcePipsQuestCompletedDayModDataKey = "Junimatic.IcePipsQuestCompletedDay";
         private const string OnIcePipsConversationKey = "Junimatic.OnIcePipsQuest";
         private const string AfterIcePipsConversationKey = "Junimatic.AfterIcePipsConversationKey";
         private const string IcePipQuestCountKey = "Junimatic.IcePipCount";
