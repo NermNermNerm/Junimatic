@@ -42,6 +42,22 @@ namespace NermNermNerm.Junimatic
             mod.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
             mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
             mod.Helper.Events.GameLoop.DayStarted += this.GameLoop_DayStarted;
+
+            mod.Helper.ConsoleCommands.Add(
+                "Junimatic.EnableFish",
+                "Enables the fishing Junimo - Enables the Junimo for handling fishing things with or without having done the quest.",
+                this.ForceEnable);
+        }
+
+        private void ForceEnable(string cmd, string[] args)
+        {
+            if (Game1.MasterPlayer is null)
+            {
+                this.mod.LogError("This command has to be run when the game is loaded");
+                return;
+            }
+
+            Game1.MasterPlayer.modData[HasDoneIcePipsQuestModDataKey] = "true";
         }
 
         private void GameLoop_DayStarted(object? sender, DayStartedEventArgs e)
