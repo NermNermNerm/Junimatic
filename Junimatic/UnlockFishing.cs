@@ -7,6 +7,8 @@ using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Objects;
 
+using static LocalizeFromSourceLib.LocalizeMethods;
+
 namespace NermNermNerm.Junimatic
 {
     public class UnlockFishing
@@ -45,7 +47,7 @@ namespace NermNermNerm.Junimatic
 
             mod.Helper.ConsoleCommands.Add(
                 "Junimatic.EnableFish",
-                "Enables the fishing Junimo - Enables the Junimo for handling fishing things with or without having done the quest.",
+                L("Enables the fishing Junimo - Enables the Junimo for handling fishing things with or without having done the quest."),
                 this.ForceEnable);
         }
 
@@ -53,11 +55,11 @@ namespace NermNermNerm.Junimatic
         {
             if (Game1.MasterPlayer is null)
             {
-                this.mod.LogError("This command has to be run when the game is loaded");
+                this.mod.LogError($"This command has to be run when the game is loaded");
                 return;
             }
 
-            Game1.MasterPlayer.modData[HasDoneIcePipsQuestModDataKey] = "true";
+            Game1.MasterPlayer.modData[HasDoneIcePipsQuestModDataKey] = true.ToString();
         }
 
         private void GameLoop_DayStarted(object? sender, DayStartedEventArgs e)
@@ -73,7 +75,7 @@ namespace NermNermNerm.Junimatic
                     int.TryParse(valueAsString, out count);
                 }
 
-                quest.currentObjective = $"{count} of 6 teleported";
+                quest.currentObjective = LF($"{count} of 6 teleported");
             }
 
             // Add convo keys.  Note that all players in multiplayer get the conversation key because it's set here..
@@ -154,7 +156,7 @@ namespace NermNermNerm.Junimatic
                 if (count >= 6)
                 {
                     quest.questComplete();
-                    Game1.MasterPlayer.modData[HasDoneIcePipsQuestModDataKey] = "true";
+                    Game1.MasterPlayer.modData[HasDoneIcePipsQuestModDataKey] = true.ToString();
                     Game1.MasterPlayer.modData[IcePipsQuestCompletedDayModDataKey] = Game1.Date.TotalDays.ToString(CultureInfo.InvariantCulture);
                     Game1.MasterPlayer.modData.Remove(IcePipsQuestStartedDayModDataKey);
                     // Should really do this for all players.  Not sure how.
@@ -165,7 +167,7 @@ namespace NermNermNerm.Junimatic
                 else
                 {
                     quest.modData[IcePipQuestCountKey] = count.ToString(CultureInfo.InvariantCulture);
-                    quest.currentObjective = $"{count} of 6 teleported";
+                    quest.currentObjective = IF($"{count} of 6 teleported");
                 }
             }
             else
@@ -210,7 +212,7 @@ namespace NermNermNerm.Junimatic
                 this.MakePoof(new Vector2(10, 12), 1f);
                 Game1.currentLocation.characters.Remove(junimo);
                 Game1.playSound("wand");
-                Game1.DrawDialogue(new Dialogue(null, null, "You've made a new Junimo friend that will help with traps and fishing-related machines"));
+                Game1.DrawDialogue(new Dialogue(null, null, L("You've made a new Junimo friend that will help with traps and fishing-related machines")));
             }
         }
 
@@ -341,7 +343,7 @@ namespace NermNermNerm.Junimatic
 
         private void EditMountainEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{MeetLinusAtTentEvent}/H/t 600 2200/n {LinusHadADreamMailKey}"] = $@"spring_day_ambient
+            eventData[I($"{MeetLinusAtTentEvent}/H/t 600 2200/n {LinusHadADreamMailKey}")] = SdvEvent($@"spring_day_ambient
 -1000 -1000
 farmer 5 13 1 Linus 25 9 1
 removeQuest {MeetLinusAtTentQuest}
@@ -382,13 +384,13 @@ move Linus 0 -2 0 true
 move farmer 0 -2 0 true
 {SetExitLocationCommand} UndergroundMine60 12 10 
 end fade
-".Replace("\r", "").Replace("\n", "/");
+").Replace("\r", "").Replace("\n", "/");
         }
 
         private string GetIcePipEventText()
         {
             // TODO: i18n it the same way as other events if possible.
-            return $@"continue
+            return SdvEvent($@"continue
 -1000 -1000
 farmer 12 10 2 Linus 8 14 1
 removeQuest {MeetLinusAt60Quest}
@@ -436,7 +438,7 @@ faceDirection Linus 2
 speak Linus ""Well, I've got a lot to think about.""
 move Linus 0 -4 0
 
-end".Replace("\r", "").Replace("\n", "/");
+end").Replace("\r", "").Replace("\n", "/");
         }
     }
 }

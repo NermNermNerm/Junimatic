@@ -7,6 +7,8 @@ using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Extensions;
 
+using static LocalizeFromSourceLib.LocalizeMethods;
+
 namespace NermNermNerm.Junimatic
 {
     /// <summary>
@@ -20,7 +22,7 @@ namespace NermNermNerm.Junimatic
         private readonly List<Func<IEnumerable<(Point tileLocation, double chance)>>> finders = new();
 
         // Using a distinct mod key, in the event this gets split out
-        private const string PetSawItemConversationKey = "PetFindsThings.PetSightedAnObject";
+        private static readonly string PetSawItemConversationKey = "PetFindsThings.PetSightedAnObject";
 
         private record IdAndPoint(string Id, Point Point)
         {
@@ -133,7 +135,7 @@ namespace NermNermNerm.Junimatic
             Vector2 landingTile = nonObscuredTiles.Any() ? Game1.random.Choose(nonObscuredTiles) : Game1.random.Choose(openTiles.ToArray());
             petInScene.Position = landingTile * 64;
 
-            Game1.addHUDMessage(new HUDMessage($"I wonder what {petInScene.Name} has been up to...") { noIcon = true });
+            Game1.addHUDMessage(new HUDMessage(LF($"I wonder what {petInScene.Name} has been up to...")) { noIcon = true });
             Game1.player.activeDialogueEvents[PetSawItemConversationKey] = 30;
         }
 

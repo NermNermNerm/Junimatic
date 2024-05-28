@@ -10,6 +10,8 @@ using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Objects;
 using StardewValley.TerrainFeatures;
 
+using static LocalizeFromSourceLib.LocalizeMethods;
+
 namespace NermNermNerm.Junimatic
 {
     /// <summary>
@@ -58,7 +60,7 @@ namespace NermNermNerm.Junimatic
             {
                 if (!e.Player.IsMainPlayer)
                 {
-                    Game1.addHUDMessage(new HUDMessage("Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)") { noIcon = true });
+                    Game1.addHUDMessage(new HUDMessage(L("Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)")) { noIcon = true });
                 }
                 else if (!this.IsUnlocked && !e.Player.questLog.Any(q => q.id.Value == OldJunimoPortalQuest))
                 {
@@ -107,7 +109,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[OldJunimoPortalQuest] = "Basic/The Strange Little Structure/You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it./Bring the remnants of the strange little structure to the wizard./null/-1/0/-1/false";
+                    data[OldJunimoPortalQuest] = L("Basic/The Strange Little Structure/You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it./Bring the remnants of the strange little structure to the wizard./null/-1/0/-1/false");
                 });
             }
         }
@@ -120,8 +122,8 @@ namespace NermNermNerm.Junimatic
                 SpriteIndex = 0,
                 CanBePlacedIndoors = true,
                 CanBePlacedOutdoors = true,
-                Description = "A portal through which Junimos who want to help out on the farm can appear.  Place pathways next to these when placing them outdoors so the Junimos will know where to go.",
-                DisplayName = "Junimo Portal",
+                Description = L("A portal through which Junimos who want to help out on the farm can appear.  Place pathways next to these when placing them outdoors so the Junimos will know where to go."),
+                DisplayName = L("Junimo Portal"),
                 Texture = ModEntry.BigCraftablesSpritesPseudoPath,
             };
         }
@@ -131,14 +133,14 @@ namespace NermNermNerm.Junimatic
             ModEntry.AddQuestItem(
                 objects,
                 OldJunimoPortalQiid,
-                "a strange little structure", // TODO: 18n
-                "At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard's forest-magic potion.", // TODO: 18n
+                L("a strange little structure"),
+                L("At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard's forest-magic potion."),
                 0);
         }
 
         private void EditWizardHouseEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{JunimoPortalDiscoveryEvent}/H/i {OldJunimoPortalQiid}"] = $@"WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
+            eventData[IF($"{JunimoPortalDiscoveryEvent}/H/i {OldJunimoPortalQiid}")] = SdvEvent($@"WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
 removeQuest {OldJunimoPortalQuest}/
 addConversationTopic {ConversationKeys.JunimosLastTripToMine} 200/
 addConversationTopic {UnlockCropMachines.ConversationKeyBigCrops} 200/
@@ -200,7 +202,7 @@ speak Wizard ""Enticing a Junimo to *use* it, well, that's up to the Junimo...""
 globalFade/
 viewport -1000 -1000/
 message ""Usage: After completing quests to get junimo helpers, you can place Junimo Portals either in buildings or outside.  If outside, place walkways between the hut and any chests or machines you want the Junimo to automate.  If in a building, you can place walkways or just leave a clear path.""/
-end warpOut";
+end warpOut");
         }
 
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
@@ -220,7 +222,7 @@ end warpOut";
         {
             if (Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal) && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_AlertedPlayer) && !Game1.isRaining)
             {
-                Game1.addHUDMessage(new HUDMessage("That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!") {  noIcon = true });
+                Game1.addHUDMessage(new HUDMessage(L("That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!")) {  noIcon = true });
                 Game1.MasterPlayer.modData[ModDataKey_AlertedPlayer] = Game1.Date.TotalDays.ToString();
             }
         }
@@ -251,7 +253,7 @@ end warpOut";
                 if (!visibleGrassPlots.Any())
                 {
                     // TODO: Try and find some clear ground or just pick a random spot.
-                    this.LogWarning("No weeds or grass on farm, can't place the old junimo portal");
+                    this.LogWarning($"No weeds or grass on farm, can't place the old junimo portal");
                     return;
                 }
 

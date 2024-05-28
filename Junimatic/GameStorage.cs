@@ -8,6 +8,8 @@ using StardewValley;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 
+using static LocalizeFromSourceLib.LocalizeMethods;
+
 namespace NermNermNerm.Junimatic
 {
     /// <summary>
@@ -202,7 +204,7 @@ namespace NermNermNerm.Junimatic
 
         public override string ToString()
         {
-            return $"{this.item.Name} at {this.item.TileLocation}";
+            return IF($"{this.item.Name} at {this.item.TileLocation}");
         }
 
     }

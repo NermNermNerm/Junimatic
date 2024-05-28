@@ -1,0 +1,21 @@
+﻿{
+    "isStrict": true,
+    "invariantStringPatterns": [
+        // Identifiers for stuff within this mod -- commented out because we are ignoring all identifiers
+        // "^Junimatic\\.",
+
+        // dot and slash-separated identifiers
+        "^\\w+[\\./\\\\][\\w\\./\\\\]*\\w$",
+
+        // CamelCase or pascalCase identifiers - identified by all letters and digits with a lowercase letter right before an uppercase one.
+        "^\\w*[\\p{Ll}\\d][\\p{Lu}]\\w*$",
+
+        // Qualified item id's (O)blah.blah or (BC)Chest
+        "^\\([A-Z]+\\)[\\p{L}\\d\\.]+$"
+    ],
+    "invariantMethods": [
+        "System.Text.RegularExpressions.Regex.ctor",
+        "StardewValley.Farmer.getFriendshipHeartLevelForNPC",
+        "StardewValley.Game1.playSound"
+    ]
+}

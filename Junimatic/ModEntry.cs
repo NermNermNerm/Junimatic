@@ -11,6 +11,8 @@ using StardewValley;
 using StardewValley.Characters;
 using StardewValley.GameData.Objects;
 
+using static LocalizeFromSourceLib.LocalizeMethods;
+
 namespace NermNermNerm.Junimatic
 {
     public class ModEntry
@@ -83,7 +85,7 @@ namespace NermNermNerm.Junimatic
                     return;
                 }
 
-                var property = typeof(Junimo).GetField("color", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                var property = typeof(Junimo).GetField(I("color"), BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
                 if (property is null)
                 {
                     this.LogError($"{SetJunimoColorEventCommand} can't set color because the game code is changed and the 'color' field is not there anymore.");
@@ -141,12 +143,12 @@ namespace NermNermNerm.Junimatic
                 Name = itemId,
                 DisplayName = displayName,
                 Description = description,
-                Type = "Quest",
+                Type = I("Quest"),
                 Category = -999,
                 Price = 0,
                 Texture = ModEntry.OneTileSpritesPseudoPath,
                 SpriteIndex = spriteIndex,
-                ContextTags = new() { "not_giftable", "not_placeable", "prevent_loss_on_death" },
+                ContextTags = new() { I("not_giftable"), I("not_placeable"), I("prevent_loss_on_death") },
             };
         }
     }
