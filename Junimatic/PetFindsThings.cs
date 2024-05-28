@@ -74,7 +74,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[PetSawItemConversationKey] = "Pets sometimes have an uncanny ability to spot missing things!$0#$b#Just last week I lost my favorite milking bucket.  I came across it a few days later and my cat, Muffin, was sleeping in it.$1#$b#Well, I guess she didn't exactly find it for me, but at least she knew where it was!$0";
+                    data[PetSawItemConversationKey] = L("Pets sometimes have an uncanny ability to spot missing things!$0#$b#Just last week I lost my favorite milking bucket.  I came across it a few days later and my cat, Muffin, was sleeping in it.$1#$b#Well, I guess she didn't exactly find it for me, but at least she knew where it was!$0");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Linus"))
@@ -82,7 +82,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data["winter_Sun4"] = @"Do I miss my ""normal"" life on days like this?$2#$b#No, not really.  Except for Jeremy Clarkson...$1#$b#...My pet Schnauzer.  He had an uncanny ability to fetch the thing I wanted before I even knew I wanted it.$0";
+                    data["winter_Sun4"] = L(@"Do I miss my ""normal"" life on days like this?$2#$b#No, not really.  Except for Jeremy Clarkson...$1#$b#...My pet Schnauzer.  He had an uncanny ability to fetch the thing I wanted before I even knew I wanted it.$0");
                 });
             }
         }

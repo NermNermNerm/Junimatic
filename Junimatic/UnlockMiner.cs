@@ -201,7 +201,7 @@ end warpOut/
 
         private void EditQuests(IDictionary<string, string> data)
         {
-            data[JunimoChrysalisToWizardQuest] = L("Basic/The Strange Orb/Investigate the strange glowing thing you found inside a big slime./Bring the faintly glowing orb to the wizard./null/-1/0/-1/false");
+            data[JunimoChrysalisToWizardQuest] = SdvQuest("Basic/The Strange Orb/Investigate the strange glowing thing you found inside a big slime./Bring the faintly glowing orb to the wizard./null/-1/0/-1/false");
         }
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)

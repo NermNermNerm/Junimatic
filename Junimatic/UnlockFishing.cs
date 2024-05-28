@@ -309,9 +309,9 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[MeetLinusAtTentQuest] = "Basic/Find Linus At His Tent/Linus said he had something he needed your help with./Go to Linus' tent before 10pm/null/-1/0/-1/false";
-                    data[MeetLinusAt60Quest] = "Basic/Meet Linus At Level 60/Linus had something he wanted to show you at level 60 of the mines./Follow Linus to level 60/null/-1/0/-1/false";
-                    data[CatchIcePipsQuest] = "Basic/Catch Six Ice Pips/Catch six ice pips and put them in the mysterious fish tank.//null/-1/0/-1/false";
+                    data[MeetLinusAtTentQuest] = SdvQuest("Basic/Find Linus At His Tent/Linus said he had something he needed your help with./Go to Linus' tent before 10pm/null/-1/0/-1/false");
+                    data[MeetLinusAt60Quest] = SdvQuest("Basic/Meet Linus At Level 60/Linus had something he wanted to show you at level 60 of the mines./Follow Linus to level 60/null/-1/0/-1/false");
+                    data[CatchIcePipsQuest] = SdvQuest("Basic/Catch Six Ice Pips/Catch six ice pips and put them in the mysterious fish tank.//null/-1/0/-1/false");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Mail"))
@@ -319,7 +319,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[LinusHadADreamMailKey] = $"@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus%item quest {MeetLinusAtTentQuest}%%[#]Meet Linus at his tent";
+                    data[LinusHadADreamMailKey] = L($"@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus%item quest {MeetLinusAtTentQuest}%%[#]Meet Linus at his tent");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Linus"))
@@ -327,8 +327,8 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[OnIcePipsConversationKey] = "I'm still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He's disappointed and puzzled.#$b#I'm pretty puzzled too.  But I'm glad you're working on it.";
-                    data[AfterIcePipsConversationKey] = "Did you finish collecting those fish?  I'm betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I've never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that's good.#$b#But I still hope they go away.";
+                    data[OnIcePipsConversationKey] = L("I'm still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He's disappointed and puzzled.#$b#I'm pretty puzzled too.  But I'm glad you're working on it.");
+                    data[AfterIcePipsConversationKey] = L("Did you finish collecting those fish?  I'm betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I've never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that's good.#$b#But I still hope they go away.");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Demetrius"))
@@ -336,7 +336,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[AfterIcePipsConversationKey] = "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3";
+                    data[AfterIcePipsConversationKey] = L("Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3");
                 });
             }
         }

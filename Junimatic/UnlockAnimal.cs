@@ -33,7 +33,7 @@ namespace NermNermNerm.Junimatic
             {
                 var farmAnimals = Game1.getFarm().animals;
                 bool hasEnoughAnimals = farmAnimals.Length >= 6;
-                bool hasEnoughChickens = farmAnimals.Values.Count(a => a.type.Value.EndsWith(" Chicken")) >= 2;
+                bool hasEnoughChickens = farmAnimals.Values.Count(a => a.type.Value.EndsWith(I(" Chicken"))) >= 2;
                 return hasEnoughAnimals && hasEnoughChickens;
             });
         }
@@ -224,8 +224,8 @@ end");
 
         private void EditQuests(IDictionary<string, string> data)
         {
-            data[CollectLostChickenQuest] = L("Basic/Chicken Round-Up/Marnie thinks one of your chickens has escaped  the forest south of her farm; you should investigate./Enter the Cindersnap Forest during the day./null/-1/0/-1/false");
-            data[RescueCindersnapJunimoQuest] = L("Basic/Help the Junimo Go Home/Help the Junimo in the Cindersnap Forest get home./Enter the Cindersnap Forest during the day with a Junimo Portal in your inventory./null/-1/0/-1/false");
+            data[CollectLostChickenQuest] = SdvQuest("Basic/Chicken Round-Up/Marnie thinks one of your chickens has escaped  the forest south of her farm; you should investigate./Enter the Cindersnap Forest during the day./null/-1/0/-1/false");
+            data[RescueCindersnapJunimoQuest] = SdvQuest("Basic/Help the Junimo Go Home/Help the Junimo in the Cindersnap Forest get home./Enter the Cindersnap Forest during the day with a Junimo Portal in your inventory./null/-1/0/-1/false");
         }
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)

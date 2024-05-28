@@ -5,7 +5,7 @@
         // "^Junimatic\\.",
 
         // dot and slash-separated identifiers
-        "^\\w+[\\./\\\\][\\w\\./\\\\]*\\w$",
+        "^\\w+[\\./\\\\_][\\w\\./\\\\_]*\\w$",
 
         // CamelCase or pascalCase identifiers - identified by all letters and digits with a lowercase letter right before an uppercase one.
         "^\\w*[\\p{Ll}\\d][\\p{Lu}]\\w*$",

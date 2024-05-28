@@ -94,7 +94,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> recipes = editor.AsDictionary<string, string>().Data;
-                    recipes[JunimoPortalRecipe] = $"{StardewValley.Object.woodID} 20 {"92" /* sap*/} 30 {-777 /*wild seeds any*/} 5/Field/{JunimoPortal}/true/None/";
+                    recipes[JunimoPortalRecipe] = IF($"{StardewValley.Object.woodID} 20 {"92" /* sap*/} 30 {-777 /*wild seeds any*/} 5/Field/{JunimoPortal}/true/None/");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/WizardHouse"))
@@ -109,7 +109,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[OldJunimoPortalQuest] = L("Basic/The Strange Little Structure/You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it./Bring the remnants of the strange little structure to the wizard./null/-1/0/-1/false");
+                    data[OldJunimoPortalQuest] = SdvQuest("Basic/The Strange Little Structure/You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it./Bring the remnants of the strange little structure to the wizard./null/-1/0/-1/false");
                 });
             }
         }
