@@ -41,6 +41,10 @@ namespace NermNermNerm.Junimatic
         {
             Instance = this;
 
+#if DEBUG
+            DoPseudoLoc = true;
+#endif
+
             this.CropMachineHelperQuest.Entry(this);
             this.UnlockPortalQuest.Entry(this);
             this.UnlockMiner.Entry(this);
