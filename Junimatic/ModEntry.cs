@@ -40,10 +40,12 @@ namespace NermNermNerm.Junimatic
         public override void Entry(IModHelper helper)
         {
             Instance = this;
-
 #if DEBUG
             DoPseudoLoc = true;
 #endif
+            LocalizeFromSourceLib.SdvTranslator.GetLocale = () => helper.Translation.Locale;
+            LocalizeFromSourceLib.Translator.OnBadTranslation += (message) => this.LogInfoOnce($"Translation issue: {message}");
+            LocalizeFromSourceLib.Translator.OnTranslationFilesCorrupt += (message) => this.LogErrorOnce($"Translation error: {message}");
 
             this.CropMachineHelperQuest.Entry(this);
             this.UnlockPortalQuest.Entry(this);
@@ -55,8 +57,14 @@ namespace NermNermNerm.Junimatic
             this.PetFindsThings.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
+            this.Helper.Events.Content.LocaleChanged += this.OnLocaleChanged;
 
             Event.RegisterCommand(SetJunimoColorEventCommand, this.SetJunimoColor);
+        }
+
+        private void OnLocaleChanged(object? sender, LocaleChangedEventArgs e)
+        {
+            this.Helper.GameContent.InvalidateCache("Data/Objects");
         }
 
         private void SetJunimoColor(Event @event, string[] split, EventContext context)
