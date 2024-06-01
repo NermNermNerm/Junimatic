@@ -167,7 +167,7 @@ namespace NermNermNerm.Junimatic
                 else
                 {
                     quest.modData[IcePipQuestCountKey] = count.ToString(CultureInfo.InvariantCulture);
-                    quest.currentObjective = IF($"{count} of 6 teleported");
+                    quest.currentObjective = LF($"{count} of 6 teleported");
                 }
             }
             else
@@ -319,7 +319,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[LinusHadADreamMailKey] = L($"@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus%item quest {MeetLinusAtTentQuest}%%[#]Meet Linus at his tent");
+                    data[LinusHadADreamMailKey] = SdvMail($"@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus%item quest {MeetLinusAtTentQuest}%%[#]Meet Linus at his tent");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Linus"))

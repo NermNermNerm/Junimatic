@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LocalizeFromSource" Version="1.0.26" />
+    <PackageReference Include="LocalizeFromSource" Version="1.0.32" />
     <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.0.1" />
   </ItemGroup>
 

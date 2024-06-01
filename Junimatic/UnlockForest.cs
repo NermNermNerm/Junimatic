@@ -18,7 +18,7 @@ namespace NermNermNerm.Junimatic
         private const string IsMysticTreeGrownOnFarmEventCondition = "IsMysticTreeGrownOnFarm";
         private const string GrowMysticTreeQuest = "Junmatic.GrowMysticTree";
         private const string MeetLinusMailKey = "Junimatic.MeetLinus";
-        private const string MeetLinusQuestKey = "Junimatic.MeetLinus";
+        private const string MeetLinusInWoodsQuestKey = "Junimatic.CookOutWithLinus";
         private const string LinusCampingEvent = "Junimatic.LinusCamping";
         private const string MysticTreeCelebrationEvent = "Junimatic.MysticTreeCelebration";
         private const string TempMarker = "Junimatic.TemporaryEventMarker";
@@ -165,7 +165,7 @@ namespace NermNermNerm.Junimatic
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
                     data[GrowMysticTreeQuest] = SdvQuest("Basic/Plant The Mystic Seed/Linus gave you some tree seeds...  Do the Junimos talk to him too?/Grow a Mystic Tree and 2 Mahogony Trees to adulthood on your farm./null/-1/0/-1/false");
-                    data[MeetLinusQuestKey] = SdvQuest("Basic/Meet Linus In The Secret Woods/Have dinner with Linus in the Secret Woods/Enter the secret woods on a sunny day between 6 and 11pm./null/-1/0/-1/false");
+                    data[MeetLinusInWoodsQuestKey] = SdvQuest("Basic/Meet Linus In The Secret Woods/Have dinner with Linus in the Secret Woods/Enter the secret woods on a sunny day between 6 and 11pm./null/-1/0/-1/false");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Mail"))
@@ -173,7 +173,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[MeetLinusMailKey] = LF($"@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus%item quest {MeetLinusQuestKey}%%[#]Meet at Linus' camp in the woods");
+                    data[MeetLinusMailKey] = SdvMail($"@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus%item quest {MeetLinusInWoodsQuestKey}%%[#]Meet at Linus' camp in the woods");
                 });
             }
 
@@ -205,7 +205,7 @@ end
             eventData[IF($"{LinusCampingEvent}/H/w sunny/t 1800 2300/n {MeetLinusMailKey}")] = SdvEvent(@$"nightTime
 -1000 -1000
 farmer 40 14 3 Linus 29 13 1
-removeQuest {MeetLinusQuestKey}
+removeQuest {MeetLinusInWoodsQuestKey}
 
 viewport 27 12 true
 

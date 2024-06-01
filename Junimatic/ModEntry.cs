@@ -41,7 +41,7 @@ namespace NermNermNerm.Junimatic
         {
             Instance = this;
 
-            Initialize(() => helper.Translation.Locale, I("en"));
+            Initialize(() => helper.Translation.Locale);
 #if DEBUG
             DoPseudoLoc = true;
 #endif

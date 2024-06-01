@@ -147,7 +147,7 @@ namespace NermNermNerm.Junimatic
 
             if (this.Assignment.target is GameStorage chest)
             {
-                l.playSound("ship");
+                l.playSound("Ship");
                 // Put what we're carrying into the chest or huck it overboard if we can't.
                 if (!chest.TryStore(this.Carrying))
                 {
