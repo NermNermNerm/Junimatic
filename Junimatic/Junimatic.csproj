@@ -4,11 +4,11 @@
     <RootNamespace>NermNermNerm.Junimatic</RootNamespace>
 
     <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
-    <IgnoreModFilePatterns>\.edits\.json$</IgnoreModFilePatterns>
+    <IgnoreModFilePatterns>\.edits\.json$,new-language-template\.json$</IgnoreModFilePatterns>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LocalizeFromSource" Version="1.0.24" />
+    <PackageReference Include="LocalizeFromSource" Version="1.0.26" />
     <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.0.1" />
   </ItemGroup>
 

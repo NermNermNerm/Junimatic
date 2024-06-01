@@ -8,7 +8,7 @@ using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using LocalizeFromSourceLib;
 
-using static LocalizeFromSourceLib.LocalizeMethods;
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {

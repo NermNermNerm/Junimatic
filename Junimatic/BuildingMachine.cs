@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
-using static LocalizeFromSourceLib.LocalizeMethods;
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {

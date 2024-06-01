@@ -9,7 +9,7 @@ using StardewValley.Characters;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 
-using static LocalizeFromSourceLib.LocalizeMethods;
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {

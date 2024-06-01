@@ -7,7 +7,7 @@ using StardewValley.GameData.Objects;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 
-using static LocalizeFromSourceLib.LocalizeMethods;
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {
@@ -120,7 +120,7 @@ end bed");
 
         private void EditWizardHouseEvents(IDictionary<string, string> eventData)
         {
-            eventData[IF($"{ReturnJunimoOrbEvent}/H/i {JunimoChrysalisQiid}")] =SdvEvent(@$"WizardSong/
+            eventData[IF($"{ReturnJunimoOrbEvent}/H/i {JunimoChrysalisQiid}")] = SdvEvent(@$"WizardSong/
 -1000 -1000/
 farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
 {ModEntry.SetJunimoColorEventCommand} OrangeRed/

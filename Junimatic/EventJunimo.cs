@@ -7,7 +7,7 @@ using Netcode;
 using StardewValley;
 using StardewValley.Characters;
 
-using static LocalizeFromSourceLib.LocalizeMethods;
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {

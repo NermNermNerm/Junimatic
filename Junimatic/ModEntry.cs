@@ -11,7 +11,7 @@ using StardewValley;
 using StardewValley.Characters;
 using StardewValley.GameData.Objects;
 
-using static LocalizeFromSourceLib.LocalizeMethods;
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {
@@ -40,12 +40,13 @@ namespace NermNermNerm.Junimatic
         public override void Entry(IModHelper helper)
         {
             Instance = this;
+
+            Initialize(() => helper.Translation.Locale, I("en"));
 #if DEBUG
             DoPseudoLoc = true;
 #endif
-            LocalizeFromSourceLib.SdvTranslator.GetLocale = () => helper.Translation.Locale;
-            LocalizeFromSourceLib.Translator.OnBadTranslation += (message) => this.LogInfoOnce($"Translation issue: {message}");
-            LocalizeFromSourceLib.Translator.OnTranslationFilesCorrupt += (message) => this.LogErrorOnce($"Translation error: {message}");
+            OnBadTranslation += (message) => this.LogInfoOnce($"Translation issue: {message}");
+            OnTranslationFilesCorrupt += (message) => this.LogErrorOnce($"Translation error: {message}");
 
             this.CropMachineHelperQuest.Entry(this);
             this.UnlockPortalQuest.Entry(this);
@@ -57,14 +58,9 @@ namespace NermNermNerm.Junimatic
             this.PetFindsThings.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
-            this.Helper.Events.Content.LocaleChanged += this.OnLocaleChanged;
+            this.Helper.Events.Content.LocaleChanged += (_,_) => this.Helper.GameContent.InvalidateCache("Data/Objects");
 
             Event.RegisterCommand(SetJunimoColorEventCommand, this.SetJunimoColor);
-        }
-
-        private void OnLocaleChanged(object? sender, LocaleChangedEventArgs e)
-        {
-            this.Helper.GameContent.InvalidateCache("Data/Objects");
         }
 
         private void SetJunimoColor(Event @event, string[] split, EventContext context)
