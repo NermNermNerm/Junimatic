@@ -58,16 +58,12 @@ but off-screen Junimos will.
 If you'd like to help with the mod, please get in touch either with a github issue or through Discord.
 Someone with an interest in working on the art would be most welcome.  Here are some examples:
 
-* The dream-sequence events don't have good backdrops and feel stilted and broken.  
-* I'm imagining a scene where the player learns about all the trees that we see stumps for
-  and the Junimos ask the player to plant a bunch of Mahagony trees.
-* For fishing, I'm thinking of a scene at mine-level-60 where the player gets a mission to return
-  with a fish tank and a junimo portal.  As they put Ice Pips in the tank, a Junimo comes along
-  and takes them away - so that they can repopulate a pond that's been reclaimed.
-
-As I write this, I think I see an angle - what if Linus is the tour guide?  Particularly for the
-fishing one...  I think it'd flow.
-
+* The dream-sequence events don't have good backdrops and feel stilted and broken.
+* It'd be fun to make the Junimos need some maintenance.  In particular I think they should
+  work harder if you had permanent giant crops, permanent mystic and mahogany trees, and,
+  of course, a steady source of raisins.  I'd like there to be a "Junimo Happiness Scorecard"
+  accessible somewhere.
+  
 ## Translating the mods
 There are two ways you can do it.  One you're probably already familiar with, which is just create
 a copy of `default.json` and translate the English, test it in-game and send it back to me either
