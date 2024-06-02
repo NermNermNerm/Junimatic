@@ -69,7 +69,17 @@ As I write this, I think I see an angle - what if Linus is the tour guide?  Part
 fishing one...  I think it'd flow.
 
 ## Translating the mods
-Until the mod reaches some basic level of stability, it's going to be English-only.
+There are two ways you can do it.  One you're probably already familiar with, which is just create
+a copy of `default.json` and translate the English, test it in-game and send it back to me either
+on discord, Nexus, or here on GitHub via an Issue.  If you're into something fancier, you can
+use the [new language template](https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/i18n/new-language-template.json).
+You can either edit it as the comment describes or use it as a reference guide for the old
+copy-default.json approach.
+
+If you do send me a language json, be sure to note exactly which version of the mod you're
+running!
+
+Oh, and if you're a developer as well, you can clone the repo and build from the tip of `main`.
 
 ## Compiling the mods
 Installing stable releases from Nexus Mods is recommended for most users. If you really want to
