@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {
@@ -27,7 +28,7 @@ namespace NermNermNerm.Junimatic
 
         public override string ToString()
         {
-            return $"{this.Building.buildingType} at {this.Building.tileX.Value},{this.Building.tileY.Value}";
+            return IF($"{this.Building.buildingType} at {this.Building.tileX.Value},{this.Building.tileY.Value}");
         }
     }
 }

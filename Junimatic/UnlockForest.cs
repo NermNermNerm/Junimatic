@@ -6,6 +6,8 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
+
 namespace NermNermNerm.Junimatic
 {
     public class UnlockForest
@@ -16,7 +18,7 @@ namespace NermNermNerm.Junimatic
         private const string IsMysticTreeGrownOnFarmEventCondition = "IsMysticTreeGrownOnFarm";
         private const string GrowMysticTreeQuest = "Junmatic.GrowMysticTree";
         private const string MeetLinusMailKey = "Junimatic.MeetLinus";
-        private const string MeetLinusQuestKey = "Junimatic.MeetLinus";
+        private const string MeetLinusInWoodsQuestKey = "Junimatic.CookOutWithLinus";
         private const string LinusCampingEvent = "Junimatic.LinusCamping";
         private const string MysticTreeCelebrationEvent = "Junimatic.MysticTreeCelebration";
         private const string TempMarker = "Junimatic.TemporaryEventMarker";
@@ -101,7 +103,7 @@ namespace NermNermNerm.Junimatic
 
         private void Player_Warped(object? sender, WarpedEventArgs e)
         {
-            if (e.OldLocation.Name == "Woods")
+            if (e.OldLocation.Name == I("Woods"))
             {
                 var oldTorchLocations = e.OldLocation.Objects.Values.Where(o => o.modData.ContainsKey(TempMarker)).Select(t => t.TileLocation).ToList();
                 foreach (var oldCampfire in oldTorchLocations)
@@ -137,7 +139,7 @@ namespace NermNermNerm.Junimatic
                     context.Location.objects[atTile] = campfire;
                     campfire.TileLocation = @event.OffsetTile(atTile);
                     campfire.initializeLightSource(campfire.TileLocation);
-                    campfire.modData["Junimatic.TempMarker"] = "true";
+                    campfire.modData["Junimatic.TempMarker"] = true.ToString();
                 }
             }
             finally
@@ -162,8 +164,8 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[GrowMysticTreeQuest] = "Basic/Plant The Mystic Seed/Linus gave you some tree seeds...  Do the Junimos talk to him too?/Grow a Mystic Tree and 2 Mahogony Trees to adulthood on your farm./null/-1/0/-1/false";
-                    data[MeetLinusQuestKey] = "Basic/Meet Linus In The Secret Woods/Have dinner with Linus in the Secret Woods/Enter the secret woods on a sunny day between 6 and 11pm./null/-1/0/-1/false";
+                    data[GrowMysticTreeQuest] = SdvQuest("Basic/Plant The Mystic Seed/Linus gave you some tree seeds...  Do the Junimos talk to him too?/Grow a Mystic Tree and 2 Mahogony Trees to adulthood on your farm./null/-1/0/-1/false");
+                    data[MeetLinusInWoodsQuestKey] = SdvQuest("Basic/Meet Linus In The Secret Woods/Have dinner with Linus in the Secret Woods/Enter the secret woods on a sunny day between 6 and 11pm./null/-1/0/-1/false");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Mail"))
@@ -171,7 +173,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[MeetLinusMailKey] = $"@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus%item quest {MeetLinusQuestKey}%%[#]Meet at Linus' camp in the woods";
+                    data[MeetLinusMailKey] = SdvMail($"@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus%item quest {MeetLinusInWoodsQuestKey}%%[#]Meet at Linus' camp in the woods");
                 });
             }
 
@@ -179,7 +181,7 @@ namespace NermNermNerm.Junimatic
 
         private void EditFarmEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{MysticTreeCelebrationEvent}/H/sawEvent {LinusCampingEvent}/{IsMysticTreeGrownOnFarmEventCondition}"] = $@"playful
+            eventData[IF($"{MysticTreeCelebrationEvent}/H/sawEvent {LinusCampingEvent}/{IsMysticTreeGrownOnFarmEventCondition}")] = SdvEvent($@"playful
 -1000 -1000
 farmer 8 24 0
 removeQuest {GrowMysticTreeQuest}
@@ -195,15 +197,15 @@ spriteText 4 ""You will be wiser.  We will help.""
 spriteText 4 ""Thx!  Bai!!!""
 pause 2000
 end
-".Replace("\r", "").Replace("\n", "/");
+").Replace("\r", "").Replace("\n", "/");
         }
 
         private void EditWoodsEvents(IDictionary<string, string> eventData)
         {
-            eventData[$"{LinusCampingEvent}/H/w sunny/t 1800 2300/n {MeetLinusMailKey}"] = @$"nightTime
+            eventData[IF($"{LinusCampingEvent}/H/w sunny/t 1800 2300/n {MeetLinusMailKey}")] = SdvEvent(@$"nightTime
 -1000 -1000
 farmer 40 14 3 Linus 29 13 1
-removeQuest {MeetLinusQuestKey}
+removeQuest {MeetLinusInWoodsQuestKey}
 
 viewport 27 12 true
 
@@ -343,7 +345,7 @@ viewport -1000 -1000 true
 Junimatic.LightCampFires 30 13
 addQuest {GrowMysticTreeQuest}
 end warpOut
-".Replace("\r", "").Replace("\n", "/");
+").Replace("\r", "").Replace("\n", "/");
         }
     }
 }

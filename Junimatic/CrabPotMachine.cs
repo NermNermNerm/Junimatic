@@ -9,6 +9,8 @@ using StardewValley.Characters;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
+
 namespace NermNermNerm.Junimatic
 {
     internal class CrabPotMachine
@@ -32,7 +34,7 @@ namespace NermNermNerm.Junimatic
 
             foreach (var item in storage.RawInventory)
             {
-                if (item.TypeDefinitionId == ItemRegistry.type_object && item.Category == StardewValley.Object.baitCategory && item.Stack > 0)
+                if (item.TypeDefinitionId == I(ItemRegistry.type_object) && item.Category == StardewValley.Object.baitCategory && item.Stack > 0)
                 {
                     return new List<Item> { ItemRegistry.Create(item.QualifiedItemId) };
                 }

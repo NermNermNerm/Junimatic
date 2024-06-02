@@ -6,6 +6,9 @@ using StardewValley.GameData.Machines;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
+using LocalizeFromSourceLib;
+
+using static LocalizeFromSourceLib.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {
@@ -101,7 +104,7 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public override bool IsCompatibleWithJunimo(JunimoType projectType)
         {
-            string cacheKey = this.Machine.ItemId + ":" + projectType.ToString();
+            string cacheKey = $"{this.Machine.ItemId}:{projectType}";
             if (cachedCompatList.TryGetValue(cacheKey, out bool result))
             {
                 return result;
@@ -114,6 +117,7 @@ namespace NermNermNerm.Junimatic
 
         private bool IsManualFeedMachine => this.Machine.ItemId == "21"; // Crystalarium
 
+        [NoStrict]
         private bool IsCompatibleWithJunimoNoCache(JunimoType projectType)
         {
             // The MachineData contains clues as to what the assignments should be, but it's definitely fuzzy.
@@ -258,7 +262,7 @@ namespace NermNermNerm.Junimatic
 
         public override string ToString()
         {
-            return $"{this.Machine.Name} at {this.Machine.TileLocation}";
+            return I($"{this.Machine.Name} at {this.Machine.TileLocation}");
         }
     }
 }
