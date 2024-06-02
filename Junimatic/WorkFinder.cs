@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 
-using static LocalizeFromSourceLib.SdvLocalizeMethods;
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {

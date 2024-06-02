@@ -1,5 +1,5 @@
 using StardewModdingAPI;
-using LocalizeFromSourceLib;
+using NermNermNerm.Stardew.LocalizeFromSource;
 using System;
 
 namespace NermNermNerm.Junimatic

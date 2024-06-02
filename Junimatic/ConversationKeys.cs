@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using StardewModdingAPI;
-using static LocalizeFromSourceLib.SdvLocalizeMethods;
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalizeMethods;
 
 
 namespace NermNermNerm.Junimatic

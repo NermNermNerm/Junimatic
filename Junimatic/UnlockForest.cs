@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 
-using static LocalizeFromSourceLib.SdvLocalizeMethods;
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {

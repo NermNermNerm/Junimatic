@@ -10,7 +10,7 @@ using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Objects;
 using StardewValley.TerrainFeatures;
 
-using static LocalizeFromSourceLib.SdvLocalizeMethods;
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {

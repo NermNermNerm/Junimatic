@@ -6,9 +6,9 @@ using StardewValley.GameData.Machines;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-using LocalizeFromSourceLib;
+using NermNermNerm.Stardew.LocalizeFromSource;
 
-using static LocalizeFromSourceLib.SdvLocalizeMethods;
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {

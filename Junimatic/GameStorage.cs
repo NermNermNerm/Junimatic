@@ -8,7 +8,7 @@ using StardewValley;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 
-using static LocalizeFromSourceLib.SdvLocalizeMethods;
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalizeMethods;
 
 namespace NermNermNerm.Junimatic
 {
