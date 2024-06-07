@@ -4,14 +4,14 @@
     "oldSource": "Bring the faintly glowing orb to the wizard.",
     "newSource": "Bring the faintly glowing orb to the wizard\u0027s tower.",
     "oldTarget": "ほのかに光るオーブを魔術師のところに持っていく。",
-    "newTarget": null,
+    "newTarget": "ほのかに光るオーブを魔法使いの塔に持って行きます。",
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockMiner.cs#L204"
   },
   "00007b": {
     "oldSource": "Bring the remnants of the strange little structure to the wizard.",
     "newSource": "Bring the remnants of the strange little structure to the wizard\u0027s tower.",
     "oldTarget": "この不思議な小さな建物の残骸を魔術師のところに持っていく。",
-    "newTarget": null,
+    "newTarget": "奇妙な小さな建造物の残骸を魔法使いの塔に持って行きましょう。",
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockPortal.cs#L112"
   }
 }
