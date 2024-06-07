@@ -7,7 +7,7 @@ using StardewValley.GameData.Objects;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 
-using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalizeMethods;
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {

@@ -198,7 +198,7 @@
     "newSource": "{{arg0}} of 6 teleported",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockFishing.cs#L78"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockFishing.cs#L170"
   },
   "000012": {
     "oldSource": null,
@@ -720,7 +720,7 @@
   },
   "000078": {
     "oldSource": null,
-    "newSource": "Bring the faintly glowing orb to the wizard.",
+    "newSource": "Bring the faintly glowing orb to the wizard\u0027s tower.",
     "oldTarget": null,
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockMiner.cs#L204"
@@ -846,7 +846,7 @@
   },
   "00007b": {
     "oldSource": null,
-    "newSource": "Bring the remnants of the strange little structure to the wizard.",
+    "newSource": "Bring the remnants of the strange little structure to the wizard\u0027s tower.",
     "oldTarget": null,
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockPortal.cs#L112"

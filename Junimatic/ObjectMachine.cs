@@ -8,7 +8,7 @@ using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using NermNermNerm.Stardew.LocalizeFromSource;
 
-using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalizeMethods;
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
@@ -262,7 +262,7 @@ namespace NermNermNerm.Junimatic
 
         public override string ToString()
         {
-            return I($"{this.Machine.Name} at {this.Machine.TileLocation}");
+            return IF($"{this.Machine.Name} at {this.Machine.TileLocation}");
         }
     }
 }

@@ -630,12 +630,26 @@
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockForest.cs#L168"
   },
+  "000078": {
+    "oldSource": "Bring the faintly glowing orb to the wizard.",
+    "newSource": "Bring the faintly glowing orb to the wizard\u0027s tower.",
+    "oldTarget": "Bringe die schwach leuchtende Kugel zum Zauberer.",
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockMiner.cs#L204"
+  },
   "00003e": {
     "oldSource": null,
     "newSource": "Give the strange orb to the host player - only the host can advance this quest.  (Put it in a chest for them)",
     "oldTarget": null,
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockMiner.cs#L44"
+  },
+  "00007b": {
+    "oldSource": null,
+    "newSource": "Bring the remnants of the strange little structure to the wizard\u0027s tower.",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockPortal.cs#L112"
   },
   "000042": {
     "oldSource": null,
@@ -752,13 +766,6 @@
   "00007a": {
     "oldSource": null,
     "newSource": "You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it.",
-    "oldTarget": null,
-    "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockPortal.cs#L112"
-  },
-  "00007b": {
-    "oldSource": null,
-    "newSource": "Bring the remnants of the strange little structure to the wizard.",
     "oldTarget": null,
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockPortal.cs#L112"
