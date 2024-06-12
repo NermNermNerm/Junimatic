@@ -1,8 +1,8 @@
-// Translators - change the 'newTarget' field of each entry.  When ready, either send this file
-// back to the author.  When ready for integration, rename it to something like 'es-es.edits.json' and rebuild.
-// After the build completes, assuming no source changes have happened in the meantime, an 'es-es.json' file
-// will be produced and this file will be deleted.  If it isn't deleted, it will contain edits that have
-// happened while the translation was in-flight, which can be sent back to the translator for updates.
+// Translators - This file aims to help you by providing links to the source code while you're translating.
+// It probably will really only be of help if you can build the project or write or get some json to convert
+// this json into a regular translation json.  If you can do that, then edit the 'newTarget' field to the
+// correct translation and rename this file so that it matches your language, e.g. if you are translating to
+// Spanish, copy this to 'es.edits.json'.  When you build, it will create 'es.json' out of your 'newTarget' changes.
 {
   "000001": {
     "oldSource": null,
@@ -37,112 +37,112 @@
     "newSource": "That\u0027s not a chicken.",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L65"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L62"
   },
   "000006": {
     "oldSource": null,
     "newSource": "I wonder if it\u0027s lost and can\u0027t find its way home...  It seems distressed.",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L65"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L62"
   },
   "000007": {
     "oldSource": null,
     "newSource": "Maybe a Junimo Portal would help it find its way home.",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L65"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L62"
   },
   "000009": {
     "oldSource": null,
     "newSource": "That wasn\u0027t a chicken...  was it?$2#$b#Your grandfather had some little houses like that on his farm.  He said they were for his \u0027helpers\u0027.  But as he declined, he was prone to say, well, a lot of stuff....$2#$b#I suppose I caught a glimpse of them from time to time, but, well...  I think I\u0027m more comfortable not seeing them.$3#$b#You say they\u0027re good creatures?  Well...  Okay.  *Something* was sure keeping that farm in trim when your Grandad was declining.$2#$b#I suppose everybody needs a little magic in their lives from time to time.$0",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L106"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L103"
   },
   "00000a": {
     "oldSource": null,
     "newSource": "Thank you for helping our friend get home...",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L181"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L178"
   },
   "00000b": {
     "oldSource": null,
     "newSource": "I can help you, like I helped your Grandfather...",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L181"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L178"
   },
   "00000c": {
     "oldSource": null,
     "newSource": "I like animals and the wonderful things you can make with their help...",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L181"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L178"
   },
   "00000d": {
     "oldSource": null,
     "newSource": "Hello @!  Are you missing any chickens?  I think one might have run off!",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L204"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L201"
   },
   "00000e": {
     "oldSource": null,
     "newSource": "I saw it across the river to the south of my farm!  I went over to try and round it up, but it ran away from me!$2#$b#Maybe it would come to you if you went down there and called it!",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L204"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L201"
   },
   "00000f": {
     "oldSource": null,
     "newSource": "Oof! I need to be getting back! Anyway, I hope you can wrangle it back home!  Bye now!  Don\u0027t be a stranger!",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L204"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L201"
   },
   "00005a": {
     "oldSource": null,
     "newSource": "Chicken Round-Up",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L227"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L224"
   },
   "000010": {
     "oldSource": null,
     "newSource": "Marnie thinks one of your chickens has escaped and is in the forest south of her farm; you should investigate.",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L227"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L224"
   },
   "00005b": {
     "oldSource": null,
     "newSource": "Enter the Cindersnap Forest during the day.",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L227"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L224"
   },
   "00005c": {
     "oldSource": null,
     "newSource": "Help the Junimo Go Home",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L228"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L225"
   },
   "00005d": {
     "oldSource": null,
     "newSource": "Help the Junimo in the Cindersnap Forest get home.",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L228"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L225"
   },
   "000011": {
     "oldSource": null,
     "newSource": "Enter the Cindersnap Forest during the day with a Junimo Portal in your inventory.",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L228"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockAnimal.cs#L225"
   },
   "00005e": {
     "oldSource": null,
@@ -417,6 +417,13 @@
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockFishing.cs#L322"
   },
+  "00007c": {
+    "oldSource": null,
+    "newSource": "Meet Linus at his tent",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockFishing.cs#L322"
+  },
   "00006d": {
     "oldSource": null,
     "newSource": "I\u0027m still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He\u0027s disappointed and puzzled.#$b#I\u0027m pretty puzzled too.  But I\u0027m glad you\u0027re working on it.",
@@ -630,6 +637,13 @@
   "000076": {
     "oldSource": null,
     "newSource": "@,^how are you doing?  I\u0027ve decided to spend a night or two in the deep woods, west of Marnie\u0027s ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockForest.cs#L176"
+  },
+  "00007d": {
+    "oldSource": null,
+    "newSource": "Meet at Linus\u0027 camp in the woods",
     "oldTarget": null,
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockForest.cs#L176"

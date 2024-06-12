@@ -3,12 +3,11 @@
     <Version>4.16.5</Version>
     <RootNamespace>NermNermNerm.Junimatic</RootNamespace>
 
-    <BundleExtraAssemblies>ThirdParty</BundleExtraAssemblies>
     <IgnoreModFilePatterns>\.edits\.json$,new-language-template\.json$</IgnoreModFilePatterns>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NermNermNerm.Stardew.LocalizeFromSource" Version="1.1.2" />
+    <PackageReference Include="NermNermNerm.Stardew.LocalizeFromSource" Version="1.2.10" />
   </ItemGroup>
 
   <ItemGroup>

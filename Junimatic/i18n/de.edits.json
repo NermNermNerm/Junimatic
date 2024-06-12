@@ -182,6 +182,13 @@
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockCropMachines.cs#L161"
   },
+  "00007c": {
+    "oldSource": null,
+    "newSource": "Meet Linus at his tent",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockFishing.cs#L322"
+  },
   "00006c": {
     "oldSource": null,
     "newSource": "@,^Please come visit me at my tent.  I\u0027ve found something and I need your help to sort it out.^   -Linus",
@@ -433,6 +440,13 @@
     "oldTarget": null,
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockFishing.cs#L339"
+  },
+  "00007d": {
+    "oldSource": null,
+    "newSource": "Meet at Linus\u0027 camp in the woods",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockForest.cs#L176"
   },
   "000076": {
     "oldSource": null,

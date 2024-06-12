@@ -1,0 +1,17 @@
+// Translators - only edit 'newTarget' values.  The build for this project will apply your changes to the language.json file
+{
+  "00007c": {
+    "oldSource": null,
+    "newSource": "Meet Linus at his tent",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockFishing.cs#L322"
+  },
+  "00007d": {
+    "oldSource": null,
+    "newSource": "Meet at Linus\u0027 camp in the woods",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockForest.cs#L176"
+  }
+}

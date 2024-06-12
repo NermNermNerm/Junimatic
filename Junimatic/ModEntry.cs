@@ -41,12 +41,8 @@ namespace NermNermNerm.Junimatic
         {
             Instance = this;
 
-            Initialize(() => helper.Translation.Locale);
-#if DEBUG
-            DoPseudoLoc = true;
-#endif
-            OnBadTranslation += (message) => this.LogInfoOnce($"Translation issue: {message}");
-            OnTranslationFilesCorrupt += (message) => this.LogErrorOnce($"Translation error: {message}");
+            Initialize((Mod)this, I("en"));
+            this.Helper.Events.Content.LocaleChanged += (_, _) => this.Helper.GameContent.InvalidateCache("Data/Objects");
 
             this.CropMachineHelperQuest.Entry(this);
             this.UnlockPortalQuest.Entry(this);
@@ -58,7 +54,6 @@ namespace NermNermNerm.Junimatic
             this.PetFindsThings.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
-            this.Helper.Events.Content.LocaleChanged += (_,_) => this.Helper.GameContent.InvalidateCache("Data/Objects");
 
             Event.RegisterCommand(SetJunimoColorEventCommand, this.SetJunimoColor);
         }
