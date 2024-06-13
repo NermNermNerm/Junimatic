@@ -58,6 +58,8 @@ namespace NermNermNerm.Junimatic
             Event.RegisterCommand(SetJunimoColorEventCommand, this.SetJunimoColor);
         }
 
+        public bool IsRunningSve => this.Helper.ModRegistry.IsLoaded("FlashShifter.SVECode");
+
         private void SetJunimoColor(Event @event, string[] split, EventContext context)
         {
             try

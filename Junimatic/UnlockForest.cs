@@ -176,7 +176,6 @@ namespace NermNermNerm.Junimatic
                     data[MeetLinusMailKey] = SdvMail($"@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus%item quest {MeetLinusInWoodsQuestKey}%%[#]Meet at Linus' camp in the woods");
                 });
             }
-
         }
 
         private void EditFarmEvents(IDictionary<string, string> eventData)
@@ -202,16 +201,19 @@ end
 
         private void EditWoodsEvents(IDictionary<string, string> eventData)
         {
+            (int modDeltaX,int modDeltaY) = this.mod.IsRunningSve ? (40, 15) : (0,0);
+
             eventData[IF($"{LinusCampingEvent}/H/w sunny/t 1800 2300/n {MeetLinusMailKey}")] = SdvEvent(@$"nightTime
 -1000 -1000
-farmer 40 14 3 Linus 29 13 1
+farmer {40+modDeltaX} {14+modDeltaY} 3 Linus {29+modDeltaX} {13+modDeltaY} 1
 removeQuest {MeetLinusInWoodsQuestKey}
 
-viewport 27 12 true
+makeInvisible {28+modDeltaX} {7+modDeltaY} 4 9
+viewport {27+modDeltaX} {12+modDeltaY} true
 
-temporaryAnimatedSprite ""LooseSprites\Cursors_1_6"" 48 208 64 48 999999 1 0  28 9  false false 10 0 1 0 0 0/
-temporaryAnimatedSprite ""LooseSprites\Cursors_1_6"" 0 192 48 64  999999 1 0  29 7  false false 11 0 1 0 0 0/
-Junimatic.LightCampFires 30 13 278
+temporaryAnimatedSprite ""LooseSprites\Cursors_1_6"" 48 208 64 48 999999 1 0  {28+modDeltaX} {9+modDeltaY}  false false 10 0 1 0 0 0/
+temporaryAnimatedSprite ""LooseSprites\Cursors_1_6"" 0 192 48 64  999999 1 0  {29+modDeltaX} {7+modDeltaY}  false false 11 0 1 0 0 0/
+Junimatic.LightCampFires {30+modDeltaX} {13+modDeltaY} 278
 setSkipActions addItem (O)MysticTreeSeed 1#addItem (O)292 2#addQuest {GrowMysticTreeQuest}
 skippable
 

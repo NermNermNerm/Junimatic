@@ -345,7 +345,7 @@ namespace NermNermNerm.Junimatic
         {
             eventData[I($"{MeetLinusAtTentEvent}/H/t 600 2200/n {LinusHadADreamMailKey}")] = SdvEvent($@"spring_day_ambient
 -1000 -1000
-farmer 5 13 1 Linus 25 9 1
+farmer 5 9 1 Linus 25 9 1
 removeQuest {MeetLinusAtTentQuest}
 addQuest {MeetLinusAt60Quest}
 skippable

@@ -67,9 +67,10 @@ removeQuest {CollectLostChickenQuest}/
 addQuest {RescueCindersnapJunimoQuest}/
 {ModEntry.SetJunimoColorEventCommand} Gold/
 skippable/
+makeInvisible 89 60 3 15/
 viewport 90 69 true/
 move farmer 0 3 2/
-move farmer 0 3 2 true/
+move farmer 0 3 2 true/ 
 advancedMove Junimo false -5 0/
 animate Junimo false true 100 8 8 9 10 11 11 10 9/
 pause 1500/
@@ -106,6 +107,7 @@ end/");
 farmer 90 60 2 Junimo 89 72 3 Marnie 87 48 2/
 removeQuest {RescueCindersnapJunimoQuest}/
 skippable/
+makeInvisible 86 48 6 27/
 viewport 90 69 true/
 {ModEntry.SetJunimoColorEventCommand} Gold/
 animate Junimo false true 100 8 8 9 10 11 11 10 9/
@@ -175,10 +177,12 @@ end fade/");
 
         private void EditFarmHouseEvents(IDictionary<string, string> eventData)
         {
+            (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (0, 7) : (0, 0);
+
             eventData[IF($"{AnimalJunimoDreamEvent}/H/sawEvent {DropPortalForJunimoEvent}/time 600 620")]
                 = SdvEvent($@"communityCenter/
 -2000 -2000/
-farmer 29 14 3 Junimo 26 14 1/
+farmer {29+modDeltaX} {14+modDeltaY} 3 Junimo {26+modDeltaX} {14+modDeltaY} 1/
 {ModEntry.SetJunimoColorEventCommand} PapayaWhip/
 skippable/
 changeLocation Woods/
