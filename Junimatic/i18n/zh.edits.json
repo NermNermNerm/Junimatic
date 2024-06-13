@@ -1,5 +1,19 @@
 // Translators - only edit 'newTarget' values.  The build for this project will apply your changes to the language.json file
 {
+  "00007f": {
+    "oldSource": null,
+    "newSource": "Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/ModConfigMenu.cs#L41"
+  },
+  "00007e": {
+    "oldSource": null,
+    "newSource": "Junimos work anywhere",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/ModConfigMenu.cs#L38"
+  },
   "00007c": {
     "oldSource": null,
     "newSource": "Meet Linus at his tent",

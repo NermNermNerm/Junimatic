@@ -35,6 +35,9 @@ namespace NermNermNerm.Junimatic
 
         public static ModEntry Instance = null!;
 
+        public static ModConfig Config = null!;
+        public ModConfigMenu ConfigMenu = new ModConfigMenu();
+
         public ModEntry() { }
 
         public override void Entry(IModHelper helper)
@@ -43,6 +46,9 @@ namespace NermNermNerm.Junimatic
 
             Initialize((Mod)this, I("en"));
             this.Helper.Events.Content.LocaleChanged += (_, _) => this.Helper.GameContent.InvalidateCache("Data/Objects");
+
+            Config = this.Helper.ReadConfig<ModConfig>();
+            this.ConfigMenu.Entry(this);
 
             this.CropMachineHelperQuest.Entry(this);
             this.UnlockPortalQuest.Entry(this);
