@@ -129,7 +129,8 @@ namespace NermNermNerm.Junimatic
             allJunimoFriendlyLocations.Add(Game1.getFarm());
             // using I() rather than a [nostrict] over the whole thing because I think all this needs to get moved out to a config setting.
             allJunimoFriendlyLocations.AddRange(
-                new string[] { "FarmCave", "IslandWest", I("Cellar"), "FarmHouse", "IslandFarmHouse", I("Greenhouse") }
+                new string[] { "FarmCave", "IslandWest", I("Cellar"), "FarmHouse", "IslandFarmHouse", I("Greenhouse"),
+                    "Custom_GrandpasShed", "Custom_GrandpasShedGreenhouse", "Custom_ForestWest" } // <- SVE locations
                 .Select(name => Game1.getLocationFromName(name))
                 .Where(l => l is not null));
 
