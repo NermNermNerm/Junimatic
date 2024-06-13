@@ -1,5 +1,19 @@
 // Translators - only edit 'newTarget' values.  The build for this project will apply your changes to the language.json file
 {
+  "000080": {
+    "oldSource": null,
+    "newSource": "Minimal Questing",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/ModConfigMenu.cs#L46"
+  },
+  "000081": {
+    "oldSource": null,
+    "newSource": "Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/ModConfigMenu.cs#L49"
+  },
   "00007f": {
     "oldSource": null,
     "newSource": "Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.",

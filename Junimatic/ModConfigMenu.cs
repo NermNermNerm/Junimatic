@@ -40,6 +40,14 @@ namespace NermNermNerm.Junimatic
                 setValue: value => Config.AllowAllLocations = value,
                 tooltip: () => L("Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.")
             );
+
+            configMenu.AddBoolOption(
+                mod: ModManifest,
+                name: () => L("Minimal Questing"),
+                getValue: () => Config.EnableWithoutQuests,
+                setValue: value => Config.EnableWithoutQuests = value,
+                tooltip: () => L("Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.")
+            );
         }
     }
 }

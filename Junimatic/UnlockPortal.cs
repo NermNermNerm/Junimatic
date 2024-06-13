@@ -249,7 +249,7 @@ end warpOut");
 
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
         {
-            if (Game1.isRaining // TODO: Consider + && it won't rain tomorrow
+            if (Game1.isRaining
                 && Game1.IsMasterGame
                 && Game1.Date.TotalDays >= 7
                 && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal)
@@ -262,9 +262,18 @@ end warpOut");
 
         private void GameLoop_DayStarted(object? sender, DayStartedEventArgs e)
         {
-            if (Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal) && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_AlertedPlayer) && !Game1.isRaining)
+            if (ModEntry.Config.EnableWithoutQuests
+                && Game1.player.IsMainPlayer
+                && !Game1.player.questLog.Any(q => q.id.Value == OldJunimoPortalQuest)
+                && !this.IsUnlocked)
             {
-                Game1.addHUDMessage(new HUDMessage(L("That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!")) {  noIcon = true });
+                Game1.player.addItemToInventory(ItemRegistry.Create(OldJunimoPortalQiid));
+            }
+            else if (Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal)
+                && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_AlertedPlayer)
+                && !Game1.isRaining)
+            {
+                Game1.addHUDMessage(new HUDMessage(L("That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!")) { noIcon = true });
                 Game1.MasterPlayer.modData[ModDataKey_AlertedPlayer] = Game1.Date.TotalDays.ToString();
             }
         }

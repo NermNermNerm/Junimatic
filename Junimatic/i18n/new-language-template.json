@@ -25,6 +25,20 @@
     "newTarget": null,
     "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/ModConfigMenu.cs#L41"
   },
+  "000080": {
+    "oldSource": null,
+    "newSource": "Minimal Questing",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/ModConfigMenu.cs#L46"
+  },
+  "000081": {
+    "oldSource": null,
+    "newSource": "Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.",
+    "oldTarget": null,
+    "newTarget": null,
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/ModConfigMenu.cs#L49"
+  },
   "000002": {
     "oldSource": null,
     "newSource": "I wonder what {{arg0}} has been up to...",
@@ -856,7 +870,7 @@
     "newSource": "That was some storm!  I wonder if the rain washed the mud off of any of Grandpa\u0027s old stuff!",
     "oldTarget": null,
     "newTarget": null,
-    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockPortal.cs#L267"
+    "link": "https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/UnlockPortal.cs#L276"
   },
   "000079": {
     "oldSource": null,

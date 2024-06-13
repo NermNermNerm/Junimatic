@@ -110,7 +110,7 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public bool IsUnlocked => Game1.MasterPlayer.modData.ContainsKey(HasDoneIcePipsQuestModDataKey);
+        public bool IsUnlocked => ModEntry.Config.EnableWithoutQuests || Game1.MasterPlayer.modData.ContainsKey(HasDoneIcePipsQuestModDataKey);
 
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
         {
