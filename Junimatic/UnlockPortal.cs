@@ -170,7 +170,7 @@ playSound dwop/
 faceDirection farmer 1/
 pause 1000/
 faceDirection Wizard 3/
-speak Wizard ""Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...""
+speak Wizard ""Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...""/
 ");
 
             string stockPart2 = SdvEvent($@"
