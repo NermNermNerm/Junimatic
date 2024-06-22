@@ -44,7 +44,7 @@ namespace NermNermNerm.Junimatic
         {
             Instance = this;
 
-            Initialize((Mod)this, I("en"));
+            Initialize(this);
             this.Helper.Events.Content.LocaleChanged += (_, _) => this.Helper.GameContent.InvalidateCache("Data/Objects");
 
             Config = this.Helper.ReadConfig<ModConfig>();
