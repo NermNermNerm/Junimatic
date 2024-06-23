@@ -161,8 +161,8 @@ namespace NermNermNerm.Junimatic
                 ["category_minerals", "category_gem", "bone_item"],
                 ["egg_item", "large_egg_item", "slime_egg_item"],
                 ["category_vegetable", "category_fruit", "keg_wine", "preserves_pickle", "preserves_jelly"],
-                [], // there just aren't any tags for fish or wood stuff listed
-                []];
+                ["category_fish"],
+                []]; // there aren't any tags for wood stuff listed
 
             int[][] categories = [
                 [StardewValley.Object.GemCategory, StardewValley.Object.mineralsCategory, StardewValley.Object.metalResources, StardewValley.Object.monsterLootCategory],
