@@ -336,6 +336,30 @@ namespace NermNermNerm.Junimatic
                             }
                         }
 
+                        if (location.IsOutdoors)
+                        {
+                            foreach (var direction in crabPotReachableDirections)
+                            {
+                                var adjacentTile = reachableTile + direction;
+                                if (checkedForWorkTiles.Contains(adjacentTile))
+                                {
+                                    continue;
+                                }
+
+                                map.GetCrabPotAt(adjacentTile, reachableTile, out var machine);
+                                if (machine is not null)
+                                {
+                                    foreach (JunimoType junimoType in Enum.GetValues<JunimoType>())
+                                    {
+                                        if (machine.IsCompatibleWithJunimo(junimoType))
+                                        {
+                                            machines[junimoType].Add(machine);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         checkedForWorkTiles.Add(reachableTile);
                         walkedTiles.Add(reachableTile);
                     }
