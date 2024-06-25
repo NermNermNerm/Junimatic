@@ -153,6 +153,15 @@ namespace NermNermNerm.Junimatic
                 case "264": // heavy tapper
                 case "MushroomLog":
                     return projectType == JunimoType.Forestry; // no good data
+                case "Dehydrator":
+                    if (projectType == JunimoType.Forestry)
+                    {
+                        // The Data for this machine will return true for farming Junimos as well, but there's no
+                        // category for woodsy stuff and we're kinda blazing our own path with the idea that forestry
+                        // Junimos work mushrooms.
+                        return true;
+                    }
+                    break;
             }
 
             // TODO: Add configurable special cases.
