@@ -9,20 +9,21 @@ using StardewValley.TerrainFeatures;
 using NermNermNerm.Stardew.LocalizeFromSource;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
+using System;
 
 namespace NermNermNerm.Junimatic
 {
     public class ObjectMachine
         : GameMachine
     {
-        internal ObjectMachine(Object machine, Point accessPoint)
+        internal ObjectMachine(StardewValley.Object machine, Point accessPoint)
             : base(machine, accessPoint)
         {
         }
 
         public StardewValley.Object Machine => (StardewValley.Object)base.GameObject;
 
-        internal static ObjectMachine? TryCreate(Object item, Point accessPoint)
+        internal static ObjectMachine? TryCreate(StardewValley.Object item, Point accessPoint)
         {
             if (item is CrabPot crabPot)
             {
@@ -40,7 +41,7 @@ namespace NermNermNerm.Junimatic
 
         public override bool IsIdle => this.Machine.heldObject.Value is null && this.Machine.MinutesUntilReady == 0;
 
-        public override Object? HeldObject => this.Machine.readyForHarvest.Value ? this.Machine.heldObject.Value : null;
+        public override StardewValley.Object? HeldObject => this.Machine.readyForHarvest.Value ? this.Machine.heldObject.Value : null;
 
         /// <summary>
         ///   Looks at the recipes allowed by this machine and the contents of the chest.  If there's
@@ -126,13 +127,29 @@ namespace NermNermNerm.Junimatic
             // just trying to make it so there's a fighting chance for getting it right for mods without having
             // to do special configuration.
 
+            var machineData = this.Machine.GetMachineData();
+
+            // Mods can specify exactly which Junimo should service it.  That's the top priority.
+            if (machineData.CustomFields?.TryGetValue("Junimatic.JunimoType", out string? modAssignment) == true)
+            {
+                if (Enum.TryParse(modAssignment, true, out JunimoType junimoType))
+                {
+                    return projectType == junimoType;
+                }
+                else
+                {
+                    ModEntry.Instance.LogErrorOnce($"'{this.Machine.Name}' is set up incorrectly - invalid value for Junmatic.JunimoType: '{modAssignment}'.  Allowed values are {string.Join(", ", Enum.GetNames<JunimoType>())}");
+                }
+            }
+
+
             // Special cases.
             switch (this.Machine.ItemId)
             {
                 case "12": // keg
-                    return projectType == JunimoType.CropProcessing; // Otherwise it'll return true for Animals, because there's a recipe (forget which) that involves animal stuff.
+                    return projectType == JunimoType.Crops; // Otherwise it'll return true for Animals, because there's a recipe (forget which) that involves animal stuff.
                 case "25": // seed maker
-                    return projectType == JunimoType.CropProcessing; // There's no data at all in its MachineData.
+                    return projectType == JunimoType.Crops; // There's no data at all in its MachineData.
                 case "211": // wood chipper
                     return projectType == JunimoType.Forestry; // Else it gets to thinking that fishing would work.
                 case "10": // bee house
@@ -148,7 +165,7 @@ namespace NermNermNerm.Junimatic
                     return projectType == JunimoType.Fishing; // There's no MachineData
                 case "231": // solar panel
                 case "9": // lightning rod
-                    return projectType == JunimoType.MiningProcessing; // no good data
+                    return projectType == JunimoType.Mining; // no good data
                 case "105": // tapper
                 case "264": // heavy tapper
                 case "MushroomLog":
@@ -181,7 +198,6 @@ namespace NermNermNerm.Junimatic
                 [StardewValley.Object.buildingResources]
                 ];
 
-            var machineData = this.Machine.GetMachineData();
             if (machineData.OutputRules is not null)
             {
                 foreach (var rule in machineData.OutputRules)

@@ -2,11 +2,12 @@ namespace NermNermNerm.Junimatic
 {
     public enum JunimoType
     {
-        /* Careful with the ordering, there's code in GameMachine.IsCompatibleWithJunimo that depends on the order */
+        // Be careful with the ordering, there's code in GameMachine.IsCompatibleWithJunimo that depends on the order.
+        // Do not change the names - mods that add custom machines can be relying on these names.
 
-        MiningProcessing,
+        Mining,
         Animals,
-        CropProcessing,
+        Crops,
         Fishing,
         Forestry
     };

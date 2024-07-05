@@ -199,6 +199,7 @@ namespace NermNermNerm.Junimatic
                     new string[] { "FarmCave", "IslandWest", I("Cellar"), "FarmHouse", "IslandFarmHouse", I("Greenhouse"),
                         "Custom_GrandpasShed", "Custom_GrandpasShedGreenhouse", "Custom_ForestWest" } // <- SVE locations
                     .Select(name => Game1.getLocationFromName(name))
+                    .Union(Game1.locations.Where(l => l.GetData()?.CustomFields?.ContainsKey("Junimatic.IsJunimoFriendly") == true))
                     .Where(l => l is not null));
             }
             return allJunimoFriendlyLocations;
@@ -208,8 +209,8 @@ namespace NermNermNerm.Junimatic
         {
             var result = new Dictionary<JunimoType, int>
             {
-                { JunimoType.CropProcessing, this.mod.CropMachineHelperQuest.IsUnlocked ? 1 : 0 },
-                { JunimoType.MiningProcessing, this.mod.UnlockMiner.IsUnlocked ? 1 : 0 },
+                { JunimoType.Crops, this.mod.CropMachineHelperQuest.IsUnlocked ? 1 : 0 },
+                { JunimoType.Mining, this.mod.UnlockMiner.IsUnlocked ? 1 : 0 },
                 { JunimoType.Animals, this.mod.UnlockAnimal.IsUnlocked ? 1 : 0 },
                 { JunimoType.Fishing, this.mod.UnlockFishing.IsUnlocked ? 1 : 0 },
                 { JunimoType.Forestry, this.mod.UnlockForest.IsUnlocked ? 1 : 0 }
