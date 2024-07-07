@@ -72,7 +72,8 @@ namespace NermNermNerm.Junimatic
 
             // Extra Machine Config applies some extra logic to game functions that relies on autoLoadFrom being set to the appropriate inventory.
             var oldAutoLoadFrom = StardewValley.Object.autoLoadFrom;
-            try {
+            try
+            {
                 StardewValley.Object.autoLoadFrom = sourceInventory;
                 foreach (var item in sourceInventory)
                 {
