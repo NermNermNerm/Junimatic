@@ -70,18 +70,52 @@ namespace NermNermNerm.Junimatic
                 inputs.AddRange(machineData.AdditionalConsumedItems.Select(i => ItemRegistry.Create(i.ItemId, i.RequiredCount)));
             }
 
+            // Extra Machine Config applies some extra logic to game functions that relies on autoLoadFrom being set to the appropriate inventory.
+            var oldAutoLoadFrom = StardewValley.Object.autoLoadFrom;
+            StardewValley.Object.autoLoadFrom = sourceInventory;
             foreach (var item in sourceInventory)
             {
                 if (MachineDataUtility.TryGetMachineOutputRule(this.Machine, machineData, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var rule, out var triggerRule, out var ruleIgnoringCount, out var triggerIgnoringCount))
                 {
-                    if (rule.OutputItem.Any(machineItemOutput => MachineDataUtility.GetOutputItem(this.Machine, machineItemOutput, item, Game1.MasterPlayer, true, out int? overrideMinutesUntilReady) is not null))
+                    var machineItemOutput = rule.OutputItem.FirstOrDefault(machineItemOutput => MachineDataUtility.GetOutputItem(this.Machine, machineItemOutput, item, Game1.MasterPlayer, true, out int? overrideMinutesUntilReady) is not null, null);
+                    if (machineItemOutput is not null)
                     {
+
+                        // Add extra fuels from EMC if applicable, making sure to insert them before the primary input
+                        // We don't have to check for validity since the (patched) TryGetMachineOutputRule should already handle that
+                        var extraMachineConfigApi = ModEntry.Instance.ExtraMachineConfigApi;
+                        if (extraMachineConfigApi is not null)
+                        {
+                            foreach ((string extraItemId, int extraCount) in extraMachineConfigApi.GetExtraRequirements(machineItemOutput))
+                            {
+                                var matchingItem = sourceInventory.First(item => CraftingRecipe.ItemMatchesForCrafting(item, extraItemId));
+                                if (matchingItem != null)
+                                {
+                                    var itemToAdd = matchingItem.getOne();
+                                    itemToAdd.Stack = extraCount;
+                                    inputs.Add(itemToAdd);
+                                }
+                            }
+
+                            foreach ((string extraContextTags, int extraCount) in extraMachineConfigApi.GetExtraTagsRequirements(machineItemOutput)) {
+                                var matchingItem = sourceInventory.First(item => ItemContextTagManager.DoesTagQueryMatch(extraContextTags, item.GetContextTags()));
+                                if (matchingItem != null)
+                                {
+                                    var itemToAdd = matchingItem.getOne();
+                                    itemToAdd.Stack = extraCount;
+                                    inputs.Add(itemToAdd);
+                                }
+                            }
+                        }
+
                         inputs.Add(ItemRegistry.Create(item.ItemId, amount: triggerRule.RequiredCount, quality: item.Quality));
+                        StardewValley.Object.autoLoadFrom = oldAutoLoadFrom;
                         return inputs;
                     }
                 }
             }
 
+            StardewValley.Object.autoLoadFrom = oldAutoLoadFrom;
             return null;
         }
 
