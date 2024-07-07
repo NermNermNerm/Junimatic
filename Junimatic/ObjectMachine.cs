@@ -72,50 +72,53 @@ namespace NermNermNerm.Junimatic
 
             // Extra Machine Config applies some extra logic to game functions that relies on autoLoadFrom being set to the appropriate inventory.
             var oldAutoLoadFrom = StardewValley.Object.autoLoadFrom;
-            StardewValley.Object.autoLoadFrom = sourceInventory;
-            foreach (var item in sourceInventory)
-            {
-                if (MachineDataUtility.TryGetMachineOutputRule(this.Machine, machineData, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var rule, out var triggerRule, out var ruleIgnoringCount, out var triggerIgnoringCount))
+            try {
+                StardewValley.Object.autoLoadFrom = sourceInventory;
+                foreach (var item in sourceInventory)
                 {
-                    var machineItemOutput = MachineDataUtility.GetOutputData(this.Machine, machineData, rule, item, Game1.MasterPlayer, this.Machine.Location);
-                    if (machineItemOutput is not null && MachineDataUtility.GetOutputItem(this.Machine, machineItemOutput, item, Game1.MasterPlayer, true, out int? overrideMinutesUntilReady) is not null)
+                    if (MachineDataUtility.TryGetMachineOutputRule(this.Machine, machineData, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var rule, out var triggerRule, out var ruleIgnoringCount, out var triggerIgnoringCount))
                     {
-
-                        // Add extra fuels from EMC if applicable, making sure to insert them before the primary input
-                        // We don't have to check for validity since the (patched) TryGetMachineOutputRule should already handle that
-                        var extraMachineConfigApi = ModEntry.Instance.ExtraMachineConfigApi;
-                        if (extraMachineConfigApi is not null)
+                        var machineItemOutput = MachineDataUtility.GetOutputData(this.Machine, machineData, rule, item, Game1.MasterPlayer, this.Machine.Location);
+                        if (machineItemOutput is not null && MachineDataUtility.GetOutputItem(this.Machine, machineItemOutput, item, Game1.MasterPlayer, true, out int? overrideMinutesUntilReady) is not null)
                         {
-                            foreach ((string extraItemId, int extraCount) in extraMachineConfigApi.GetExtraRequirements(machineItemOutput))
+
+                            // Add extra fuels from EMC if applicable, making sure to insert them before the primary input
+                            // We don't have to check for validity since the (patched) TryGetMachineOutputRule should already handle that
+                            var extraMachineConfigApi = ModEntry.Instance.ExtraMachineConfigApi;
+                            if (extraMachineConfigApi is not null)
                             {
-                                var matchingItem = sourceInventory.FirstOrDefault(item => CraftingRecipe.ItemMatchesForCrafting(item, extraItemId), null);
-                                if (matchingItem != null)
+                                foreach ((string extraItemId, int extraCount) in extraMachineConfigApi.GetExtraRequirements(machineItemOutput))
                                 {
-                                    var itemToAdd = matchingItem.getOne();
-                                    itemToAdd.Stack = extraCount;
-                                    inputs.Add(itemToAdd);
+                                    var matchingItem = sourceInventory.FirstOrDefault(item => CraftingRecipe.ItemMatchesForCrafting(item, extraItemId), null);
+                                    if (matchingItem != null)
+                                    {
+                                        var itemToAdd = matchingItem.getOne();
+                                        itemToAdd.Stack = extraCount;
+                                        inputs.Add(itemToAdd);
+                                    }
+                                }
+
+                                foreach ((string extraContextTags, int extraCount) in extraMachineConfigApi.GetExtraTagsRequirements(machineItemOutput)) {
+                                    var matchingItem = sourceInventory.FirstOrDefault(item => ItemContextTagManager.DoesTagQueryMatch(extraContextTags, item?.GetContextTags() ?? new HashSet<string>()), null);
+                                    if (matchingItem != null)
+                                    {
+                                        var itemToAdd = matchingItem.getOne();
+                                        itemToAdd.Stack = extraCount;
+                                        inputs.Add(itemToAdd);
+                                    }
                                 }
                             }
 
-                            foreach ((string extraContextTags, int extraCount) in extraMachineConfigApi.GetExtraTagsRequirements(machineItemOutput)) {
-                                var matchingItem = sourceInventory.FirstOrDefault(item => ItemContextTagManager.DoesTagQueryMatch(extraContextTags, item?.GetContextTags() ?? new HashSet<string>()), null);
-                                if (matchingItem != null)
-                                {
-                                    var itemToAdd = matchingItem.getOne();
-                                    itemToAdd.Stack = extraCount;
-                                    inputs.Add(itemToAdd);
-                                }
-                            }
+                            inputs.Add(ItemRegistry.Create(item.ItemId, amount: triggerRule.RequiredCount, quality: item.Quality));
+                            return inputs;
                         }
-
-                        inputs.Add(ItemRegistry.Create(item.ItemId, amount: triggerRule.RequiredCount, quality: item.Quality));
-                        StardewValley.Object.autoLoadFrom = oldAutoLoadFrom;
-                        return inputs;
                     }
                 }
             }
-
-            StardewValley.Object.autoLoadFrom = oldAutoLoadFrom;
+            finally
+            {
+                StardewValley.Object.autoLoadFrom = oldAutoLoadFrom;
+            }
             return null;
         }
 
