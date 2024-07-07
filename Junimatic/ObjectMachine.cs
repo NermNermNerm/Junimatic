@@ -77,7 +77,7 @@ namespace NermNermNerm.Junimatic
             {
                 if (MachineDataUtility.TryGetMachineOutputRule(this.Machine, machineData, MachineOutputTrigger.ItemPlacedInMachine, item, Game1.MasterPlayer, this.Machine.Location, out var rule, out var triggerRule, out var ruleIgnoringCount, out var triggerIgnoringCount))
                 {
-                    var machineItemOutput = rule.OutputItem.FirstOrDefault(machineItemOutput => MachineDataUtility.GetOutputItem(this.Machine, machineItemOutput, item, Game1.MasterPlayer, true, out int? overrideMinutesUntilReady) is not null, null);
+                    var machineItemOutput = MachineDataUtility.GetOutputData(this.Machine, machineData, rule, item, Game1.MasterPlayer, this.Machine.Location);
                     if (machineItemOutput is not null)
                     {
 
@@ -88,7 +88,7 @@ namespace NermNermNerm.Junimatic
                         {
                             foreach ((string extraItemId, int extraCount) in extraMachineConfigApi.GetExtraRequirements(machineItemOutput))
                             {
-                                var matchingItem = sourceInventory.First(item => CraftingRecipe.ItemMatchesForCrafting(item, extraItemId));
+                                var matchingItem = sourceInventory.FirstOrDefault(item => CraftingRecipe.ItemMatchesForCrafting(item, extraItemId), null);
                                 if (matchingItem != null)
                                 {
                                     var itemToAdd = matchingItem.getOne();
@@ -98,7 +98,7 @@ namespace NermNermNerm.Junimatic
                             }
 
                             foreach ((string extraContextTags, int extraCount) in extraMachineConfigApi.GetExtraTagsRequirements(machineItemOutput)) {
-                                var matchingItem = sourceInventory.First(item => ItemContextTagManager.DoesTagQueryMatch(extraContextTags, item.GetContextTags()));
+                                var matchingItem = sourceInventory.FirstOrDefault(item => ItemContextTagManager.DoesTagQueryMatch(extraContextTags, item?.GetContextTags() ?? new HashSet<string>()), null);
                                 if (matchingItem != null)
                                 {
                                     var itemToAdd = matchingItem.getOne();
