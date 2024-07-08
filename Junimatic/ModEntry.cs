@@ -29,6 +29,7 @@ namespace NermNermNerm.Junimatic
         public UnlockAnimal UnlockAnimal = new UnlockAnimal();
         public UnlockForest UnlockForest = new UnlockForest();
         public UnlockFishing UnlockFishing = new UnlockFishing();
+        public JunimoStatusDialog JunimoStatusDialog = new JunimoStatusDialog();
 
         private readonly WorkFinder workFinder = new WorkFinder();
         public PetFindsThings PetFindsThings = new PetFindsThings();
@@ -58,6 +59,7 @@ namespace NermNermNerm.Junimatic
             this.workFinder.Entry(this);
             this.UnlockFishing.Entry(this);
             this.PetFindsThings.Entry(this);
+            this.JunimoStatusDialog.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 
