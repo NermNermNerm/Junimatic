@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
+using Microsoft.Xna.Framework.Graphics;
+using StardewValley.TerrainFeatures;
 
 namespace NermNermNerm.Junimatic
 {
@@ -170,6 +172,7 @@ namespace NermNermNerm.Junimatic
                       Utility.highlightSmallObjects)
             {
                 this.owner = owner;
+                this.ItemsToGrabMenu.descriptionText = I("yowsa yow yow yow!");
             }
 
             public void Reset(List<Item> newItems)
@@ -255,6 +258,43 @@ namespace NermNermNerm.Junimatic
                 finally
                 {
                     this.owner.OnPlayerChangedShinyList(container.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
+                }
+            }
+
+            public override void draw(SpriteBatch b)
+            {
+                // Mostly copied from StorageContainer
+                b.Draw(Game1.fadeToBlackRect, new Rectangle(0, 0, Game1.uiViewport.Width, Game1.uiViewport.Height), Color.Black * 0.5f);
+
+                // ..except for this call to MenuWithInventory.draw
+                // base.draw(b, drawUpperPortion: false, drawDescriptionArea: false);
+                int red = -1, green = -1, blue = -1;
+                // Copied from 
+                if (this.trashCan != null)
+                {
+                    this.trashCan.draw(b);
+                    b.Draw(Game1.mouseCursors, new Vector2(this.trashCan.bounds.X + 60, this.trashCan.bounds.Y + 40), new Rectangle(564 + Game1.player.trashCanLevel * 18, 129, 18, 10), Color.White, this.trashCanLidRotation, new Vector2(16f, 10f), 4f, SpriteEffects.None, 0.86f);
+                }
+                Game1.drawDialogueBox(this.xPositionOnScreen - IClickableMenu.borderWidth / 2, this.yPositionOnScreen + IClickableMenu.borderWidth + IClickableMenu.spaceToClearTopBorder + 64, this.width, this.height - (IClickableMenu.borderWidth + IClickableMenu.spaceToClearTopBorder + 192), speaker: false, drawOnlyBox: true);
+                this.okButton?.draw(b);
+                this.inventory.draw(b, red, green, blue);
+                // end MenuWithInventory.draw
+                
+
+                Game1.drawDialogueBox(this.ItemsToGrabMenu.xPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearSideBorder, ItemsToGrabMenu.yPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearTopBorder, ItemsToGrabMenu.width + IClickableMenu.borderWidth * 2 + IClickableMenu.spaceToClearSideBorder * 2, ItemsToGrabMenu.height + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth * 2, speaker: false, drawOnlyBox: true);
+                this.ItemsToGrabMenu.draw(b);
+                // this.poof?.draw(b, localPosition: true);
+                if (!this.hoverText.Equals(""))
+                {
+                    drawHoverText(b, this.hoverText, Game1.smallFont);
+                }
+
+                base.heldItem?.drawInMenu(b, new Vector2(Game1.getOldMouseX() + 16, Game1.getOldMouseY() + 16), 1f);
+                this.drawMouse(b);
+                string text = this.ItemsToGrabMenu.descriptionTitle;
+                if (text != null && text.Length > 1)
+                {
+                    drawHoverText(b, this.ItemsToGrabMenu.descriptionTitle, Game1.smallFont, 32 + ((base.heldItem != null) ? 16 : (-21)), 32 + ((base.heldItem != null) ? 16 : (-21)));
                 }
             }
         }
