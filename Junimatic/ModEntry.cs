@@ -29,7 +29,7 @@ namespace NermNermNerm.Junimatic
         public UnlockAnimal UnlockAnimal = new UnlockAnimal();
         public UnlockForest UnlockForest = new UnlockForest();
         public UnlockFishing UnlockFishing = new UnlockFishing();
-        public JunimoStatusDialog JunimoStatusDialog = new JunimoStatusDialog();
+        public JunimoStatus JunimoStatusDialog = new JunimoStatus();
 
         private readonly WorkFinder workFinder = new WorkFinder();
         public PetFindsThings PetFindsThings = new PetFindsThings();

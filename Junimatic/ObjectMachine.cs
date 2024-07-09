@@ -198,7 +198,7 @@ namespace NermNermNerm.Junimatic
                 [StardewValley.Object.buildingResources]
                 ];
 
-            if (machineData.OutputRules is not null)
+            if (machineData?.OutputRules is not null)
             {
                 foreach (var rule in machineData.OutputRules)
                 {
