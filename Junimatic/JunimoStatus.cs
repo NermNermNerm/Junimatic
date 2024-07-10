@@ -8,15 +8,16 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 
-using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.TerrainFeatures;
+
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
     public class JunimoStatus : ModLet
     {
-        public const int NumShinySlots = 10;
+        public const int NumShinySlots = 12;
 
         public const string UpdateListMessageId = "Junimatic.ShinyList";
         public const string AskForListMessageId = "Junimatic.PleaseSendList";
@@ -104,7 +105,7 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        private List<Item> LoadShinyThings()
+        public List<Item> LoadShinyThings()
         {
             Game1.CustomData.TryGetValue("Junimatic.ShinyThings", out string? serialized);
             return this.DeserializeShinyList(serialized ?? "");
@@ -150,7 +151,7 @@ namespace NermNermNerm.Junimatic
             return serialized.ToString();
         }
 
-        private void OnPlayerChangedShinyList(IEnumerable<Item> shinyThings)
+        public void OnPlayerChangedShinyList(IEnumerable<Item> shinyThings)
         {
             string serialized = this.SerializeShinyList(shinyThings);
             this.SendState(serialized);
@@ -160,6 +161,7 @@ namespace NermNermNerm.Junimatic
             }
         }
 
+#if false
         private class JunimoStatusMenu : StorageContainer
         {
             private readonly JunimoStatus owner;
@@ -167,12 +169,17 @@ namespace NermNermNerm.Junimatic
             public JunimoStatusMenu(JunimoStatus owner)
                 : base(FluffUpList(Game1.IsMasterGame ? owner.LoadShinyThings() : new List<Item>()),
                       NumShinySlots,
-                      2,
+                      1, // number of rows of shiny stuff inventory
                       (i, p, o, c, ir) => ((JunimoStatusMenu)c).OnChangingShinyItems(i, p, o, c, ir),
                       Utility.highlightSmallObjects)
             {
                 this.owner = owner;
-                this.ItemsToGrabMenu.descriptionText = I("yowsa yow yow yow!");
+
+                // This code controls where it goes - because reasons, it's not actually quite correct
+                //int num = 64 * (capacity / rows);
+                //ItemsToGrabMenu = new InventoryMenu(Game1.uiViewport.Width / 2 - num / 2, yPositionOnScreen + 64, playerInventory: false, inventory, null, capacity, rows);
+                this.ItemsToGrabMenu.xPositionOnScreen = this.inventory.xPositionOnScreen;
+                this.ItemsToGrabMenu.yPositionOnScreen = this.yPositionOnScreen + 192;
             }
 
             public void Reset(List<Item> newItems)
@@ -268,20 +275,31 @@ namespace NermNermNerm.Junimatic
 
                 // ..except for this call to MenuWithInventory.draw
                 // base.draw(b, drawUpperPortion: false, drawDescriptionArea: false);
-                int red = -1, green = -1, blue = -1;
-                // Copied from 
                 if (this.trashCan != null)
                 {
                     this.trashCan.draw(b);
                     b.Draw(Game1.mouseCursors, new Vector2(this.trashCan.bounds.X + 60, this.trashCan.bounds.Y + 40), new Rectangle(564 + Game1.player.trashCanLevel * 18, 129, 18, 10), Color.White, this.trashCanLidRotation, new Vector2(16f, 10f), 4f, SpriteEffects.None, 0.86f);
                 }
-                Game1.drawDialogueBox(this.xPositionOnScreen - IClickableMenu.borderWidth / 2, this.yPositionOnScreen + IClickableMenu.borderWidth + IClickableMenu.spaceToClearTopBorder + 64, this.width, this.height - (IClickableMenu.borderWidth + IClickableMenu.spaceToClearTopBorder + 192), speaker: false, drawOnlyBox: true);
+                // Draw the box around the player's inventory
+                Game1.drawDialogueBox(
+                    x: this.xPositionOnScreen - IClickableMenu.borderWidth / 2,
+                    y: this.yPositionOnScreen + IClickableMenu.borderWidth + IClickableMenu.spaceToClearTopBorder + 64,
+                    width: this.width,
+                    height: this.height - (IClickableMenu.borderWidth + IClickableMenu.spaceToClearTopBorder + 192),
+                    speaker: false,
+                    drawOnlyBox: true);
                 this.okButton?.draw(b);
-                this.inventory.draw(b, red, green, blue);
+                this.inventory.draw(b, red: -1, green: -1, blue: -1); // Draw the actual inventory
                 // end MenuWithInventory.draw
-                
 
-                Game1.drawDialogueBox(this.ItemsToGrabMenu.xPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearSideBorder, ItemsToGrabMenu.yPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearTopBorder, ItemsToGrabMenu.width + IClickableMenu.borderWidth * 2 + IClickableMenu.spaceToClearSideBorder * 2, ItemsToGrabMenu.height + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth * 2, speaker: false, drawOnlyBox: true);
+
+                Game1.drawDialogueBox(
+                    x: this.ItemsToGrabMenu.xPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearSideBorder,
+                    y: this.ItemsToGrabMenu.yPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearTopBorder,
+                    width: this.ItemsToGrabMenu.width + IClickableMenu.borderWidth * 2 + IClickableMenu.spaceToClearSideBorder * 2,
+                    height: this.ItemsToGrabMenu.height + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth * 2,
+                    speaker: false,
+                    drawOnlyBox: true);
                 this.ItemsToGrabMenu.draw(b);
                 // this.poof?.draw(b, localPosition: true);
                 if (!this.hoverText.Equals(""))
@@ -298,5 +316,6 @@ namespace NermNermNerm.Junimatic
                 }
             }
         }
+#endif
     }
 }
