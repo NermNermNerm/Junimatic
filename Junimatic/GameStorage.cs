@@ -140,11 +140,11 @@ namespace NermNermNerm.Junimatic
 
         /// <summary>
         ///   Given a list of items and quantities, <paramref name="shoppingList"/>, first see if the chest actually contains that much stuff
-        ///   and then transfers the items from the chest into <paramref name="totebag"/>.
+        ///   and then transfers the items from the chest into <paramref name="toteBag"/>.
         /// </summary>
-        /// <returns>True if all the items in <paramref name="shoppingList"/> were transferred to <paramref name="totebag"/>, false if
+        /// <returns>True if all the items in <paramref name="shoppingList"/> were transferred to <paramref name="toteBag"/>, false if
         /// the chest didn't contain all the things on the list</returns>
-        public bool TryFulfillShoppingList(List<Item> shoppingList, Inventory totebag)
+        public bool TryFulfillShoppingList(List<Item> shoppingList, Inventory toteBag)
         {
             // Ensure enough stuff exists
             var chestInventory = this.RawInventory;
@@ -163,7 +163,7 @@ namespace NermNermNerm.Junimatic
                 Item template = null!; // The while loop is guaranteed to be run once because leftToRemove will always be > 1
                 while (leftToRemove > 0)
                 {
-                    var first = chestInventory.First(i => i is not null && i.Stack > 0 && i.ItemId == item.ItemId);
+                    var first = chestInventory.First(i => i is not null && i.Stack > 0 && i.ItemId == item.ItemId && i.Quality == item.Quality);
                     if (first.Stack > item.Stack)
                     {
                         first.Stack -= leftToRemove;
@@ -182,7 +182,7 @@ namespace NermNermNerm.Junimatic
                 //   such machines (stock).  I suspect if there were such machines, they'd be have the same problem.
                 var newItem = ItemRegistry.Create<StardewValley.Object>(template.QualifiedItemId, item.Stack, template.Quality);
                 newItem.preservedParentSheetIndex.Value = ((StardewValley.Object)template).preservedParentSheetIndex.Value;
-                totebag.Add(newItem);
+                toteBag.Add(newItem);
             }
 
             return true;

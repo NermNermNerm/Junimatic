@@ -166,10 +166,10 @@ namespace NermNermNerm.Junimatic
                     return;
                 }
 
-                l.playSound("dwop"); // <- might get overriden by the furnace sound...  but if it's not a furnace...
+                l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
             }
 
-            var newAssignment = (new WorkFinder()).FindProject(this.Assignment.hut, this.Assignment.projectType, this);
+            var newAssignment = this.workFinder!.FindProject(this.Assignment.hut, this.Assignment.projectType, this);
             if (newAssignment is not null)
             {
                 this.Assignment = newAssignment;
