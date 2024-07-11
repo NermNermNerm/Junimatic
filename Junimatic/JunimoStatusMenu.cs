@@ -118,7 +118,7 @@ namespace NermNermNerm.Junimatic
                 base.heldItem = this.ItemsToGrabMenu.leftClick(x, y, base.heldItem, playSound: false);
                 if ((base.heldItem != null && item == null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)))
                 {
-                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, this, onRemoval: true);
+                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, onRemoval: true);
 
                     if (flag)
                     {
@@ -135,7 +135,7 @@ namespace NermNermNerm.Junimatic
                         one.Stack = num;
                     }
 
-                    flag = this.itemChangeBehavior(item, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), one, this, onRemoval: true);
+                    flag = this.itemChangeBehavior(item, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), one, onRemoval: true);
 
                     if (flag)
                     {
@@ -170,7 +170,7 @@ namespace NermNermNerm.Junimatic
                 else if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(base.heldItem))
                 {
                     base.heldItem = null;
-                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, this, onRemoval: true);
+                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, onRemoval: true);
 
                     if (flag)
                     {
@@ -193,7 +193,7 @@ namespace NermNermNerm.Junimatic
         }
 
 
-        private bool itemChangeBehavior(Item? i, int position, Item? old, JunimoStatusMenu container, bool onRemoval)
+        private bool itemChangeBehavior(Item? i, int position, Item? old, bool onRemoval)
         {
             // The arguments to this thing are pretty much impossible to name well.
             //
@@ -225,18 +225,18 @@ namespace NermNermNerm.Junimatic
                         if (old != null && old.canStackWith(i)) // something's held and it's the same kind of thing as what's in the chest
                         {
                             // This does nothing - the items in the actual inventory are always stack size 1.
-                            container.ItemsToGrabMenu.actualInventory[position].Stack = 1;
+                            this.ItemsToGrabMenu.actualInventory[position].Stack = 1;
 
                             // This does nothing - when onRemove is false, 'old' is the item in the chest, so container.heldItem already == old
-                            container.heldItem = old;
+                            this.heldItem = old;
                             return false;
                         }
 
                         if (old != null)
                         {
                             // swaps what's in the hand and what's in the chest.
-                            Utility.addItemToInventory(old, position, container.ItemsToGrabMenu.actualInventory);
-                            container.heldItem = i;
+                            Utility.addItemToInventory(old, position, this.ItemsToGrabMenu.actualInventory);
+                            this.heldItem = i;
                             return false;
                         }
 
@@ -244,7 +244,7 @@ namespace NermNermNerm.Junimatic
                         int allButOne = i.Stack - 1; // The stack size after putting it in the container - can be zero
                         Item reject = i.getOne(); // 'reject' is the part of the incoming stack that won't fit because we only take one item.
                         reject.Stack = allButOne; //   <- see that it's the right size
-                        container.heldItem = reject; //  And now that's what's in-hand
+                        this.heldItem = reject; //  And now that's what's in-hand
                         i.Stack = 1; // 
                     }
                 }
@@ -256,7 +256,7 @@ namespace NermNermNerm.Junimatic
             }
             finally
             {
-                this.owner.OnPlayerChangedShinyList(container.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
+                this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
             }
         }
 
@@ -277,13 +277,13 @@ namespace NermNermNerm.Junimatic
             base.heldItem = this.ItemsToGrabMenu.rightClick(x, y, base.heldItem, playSound: false);
             if ((base.heldItem != null && item == null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)) || (base.heldItem != null && item != null && base.heldItem.Equals(item) && base.heldItem.Stack != num))
             {
-                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, this, onRemoval: true);
+                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, onRemoval: true);
                 Game1.playSound("dwop");
             }
 
             if ((base.heldItem == null && item != null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)))
             {
-                this.itemChangeBehavior(item, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), base.heldItem, this, onRemoval: false);
+                this.itemChangeBehavior(item, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), base.heldItem, onRemoval: false);
                 Game1.playSound("Ship");
             }
 
@@ -292,7 +292,7 @@ namespace NermNermNerm.Junimatic
             {
                 base.heldItem = null;
                 Game1.playSound("coin");
-                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, this, onRemoval: true);
+                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, onRemoval: true);
             }
         }
 
@@ -325,7 +325,31 @@ namespace NermNermNerm.Junimatic
         {
             b.Draw(Game1.fadeToBlackRect, new Rectangle(0, 0, Game1.uiViewport.Width, Game1.uiViewport.Height), Color.Black * 0.5f);
             base.draw(b, drawUpperPortion: false, drawDescriptionArea: false);
-            Game1.drawDialogueBox(this.ItemsToGrabMenu.xPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearSideBorder, this.ItemsToGrabMenu.yPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearTopBorder, this.ItemsToGrabMenu.width + IClickableMenu.borderWidth * 2 + IClickableMenu.spaceToClearSideBorder * 2, this.ItemsToGrabMenu.height + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth * 2, speaker: false, drawOnlyBox: true);
+
+            string title = L("* Shiny Things *");
+            var titleSize = Game1.dialogueFont.MeasureString(title);
+            int titleWidth = (int)titleSize.X;
+            int titleHeight = (int)titleSize.Y;
+            int titleMargin = titleHeight / 4;
+
+            // This is the box that contains the 'Shiny things' title and list of items.
+            Game1.drawDialogueBox(
+                this.ItemsToGrabMenu.xPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearSideBorder,
+                this.ItemsToGrabMenu.yPositionOnScreen - (IClickableMenu.spaceToClearTopBorder + /*IClickableMenu.borderWidth*/ + titleHeight + titleMargin * 2),
+                this.ItemsToGrabMenu.width + IClickableMenu.borderWidth * 2 + IClickableMenu.spaceToClearSideBorder * 2,
+                this.ItemsToGrabMenu.height + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + titleHeight + titleMargin*2,
+                speaker: false, drawOnlyBox: true);
+
+            var titlePosition = new Vector2(
+                this.ItemsToGrabMenu.xPositionOnScreen - IClickableMenu.borderWidth - IClickableMenu.spaceToClearSideBorder
+                 +((this.ItemsToGrabMenu.width + IClickableMenu.borderWidth * 2 + IClickableMenu.spaceToClearSideBorder * 2) - titleWidth) / 2,
+                this.ItemsToGrabMenu.yPositionOnScreen - titleMargin - titleHeight
+                );
+            b.DrawString(Game1.dialogueFont, title, titlePosition, Game1.textColor);
+
+            int mouseX = Game1.getOldMouseX();
+            int mouseY = Game1.getOldMouseY();
+
             this.ItemsToGrabMenu.draw(b);
             this.poof?.draw(b, localPosition: true);
             if (!this.hoverText.Equals(""))
@@ -333,12 +357,18 @@ namespace NermNermNerm.Junimatic
                 IClickableMenu.drawHoverText(b, this.hoverText, Game1.smallFont);
             }
 
-            base.heldItem?.drawInMenu(b, new Vector2(Game1.getOldMouseX() + 16, Game1.getOldMouseY() + 16), 1f);
+            base.heldItem?.drawInMenu(b, new Vector2(mouseX + 16, mouseY + 16), 1f);
             this.drawMouse(b);
             string text = this.ItemsToGrabMenu.descriptionTitle;
             if (text != null && text.Length > 1)
             {
                 IClickableMenu.drawHoverText(b, this.ItemsToGrabMenu.descriptionTitle, Game1.smallFont, 32 + ((base.heldItem != null) ? 16 : (-21)), 32 + ((base.heldItem != null) ? 16 : (-21)));
+            }
+
+            if (mouseX >= titlePosition.X && mouseX <= titlePosition.X + titleWidth
+                && mouseY >= titlePosition.Y && mouseY <= titlePosition.Y + titleHeight)
+            {
+                IClickableMenu.drawHoverText(b, L("Junimos won't put items with equal or better quality\nthan these items into machines or shipping bins."), Game1.smallFont);
             }
         }
     }
