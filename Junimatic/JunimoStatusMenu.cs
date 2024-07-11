@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using StardewValley;
+using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
@@ -326,10 +327,9 @@ namespace NermNermNerm.Junimatic
             b.Draw(Game1.fadeToBlackRect, new Rectangle(0, 0, Game1.uiViewport.Width, Game1.uiViewport.Height), Color.Black * 0.5f);
             base.draw(b, drawUpperPortion: false, drawDescriptionArea: false);
 
-            string title = L("* Shiny Things *");
-            var titleSize = Game1.dialogueFont.MeasureString(title);
-            int titleWidth = (int)titleSize.X;
-            int titleHeight = (int)titleSize.Y;
+            string title = L("= $ Shiny things $ =");
+            int titleWidth = SpriteText.getWidthOfString(title);
+            int titleHeight = SpriteText.getHeightOfString(title);
             int titleMargin = titleHeight / 4;
 
             // This is the box that contains the 'Shiny things' title and list of items.
@@ -345,7 +345,7 @@ namespace NermNermNerm.Junimatic
                  +((this.ItemsToGrabMenu.width + IClickableMenu.borderWidth * 2 + IClickableMenu.spaceToClearSideBorder * 2) - titleWidth) / 2,
                 this.ItemsToGrabMenu.yPositionOnScreen - titleMargin - titleHeight
                 );
-            b.DrawString(Game1.dialogueFont, title, titlePosition, Game1.textColor);
+            SpriteText.drawString(b, title, (int)titlePosition.X, (int)titlePosition.Y);
 
             int mouseX = Game1.getOldMouseX();
             int mouseY = Game1.getOldMouseY();
