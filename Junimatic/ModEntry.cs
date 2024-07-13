@@ -10,6 +10,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.GameData.Objects;
+using HarmonyLib;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
@@ -58,6 +59,10 @@ namespace NermNermNerm.Junimatic
             this.workFinder.Entry(this);
             this.UnlockFishing.Entry(this);
             this.PetFindsThings.Entry(this);
+
+            // Apply Harmony patches
+            var harmony = new Harmony(this.ModManifest.UniqueID);
+            Patcher.Apply(this, harmony);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 

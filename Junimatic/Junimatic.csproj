@@ -3,7 +3,8 @@
     <Version>4.16.5</Version>
     <RootNamespace>NermNermNerm.Junimatic</RootNamespace>
 
-    <IgnoreModFilePatterns>\.edits\.json$,new-language-template\.json$</IgnoreModFilePatterns>
+    <IgnoreModFilePatterns>\.edits\.json$,new-language-template\.json$</IgnoreModFilePatterns>    
+    <EnableHarmony>true</EnableHarmony>
   </PropertyGroup>
 
   <ItemGroup>

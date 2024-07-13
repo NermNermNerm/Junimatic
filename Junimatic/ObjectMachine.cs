@@ -29,6 +29,10 @@ namespace NermNermNerm.Junimatic
             {
                 return new CrabPotMachine(crabPot, accessPoint);
             }
+            else if(item is IndoorPot indoorPot)
+            {
+                return new IndoorPotMachine(indoorPot, accessPoint);
+            }
             else if (item.GetMachineData() is not null)
             {
                 return new ObjectMachine(item, accessPoint);
@@ -116,7 +120,7 @@ namespace NermNermNerm.Junimatic
             return result;
         }
 
-        private bool IsManualFeedMachine => this.Machine.ItemId == "21"; // Crystalarium
+        private bool IsManualFeedMachine => this.Machine.ItemId == "21" || this.Machine.ItemId == "62"; // Crystalarium or Garden Pot
 
         [NoStrict]
         private bool IsCompatibleWithJunimoNoCache(JunimoType projectType)
