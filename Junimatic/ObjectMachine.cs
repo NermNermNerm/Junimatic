@@ -172,7 +172,7 @@ namespace NermNermNerm.Junimatic
             var machineData = this.Machine.GetMachineData();
 
             // Mods can specify exactly which Junimo should service it.  That's the top priority.
-            if (machineData.CustomFields?.TryGetValue("Junimatic.JunimoType", out string? modAssignment) == true)
+            if (machineData?.CustomFields?.TryGetValue("Junimatic.JunimoType", out string? modAssignment) == true)
             {
                 if (Enum.TryParse(modAssignment, true, out JunimoType junimoType))
                 {
