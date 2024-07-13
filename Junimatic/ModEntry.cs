@@ -71,6 +71,8 @@ namespace NermNermNerm.Junimatic
 
         public bool IsRunningSve => this.Helper.ModRegistry.IsLoaded("FlashShifter.SVECode");
 
+        public IExtraMachineConfigApi? ExtraMachineConfigApi => this.Helper.ModRegistry.GetApi<IExtraMachineConfigApi>("selph.ExtraMachineConfig");
+
         private void SetJunimoColor(Event @event, string[] split, EventContext context)
         {
             try
