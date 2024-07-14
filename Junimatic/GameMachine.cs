@@ -1,11 +1,8 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.GameData.Machines;
 using StardewValley.Inventories;
-using StardewValley.Objects;
-using StardewValley.TerrainFeatures;
 
 namespace NermNermNerm.Junimatic
 {
@@ -23,12 +20,12 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public abstract bool IsIdle { get; }
 
-        public abstract Object? HeldObject { get; }
+        public abstract StardewValley.Object? HeldObject { get; }
 
         /// <summary>
         ///   Returns the HeldObject and removes it from the machines.
         /// </summary>
-        public Object RemoveHeldObject()
+        public StardewValley.Object RemoveHeldObject()
         {
             return this.TakeItemFromMachine();
         }
@@ -53,13 +50,13 @@ namespace NermNermNerm.Junimatic
         ///   enough stuff in the chest to allow it, it builds a list of the items needed but doesn't
         ///   actually remove the items from the chest.
         /// </summary>
-        public abstract List<Item>? GetRecipeFromChest(GameStorage storage);
+        public abstract List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest);
 
         /// <summary>
         ///   Tries to populate the given machine's input with the contents of the chest.  If it
         ///   succeeds, it returns true and the necessary items are removed.
         /// </summary>
-        public abstract bool FillMachineFromChest(GameStorage storage);
+        public abstract bool FillMachineFromChest(GameStorage storage, Func<Item,bool> isShinyTest);
 
         /// <summary>
         ///   Fills the machine from the supplied Junimo inventory.

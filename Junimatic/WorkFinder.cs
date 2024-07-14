@@ -111,6 +111,7 @@ namespace NermNermNerm.Junimatic
 
         private void DoJunimos(bool isAutomationInterval)
         {
+            var isShinyTest = this.mod.JunimoStatusDialog.GetIsShinyTest();
             var numAvailableJunimos = this.GetNumUnlockedJunimos();
             foreach (var junimoType in Enum.GetValues<JunimoType>())
             {
@@ -149,7 +150,7 @@ namespace NermNermNerm.Junimatic
                     {
                         if (numAvailableJunimos[junimoType] > 0)
                         {
-                            var project = this.FindProject(portal, junimoType, null);
+                            var project = this.FindProject(portal, junimoType, null, isShinyTest);
                             if (project is not null)
                             {
                                 this.LogTrace($"Starting Animated Junimo for {project}");
@@ -171,7 +172,7 @@ namespace NermNermNerm.Junimatic
                     {
                         if (numAvailableJunimos[junimoType] > 0)
                         {
-                            if (this.TryDoAutomationsForLocation(location, junimoType))
+                            if (this.TryDoAutomationsForLocation(location, junimoType, isShinyTest))
                             {
                                 numAvailableJunimos[junimoType] -= 1;
                             }
@@ -218,7 +219,7 @@ namespace NermNermNerm.Junimatic
             return result;
         }
 
-        private bool TryDoAutomationsForLocation(GameLocation location, JunimoType projectType)
+        private bool TryDoAutomationsForLocation(GameLocation location, JunimoType projectType, Func<Item,bool> isShinyTest)
         {
             if (!this.cachedNetworks.TryGetValue(location, out var networks))
             {
@@ -235,7 +236,7 @@ namespace NermNermNerm.Junimatic
                 {
                     foreach (var chest in network.Chests)
                     {
-                        if (emptyMachine.FillMachineFromChest(chest))
+                        if (emptyMachine.FillMachineFromChest(chest, isShinyTest))
                         {
                             this.LogTrace($"Automatic machine fill of {emptyMachine} on {location.Name} from {chest}");
                             return true;
@@ -382,6 +383,9 @@ namespace NermNermNerm.Junimatic
         }
 
         public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType, JunimoShuffler? forJunimo)
+            => this.FindProject(portal, projectType, forJunimo, this.mod.JunimoStatusDialog.GetIsShinyTest());
+
+        public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType, JunimoShuffler? forJunimo, Func<Item,bool> isShinyTest)
         {
             // This duplicates the logic in BuildNetwork, except that it's trying to find the closest path and
             // it stops as soon as it cooks up something to do.
@@ -451,7 +455,7 @@ namespace NermNermNerm.Junimatic
                             // See if we can create a mission to carry from this chest to an idle machine
                             foreach (var machineNeedingDelivery in emptyMachines)
                             {
-                                var inputs = machineNeedingDelivery.GetRecipeFromChest(chest);
+                                var inputs = machineNeedingDelivery.GetRecipeFromChest(chest, isShinyTest);
                                 if (inputs is not null)
                                 {
                                     return new JunimoAssignment(projectType, location, portal, originTile, chest, machineNeedingDelivery, inputs);
@@ -479,7 +483,7 @@ namespace NermNermNerm.Junimatic
                                 // Try and find a chest to supply it from
                                 foreach (var sourceChest in knownChests)
                                 {
-                                    var inputs = machine.GetRecipeFromChest(sourceChest);
+                                    var inputs = machine.GetRecipeFromChest(sourceChest, isShinyTest);
                                     if (inputs is not null)
                                     {
                                         return new JunimoAssignment(projectType, location, portal, originTile, sourceChest, machine, inputs);
@@ -530,7 +534,7 @@ namespace NermNermNerm.Junimatic
                                     // Try and find a chest to supply it from
                                     foreach (var sourceChest in knownChests)
                                     {
-                                        var inputs = machine.GetRecipeFromChest(sourceChest);
+                                        var inputs = machine.GetRecipeFromChest(sourceChest, isShinyTest);
                                         if (inputs is not null)
                                         {
                                             return new JunimoAssignment(projectType, location, portal, originTile, sourceChest, machine, inputs);

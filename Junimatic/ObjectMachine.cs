@@ -48,7 +48,7 @@ namespace NermNermNerm.Junimatic
         ///   enough stuff in the chest to allow it, it builds a list of the items needed but doesn't
         ///   actually remove the items from the chest.
         /// </summary>
-        public override List<Item>? GetRecipeFromChest(GameStorage storage)
+        public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
             if (this.IsManualFeedMachine)
             {
@@ -58,7 +58,8 @@ namespace NermNermNerm.Junimatic
             var machineData = this.Machine.GetMachineData();
             var inputs = new List<Item>();
 
-            var sourceInventory = storage.RawInventory;
+            var sourceInventory = new Inventory();
+            sourceInventory.AddRange(storage.RawInventory.Where(i => !isShinyTest(i)).ToArray());
             // Ensure it has the coal (aka all the 'AdditionalConsumedItems')
             if (machineData.AdditionalConsumedItems is not null)
             {
@@ -127,8 +128,25 @@ namespace NermNermNerm.Junimatic
         ///   Tries to populate the given machine's input with the contents of the chest.  If it
         ///   succeeds, it returns true and the necessary items are removed.
         /// </summary>
-        public override bool FillMachineFromChest(GameStorage storage)
-            => !this.IsManualFeedMachine && this.Machine.AttemptAutoLoad(storage.RawInventory, Game1.MasterPlayer);
+        public override bool FillMachineFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
+        {
+            if (this.IsManualFeedMachine)
+            {
+                return false;
+            }
+
+            // Copied from StardewValley.Object.AttemptAutoLoad, with filtering for items
+            if (this.Machine.heldObject.Value != null)
+            {
+                return false;
+            }
+
+            var rawInventory = storage.RawInventory;
+            StardewValley.Object.autoLoadFrom = rawInventory;
+            bool filledIt = rawInventory.Any(item => !isShinyTest(item) && this.Machine.performObjectDropInAction(item, probe: false, Game1.MasterPlayer));
+            StardewValley.Object.autoLoadFrom = null;
+            return filledIt;
+        }
 
         /// <summary>
         ///   Fills the machine from the supplied Junimo inventory.
@@ -168,7 +186,7 @@ namespace NermNermNerm.Junimatic
             var machineData = this.Machine.GetMachineData();
 
             // Mods can specify exactly which Junimo should service it.  That's the top priority.
-            if (machineData.CustomFields?.TryGetValue("Junimatic.JunimoType", out string? modAssignment) == true)
+            if (machineData?.CustomFields?.TryGetValue("Junimatic.JunimoType", out string? modAssignment) == true)
             {
                 if (Enum.TryParse(modAssignment, true, out JunimoType junimoType))
                 {
@@ -236,7 +254,7 @@ namespace NermNermNerm.Junimatic
                 [StardewValley.Object.buildingResources]
                 ];
 
-            if (machineData.OutputRules is not null)
+            if (machineData?.OutputRules is not null)
             {
                 foreach (var rule in machineData.OutputRules)
                 {
