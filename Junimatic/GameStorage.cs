@@ -164,6 +164,11 @@ namespace NermNermNerm.Junimatic
                 while (leftToRemove > 0)
                 {
                     var first = chestInventory.First(i => i is not null && i.Stack > 0 && i.ItemId == item.ItemId && i.Quality == item.Quality);
+
+                    var forBag = first.getOne();
+                    forBag.Stack = Math.Min(item.Stack, leftToRemove);
+                    toteBag.Add(forBag);
+
                     if (first.Stack > item.Stack)
                     {
                         first.Stack -= leftToRemove;
@@ -176,13 +181,6 @@ namespace NermNermNerm.Junimatic
                     }
                     template = first;
                 }
-
-                // Note: This could be make a mistake if there was a case where a machine preserves the quality and
-                //   we actually pulled a mix of different quality items out of the chest.  As of now, there are no
-                //   such machines (stock).  I suspect if there were such machines, they'd be have the same problem.
-                var newItem = ItemRegistry.Create<StardewValley.Object>(template.QualifiedItemId, item.Stack, template.Quality);
-                newItem.preservedParentSheetIndex.Value = ((StardewValley.Object)template).preservedParentSheetIndex.Value;
-                toteBag.Add(newItem);
             }
 
             return true;
