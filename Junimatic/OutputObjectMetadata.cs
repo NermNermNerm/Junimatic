@@ -17,6 +17,13 @@ namespace NermNermNerm.Junimatic
         public int Quality { get; }
         public Color? TintColor { get; }
 
+        /// <summary>
+        /// Create an OutputObjectMetadata instance from its base fields. Intended for use when constructing from a JsonString.
+        /// </summary>
+        /// <param name="ItemId">Item ID</param>
+        /// <param name="Stack">Item stack</param>
+        /// <param name="Quality">Item quality</param>
+        /// <param name="TintColor">ColoredObject color. Not used for other item types.</param>
         [JsonConstructor]
         public OutputObjectMetadata(string ItemId, int Stack, int Quality, Color? TintColor = null)
         {
@@ -26,6 +33,10 @@ namespace NermNermNerm.Junimatic
             this.TintColor = TintColor;
         }
 
+        /// <summary>
+        /// Create an OutputObjectMetadata instance from an Item instance
+        /// </summary>
+        /// <param name="Item">Item instance</param>
         public OutputObjectMetadata(Item Item)
         {
             this.ItemId = Item.QualifiedItemId;
