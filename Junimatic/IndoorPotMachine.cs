@@ -1,13 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.Characters;
-using StardewValley.Inventories;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using SObject = StardewValley.Object;
@@ -22,13 +18,15 @@ namespace NermNermNerm.Junimatic
         internal IndoorPotMachine(IndoorPot machine, Point accessPoint)
             : base(machine, accessPoint)
         {
+            // FakeFarmer to suppress exp gain and prevent player professions and stats from contributing to quantity/quality
             this.FakeFarmer = new Farmer() {
                 currentLocation = machine.Location,
-                // MARGO throws errors if this isn't set
+                // MARGO throws errors if this isn't set (taken from Garden Pot - Automate source code)
                 mostRecentlyGrabbedItem = new SObject()
             };
 
-            this.DummyObject = ItemRegistry.Create<SObject>("770"); // Mixed Seeds dummy object to flag pot ready for harvest
+            // Mixed Seeds dummy object to flag pot ready for harvest
+            this.DummyObject = ItemRegistry.Create<SObject>("770"); 
 
             // Set the HarvestObjects list to the HarvestObjects list stored in the machine's modData if it exists
             if (this.Machine.modData.TryGetValue(IF($"{ModEntry.Instance.ModManifest.UniqueID}/HarvestObjects"), out string HarvestObjectsString))
@@ -53,18 +51,20 @@ namespace NermNermNerm.Junimatic
             return projectType == JunimoType.Crops;
         }
 
-        // 
+        /// <summary>
+        /// Pull the next object from HarvestObjects or harvest the pot if HarvestObjects is not populated
+        /// </summary>
+        /// <returns>StardewValley.Object harvested from the pot</returns>
         protected override SObject TakeItemFromMachine()
         {
-            SObject HarvestObject = null!;
+            SObject HarvestObject = this.DummyObject; // Set to dummy object to prevent the game from crashing if harvest fails
             // Harvest if HarvestObjects is not populated and pot is still ready to harvest
             if (!this.HarvestObjects.Any() && this.IsHarvestable())
             {
                 this.Harvest();
-                // Destroy HoeDirt.crop after harvest to prevent duplicate harvest if farmer tries to harvest after Junimo grabs first object
-                HoeDirt? dirt = this.Machine.hoeDirt?.Value;
-                if (dirt?.crop is not null && !dirt.crop.RegrowsAfterHarvest())
-                    dirt.destroyCrop(false);
+                
+                // Log an error if harvest fails. This won't stop Junimatic from repeatedly trying to harvest it. (TODO)
+                if (!this.HarvestObjects.Any()) ModEntry.Instance.LogErrorOnce($"Machine failed to harvest at {this.Machine.TileLocation}");
             }
             // Return and remove the first object in HarvestObjects, if populated
             if (this.HarvestObjects.Any())
@@ -82,7 +82,7 @@ namespace NermNermNerm.Junimatic
         }
 
         /// <summary>
-        /// Return the DummyObject if pot is ready to harvest
+        /// Return the DummyObject to flag the pot as ready to empty if pot is ready to harvest or if there are still objects to be collected from HarvestObjects
         /// </summary>
         /// <returns>The DummyObject. Default: null</returns>
         private SObject? GetHeldObject()
@@ -112,6 +112,9 @@ namespace NermNermNerm.Junimatic
             if (this.Machine.hoeDirt.Value is HoeDirt dirt && dirt.crop is not null)
             {
                 this.HarvestCrop(dirt);
+                // Destroy HoeDirt.crop after harvest to prevent duplicate harvest if farmer tries to harvest after Junimo grabs first object
+                if (!dirt.crop.RegrowsAfterHarvest())
+                    dirt.destroyCrop(this.Machine.Location.farmers.Any()); // Play animation if player is around
                 return;
             }
 
@@ -123,13 +126,17 @@ namespace NermNermNerm.Junimatic
             
         }
 
+        /// <summary>
+        /// Harvest HoeDirt.Crop and add the output to this.HarvestItems
+        /// </summary>
+        /// <param name="dirt">The HoeDirt of the IndoorPot</param>
         private void HarvestCrop(HoeDirt dirt)
         {
             Crop crop = dirt.crop;
             int xTile = (int)dirt.Tile.X;
             int yTile = (int)dirt.Tile.Y;
 
-            // Add the harvested objects metadata to HarvestObjects
+            // Set Patcher.Objects logic to add the harvested objects metadata to HarvestObjects
             Patcher.Objects = new Action<Item>(i => {
                 OutputObjectMetadata Object = new (i);
                 // If matching object metadata is already in HarvestObject, increment the stack (i.e. group like items into a single entry)
@@ -141,6 +148,7 @@ namespace NermNermNerm.Junimatic
                 });
 
             // Farmer Professions and foraging/farming levels not applied when Junimo harvests
+            // Set the patcher variable to initiate the Harmony patches to redirect calls to Game1.Player to FakeFarmer
             Patcher.Harvester = this.FakeFarmer;
 
             // Harvest crop
@@ -151,11 +159,15 @@ namespace NermNermNerm.Junimatic
             Patcher.Harvester = null!;
         }
 
+        /// <summary>
+        /// Harvest Bush and add the output to this.HarvestItems
+        /// </summary>
+        /// <param name="bush">The bush of the IndoorPot</param> 
         private void HarvestBush(Bush bush)
         {
             Vector2 tileLocation = this.Machine.TileLocation;
-
-            // Add the harvested objects to HarvestObjects
+            
+            // Set Patcher.Objects logic to add the harvested objects metadata to HarvestObjects
             Patcher.Objects = new Action<Item>(i => {
                 OutputObjectMetadata Object = new (i);
                 // If matching object metadata is already in HarvestObject, increment the stack (i.e. group like items into a single entry)
@@ -167,7 +179,16 @@ namespace NermNermNerm.Junimatic
                 });
 
             // Farmer Professions and foraging/farming levels not applied when Junimo harvests
-            Patcher.Harvester = this.FakeFarmer;
+            // Set the FakeFarmer's DaysPlayed to the master DaysPlayed so the bush's age is calculated correctly
+                // The stats of the newly created FakeFarmer default to 0, including DaysPlayed
+                // Once Patcher.Harvester is set, any reference made to Game1.Player is redirected to FakeFarmer
+                // When InBloom checks the age of the bush, it pulls the DaysPlayed stat from Game1.Player (FakeFarmer)
+                // Since FakeFarmer.stats.DaysPlayed is 0, the resulting calulated age will always be negative
+                // As such, InBloom will always return false and the bush unable to be harvested by Junimatic
+                // Note: Game1.stats redirects to Game1.Player.stats
+            this.FakeFarmer.stats.DaysPlayed = Game1.stats.DaysPlayed;
+            // Set the patcher variable to initiate the Harmony patches to redirect calls to Game1.Player to FakeFarmer
+            Patcher.Harvester = this.FakeFarmer; 
 
             // Harvest bush
             // Call Bush.shake to harvest to support custom bushes
@@ -175,12 +196,19 @@ namespace NermNermNerm.Junimatic
                 // As a result, Junimatic cannot call CreateObjectDebris directly as that would circumvent the call to the Custom Bush CreateObjectDebris
                 // This Custom Bush method eventually calls the original CreateObjectDebris, which is where the Junimatic prefix would run, adding the items to HarvestObjects
             bush.shake(tileLocation, doEvenIfStillShaking: false);
-
+            
             // Clear patch variables
             Patcher.Objects = null!;
             Patcher.Harvester = null!;
+
+            // Unload FakeFarmer as this class's instances do not persist beyond this call
+            this.FakeFarmer.unload();
         }
 
+        /// <summary>
+        /// Check if the plant growing in the pot is ready to be harvested
+        /// </summary>
+        /// <returns>True if pot is ready for harvest. Default: false</returns>
         private bool IsHarvestable()
         {
             // Check forage

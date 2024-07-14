@@ -9,6 +9,11 @@ namespace NermNermNerm.Junimatic
     internal static class Patcher 
     {
         private static ModEntry Mod = null!;
+        /// <summary>
+        /// Apply the harmony patches for Junimatic
+        /// </summary>
+        /// <param name="mod">The ModEntry instance for the Junimatic module</param>
+        /// <param name="harmony">The Harmony instance for the Junimatic module</param>
         internal static void Apply(ModEntry mod, Harmony harmony)
         {
             Mod = mod;
@@ -25,6 +30,10 @@ namespace NermNermNerm.Junimatic
                 prefix: new HarmonyMethod(typeof(Patcher), nameof(Game1_createItemDebris_Prefix))
             );
             harmony.Patch(
+                original: AccessTools.Method(typeof(Game1), nameof(Game1.createObjectDebris), [typeof(string), typeof(int), typeof(int), typeof(int), typeof(int), typeof(float), typeof(GameLocation)]),
+                prefix: new HarmonyMethod(typeof(Patcher), nameof(Game1_createObjectDebris_Prefix))
+            );
+            harmony.Patch(
                 original: AccessTools.Method(typeof(Game1), "get_player"),
                 postfix: new HarmonyMethod(typeof(Patcher), nameof(Game1_get_player_Postfix))
             );
@@ -33,7 +42,11 @@ namespace NermNermNerm.Junimatic
         // Track fake farmer
         internal static Farmer Harvester = null!;
 
-        // Swap in fake farmer when Junimatic harvesting from garden pot
+        /// <summary>
+        /// Postfix to patch the calls to Game1.Player
+        /// Return FakeFarmer instead of Game1.Player when called during Junimatic harvesting logic
+        /// </summary>
+        /// <param name="__result">The FakeFarmer instance</param>
         internal static void Game1_get_player_Postfix(ref Farmer __result) 
         {
             // If the fake farmer tracking variable is null, this was not called by Junimatic
@@ -41,7 +54,12 @@ namespace NermNermNerm.Junimatic
             __result = Harvester;
         }
 
-        // Suppress gainExperience from running if called by Junimatic
+        /// <summary>
+        /// Prefix to patch gainExperience in Farmer.cs
+        /// Suppress gainExperience when called during Junimatic harvesting logic.
+        /// Prevents FakeFarmer from gaining experience.
+        /// </summary>
+        /// <returns>False if called during Junimatic harvesting logic. Default: True</returns>
         internal static bool Farmer_gainExperience_Prefix()
         {
             // If the fake farmer tracking variable is not null, this was called by Junimatic
@@ -49,9 +67,17 @@ namespace NermNermNerm.Junimatic
             return true;
         }
 
-        // Intercept harvest item creation methods and add to IndoorPotMachine HarvestItems list
+        // Redirect item creation methods to add items to Junimatic HarvestItems list
         internal static Action<Item> Objects = null!;
 
+        /// <summary>
+        /// Prefix to patch addItemToInventoryBool in Farmer.cs
+        /// Suppress addItemToInventoryBool when called during Junimatic harvesting logic and
+        /// run the item against the logic in Objects instead.
+        /// </summary>
+        /// <param name="__result"></param>
+        /// <param name="item"></param>
+        /// <returns>>False if called during Junimatic harvesting logic. Default: True</returns>
         internal static bool Farmer_addItemToInventoryBool_Prefix(ref bool __result, Item item)
         {
             try
@@ -72,6 +98,14 @@ namespace NermNermNerm.Junimatic
             }
         }
 
+        /// <summary>
+        /// Prefix to patch createItemDebris in Game1.cs
+        /// Suppress createItemDebris when called during Junimatic harvesting logic and
+        /// run the item against the logic in Objects instead.
+        /// </summary>
+        /// <param name="__result"></param>
+        /// <param name="item"></param>
+        /// <returns>>False if called during Junimatic harvesting logic. Default: True</returns>
         internal static bool Game1_createItemDebris_Prefix(ref Debris __result, Item item)
         {
             try
@@ -92,6 +126,13 @@ namespace NermNermNerm.Junimatic
             }
         }
 
+        /// <summary>
+        /// Prefix to patch createObjectDebris in Game1.cs
+        /// Suppress createObjectDebris when called during Junimatic harvesting logic.
+        /// Convert the id to an item and run it against the logic in Objects instead.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>>False if called during Junimatic harvesting logic. Default: True</returns>
         internal static bool Game1_createObjectDebris_Prefix(string id)
         {
             try
