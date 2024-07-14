@@ -50,7 +50,7 @@ namespace NermNermNerm.Junimatic
         }
 
         // Intercept harvest item creation methods and add to IndoorPotMachine HarvestItems list
-        internal static Action<SObject> Objects = null!;
+        internal static Action<Item> Objects = null!;
 
         internal static bool Farmer_addItemToInventoryBool_Prefix(ref bool __result, Item item)
         {
@@ -59,7 +59,7 @@ namespace NermNermNerm.Junimatic
                 // If Objects tracking variable is not null, this was called by Junimatic
                 if (Objects is not null)
                 {
-                    Objects((SObject)item);
+                    Objects(item);
                     __result = true; // Set the result returned to the code calling addItemToInventoryBool to true to indicate item successfully added
                     return false; // Return false to suppress addItemToInventoryBool from running
                 }
@@ -79,7 +79,7 @@ namespace NermNermNerm.Junimatic
                 // If Objects tracking variable is not null, this was called by Junimatic
                 if (Objects is not null)
                 {
-                    Objects((SObject)item);
+                    Objects(item);
                     __result = null!; // Set the result returned to the code calling createItemDebris to null as no Debris is created (returned result is not used)
                     return false; // Return false to suppress createItemDebris from running
                 }
@@ -99,7 +99,7 @@ namespace NermNermNerm.Junimatic
                 // If Objects tracking variable is not null, this was called by Junimatic
                 if (Objects is not null)
                 {
-                    Objects(ItemRegistry.Create<SObject>(id)); // Create the object from the id passed to Game1.createObjectDebris
+                    Objects(ItemRegistry.Create(id)); // Create the item from the id passed to Game1.createObjectDebris
                     return false; // Return false to suppress createObjectDebris from running
                 }
                 return true; // Return true to run createObjectDebris as this was not called by Junimatic

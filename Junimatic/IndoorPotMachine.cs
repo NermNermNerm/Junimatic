@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Characters;
@@ -28,6 +29,13 @@ namespace NermNermNerm.Junimatic
             };
 
             this.DummyObject = ItemRegistry.Create<SObject>("770"); // Mixed Seeds dummy object to flag pot ready for harvest
+
+            // Set the HarvestObjects list to the HarvestObjects list stored in the machine's modData if it exists
+            if (this.Machine.modData.TryGetValue(IF($"{ModEntry.Instance.ModManifest.UniqueID}/HarvestObjects"), out string HarvestObjectsString))
+            {
+                if (JsonConvert.DeserializeObject<List<OutputObjectMetadata>>(HarvestObjectsString) is List<OutputObjectMetadata> HarvestObjectsMetadata)
+                    this.HarvestObjects = HarvestObjectsMetadata;
+            }
         }
 
         public new IndoorPot Machine => (IndoorPot)base.Machine;
@@ -36,7 +44,7 @@ namespace NermNermNerm.Junimatic
 
         public override SObject? HeldObject => this.GetHeldObject();
 
-        private readonly List<SObject> HarvestObjects = [];
+        private readonly List<OutputObjectMetadata> HarvestObjects = [];
         private readonly Farmer FakeFarmer;
         private readonly SObject DummyObject;
 
@@ -53,12 +61,21 @@ namespace NermNermNerm.Junimatic
             if (!this.HarvestObjects.Any() && this.IsHarvestable())
             {
                 this.Harvest();
+                // Destroy HoeDirt.crop after harvest to prevent duplicate harvest if farmer tries to harvest after Junimo grabs first object
+                HoeDirt? dirt = this.Machine.hoeDirt?.Value;
+                if (dirt?.crop is not null && !dirt.crop.RegrowsAfterHarvest())
+                    dirt.destroyCrop(false);
             }
             // Return and remove the first object in HarvestObjects, if populated
             if (this.HarvestObjects.Any())
             {
-                HarvestObject = this.HarvestObjects[0];
+                HarvestObject = this.HarvestObjects[0].ConvertToSObject();
                 this.HarvestObjects.RemoveAt(0);
+
+                // Serialize the updated list to modData
+                // This fixes the issue where not all objects in HarvestObjects are retrieved as this class does not persist after this method is called.
+                // I.E. This class is recreated for the machine each time the junimo is looking for work
+                this.Machine.modData[IF($"{ModEntry.Instance.ModManifest.UniqueID}/HarvestObjects")] = JsonConvert.SerializeObject(this.HarvestObjects);
             }
             return HarvestObject;
             
@@ -70,7 +87,7 @@ namespace NermNermNerm.Junimatic
         /// <returns>The DummyObject. Default: null</returns>
         private SObject? GetHeldObject()
         {
-            if (this.IsHarvestable()) return this.DummyObject;
+            if (this.IsHarvestable() || this.HarvestObjects.Any()) return this.DummyObject;
             return null;
         }
 
@@ -84,7 +101,8 @@ namespace NermNermNerm.Junimatic
                 // Once full grown, the foragable is added to the pot's heldObject field and removed from HoeDirt. See Crop.newDay for logic. 
             if (this.Machine.heldObject.Value != null)
             {
-                this.HarvestObjects.Add(this.Machine.heldObject.Value);
+                // Convert the object to its metadata
+                this.HarvestObjects.Add(new OutputObjectMetadata(this.Machine.heldObject.Value));
                 this.Machine.heldObject.Value = null;
                 this.Machine.readyForHarvest.Value = false;
                 return;
@@ -111,8 +129,16 @@ namespace NermNermNerm.Junimatic
             int xTile = (int)dirt.Tile.X;
             int yTile = (int)dirt.Tile.Y;
 
-            // Add the harvested objects to HarvestObjects
-            Patcher.Objects = new Action<SObject>(i => { this.HarvestObjects.Add(i); });
+            // Add the harvested objects metadata to HarvestObjects
+            Patcher.Objects = new Action<Item>(i => {
+                OutputObjectMetadata Object = new (i);
+                // If matching object metadata is already in HarvestObject, increment the stack (i.e. group like items into a single entry)
+                if (this.HarvestObjects.Find(x => x.ItemId == Object.ItemId && x.Quality == Object.Quality && x.TintColor == Object.TintColor) is OutputObjectMetadata StackObject)
+                    StackObject.Stack += Object.Stack;
+                // Otherwise, add the new object metadata to HarvestObjects
+                else
+                    this.HarvestObjects.Add(Object); 
+                });
 
             // Farmer Professions and foraging/farming levels not applied when Junimo harvests
             Patcher.Harvester = this.FakeFarmer;
@@ -130,7 +156,15 @@ namespace NermNermNerm.Junimatic
             Vector2 tileLocation = this.Machine.TileLocation;
 
             // Add the harvested objects to HarvestObjects
-            Patcher.Objects = new Action<SObject>(i => { this.HarvestObjects.Add(i); });
+            Patcher.Objects = new Action<Item>(i => {
+                OutputObjectMetadata Object = new (i);
+                // If matching object metadata is already in HarvestObject, increment the stack (i.e. group like items into a single entry)
+                if (this.HarvestObjects.Find(x => x.ItemId == Object.ItemId && x.Quality == Object.Quality && x.TintColor == Object.TintColor) is OutputObjectMetadata StackObject)
+                    StackObject.Stack += Object.Stack;
+                // Otherwise, add the new object metadata to HarvestObjects
+                else
+                    this.HarvestObjects.Add(Object); 
+                });
 
             // Farmer Professions and foraging/farming levels not applied when Junimo harvests
             Patcher.Harvester = this.FakeFarmer;
