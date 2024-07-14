@@ -25,7 +25,7 @@ namespace NermNermNerm.Junimatic
 
         public override bool IsIdle => this.Machine.heldObject.Value is null && this.Machine.bait.Value is null;
 
-        public override List<Item>? GetRecipeFromChest(GameStorage storage)
+        public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
             // TODO? Crab pots have the notion of an owner and the owner may or may not have the profession that
             //  makes it so that the traps don't need bait.  This ignores that.  Perhaps it's actually by-design
@@ -57,9 +57,9 @@ namespace NermNermNerm.Junimatic
             return oldHeldObject;
         }
 
-        public override bool FillMachineFromChest(GameStorage storage)
+        public override bool FillMachineFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
-            if (!base.FillMachineFromChest(storage))
+            if (!base.FillMachineFromChest(storage, isShinyTest))
             {
                 return false;
             }

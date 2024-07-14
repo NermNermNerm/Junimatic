@@ -18,7 +18,7 @@ namespace NermNermNerm.Junimatic
 
         public override bool IsIdle => false;
 
-        public override bool FillMachineFromChest(GameStorage storage)
+        public override bool FillMachineFromChest(GameStorage storage, Func<Item,bool> isShinyTest)
         {
             // IsIdle being hard-coded to false should prevent this from being called.
             throw new NotImplementedException();
@@ -30,7 +30,7 @@ namespace NermNermNerm.Junimatic
             throw new NotImplementedException();
         }
 
-        public override List<Item>? GetRecipeFromChest(GameStorage storage)
+        public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
             // IsIdle being hard-coded to false should prevent this from being called.
             throw new NotImplementedException();
