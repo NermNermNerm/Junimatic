@@ -174,7 +174,7 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            return item => hashSets[item.Quality].Contains(item.Name);
+            return item => item is not null && hashSets[item.Quality].Contains(item.Name);
         }
     }
 }

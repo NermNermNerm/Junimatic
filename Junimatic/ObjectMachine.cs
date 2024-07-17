@@ -59,7 +59,7 @@ namespace NermNermNerm.Junimatic
             var inputs = new List<Item>();
 
             var sourceInventory = new Inventory();
-            sourceInventory.AddRange(storage.RawInventory.Where(i => !isShinyTest(i)).ToArray());
+            sourceInventory.AddRange(storage.RawInventory.Where(i => i is not null && !isShinyTest(i)).ToArray());
             // Ensure it has the coal (aka all the 'AdditionalConsumedItems')
             if (machineData.AdditionalConsumedItems is not null)
             {
@@ -143,7 +143,7 @@ namespace NermNermNerm.Junimatic
 
             var rawInventory = storage.RawInventory;
             StardewValley.Object.autoLoadFrom = rawInventory;
-            bool filledIt = rawInventory.Any(item => !isShinyTest(item) && this.Machine.performObjectDropInAction(item, probe: false, Game1.MasterPlayer));
+            bool filledIt = rawInventory.Any(item => item is not null && !isShinyTest(item) && this.Machine.performObjectDropInAction(item, probe: false, Game1.MasterPlayer));
             StardewValley.Object.autoLoadFrom = null;
             return filledIt;
         }
