@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
@@ -39,6 +40,8 @@ namespace NermNermNerm.Junimatic
         public static ModConfig Config = null!;
         public ModConfigMenu ConfigMenu = new ModConfigMenu();
 
+        public Harmony Harmony = null!;
+
         public ModEntry() { }
 
         public override void Entry(IModHelper helper)
@@ -48,9 +51,10 @@ namespace NermNermNerm.Junimatic
             Initialize(this);
             this.Helper.Events.Content.LocaleChanged += (_, _) => this.Helper.GameContent.InvalidateCache("Data/Objects");
 
+            this.Harmony = new Harmony(this.ModManifest.UniqueID);
+
             Config = this.Helper.ReadConfig<ModConfig>();
             this.ConfigMenu.Entry(this);
-
             this.CropMachineHelperQuest.Entry(this);
             this.UnlockPortalQuest.Entry(this);
             this.UnlockMiner.Entry(this);

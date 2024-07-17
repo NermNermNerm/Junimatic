@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Characters;
+using StardewValley.Locations;
 using StardewValley.Objects;
-
+using StardewValley.Tools;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -49,6 +52,35 @@ namespace NermNermNerm.Junimatic
                 "Junimatic.EnableFish",
                 L("Enables the fishing Junimo - Enables the Junimo for handling fishing things with or without having done the quest."),
                 this.ForceEnable);
+
+            this.mod.LogTrace($"Applying harmony patch to MineShaft.getFish");
+            var getFishMethod = typeof(MineShaft).GetMethod("getFish");
+            this.mod.Harmony.Patch(getFishMethod, prefix: new HarmonyMethod(typeof(UnlockFishing), nameof(Prefix_GetFish)));
+        }
+
+        private static bool Prefix_GetFish(ref Item __result, string bait, MineShaft __instance, Farmer who)
+        {
+            // 'bait' won't tell us what specific bait we're dealing with, but it's a good way to tell the difference
+            // if we're being called by the VisibleFish mod instead of actually fishing.
+            if (bait != "(O)SpecificBait")
+            {
+                return true;
+            }
+
+            // To know the actual specific bait, you have to look at the farmer - the call doesn't get that level of detail.
+            var farmersBait = (who?.CurrentItem as FishingRod)?.GetBait();
+            if (farmersBait?.QualifiedItemId == "(O)SpecificBait"
+                && farmersBait.preservedParentSheetIndex.Value == "161" // ice pip bait
+                && __instance.getMineArea() == 40 // level 60
+                && Game1.random.NextDouble() < .9) // 90% chance of working
+            {
+                // You always get silver quality with this code.  In the game code, the quality might be gold, but I don't think it's worth
+                // it to go for that level of fidelity.
+                __result = ItemRegistry.Create("(O)161", 1, quality: 1);
+                return false;
+            }
+
+            return true;
         }
 
         private void ForceEnable(string cmd, string[] args)
