@@ -250,7 +250,7 @@ namespace NermNermNerm.Junimatic
                 { 
                     if (fullMachine.HeldObject.Any() && fullMachine.IsCompatibleWithJunimo(projectType))
                     {
-                        // Find a chest for the each item in the machine's held item list
+                        // Find a chest for each item in the machine's held item list
                         // Add the chest to a dictionary with the item as key to keep track which chest to store each item
                         var storageItems = new Dictionary<int, GameStorage>();
                         bool storageAvailable = true;
@@ -267,6 +267,7 @@ namespace NermNermNerm.Junimatic
                         if (!storageAvailable) return false;
 
                         // Try to put each item into its found chest
+                        bool ItemStoredSuccessful = false;
                         fullMachine.HeldObject.ForEach(item =>
                             {
                                 string wasHolding = item.Name;
@@ -274,6 +275,7 @@ namespace NermNermNerm.Junimatic
                                 if (fullMachine.TryPutHeldObjectInStorage(storageItems[itemIndex], itemIndex))
                                 {
                                     this.LogTrace($"Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {storageItems[itemIndex]}");
+                                    ItemStoredSuccessful = true;
                                 }
                                 else
                                 {
@@ -281,6 +283,12 @@ namespace NermNermNerm.Junimatic
                                 }
                             }
                         );
+
+                        // Call RemoveHeldObject to reset the state of the machine if any of the items in the list are stored successfully.
+                        // This prevents the potential for duplicate items, but will result in items failing to be stored to be lost if at 
+                        // least one item is successful. This should be an extremely rare edge case as the time between checking for 
+                        // storage and the actual storing of the items is near instant in this branch.
+                        if (ItemStoredSuccessful) _ = fullMachine.RemoveHeldObject();
 
                         return true;
                     }
@@ -598,6 +606,15 @@ namespace NermNermNerm.Junimatic
             return null;
         }
 
+        /// <summary>
+        /// Find a chest in the network to store an item in the Junimo's inventory. Creates an assignment to store, if found.
+        /// </summary>
+        /// <param name="portal">Junimo's home portal object</param>
+        /// <param name="projectType">Project type of the assignment</param>
+        /// <param name="forJunimo">The Junimo holding the item</param>
+        /// <param name="item">The item to store</param>
+        /// <param name="sourceMachine">The machine the item was pulled from</param>
+        /// <returns>The Junimo assignment to store the item in a chest if found. Default: null</returns>
         public JunimoAssignment? FindChest(StardewValley.Object portal, JunimoType projectType, JunimoShuffler? forJunimo, Item item, GameInteractiveThing sourceMachine)
         {
             // This duplicates FindProject's chests in network logic to find an available chest for a specific item

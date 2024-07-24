@@ -31,11 +31,20 @@ namespace NermNermNerm.Junimatic
             return this.TakeItemFromMachine();
         }
 
+        /// <summary>
+        /// Adds the item to storage
+        /// <remarks>TakeItemFromMachine is not called here to reset the state of the machine as it would
+        /// effect the full contents of the HeldObject list. The full contents of a list should not be modified while
+        /// it is being iterated on. This method now defers to the calling method to handle resetting the machine state
+        /// after finishing iterating through the list. E.G. RemoveHeldObject()</remarks>
+        /// </summary>
+        /// <param name="storage">The Chest to store the item</param>
+        /// <param name="itemIndex">The index of the item in the HeldObject list to store</param>
+        /// <returns>True if the item is successfully added to storage. Else false.</returns>
         public bool TryPutHeldObjectInStorage(GameStorage storage, int itemIndex)
         {
             if (this.HeldObject.Any() && storage.TryStore(this.HeldObject[itemIndex]))
             {
-                _ = this.TakeItemFromMachine();
                 return true;
             }
             else
