@@ -135,6 +135,14 @@ namespace NermNermNerm.Junimatic
                 return false;
             }
 
+            // Don't attempt to load items into machines that don't accept any input
+            // Check for is_machine to avoid breaking crab pots
+            if (this.Machine.HasContextTag("is_machine") && !this.Machine.HasContextTag("machine_input"))
+            {
+                ModEntry.Instance.LogTraceOnce($"Machine {this.Machine.ItemId}:{this.Machine.DisplayName} does not have any inputs.");
+                return false;
+            }
+
             // Copied from StardewValley.Object.AttemptAutoLoad, with filtering for items
             if (this.Machine.heldObject.Value != null)
             {
