@@ -320,8 +320,6 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-
-
         public override void draw(SpriteBatch b)
         {
             b.Draw(Game1.fadeToBlackRect, new Rectangle(0, 0, Game1.uiViewport.Width, Game1.uiViewport.Height), Color.Black * 0.5f);
