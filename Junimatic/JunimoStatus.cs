@@ -77,7 +77,6 @@ namespace NermNermNerm.Junimatic
                 var obj = Game1.player?.currentLocation?.getObjectAtTile((int)tile.X, (int)tile.Y);
                 if (obj?.ItemId == UnlockPortal.JunimoPortal)
                 {
-                    this.LogInfoOnce($"Showing the dialog");
                     this.ShowDialog();
                 }
             }
