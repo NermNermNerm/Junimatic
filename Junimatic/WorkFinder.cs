@@ -245,34 +245,61 @@ namespace NermNermNerm.Junimatic
                 }
 
                 // Try and empty a machine
+                // Machine is only emptied if there is chest space for all items in the held object list
                 foreach (var fullMachine in machines)
-                {
-                    if (fullMachine.HeldObject is not null && fullMachine.IsCompatibleWithJunimo(projectType))
+                { 
+                    if (fullMachine.HeldObject.Any() && fullMachine.IsCompatibleWithJunimo(projectType))
                     {
-                        var goodChest = network.Chests.FirstOrDefault(c => c.IsPreferredStorageForMachinesOutput(fullMachine.HeldObject));
-                        if (goodChest is null)
-                        {
-                            goodChest = network.Chests.FirstOrDefault(c => c.IsPossibleStorageForMachinesOutput(fullMachine.HeldObject));
-                        }
-
-                        if (goodChest is not null)
-                        {
-                            string wasHolding = fullMachine.HeldObject.Name;
-                            if (fullMachine.TryPutHeldObjectInStorage(goodChest))
+                        // Find a chest for the each item in the machine's held item list
+                        // Add the chest to a dictionary with the item as key to keep track which chest to store each item
+                        var storageItems = new Dictionary<int, GameStorage>();
+                        bool storageAvailable = true;
+                        fullMachine.HeldObject.ForEach(item =>
                             {
-                                this.LogTrace($"Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {goodChest}");
+                                var goodChest = FindChestForItem(item, network);
+                                // If storage is found add the index of the item and its chest to the dictionary
+                                if (goodChest is not null) storageItems[fullMachine.HeldObject.IndexOf(item)] = goodChest;
+                                // Else, flag not enough storage for heldObjects
+                                else storageAvailable = false;
                             }
-                            else
-                            {
-                                this.LogError($"FAILED: Automatic machine empty of {fullMachine} holding {fullMachine.HeldObject.Name} on {location.Name} into {goodChest}");
-                            }
+                        );
+                        // If storage is not available for all items in the heldObjects list, do nothing
+                        if (!storageAvailable) return false;
 
-                            return true;
-                        }
+                        // Try to put each item into its found chest
+                        fullMachine.HeldObject.ForEach(item =>
+                            {
+                                string wasHolding = item.Name;
+                                int itemIndex = fullMachine.HeldObject.IndexOf(item);
+                                if (fullMachine.TryPutHeldObjectInStorage(storageItems[itemIndex], itemIndex))
+                                {
+                                    this.LogTrace($"Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {storageItems[itemIndex]}");
+                                }
+                                else
+                                {
+                                    this.LogError($"FAILED: Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {storageItems[itemIndex]}");
+                                }
+                            }
+                        );
+
+                        return true;
                     }
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Find an open chest in the network to store the item. Prioritizes chest with an existing stack of the item.
+        /// </summary>
+        /// <param name="item">The item to store</param>
+        /// <param name="network">The chest network to search</param>
+        /// <returns>Chest to store the item if found; Else null</returns>
+        private static GameStorage? FindChestForItem(StardewValley.Object item, MachineNetwork network)
+        {
+            var goodChest = network.Chests.FirstOrDefault(c => c.IsPreferredStorageForMachinesOutput(item));
+            goodChest ??= network.Chests.FirstOrDefault(c => c.IsPossibleStorageForMachinesOutput(item));
+            return goodChest;
         }
 
         record class MachineNetwork(
@@ -443,10 +470,10 @@ namespace NermNermNerm.Junimatic
 
                         if (chest is not null)
                         {
-                            // See if we can create a mission to carry from a full machine to this chest
+                            // See if we can create a mission to carry from a full machine to this chest; Check the first item from the machine output list
                             foreach (var machineNeedingPickup in fullMachines)
                             {
-                                if (chest.IsPreferredStorageForMachinesOutput(machineNeedingPickup.HeldObject!))
+                                if (chest.IsPreferredStorageForMachinesOutput(machineNeedingPickup.HeldObject[0]))
                                 {
                                     return new JunimoAssignment(projectType, location, portal, originTile, machineNeedingPickup, chest, itemsToRemoveFromChest: null);
                                 }
@@ -467,10 +494,10 @@ namespace NermNermNerm.Junimatic
                         }
                         else if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.GameObject))
                         {
-                            if (machine.HeldObject is not null)
+                            if (machine.HeldObject.Any())
                             {
-                                // Try and find a chest to tote it to
-                                var targetChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine.HeldObject));
+                                // Try and find a chest to tote it to; Begin with the first item in the machine output list
+                                var targetChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine.HeldObject[0]));
                                 if (targetChest is not null)
                                 {
                                     return new JunimoAssignment(projectType, location, portal, originTile, machine, targetChest, itemsToRemoveFromChest: null);
@@ -518,10 +545,10 @@ namespace NermNermNerm.Junimatic
 
                             if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.GameObject))
                             {
-                                if (machine.HeldObject is not null)
+                                if (machine.HeldObject.Any())
                                 {
-                                    // Try and find a chest to tote it to
-                                    var targetChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine.HeldObject));
+                                    // Try and find a chest to tote it to; Begin with first item in machine output list
+                                    var targetChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine.HeldObject[0]));
                                     if (targetChest is not null)
                                     {
                                         return new JunimoAssignment(projectType, location, portal, originTile, machine, targetChest, itemsToRemoveFromChest: null);
@@ -553,11 +580,11 @@ namespace NermNermNerm.Junimatic
 
                 // Couldn't find any work delivering to machines or pulling from machines where there was an existing stack.
                 // The last type of work we're willing to take on is to pull from a machine and place the item in the closest
-                // chest with room to spare for a new stack.
+                // chest with room to spare for a new stack. Begin with the first item in the machine output list.
                 var fullMachine = fullMachines.FirstOrDefault();
                 if (fullMachine is not null)
                 {
-                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.IsPossibleStorageForMachinesOutput(fullMachine.HeldObject!));
+                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.IsPossibleStorageForMachinesOutput(fullMachine.HeldObject[0]));
                     if (chestWithSpace is not null)
                     {
                         return new JunimoAssignment(projectType, location, portal, originTile, fullMachine, chestWithSpace, itemsToRemoveFromChest: null);
@@ -566,6 +593,79 @@ namespace NermNermNerm.Junimatic
 
                 // Maybesomeday:  Store a list of all the tiles we walked, and walk the whole list again looking for chests and
                 // machines on diagonals.
+            }
+
+            return null;
+        }
+
+        public JunimoAssignment? FindChest(StardewValley.Object portal, JunimoType projectType, JunimoShuffler? forJunimo, Item item, GameInteractiveThing sourceMachine)
+        {
+            // This duplicates FindProject's chests in network logic to find an available chest for a specific item
+            var location = portal.Location;
+            // These lists are all in order of nearest to farthest from the portal
+            var knownChests = new List<GameStorage>();
+            var visitedTiles = new HashSet<Point>();
+
+            var map = new GameMap(location);
+
+            map.GetStartingInfo(portal, out var startingPoints, out var walkableFloorTypes);
+            if (forJunimo is not null)
+            {
+                startingPoints = new List<Point>() { forJunimo.Tile.ToPoint() };
+            }
+
+            // See if we can find a chest with an existing stack
+            foreach (var startingTile in startingPoints)
+            {
+                var originTile = forJunimo?.Assignment?.origin ?? startingTile;
+                var tilesToInvestigate = new Queue<Point>();
+                tilesToInvestigate.Enqueue(startingTile);
+
+                while (tilesToInvestigate.TryDequeue(out var tile))
+                {
+                    if (visitedTiles.Contains(tile))
+                    {
+                        continue;
+                    }
+
+                    foreach (var direction in walkableDirections)
+                    {
+                        var adjacentTile = tile + direction;
+                        if (visitedTiles.Contains(adjacentTile))
+                        {
+                            continue;
+                        }
+
+                        map.GetThingAt(adjacentTile, tile, walkableFloorTypes, out bool isWalkable, out var machine, out var chest);
+
+                        if (chest is not null)
+                        {
+                            if (chest.IsPreferredStorageForMachinesOutput((StardewValley.Object)item))
+                            {
+                                return new JunimoAssignment(projectType, location, portal, originTile, sourceMachine, chest, itemsToRemoveFromChest: null);
+                            }
+
+                            knownChests.Add(chest);
+                            visitedTiles.Add(adjacentTile);
+                        }
+                        else if (isWalkable)
+                        {
+                            tilesToInvestigate.Enqueue(adjacentTile);
+                        }
+                        else
+                        {
+                            visitedTiles.Add(adjacentTile);
+                        }
+                    }
+                    visitedTiles.Add(tile);
+                }
+
+                // If no chest with an existing stack is found, place the item in the closest chest with room to spare for a new stack.
+                var chestWithSpace = knownChests.FirstOrDefault(chest => chest.IsPossibleStorageForMachinesOutput((StardewValley.Object)item));
+                if (chestWithSpace is not null)
+                {
+                    return new JunimoAssignment(projectType, location, portal, originTile, sourceMachine, chestWithSpace, itemsToRemoveFromChest: null);
+                }
             }
 
             return null;

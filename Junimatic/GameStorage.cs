@@ -108,6 +108,8 @@ namespace NermNermNerm.Junimatic
                     {
                         return false;
                     }
+                    // Remove item successfully added to chest
+                    items.Remove(item);
                 }
                 items.Clear();
                 return true;
@@ -126,7 +128,7 @@ namespace NermNermNerm.Junimatic
         {
             if (this.item is Chest chest)
             {
-                if (chest.addItem(item) is not null)
+                if (chest.addItem(item) is not null) 
                 {
                     return false;
                 }

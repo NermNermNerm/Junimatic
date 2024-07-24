@@ -41,7 +41,7 @@ namespace NermNermNerm.Junimatic
 
         public override bool IsIdle => this.Machine.heldObject.Value is null && this.Machine.MinutesUntilReady == 0;
 
-        public override StardewValley.Object? HeldObject => this.Machine.readyForHarvest.Value ? this.Machine.heldObject.Value : null;
+        public override List<StardewValley.Object> HeldObject => this.Machine.readyForHarvest.Value ? [this.Machine.heldObject.Value] : [];
 
         /// <summary>
         ///   Looks at the recipes allowed by this machine and the contents of the chest.  If there's
@@ -284,7 +284,7 @@ namespace NermNermNerm.Junimatic
             return false;
         }
 
-        protected override StardewValley.Object TakeItemFromMachine()
+        protected override List<StardewValley.Object> TakeItemFromMachine()
         {
             // Adapted from Pathoschild.Stardew.Automate.Framework.Machines.GetOutput
             StardewValley.Object machine = this.Machine;
@@ -309,7 +309,7 @@ namespace NermNermNerm.Junimatic
 
             // get output
             this.OnOutputCollected(result);
-            return result;
+            return [result];
         }
 
         private void OnOutputCollected(Item item)

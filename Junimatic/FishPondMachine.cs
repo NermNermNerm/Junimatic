@@ -40,13 +40,13 @@ namespace NermNermNerm.Junimatic
         {
             return projectType == JunimoType.Fishing;
         }
-        public override StardewValley.Object? HeldObject => this.Building.output.Value as StardewValley.Object;
+        public override List<StardewValley.Object> HeldObject => (this.Building.output.Value is not null) ? [this.Building.output.Value as StardewValley.Object] : [];
 
-        protected override StardewValley.Object TakeItemFromMachine()
+        protected override List<StardewValley.Object> TakeItemFromMachine()
         {
             var oldValue = this.Building.output.Value;
             this.Building.output.Value = null;
-            return (StardewValley.Object)oldValue;
+            return [(StardewValley.Object)oldValue];
         }
     }
 }

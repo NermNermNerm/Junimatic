@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Inventories;
@@ -20,19 +21,19 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public abstract bool IsIdle { get; }
 
-        public abstract StardewValley.Object? HeldObject { get; }
+        public abstract List<StardewValley.Object> HeldObject { get; }
 
         /// <summary>
         ///   Returns the HeldObject and removes it from the machines.
         /// </summary>
-        public StardewValley.Object RemoveHeldObject()
+        public List<StardewValley.Object> RemoveHeldObject()
         {
             return this.TakeItemFromMachine();
         }
 
-        public bool TryPutHeldObjectInStorage(GameStorage storage)
+        public bool TryPutHeldObjectInStorage(GameStorage storage, int itemIndex)
         {
-            if (this.HeldObject is not null && storage.TryStore(this.HeldObject))
+            if (this.HeldObject.Any() && storage.TryStore(this.HeldObject[itemIndex]))
             {
                 _ = this.TakeItemFromMachine();
                 return true;
@@ -43,7 +44,7 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        protected abstract StardewValley.Object TakeItemFromMachine();
+        protected abstract List<StardewValley.Object> TakeItemFromMachine();
 
         /// <summary>
         ///   Looks at the recipes allowed by this machine and the contents of the chest.  If there's
