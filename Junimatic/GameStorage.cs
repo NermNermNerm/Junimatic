@@ -102,7 +102,7 @@ namespace NermNermNerm.Junimatic
         {
             if (this.item is Chest chest)
             {
-                foreach (var item in items)
+                foreach (var item in items.ToList())
                 {
                     if (chest.addItem(item) is not null)
                     {
