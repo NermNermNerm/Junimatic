@@ -254,35 +254,34 @@ namespace NermNermNerm.Junimatic
                         // Add the chest to a dictionary with the item as key to keep track which chest to store each item
                         var storageItems = new Dictionary<int, GameStorage>();
                         bool storageAvailable = true;
-                        fullMachine.HeldObject.ForEach(item =>
-                            {
-                                var goodChest = FindChestForItem(item, network);
-                                // If storage is found add the index of the item and its chest to the dictionary
-                                if (goodChest is not null) storageItems[fullMachine.HeldObject.IndexOf(item)] = goodChest;
-                                // Else, flag not enough storage for heldObjects
-                                else storageAvailable = false;
-                            }
-                        );
+                        for (int index = 0; index < fullMachine.HeldObject.Count; index++)
+                        {
+                            var item = fullMachine.HeldObject[index];
+                            var goodChest = FindChestForItem(item, network);
+                            // If storage is found add the index of the item and its chest to the dictionary
+                            if (goodChest is not null) storageItems[index] = goodChest;
+                            // Else, flag not enough storage for heldObjects
+                            else storageAvailable = false;
+                        }
                         // If storage is not available for all items in the heldObjects list, do nothing
                         if (!storageAvailable) return false;
 
                         // Try to put each item into its found chest
                         bool ItemStoredSuccessful = false;
-                        fullMachine.HeldObject.ForEach(item =>
+                        for (int index = 0; index < fullMachine.HeldObject.Count; index++)
+                        {
+                            var item = fullMachine.HeldObject[index];
+                            string wasHolding = item.Name;
+                            if (fullMachine.TryPutHeldObjectInStorage(storageItems[index], index))
                             {
-                                string wasHolding = item.Name;
-                                int itemIndex = fullMachine.HeldObject.IndexOf(item);
-                                if (fullMachine.TryPutHeldObjectInStorage(storageItems[itemIndex], itemIndex))
-                                {
-                                    this.LogTrace($"Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {storageItems[itemIndex]}");
-                                    ItemStoredSuccessful = true;
-                                }
-                                else
-                                {
-                                    this.LogError($"FAILED: Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {storageItems[itemIndex]}");
-                                }
+                                this.LogTrace($"Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {storageItems[index]}");
+                                ItemStoredSuccessful = true;
                             }
-                        );
+                            else
+                            {
+                                this.LogError($"FAILED: Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {storageItems[index]}");
+                            }
+                        }
 
                         // Call RemoveHeldObject to reset the state of the machine if any of the items in the list are stored successfully.
                         // This prevents the potential for duplicate items, but will result in items failing to be stored to be lost if at 
