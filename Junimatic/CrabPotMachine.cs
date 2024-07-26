@@ -43,7 +43,7 @@ namespace NermNermNerm.Junimatic
             return null;
         }
 
-        protected override StardewValley.Object TakeItemFromMachine()
+        protected override List<StardewValley.Object> TakeItemFromMachine()
         {
             var oldHeldObject = this.Machine.heldObject.Value;
             this.Machine.heldObject.Value = null;
@@ -54,7 +54,7 @@ namespace NermNermNerm.Junimatic
             this.Machine.lidFlapTimer = 60f;
             this.Machine.shake = Vector2.Zero;
             this.Machine.shakeTimer = 0f;
-            return oldHeldObject;
+            return [oldHeldObject];
         }
 
         public override bool FillMachineFromChest(GameStorage storage, Func<Item, bool> isShinyTest)

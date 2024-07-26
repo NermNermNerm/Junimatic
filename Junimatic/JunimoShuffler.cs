@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
@@ -98,9 +99,9 @@ namespace NermNermNerm.Junimatic
 
                 l.playSound("pickUpItem"); // Maybe 'openChest' instead?
             }
-            else if (this.Assignment.source is GameMachine machine && machine.HeldObject is not null)
+            else if (this.Assignment.source is GameMachine machine && machine.HeldObject.Any())
             {
-                this.Carrying.Add(machine.RemoveHeldObject());
+                machine.RemoveHeldObject().ForEach(this.Carrying.Add);
                 l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
             }
             else
@@ -151,8 +152,19 @@ namespace NermNermNerm.Junimatic
                 // Put what we're carrying into the chest or huck it overboard if we can't.
                 if (!chest.TryStore(this.Carrying))
                 {
-                    this.LogWarning($"Target {chest} did not have room for {this.Carrying[0].Stack} {this.Carrying[0].Name}");
-                    this.JunimoQuitsInDisgust();
+                    // Check for space in other chests in network before quitting in disgust
+                    // The source machine remains the same in the new assignment to the next chest
+                    var nextChestAssignment = this.workFinder!.FindChest(this.Assignment.hut, this.Assignment.projectType, this, this.Carrying[0], this.Assignment.source);
+                    if (nextChestAssignment is not null)
+                    {
+                        this.Assignment = nextChestAssignment;
+                        this.controller = new PathFindController(this, base.currentLocation, this.Assignment.target.AccessPoint, 0, this.JunimoReachedTarget);
+                    }
+                    else
+                    {
+                        this.LogWarning($"Target {chest} did not have room for {this.Carrying[0].Stack} {this.Carrying[0].Name}");
+                        this.JunimoQuitsInDisgust();
+                    }
                     return;
                 }
             }
