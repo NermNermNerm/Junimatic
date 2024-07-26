@@ -1,0 +1,780 @@
+// Do not manually edit this file!  Follow these instructions to import changes:
+// https://github.com/NermNermNerm/LocalizeFromSource?tab=readme-ov-file#ingesting-translations
+{
+  "translations": [
+    {
+      "source": "You've been to the mines I see...  Your grandfather did too, even after his mind began to go.  I worried for him, but there was no stopping him.$0#$b#Then one day he came to me, shaken to the core.  He sobbed 'A big slime ate my friend!' but I know he went to the mines alone...$2#$b#He kept going on like that for several days.  I felt terrible for him, because although *I* knew it wasn't real, it was real enough to him.$0#$b#He never went back to the mines; that was very much for the best.$2",
+      "translation": "Você esteve nas minas, eu vejo... Seu avô também ia, mesmo depois de sua mente começar a falhar. Eu me preocupava com ele, mas não havia como pará-lo.$0#$b#Um dia, ele veio até mim, profundamente abalado. Ele chorou 'Uma grande gosma comeu meu amigo!' mas eu sei que ele foi para as minas sozinho.$2#$b#Ele continuou falando assim por vários dias. Eu me sentia terrível por ele, porque embora *eu* soubesse que não era real, era real o suficiente para ele.$0#$b#Ele nunca voltou às minas; isso foi definitivamente para o melhor.$2",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "= $ Shiny things $ =",
+      "translation": "= $ Coisas brilhantes $ =",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Junimos won't put items with equal or better quality\nthan these items into machines or shipping bins.",
+      "translation": "Os Junimos não colocarão itens com qualidade igual ou superior\n a esses itens em máquinas ou caixas de envio.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Junimos work anywhere",
+      "translation": "Junimos trabalham em qualquer lugar",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
+      "translation": "Normalmente, os Junimos só trabalham nas fazendas dos jogadores, pois são tímidos. Ativar isso permite que os portais Junimos funcionem em qualquer lugar.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Minimal Questing",
+      "translation": "Diminuir Missões",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.",
+      "translation": "Normalmente, as missões são necessárias para desbloquear os Junimos. Isso permite pular a maioria das missões - você só precisa completar a missão do portal.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I wonder what {{arg0}} has been up to...",
+      "translation": "Eu me pergunto o que {{arg0}} tem feito...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Pets sometimes have an uncanny ability to spot missing things!$0#$b#Just last week I lost my favorite milking bucket.  I came across it a few days later and my cat, Muffin, was sleeping in it.$1#$b#Well, I guess she didn't exactly find it for me, but at least she knew where it was!$0",
+      "translation": "Animais de estimação às vezes têm uma habilidade estranha de encontrar coisas perdidas!$0#$b#Semana passada, perdi meu balde de ordenha favorito. Alguns dias depois, encontrei meu gato, Muffin, dormindo nele.$1#$b#Bem, acho que ela não exatamente encontrou para mim, mas pelo menos sabia onde estava!$0",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Do I miss my \"normal\" life on days like this?$2#$b#No, not really.  Except for Jeremy Clarkson...$1#$b#...My pet Schnauzer.  He had an uncanny ability to fetch the thing I wanted before I even knew I wanted it.$0",
+      "translation": "Eu sinto falta da minha vida \"normal\" em dias como este?$2#$b#Não, realmente não. Exceto por Jeremy Clarkson...$1#$b#Meu cachorro de estimação. Ele tinha uma habilidade incrível de buscar o que eu queria antes mesmo de eu saber que queria.$0",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "That's not a chicken.",
+      "translation": "Isso não é uma galinha.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I wonder if it's lost and can't find its way home...  It seems distressed.",
+      "translation": "Eu me pergunto se está perdido e não consegue encontrar o caminho de casa... Parece aflito.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Maybe a Junimo Portal would help it find its way home.",
+      "translation": "Talvez um Portal Junimo ajude a encontrar o caminho de casa.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "That wasn't a chicken...  was it?$2#$b#Your grandfather had some little houses like that on his farm.  He said they were for his 'helpers'.  But as he declined, he was prone to say, well, a lot of stuff....$2#$b#I suppose I caught a glimpse of them from time to time, but, well...  I think I'm more comfortable not seeing them.$3#$b#You say they're good creatures?  Well...  Okay.  *Something* was sure keeping that farm in trim when your Grandad was declining.$2#$b#I suppose everybody needs a little magic in their lives from time to time.$0",
+      "translation": "Aquilo não era uma galinha... era?$2#$b#Seu avô tinha algumas casinhas assim em sua fazenda. Ele dizia que eram para seus 'ajudantes'. Mas conforme ele se deteriorava, ele tendia a dizer, bem, muitas coisas...$2#$b#Suponho que eu os vi de relance de vez em quando, mas, bem... Acho que me sinto mais confortável não vendo-os.$3#$b#Você diz que são boas criaturas? Bem... Ok. *Algo* estava certamente mantendo a fazenda em ordem quando seu avô estava piorando.$2#$b#Suponho que todos precisam de um pouco de magia em suas vidas de vez em quando.$0",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Thank you for helping our friend get home...",
+      "translation": "Obrigado por ajudar nosso amigo a voltar para casa...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I can help you, like I helped your Grandfather...",
+      "translation": "Eu posso ajudar você, como ajudei seu avô...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I like animals and the wonderful things you can make with their help...",
+      "translation": "Eu gosto de animais e das coisas maravilhosas que você pode fazer com a ajuda deles...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Hello @!  Are you missing any chickens?  I think one might have run off!",
+      "translation": "Olá @! Você está sentindo falta de alguma galinha? Acho que uma pode ter fugido!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I saw it across the river to the south of my farm!  I went over to try and round it up, but it ran away from me!$2#$b#Maybe it would come to you if you went down there and called it!",
+      "translation": "Eu a vi do outro lado do rio ao sul da minha fazenda! Fui até lá para tentar capturá-la, mas ela fugiu de mim!$2#$b#Talvez ela venha até você se você for lá e chamá-la!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Oof! I need to be getting back! Anyway, I hope you can wrangle it back home!  Bye now!  Don't be a stranger!",
+      "translation": "Uf! Eu preciso voltar! De qualquer forma, espero que você consiga trazê-la de volta para casa! Até logo! Não seja um estranho!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Chicken Round-Up",
+      "translation": "Resgate da Galinha",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Marnie thinks one of your chickens has escaped and is in the forest south of her farm; you should investigate.",
+      "translation": "Marnie acha que uma de suas galinhas escapou e está na floresta ao sul da fazenda dela; você deve investigar.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Enter the Cindersnap Forest during the day.",
+      "translation": "Entre na Floresta Cinzaseiva durante o dia.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Help the Junimo Go Home",
+      "translation": "Ajude o Junimo a Voltar para Casa",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Help the Junimo in the Cindersnap Forest get home.",
+      "translation": "Ajude o Junimo na Floresta Cinzaseiva a voltar para casa.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Enter the Cindersnap Forest during the day with a Junimo Portal in your inventory.",
+      "translation": "Entre na Floresta Cinzaseiva durante o dia com um Portal Junimo no seu inventário.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "We love giant crops!  Please keep growing them!",
+      "translation": "Nós amamos colheitas gigantes! Por favor, continue cultivando-as!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "One of us will come and help with your kegs, casks and preserves jars if you connect them to a portal!",
+      "translation": "Um de nós virá ajudar com seus Barris, Barris de madeira e Jarras de conservas se você conectá-los a um portal!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Did you ever see the giant crops your Granddad used to crow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1",
+      "translation": "Você já viu as colheitas gigantes que seu avô costumava cultivar? Abóboras enormes.#$b#Abby fazia campanha para eu comprar uma todo ano. Acho que ela queria que eu comprasse uma para poder esculpir uma casa para ela mesma.$1",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Has Abby been needling you about growing giant pumpkins?$4#$b#Don't do it, really, there's no money in it.  Quantity is good, sure, but the quality isn't.$2#$b#Your grandpa grew them in his declining years in particular.  He said 'my helpers like them'.  Not sure what he meant by that, but he really enjoyed them that made it worth it to him!$1",
+      "translation": "Abby tem te pressionado para cultivar abóboras gigantes?$4#$b#Não faça isso, de verdade, não há dinheiro nisso. A quantidade é boa, é claro, mas a qualidade não.$2#$b#Seu avô as cultivou especialmente em seus anos de declínio. Ele dizia 'meus ajudantes gostam delas'. Não sei o que ele quis dizer com isso, mas ele realmente gostava deles e isso valia a pena para ele!$1",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
+      "translation": "Quando você era criança e visitava a fazenda, você já viu alguma das enormes couves-flores que seu avô cultivava? Eu digo enormes! Muito enormes!$1#$b#Eu só consegui vê-las uma vez, que eu me lembre, quando minha mãe me levou para lá uma tarde.#$b#Eu escalei uma como uma árvore e minha mãe ficou preocupada.#$b#Seu avô me tirou de lá e disse à minha mãe para não se preocupar porque criaturas mágicas iriam me proteger.#$b#Não sei por quê, acho que é porque eu era apenas uma criança, mas me senti muito especial por um longo tempo depois daquele dia.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn't buy one and your grandad invented this cock&bull story about magical creatures.$5#$b#Didn't he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2",
+      "translation": "Seu avô costumava cultivar essas abóboras gigantes. Eu queria muito esculpir uma daquelas coisas.$1#$b#Mas minha mãe não comprava uma e seu avô inventou essa história absurda sobre criaturas mágicas.$5#$b#Ele não sabia que eu era muito velho para histórias como essa? Meh. Acho que devo dar um desconto a ele por ser velho e senil.$2#$b#Então... Você quer ouvir mais sobre meus problemas de primeiro mundo?$2",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Enables the fishing Junimo - Enables the Junimo for handling fishing things with or without having done the quest.",
+      "translation": "Habilita o Junimo pescador - Habilita o Junimo para lidar com coisas de pesca com ou sem ter feito a missão.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "{{arg0}} of 6 teleported",
+      "translation": "{{arg0}} de 6 teleportados",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "You've made a new Junimo friend that will help with traps and fishing-related machines",
+      "translation": "Você fez um novo amigo Junimo que ajudará com armadilhas e máquinas relacionadas à pesca",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "@!  I'm so glad you came!",
+      "translation": "@! Estou tão feliz que você veio!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Please come to the mines with me.  There's something I have to show you!",
+      "translation": "Por favor, venha às minas comigo. Tem algo que eu preciso te mostrar!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I had been having these recurring dreams...  In it, there was somebody like me, but wasn't me...  You know how dreams are.",
+      "translation": "Eu estava tendo esses sonhos recorrentes... Nele, havia alguém como eu, mas não era eu... Você sabe como são os sonhos.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Anyway, this other me was at a pool, deep in a cave.  It was filled with litter, but the whole community was pitching in to clean it up.",
+      "translation": "De qualquer forma, esse outro eu estava em uma poça, no fundo de uma caverna. Estava cheia de lixo, mas toda a comunidade estava ajudando a limpá-la.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "They cleaned it, but there were no fish in it anymore, which made the other me sad.",
+      "translation": "Eles limparam, mas não havia mais peixes nela, o que deixou o outro eu triste.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "But then a fish tank appeared!  And then fish started appearing in the fish tank, and the other me started netting them out and releasing them into the pond!",
+      "translation": "Mas então apareceu um tanque de peixes! E então os peixes começaram a aparecer no tanque de peixes, e o outro eu começou a pegá-los com uma rede e soltá-los no lago!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "As to what happened next, well, you'd best see for yourself.  Please take the elevator down to 60.",
+      "translation": "Quanto ao que aconteceu a seguir, bem, é melhor você ver por si mesmo. Por favor, pegue o elevador e desça até o andar 60.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "It was just a dream, I thought, but the next night I dreamt the same thing, so I just had to come down here.",
+      "translation": "Foi só um sonho, pensei, mas na noite seguinte sonhei a mesma coisa, então tive que vir até aqui.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Look at this!  The fish tank from my dream!  Where did that come from?",
+      "translation": "Olhe isso! O tanque de peixes do meu sonho! De onde isso veio?",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Well, the tank was empty, and I decided I'd try putting a fish in there, so I caught a ghostfish and put it in there.",
+      "translation": "Bem, o tanque estava vazio, e eu decidi tentar colocar um peixe lá, então peguei um peixe fantasma e coloquei lá.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "AND IT DISAPPEARED!",
+      "translation": "E DESAPARECEU!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Poof!",
+      "translation": "Puf!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Gone!",
+      "translation": "Sumiu!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "So I put in another, and it disappeared too!",
+      "translation": "Então coloquei outro e ele também desapareceu!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Is it going to the world in my dream?  I don't know, but after about half a dozen fish went in there they stopped disappearing.",
+      "translation": "Será que está indo para o mundo do meu sonho? Não sei, mas depois de cerca de meia dúzia de peixes eles pararam de desaparecer.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "...But the tank is still here...",
+      "translation": "...Mas o tanque ainda está aqui...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I see some smaller fish darting around in the pool, but I haven't been able to land any of them.",
+      "translation": "Vejo alguns peixes menores nadando na piscina, mas não consegui pegar nenhum deles.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "You're the only one that can help since you've got the skill, the equipment and can handle yourself this deep in the mine.",
+      "translation": "Você é a única pessoa que pode ajudar, pois tem a habilidade, o equipamento e pode se virar bem nas profundezas da mina.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Could you try and catch some of those little fish and put them in the tank and see what happens?",
+      "translation": "Poderia tentar pegar alguns desses peixinhos e colocá-los no tanque para ver o que acontece?",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I'm afraid I've got to leave you to it.  I know it could take a while to catch them and I...",
+      "translation": "Infelizmente, tenho que deixar isso com você. Sei que pode levar um tempo para pegá-los e eu...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Well, I've got a lot to think about.",
+      "translation": "Bem, tenho muito em que pensar.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Find Linus At His Tent",
+      "translation": "Encontre o Linus na Tenda Dele",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Linus said he had something he needed your help with.",
+      "translation": "Linus disse que precisava da sua ajuda com algo.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Go to Linus' tent before 10pm",
+      "translation": "Vá até a tenda do Linus antes das 22h",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Meet Linus At Level 60",
+      "translation": "Encontre o Linus no Andar 60 das minas",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Linus had something he wanted to show you at level 60 of the mines.",
+      "translation": "Linus tem algo que ele quer te mostrar no nível 60 das minas.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Follow Linus to level 60",
+      "translation": "Siga Linus até o nível 60",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Catch Six Ice Pips",
+      "translation": "Pegue Seis Chiones",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Catch six ice pips and put them in the mysterious fish tank.",
+      "translation": "Pegue seis Chiones e coloque-os no misterioso tanque de peixes.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus",
+      "translation": "@,^Por favor, venha me visitar na minha tenda. Encontrei algo e preciso da sua ajuda para resolver.^   -Linus",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Meet Linus at his tent",
+      "translation": "Encontre Linus na tenda dele",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I'm still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He's disappointed and puzzled.#$b#I'm pretty puzzled too.  But I'm glad you're working on it.",
+      "translation": "Ainda estou tendo aqueles sonhos. O outro eu... que parece cada vez menos comigo a cada noite, continua verificando aquele tanque de peixes no seu mundo. Ele está desapontado e perplexo.#$b#Eu também estou bastante perplexo. Mas estou feliz que você está cuidando disso.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Did you finish collecting those fish?  I'm betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I've never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that's good.#$b#But I still hope they go away.",
+      "translation": "Você terminou de coletar aqueles peixes? Aposto que sim. Tive um último sonho, onde os peixes foram soltos e o tanque desapareceu.#$b#Sabe, uma das razões pelas quais adotei meu, uh... estilo de vida é que eu estava, bem, não tão estável da cabeça.#$b#E às vezes com raiva. Isso foi o que me levou a fazer o que a maioria consideraria uma mudança drástica de estilo de vida.#$b#Mas nunca me senti tão são. Pelo menos até esses sonhos começarem a acontecer.#$b#Mas nessas visões não há nada como raiva, então, bem, isso é bom.#$b#Mas ainda espero que essas visões vão embora.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3",
+      "translation": "Ei, acabei de ler um artigo escrito por um dos meus velhos colegas de faculdade sobre restauração de habitat de uma piscina subterrânea povoada por Peixes Fantasma e Chiones!$1#$b#Disseram-me que temos uma dessas cavernas nas profundezas das minas. Talvez você possa me levar até lá um dia.#$b#Engraçado, o artigo não especificou de onde ele conseguiu os peixes para repovoar...$3",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Thx!  Bai!!!",
+      "translation": "Obg!  Tchau!!!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "The giant trees were cut down to make ships and buildings and other wonderful things...",
+      "translation": "As árvores gigantes foram derrubadas para fazer navios, edifícios e outras maravilhas...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "...but they cut like there would always be more, until they cut down the last one.",
+      "translation": "...mas eles cortaram como se sempre houvesse mais, até derrubarem a última.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "You will be wiser.  We will help.",
+      "translation": "Você será mais sábio. Nós ajudaremos.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Welcome!  You're just in time!",
+      "translation": "Bem-vindo! Você chegou na hora certa!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I hiked the back-woods trail today.",
+      "translation": "Caminhei pela floresta aqui de trás hoje.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "It can be a bit treacherous at my age...",
+      "translation": "Pode ser um pouco traiçoeiro para a minha idade...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "But the view of the desert is breathtaking.",
+      "translation": "Mas a vista do deserto é de tirar o fôlego.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I picked a few wild mushrooms and herbs along the way.",
+      "translation": "Peguei alguns cogumelos silvestres e ervas ao longo do caminho.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Dinner is served!",
+      "translation": "O jantar está servido!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "What do you think?",
+      "translation": "O que você acha?",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I'm glad you like it.",
+      "translation": "Fico feliz que tenha gostado.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "You know, when people see you talking to the trees, well...  They tend to think you're crazy.$2",
+      "translation": "Sabe, quando as pessoas veem você conversando com as árvores, bem... Elas tendem a achar que você está louco.$2",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "But when you hear the trees talking *to* *you*, then... well...#$b#Then maybe they're right.$2",
+      "translation": "Mas quando você ouve as árvores falando *com* *você*, então... bem...#$b#Talvez elas estejam certas.$2",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Last night I dreamt I saw what these trees looked like before they were cut...",
+      "translation": "Na noite passada, sonhei que via como eram essas árvores antes de serem cortadas...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Then, the vision pivoted to your farm; your farm when those big stumps and logs were standing trees...",
+      "translation": "Então, a visão mudou para a sua fazenda; sua fazenda quando aqueles grandes tocos e troncos eram árvores imensas...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I found these seeds in my tent as I was stepping out this morning.#$b#I guess I tracked them in last night.  They're usually not so easy to find.  Here.  I think they're meant for you.",
+      "translation": "Encontrei essas sementes na minha tenda enquanto saia esta manhã.#$b#Acho que as trouxe ontem à noite. Normalmente, não são tão fáceis de encontrar. Aqui. Acho que são para você.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I'm glad you're the sort of friend that doesn't mind listening to the ravings of a crazy old man.",
+      "translation": "Estou feliz por você ser o tipo de amigo que não se importa de ouvir as divagações de um velho maluco.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Well...  It's getting late.  You should get back to your farm and I should crawl into my tent.#$b#I plan on breaking camp in the morning and making the hike up to the mountain.",
+      "translation": "Bem... Está ficando tarde. Você deveria voltar para sua fazenda e eu deveria me acomodar na minha tenda.#$b#Planejo desmontar o acampamento pela manhã e subir até a montanha.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Do the trees talk to you too?",
+      "translation": "As árvores também falam com você?",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Hm.  Perhaps it's best not to answer that one...",
+      "translation": "Hm. Talvez seja melhor não responder a essa pergunta...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Plant The Mystic Seed",
+      "translation": "Plantar a Semente Mística",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Linus gave you some tree seeds...  Do the Junimos talk to him too?",
+      "translation": "Linus lhe deu algumas sementes de árvore... Será que os Junimos também falam com ele?",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Grow a Mystic Tree and 2 Mahogony Trees to adulthood on your farm.",
+      "translation": "Faça uma Árvore Mística e 2 Árvores de Mogno crescerem até a maturidade na sua fazenda.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Meet Linus In The Secret Woods",
+      "translation": "Encontre Linus na Floresta Secreta",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Have dinner with Linus in the Secret Woods",
+      "translation": "Jante com Linus na Floresta Secreta",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Enter the secret woods on a sunny day between 6 and 11pm.",
+      "translation": "Entre no bosque secreto em um dia ensolarado entre 18h e 23h.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
+      "translation": "@,^como você está? Decidi passar uma ou duas noites no bosque secreto, a oeste da fazenda da Marnie. Gostaria de compartilhar uma refeição na natureza comigo? ^ -Linus",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Meet at Linus' camp in the woods",
+      "translation": "Encontre-se no acampamento do Linus no bosque",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Give the strange orb to the host player - only the host can advance this quest.  (Put it in a chest for them)",
+      "translation": "Dê o orbe estranho ao jogador anfitrião - apenas o anfitrião pode avançar nesta missão. (Coloque-o em um baú para eles)",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "a strange faintly glowing orb",
+      "translation": "um orbe estranho que emite um brilho fraco",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "It looks vaguely magical. It's quite hard and smooth.",
+      "translation": "Parece vagamente mágico. É bastante duro e liso.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...",
+      "translation": "Meu querido garoto...^Minha amada neta...#$b#Lamento vir até vocês dessa forma, mas precisava agradecer por resgatar meu querido amigo Junimo.#$b#Ele me protegeu quando meu pior inimigo era minha própria mente se deteriorando.#$b#Em dias melhores, ele me ajudava com meus fornos e outras máquinas relacionadas à mineração. Ele também ajudará você; ele realmente gosta de observar o brilho das chamas!#$b#Descanso muito mais tranquilo agora sabendo que meu amigo está seguro. Tenho muito orgulho de você...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "What have you brought for me this time?",
+      "translation": "O que você trouxe para mim desta vez?",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Hm..  Yes...#$b#Junimos are harmless, but they are not defenseless.  When this one was overwhelmed by the slime, it bound itself into a protective stasis and went into a sort of torpor.#$b#If we return this to the Junimo's world, they will be able to care for this one.",
+      "translation": "Hm.. Sim...#$b#Os Junimos são inofensivos, mas não indefesos. Quando este foi sobrecarregado pela gosma, ele se vinculou em um estado de proteção e entrou em uma espécie de sono profundo.#$b#Se devolvermos isto ao mundo dos Junimos, eles poderão cuidar deste.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I shall, using my immense powers, transport this one back to the Junimo realm!",
+      "translation": "Usarei meus imensos poderes para transportar este de volta ao reino dos Junimos!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "There.  Done.",
+      "translation": "Pronto. Feito.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Yes.  Done.  It's safely back to the Junimo realm and you should get about your business.",
+      "translation": "Sim. Feito. Está seguro de volta ao reino dos Junimos e você deve seguir com seus afazeres.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "That's it...#$b#Really...#$b#I think.",
+      "translation": "Isso é tudo...#$b#Realmente...#$b#Eu acho.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "The Strange Orb",
+      "translation": "A Orbe Estranha",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Investigate the strange glowing thing you found inside a big slime.",
+      "translation": "Investigue a coisa estranha e brilhante que você encontrou dentro de uma grande gosma.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Bring the faintly glowing orb to the wizard's tower.",
+      "translation": "Leve o orbe de brilho fraco à torre do mago.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Ah... Come in.",
+      "translation": "Ah... Entre.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)",
+      "translation": "Dê a pequena estrutura estranha ao jogador anfitrião - apenas o anfitrião pode avançar nesta missão. (Coloque-a em um baú para eles.)",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "A portal through which Junimos who want to help out on the farm can appear.  Place pathways next to these when placing them outdoors so the Junimos will know where to go.",
+      "translation": "Um portal através do qual Junimos que querem ajudar na fazenda podem aparecer. Coloque caminhos próximos a esses ao colocá-los ao ar livre para que os Junimos saibam para onde ir.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Junimo Portal",
+      "translation": "Portal Junimo",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "a strange little structure",
+      "translation": "uma pequena estrutura estranha",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard's forest-magic potion.",
+      "translation": "A princípio, parecia uma erva daninha lenhosa, mas ao olhar mais de perto parece uma pequena estrutura, e cheira um pouco como a poção mágica da floresta do Mago.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "You have something to show me?  Well, bring it to me!",
+      "translation": "Você tem algo para me mostrar? Bem, traga para mim!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...",
+      "translation": "Ah, entendo porque você achou que eu deveria ver isso...#$b#Acredito que reconheço os traços mágicos, mas deixe-me consultar minha vasta biblioteca por referências para ter certeza...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Come along then!",
+      "translation": "Siga-me então!",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Yes.  I was right...#$b#As always.",
+      "translation": "Sim. Eu estava certo...#$b#Como sempre.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.",
+      "translation": "Isso é uma espécie de portal rudimentar, feito pelo seu avô para permitir que os Junimos viajem facilmente entre o mundo deles e o nosso.#$b#É uma coisa fácil de construir, até o aprendiz mais inexperiente poderia fazer isso. Aqui, deixe-me ensiná-lo.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "I learned how to craft a 'Junimo Portal'",
+      "translation": "Aprendi a construir um 'Portal Junimo'",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Enticing a Junimo to *use* it, well, that's up to the Junimo...",
+      "translation": "Convencer um Junimo a *usá-lo*, bem, isso depende do Junimo...",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Usage: After completing quests to get junimo helpers, you can place Junimo Portals either in buildings or outside.  If outside, place walkways between the hut and any chests or machines you want the Junimo to automate.  If in a building, you can place walkways or just leave a clear path.",
+      "translation": "Uso: Após completar missões para obter ajudantes Junimos, você pode colocar Portais Junimos tanto em prédios quanto ao ar livre. Se ao ar livre, coloque caminhos entre a cabana e quaisquer baús ou máquinas que você queira que o Junimo automatize. Se em um prédio, você pode colocar caminhos ou apenas deixar um caminho livre.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!",
+      "translation": "Que tempestade foi aquela! Será que a chuva lavou a lama de alguma coisa velha do Vovô?",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "The Strange Little Structure",
+      "translation": "A Pequena Estrutura Estranha",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it.",
+      "translation": "Você encontrou os restos do que parece ser um pequeno edifício. Cheira como se tivesse um pouco de Magia da Floresta.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    },
+    {
+      "source": "Bring the remnants of the strange little structure to the wizard's tower.",
+      "translation": "Leve os restos da pequena estrutura estranha para a torre do mago.",
+      "author": "github:Nipodemos",
+      "ingestionDate": "2024-07-26T14:40:17.1641185-07:00"
+    }
+  ]
+}
