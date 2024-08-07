@@ -60,7 +60,6 @@ namespace NermNermNerm.Junimatic
                     junimo.OnDayEnding(location);
                 }
             }
-            this.LogTrace($"WorkFinder.OnDayEnding - not doing anything because this is not the master game.");
         }
 
         // 10 minutes in SDV takes 7.17 seconds of real time.  So our setting of 3 means
@@ -282,7 +281,7 @@ namespace NermNermNerm.Junimatic
         }
 
         public static string ObjectToLogString(Item item)
-            => $"{item.DisplayName}[{item.Quality}]x{item.Stack}";
+            => IF($"{item.DisplayName}[{item.Quality}]x{item.Stack}");
 
         public static string ObjectListToLogString(IEnumerable<Item> items)
             => string.Join(",", items.Select(ObjectToLogString));

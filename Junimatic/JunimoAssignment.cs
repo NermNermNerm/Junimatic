@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
+
 namespace NermNermNerm.Junimatic
 {
     public record JunimoAssignment(
@@ -15,7 +17,8 @@ namespace NermNermNerm.Junimatic
     {
         public override string ToString()
         {
-            return $"{{ projectType={this.projectType} location={this.location.DisplayName} hut={this.hut.TileLocation} origin={this.origin} source={this.source} target={this.target} items={(this.itemsToRemoveFromChest is null ? "<none>" : WorkFinder.ObjectListToLogString(this.itemsToRemoveFromChest ?? []))} }}";
+            string itemsList = this.itemsToRemoveFromChest is null ? I("<none>") : WorkFinder.ObjectListToLogString(this.itemsToRemoveFromChest ?? []);
+            return IF($"{{ projectType={this.projectType} location={this.location.DisplayName} hut={this.hut.TileLocation} origin={this.origin} source={this.source} target={this.target} items={itemsList} }}");
         }
     }
 }
