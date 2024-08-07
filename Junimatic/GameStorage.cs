@@ -56,12 +56,15 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public bool IsPreferredStorageForMachinesOutput(StardewValley.Object objectToStore)
+        public bool IsPreferredStorageForMachinesOutput(GameMachine machine)
+            => machine.CanHoldProducts(this) == ProductCapacity.CanHoldAndHasMainProduct;
+
+        public bool CanAddToExistingStack(StardewValley.Object objectToStore)
         {
-            if (this.item is Chest chest)
+            if (this.CanBeUsedForStorage)
             {
-                var items = chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
-                if (items.HasEmptySlots() || chest.GetActualCapacity() > items.Count)
+                var items = this.RawInventory;
+                if (this.HasEmptySlot)
                 {
                     return items.Any(i => i is not null && i.ItemId == objectToStore.ItemId && i.Quality == objectToStore.Quality);
                 }
@@ -77,18 +80,18 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public bool IsPossibleStorageForMachinesOutput(StardewValley.Object item)
+        public bool IsPossibleStorageFor(StardewValley.Object item)
         {
-            if (this.item is Chest chest)
-            {
-                return this.RawInventory.Count < chest.GetActualCapacity()
-                    || this.RawInventory.Any(i => i.ItemId == item.ItemId && i.Quality == item.Quality && i.Stack + item.Stack <= 999);
-            }
-            else
-            {
-                return false; // auto-grabbers are never used for storage.
-            }
+            return this.CanBeUsedForStorage &&
+                (this.HasEmptySlot || this.RawInventory.Any(i => i.ItemId == item.ItemId && i.Quality == item.Quality && i.Stack + item.Stack <= 999));
         }
+
+        public bool HasEmptySlot => this.item is Chest chest && this.RawInventory.Count < chest.GetActualCapacity();
+
+        public bool CanBeUsedForStorage => this.item is Chest;
+
+        public bool IsPossibleStorageForMachinesOutput(GameMachine machine)
+            => machine.CanHoldProducts(this) != ProductCapacity.NoSpace;
 
         /// <summary>
         ///  Attempts to store the given item in the chest.  Partial success is not
@@ -98,7 +101,7 @@ namespace NermNermNerm.Junimatic
         ///  The current implementation assumes that there's only one item in the given Inventory
         ///  and does not do anything to prevent a partial success.
         /// </remarks>
-        public bool TryStore(Inventory items)
+        public bool TryStore(IEnumerable<StardewValley.Item> items)
         {
             if (this.item is Chest chest)
             {
@@ -109,7 +112,6 @@ namespace NermNermNerm.Junimatic
                         return false;
                     }
                 }
-                items.Clear();
                 return true;
             }
             else
