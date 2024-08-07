@@ -5,6 +5,8 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Inventories;
 
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
+
 namespace NermNermNerm.Junimatic
 {
     public class FishPondMachine
@@ -16,23 +18,24 @@ namespace NermNermNerm.Junimatic
 
         public new FishPond Building => (FishPond)base.Building;
 
-        public override bool IsIdle => false;
+        public override MachineState State
+            => this.Building.output.Value is null ? MachineState.Working : MachineState.AwaitingPickup;
 
         public override bool FillMachineFromChest(GameStorage storage, Func<Item,bool> isShinyTest)
         {
-            // IsIdle being hard-coded to false should prevent this from being called.
+            // State never being Idle should prevent this from ever being called
             throw new NotImplementedException();
         }
 
-        public override bool FillMachineFromInventory(Inventory inventory)
+        public override void FillMachineFromInventory(Inventory inventory)
         {
-            // IsIdle being hard-coded to false should prevent this from being called.
+            // State never being Idle should prevent this from ever being called
             throw new NotImplementedException();
         }
 
         public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
-            // IsIdle being hard-coded to false should prevent this from being called.
+            // State never being Idle should prevent this from ever being called
             throw new NotImplementedException();
         }
 
@@ -40,13 +43,33 @@ namespace NermNermNerm.Junimatic
         {
             return projectType == JunimoType.Fishing;
         }
-        public override StardewValley.Object? HeldObject => this.Building.output.Value as StardewValley.Object;
-
-        protected override StardewValley.Object TakeItemFromMachine()
+        public override List<StardewValley.Item> GetProducts()
         {
             var oldValue = this.Building.output.Value;
             this.Building.output.Value = null;
-            return (StardewValley.Object)oldValue;
+            return [oldValue];
+        }
+
+        public override ProductCapacity CanHoldProducts(GameStorage storage)
+        {
+            var heldObject = this.Building.output.Value as StardewValley.Object;
+            if (heldObject is null)
+            {
+                throw new InvalidOperationException(I("CanHoldProducts should only be called if the State is AwaitingPickup"));
+            }
+
+            if (storage.CanAddToExistingStack(heldObject))
+            {
+                return ProductCapacity.CanHoldAndHasMainProduct;
+            }
+            else if (storage.IsPossibleStorageFor(heldObject))
+            {
+                return ProductCapacity.CanHold;
+            }
+            else
+            {
+                return ProductCapacity.NoSpace;
+            }
         }
     }
 }

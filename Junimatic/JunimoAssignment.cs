@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.Inventories;
-
 
 namespace NermNermNerm.Junimatic
 {
@@ -13,5 +11,11 @@ namespace NermNermNerm.Junimatic
         Point origin,
         GameInteractiveThing source,
         GameInteractiveThing target,
-        List<Item>? itemsToRemoveFromChest);
+        List<Item>? itemsToRemoveFromChest)
+    {
+        public override string ToString()
+        {
+            return $"{{ projectType={this.projectType} location={this.location.DisplayName} hut={this.hut.TileLocation} origin={this.origin} source={this.source} target={this.target} items={(this.itemsToRemoveFromChest is null ? "<none>" : WorkFinder.ObjectListToLogString(this.itemsToRemoveFromChest ?? []))} }}";
+        }
+    }
 }

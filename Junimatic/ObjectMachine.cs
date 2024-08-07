@@ -39,15 +39,50 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public override bool IsIdle => this.Machine.heldObject.Value is null && this.Machine.MinutesUntilReady == 0;
+        /// <inheritdoc/>>
+        public override MachineState State
+        {
+            get
+            {
+                if (this.Machine.readyForHarvest.Value && this.Machine.heldObject.Value is not null)
+                {
+                    return MachineState.AwaitingPickup;
+                }
+                else if (this.Machine.MinutesUntilReady == 0 && this.Machine.heldObject.Value is null)
+                {
+                    return MachineState.Idle;
+                }
+                else
+                {
+                    return MachineState.Working;
+                }
+            }
+        }
 
-        public override StardewValley.Object? HeldObject => this.Machine.readyForHarvest.Value ? this.Machine.heldObject.Value : null;
+        /// <inheritdoc/>>
+        public override ProductCapacity CanHoldProducts(GameStorage storage)
+        {
+            var heldObject = this.Machine.heldObject.Value;
+            if (heldObject is null)
+            {
+                throw new InvalidOperationException(I("CanHoldProducts should only be called if the State is AwaitingPickup"));
+            }
 
-        /// <summary>
-        ///   Looks at the recipes allowed by this machine and the contents of the chest.  If there's
-        ///   enough stuff in the chest to allow it, it builds a list of the items needed but doesn't
-        ///   actually remove the items from the chest.
-        /// </summary>
+            if (storage.CanAddToExistingStack(heldObject))
+            {
+                return ProductCapacity.CanHoldAndHasMainProduct;
+            }
+            else if (storage.IsPossibleStorageFor(heldObject))
+            {
+                return ProductCapacity.CanHold;
+            }
+            else
+            {
+                return ProductCapacity.NoSpace;
+            }
+        }
+
+        /// <inheritdoc/>>
         public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
             if (this.IsManualFeedMachine)
@@ -124,10 +159,7 @@ namespace NermNermNerm.Junimatic
             return null;
         }
 
-        /// <summary>
-        ///   Tries to populate the given machine's input with the contents of the chest.  If it
-        ///   succeeds, it returns true and the necessary items are removed.
-        /// </summary>
+        /// <inheritdoc/>>
         public override bool FillMachineFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
             if (this.IsManualFeedMachine)
@@ -156,11 +188,20 @@ namespace NermNermNerm.Junimatic
             return filledIt;
         }
 
-        /// <summary>
-        ///   Fills the machine from the supplied Junimo inventory.
-        /// </summary>
-        public override bool FillMachineFromInventory(Inventory inventory)
-            => !this.IsManualFeedMachine && this.Machine.AttemptAutoLoad(inventory, Game1.MasterPlayer);
+        /// <inheritdoc/>>
+        public override void FillMachineFromInventory(Inventory inventory)
+        {
+            if (this.IsManualFeedMachine)
+            {
+                throw new InvalidOperationException(I("Animated Junimo was tasked to go to a manual-fill machine."));
+            }
+
+            // This "attempt" should be a sure thing, as the 
+            if (!this.Machine.AttemptAutoLoad(inventory, Game1.MasterPlayer))
+            {
+                ModEntry.Instance.LogErrorOnce($"Machine fill was attempted on a machine that was busy - {this.Machine.ItemId}:{this.Machine.DisplayName}");
+            }
+        }
 
         private static Dictionary<string,bool> cachedCompatList = new Dictionary<string,bool>();
 
@@ -292,7 +333,7 @@ namespace NermNermNerm.Junimatic
             return false;
         }
 
-        protected override StardewValley.Object TakeItemFromMachine()
+        public override List<StardewValley.Item> GetProducts()
         {
             // Adapted from Pathoschild.Stardew.Automate.Framework.Machines.GetOutput
             StardewValley.Object machine = this.Machine;
@@ -317,7 +358,7 @@ namespace NermNermNerm.Junimatic
 
             // get output
             this.OnOutputCollected(result);
-            return result;
+            return [result];
         }
 
         private void OnOutputCollected(Item item)
