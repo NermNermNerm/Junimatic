@@ -33,6 +33,10 @@ namespace NermNermNerm.Junimatic
             {
                 return new ObjectMachine(item, accessPoint);
             }
+            else if (item is IndoorPot indoorPot)
+            {
+                return new IndoorPotMachine(indoorPot, accessPoint);
+            }
             else
             {
                 return null;
