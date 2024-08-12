@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Inventories;
@@ -57,7 +59,7 @@ namespace NermNermNerm.Junimatic
         {
             if (!isHarmonyPatchApplied)
             {
-                Patcher.Apply(ModEntry.Instance, ModEntry.Instance.Harmony);
+                Patcher.Apply();
                 isHarmonyPatchApplied = true;
             }
 
@@ -94,6 +96,7 @@ namespace NermNermNerm.Junimatic
             throw new InvalidOperationException(I("IndoorPotMachine.Harvest called when the pot wasn't ready to harvest"));
         }
 
+
         /// <summary>
         /// Harvest HoeDirt.Crop and add the output to this.HarvestItems
         /// </summary>
@@ -104,21 +107,9 @@ namespace NermNermNerm.Junimatic
             int xTile = (int)dirt.Tile.X;
             int yTile = (int)dirt.Tile.Y;
 
-            List<Item> results = new List<Item>();
-            // Set Patcher.Objects logic to add the harvested objects metadata to HarvestObjects
-            try
-            {
-                Patcher.Objects = new List<Item>();
-
-                // Harvest crop
-                crop.harvest(xTile, yTile, dirt);
-                return Patcher.Objects;
-            }
-            finally
-            {
-                // Clear patch variables
-                Patcher.Objects = null;
-            }
+            return Patcher.InterceptHarvest(
+                () => crop.harvest(xTile, yTile, dirt),
+                this.Machine.Location);
         }
 
         /// <summary>
@@ -127,25 +118,14 @@ namespace NermNermNerm.Junimatic
         /// <param name="bush">The bush of the IndoorPot</param> 
         private List<Item> HarvestBush(Bush bush)
         {
-            Vector2 tileLocation = this.Machine.TileLocation;
+            // Call Bush.shake to harvest to support custom bushes
+            // Custom Bush has a transpiler on Bush.shake, replacing the call to CreateObjectDebris with a custom method
+            // As a result, Junimatic cannot call CreateObjectDebris directly as that would circumvent the call to the Custom Bush CreateObjectDebris
+            // This Custom Bush method eventually calls the original CreateObjectDebris, which is where the Junimatic prefix would run, adding the items to HarvestObjects
 
-            try
-            {
-                // Set Patcher.Objects logic to add the harvested objects metadata to HarvestObjects
-                Patcher.Objects = new List<Item>();
-
-                // Harvest bush
-                // Call Bush.shake to harvest to support custom bushes
-                // Custom Bush has a transpiler on Bush.shake, replacing the call to CreateObjectDebris with a custom method
-                // As a result, Junimatic cannot call CreateObjectDebris directly as that would circumvent the call to the Custom Bush CreateObjectDebris
-                // This Custom Bush method eventually calls the original CreateObjectDebris, which is where the Junimatic prefix would run, adding the items to HarvestObjects
-                bush.shake(tileLocation, doEvenIfStillShaking: false);
-                return Patcher.Objects;
-            }
-            finally
-            {
-                Patcher.Objects = null;
-            }
+            return Patcher.InterceptHarvest(
+                () => bush.shake(this.Machine.TileLocation, doEvenIfStillShaking: false),
+                this.Machine.Location);
         }
 
         /// <summary>
