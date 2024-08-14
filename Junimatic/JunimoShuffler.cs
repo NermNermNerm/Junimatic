@@ -98,9 +98,9 @@ namespace NermNermNerm.Junimatic
 
                 l.playSound("pickUpItem"); // Maybe 'openChest' instead?
             }
-            else if (this.Assignment.source is GameMachine machine && machine.HeldObject is not null)
+            else if (this.Assignment.source is GameMachine machine && machine.IsAwaitingPickup)
             {
-                this.Carrying.Add(machine.RemoveHeldObject());
+                this.Carrying.AddRange(machine.GetProducts());
                 l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
             }
             else
@@ -149,7 +149,11 @@ namespace NermNermNerm.Junimatic
             {
                 l.playSound("Ship");
                 // Put what we're carrying into the chest or huck it overboard if we can't.
-                if (!chest.TryStore(this.Carrying))
+                if (chest.TryStore(this.Carrying))
+                {
+                    this.Carrying.Clear();
+                }
+                else
                 {
                     this.LogWarning($"Target {chest} did not have room for {this.Carrying[0].Stack} {this.Carrying[0].Name}");
                     this.JunimoQuitsInDisgust();
@@ -158,15 +162,18 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                bool isLoaded = ((GameMachine)this.Assignment.target).FillMachineFromInventory(this.Carrying);
-                if (!isLoaded)
+                var machine = (GameMachine)this.Assignment.target;
+                if (machine.State == MachineState.Idle)
+                {
+                    machine.FillMachineFromInventory(this.Carrying);
+                    l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
+                }
+                else
                 {
                     this.LogTrace($"Junimo could not load {this.Assignment} - perhaps a player loaded it?");
                     this.JunimoQuitsInDisgust();
                     return;
                 }
-
-                l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
             }
 
             var newAssignment = this.workFinder!.FindProject(this.Assignment.hut, this.Assignment.projectType, this);
