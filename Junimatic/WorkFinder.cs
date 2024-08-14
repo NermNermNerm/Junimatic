@@ -246,7 +246,7 @@ namespace NermNermNerm.Junimatic
                         foreach (var c in network.Chests)
                         {
                             var usageValidity = fullMachine.CanHoldProducts(c);
-                            if (usageValidity == ProductCapacity.CanHoldAndHasMainProduct)
+                            if (usageValidity == ProductCapacity.Preferred)
                             {
                                 goodChest = c;
                                 break;
@@ -457,7 +457,8 @@ namespace NermNermNerm.Junimatic
                             // See if we can create a mission to carry from a full machine to this chest
                             foreach (var machineNeedingPickup in fullMachines)
                             {
-                                if (machineNeedingPickup.CanHoldProducts(chest) == ProductCapacity.CanHoldAndHasMainProduct)
+                                // TODO: Cache results of CanHoldProducts lookups.
+                                if (machineNeedingPickup.CanHoldProducts(chest) == ProductCapacity.Preferred)
                                 {
                                     return new JunimoAssignment(projectType, location, portal, originTile, machineNeedingPickup, chest, itemsToRemoveFromChest: null);
                                 }

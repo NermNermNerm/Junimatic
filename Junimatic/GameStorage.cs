@@ -56,42 +56,122 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public bool IsPreferredStorageForMachinesOutput(GameMachine machine)
-            => machine.CanHoldProducts(this) == ProductCapacity.CanHoldAndHasMainProduct;
+        /// <summary>
+        ///   DELETE ME!  I'm just here to enable running without the optimization to better check the functioning of the fullish
+        ///   chest scenarios.
+        /// </summary>
+        private static bool skipOptimizedCheck = false;
 
-        public bool CanAddToExistingStack(StardewValley.Object objectToStore)
+        /// <summary>
+        ///   Test to see if the chest can hold the output of a machine.
+        /// </summary>
+        /// <param name="itemDescriptions">
+        ///   A collection of items which will be added to the chest.
+        /// </param>
+        /// <returns>
+        ///   <list type="bullet">
+        ///     <item>
+        ///      <see cref="ProductCapacity.Preferred"/> if the chest could hold the described items and the chest
+        ///      already has an item that is the same as the first entry in <paramref name="itemDescriptions"/>.
+        ///     </item>
+        ///     <item>
+        ///      <see cref="ProductCapacity.CanHold"/> if the chest could hold the described items but doesn't
+        ///      already have matching items.
+        ///     </item>
+        ///     <item>
+        ///      <see cref="ProductCapacity.Unusable"/> if the chest hasn't got enough space to hold the items.
+        ///     </item>
+        ///   </list>
+        /// </returns>
+        public ProductCapacity CanHold(IReadOnlyList<EstimatedProduct> itemDescriptions)
         {
-            if (this.CanBeUsedForStorage)
+            if (itemDescriptions.Count == 0)
             {
-                var items = this.RawInventory;
-                if (this.HasEmptySlot)
+                throw new InvalidOperationException();
+            }
+
+            if (!(this.item is Chest chest))
+            {
+                return ProductCapacity.Unusable;
+            }
+
+            // This routine gets called an awful lot - so we want to make it as quick as possible, which means as
+            // few iterations of the items list as we can do.
+            var items = this.RawInventory;
+            int emptySlots = chest.GetActualCapacity() - chest.Items.CountItemStacks();
+
+            // Most of the time chests will have enough open slots to contain all our output.  This shortcut enables
+            //  us to loop through the items just once (to determine if it's a preferred chest or not).
+            if (!skipOptimizedCheck && emptySlots >= itemDescriptions.Count)
+            {
+                string? matchItem = itemDescriptions.First()?.qiid;
+                return matchItem is not null && items.Any(i => i.QualifiedItemId == matchItem) ? ProductCapacity.Preferred : ProductCapacity.CanHold;
+            }
+
+            // The other extremely likely case we'll face is where itemDescriptions only has one item in it.  We *could*
+            //  create a data structure to ensure that we only loop through the chest contents once, but the overhead of
+            //  creating that data structure would likely not be worth it most of the time, so we're probably better off
+            //  with a simpler implementation.
+
+            bool? isPreferred = null;
+            foreach (var item in itemDescriptions)
+            {
+                if (item.qiid is null)
                 {
-                    return items.Any(i => i is not null && i.ItemId == objectToStore.ItemId && i.Quality == objectToStore.Quality);
+                    if (emptySlots == 0)
+                    {
+                        return ProductCapacity.Unusable;
+                    }
+                    --emptySlots;
+                }
+                else if (item.quality is null)
+                {
+                    if (Enumerable.Range(0, 4).All(q => items.Any(i => i?.QualifiedItemId == item.qiid && i.Stack + item.maxQuantity < 1000)))
+                    {
+                        // there are stacks of every quality level that can hold whatever comes.
+                        // Note that this test is not smart enough to detect if it can spread the output across 2 almost complete stacks.
+                        isPreferred ??= true;
+                    }
+                    else
+                    {
+                        if (emptySlots == 0)
+                        {
+                            return ProductCapacity.Unusable;
+                        }
+                        --emptySlots;
+
+                        isPreferred ??= items.Any(i => i?.QualifiedItemId == item.qiid);
+                    }
                 }
                 else
                 {
-                    int[] stacks = items.Where(i => i is not null && i.ItemId == objectToStore.ItemId && i.Quality == objectToStore.Quality).Select(i => i.Stack).ToArray();
-                    return stacks.Sum() + objectToStore.Stack <= stacks.Length * 999;
+                    // Else we have a complete specification - see if there's are exactly matching stacks with sufficient capacity between them.
+                    var existingSlots = items.Where(i => i.QualifiedItemId == item.qiid && i.Quality == item.quality).ToList();
+                    if (existingSlots.Count > 0 && existingSlots.Sum(i => i.Stack) + item.maxQuantity <= 999 * existingSlots.Count)
+                    {
+                        isPreferred ??= true;
+                    }
+                    else
+                    {
+                        if (emptySlots == 0)
+                        {
+                            return ProductCapacity.Unusable;
+                        }
+                        --emptySlots;
+
+                        isPreferred ??= items.Any(i => i?.QualifiedItemId == item.qiid);
+                    }
                 }
             }
-            else
-            {
-                return false; // auto-grabbers are never used for storage.
-            }
+
+            return isPreferred == true ? ProductCapacity.Preferred : ProductCapacity.CanHold;
         }
 
-        public bool IsPossibleStorageFor(StardewValley.Object item)
-        {
-            return this.CanBeUsedForStorage &&
-                (this.HasEmptySlot || this.RawInventory.Any(i => i.ItemId == item.ItemId && i.Quality == item.Quality && i.Stack + item.Stack <= 999));
-        }
-
-        public bool HasEmptySlot => this.item is Chest chest && this.RawInventory.Count < chest.GetActualCapacity();
-
-        public bool CanBeUsedForStorage => this.item is Chest;
+        public bool IsPreferredStorageForMachinesOutput(GameMachine machine)
+            => machine.CanHoldProducts(this) == ProductCapacity.Preferred;
 
         public bool IsPossibleStorageForMachinesOutput(GameMachine machine)
-            => machine.CanHoldProducts(this) != ProductCapacity.NoSpace;
+            => machine.CanHoldProducts(this) != ProductCapacity.Unusable;
 
         /// <summary>
         ///  Attempts to store the given item in the chest.  Partial success is not

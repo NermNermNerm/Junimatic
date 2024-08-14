@@ -6,19 +6,6 @@ using StardewValley.Inventories;
 
 namespace NermNermNerm.Junimatic
 {
-    public enum MachineState
-    {
-        Idle,
-        Working,
-        AwaitingPickup,
-    }
-
-    public enum ProductCapacity
-    {
-        NoSpace,
-        CanHold,
-        CanHoldAndHasMainProduct
-    }
 
     public abstract class GameMachine
         : GameInteractiveThing
@@ -39,7 +26,22 @@ namespace NermNermNerm.Junimatic
         /// <summary>
         ///   Tests to see if the given chest can hold the outputs from the machine.
         /// </summary>
-        public abstract ProductCapacity CanHoldProducts(GameStorage storage);
+        public ProductCapacity CanHoldProducts(GameStorage storage)
+        {
+            return storage.CanHold(this.EstimatedProducts);
+        }
+
+        protected EstimatedProduct HeldObjectToEstimatedProduct(Item item)
+        {
+            return new EstimatedProduct(item.QualifiedItemId, item.Quality, maxQuantity: 1);
+        }
+
+        /// <summary>
+        ///   Returns an estimate (possibly a perfectly accurate one) of the result of a call to <see cref="GetProducts"/>.
+        ///   It is meant for use with machines that 
+        /// </summary>
+        protected abstract IReadOnlyList<EstimatedProduct> EstimatedProducts { get; }
+
 
         /// <summary>
         ///   Extracts all the produce from the machine and resets the machine.
