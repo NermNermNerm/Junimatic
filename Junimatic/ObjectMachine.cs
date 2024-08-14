@@ -64,27 +64,7 @@ namespace NermNermNerm.Junimatic
         }
 
         /// <inheritdoc/>>
-        public override ProductCapacity CanHoldProducts(GameStorage storage)
-        {
-            var heldObject = this.Machine.heldObject.Value;
-            if (heldObject is null)
-            {
-                throw new InvalidOperationException(I("CanHoldProducts should only be called if the State is AwaitingPickup"));
-            }
-
-            if (storage.CanAddToExistingStack(heldObject))
-            {
-                return ProductCapacity.CanHoldAndHasMainProduct;
-            }
-            else if (storage.IsPossibleStorageFor(heldObject))
-            {
-                return ProductCapacity.CanHold;
-            }
-            else
-            {
-                return ProductCapacity.NoSpace;
-            }
-        }
+        protected override IReadOnlyList<EstimatedProduct> EstimatedProducts => [this.HeldObjectToEstimatedProduct(this.Machine.heldObject.Value)];
 
         /// <inheritdoc/>>
         public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
@@ -200,7 +180,8 @@ namespace NermNermNerm.Junimatic
                 throw new InvalidOperationException(I("Animated Junimo was tasked to go to a manual-fill machine."));
             }
 
-            // This "attempt" should be a sure thing, as the 
+            // This "attempt" should be a sure thing, as the recipe was concocted by the machine (so it's valid) and
+            //  callers should be ensuring that the machine is in the idle state before calling.
             if (!this.Machine.AttemptAutoLoad(inventory, Game1.MasterPlayer))
             {
                 ModEntry.Instance.LogErrorOnce($"Machine fill was attempted on a machine that was busy - {this.Machine.ItemId}:{this.Machine.DisplayName}");

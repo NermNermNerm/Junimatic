@@ -43,33 +43,13 @@ namespace NermNermNerm.Junimatic
         {
             return projectType == JunimoType.Fishing;
         }
-        public override List<StardewValley.Item> GetProducts()
+        public override List<Item> GetProducts()
         {
             var oldValue = this.Building.output.Value;
             this.Building.output.Value = null;
             return [oldValue];
         }
 
-        public override ProductCapacity CanHoldProducts(GameStorage storage)
-        {
-            var heldObject = this.Building.output.Value as StardewValley.Object;
-            if (heldObject is null)
-            {
-                throw new InvalidOperationException(I("CanHoldProducts should only be called if the State is AwaitingPickup"));
-            }
-
-            if (storage.CanAddToExistingStack(heldObject))
-            {
-                return ProductCapacity.CanHoldAndHasMainProduct;
-            }
-            else if (storage.IsPossibleStorageFor(heldObject))
-            {
-                return ProductCapacity.CanHold;
-            }
-            else
-            {
-                return ProductCapacity.NoSpace;
-            }
-        }
+        protected override IReadOnlyList<EstimatedProduct> EstimatedProducts => [this.HeldObjectToEstimatedProduct(this.Building.output.Value)];
     }
 }

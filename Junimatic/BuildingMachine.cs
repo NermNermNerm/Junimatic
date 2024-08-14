@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using StardewValley;
 using StardewValley.Buildings;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
