@@ -41,10 +41,55 @@ namespace NermNermNerm.Junimatic
 
         public override MachineState State => this.IsHarvestable() ? MachineState.AwaitingPickup : MachineState.Working;
 
-        public override ProductCapacity CanHoldProducts(GameStorage storage)
+        protected override IReadOnlyList<EstimatedProduct> EstimatedProducts
         {
-            // TODO: Implement this
-            return ProductCapacity.CanHold;
+            get
+            {
+                // Harvest foragables
+                // While growing, foragables look like any other crop in HoeDirt, data wise.
+                // Once full grown, the foragable is added to the pot's heldObject field and removed from HoeDirt. See Crop.newDay for logic. 
+                if (this.Machine.heldObject.Value != null)
+                {
+                    // Convert the object to its metadata
+                    var harvest = this.Machine.heldObject.Value;
+                    this.Machine.heldObject.Value = null;
+                    this.Machine.readyForHarvest.Value = false;
+                    return [this.HeldObjectToEstimatedProduct(harvest)];
+                }
+
+                // Harvest crop from HoeDirt
+                if (this.Machine.hoeDirt.Value is HoeDirt dirt && dirt.crop is not null)
+                {
+                    Crop crop = dirt.crop;
+                    var data = crop.GetData();
+
+                    return [
+                        // The quality is not known until harvest
+                        new EstimatedProduct(data.HarvestItemId, null, data.HarvestMaxStack),
+
+                        // A variety of things can spawn additional items:
+                        //  if data.ExtraHarvestChance > 0, then there could be an *infinite* number of extra items with data.HarvestItemId and base quality.
+                        //  if the crop is sunflowers, sunflower seeds can be generated
+                        //  if the crop is wheat, hay can be generated
+                        //  if the crop is fiber, mixed seeds can be generated.
+                        //  probably some more I'm forgetting
+                        //  mods could do anything.
+                        // Given that level of mayhem, we're not going to try and replicate all the logic and just say that some random items
+                        // can be generated in addition to the crop.  Note that the '5' number doesn't really matter since we didn't give an
+                        // item id -- any null-qiid EstimatedProduct will demand that the chest have at least one fully empty slot in it.
+                        new EstimatedProduct(null, null, 5)];
+                }
+
+                // Harvest from bush
+                if (this.Machine.bush.Value is Bush bush)
+                {
+                    // Note: The only stock item that's possible to be harvested via this path is Tea Saplings.
+                    string itemQiid = bush.GetShakeOffItem();
+                    return [new EstimatedProduct(itemQiid, 0, 1)];
+                }
+
+                throw new InvalidOperationException(I("IndoorPotMachine.EstimatedProducts called when the pot wasn't ready to harvest"));
+            }
         }
 
         public override List<Item> GetProducts()
@@ -90,6 +135,7 @@ namespace NermNermNerm.Junimatic
             // Harvest from bush
             if (this.Machine.bush.Value is Bush bush)
             {
+                // Note: The only stock item that's possible to be harvested via this path is Tea Saplings.
                 return this.HarvestBush(bush);
             }
 
