@@ -48,6 +48,7 @@ namespace NermNermNerm.Junimatic
                 JunimoType.Animals => Color.PapayaWhip,
                 JunimoType.Forestry => Color.ForestGreen,
                 JunimoType.Crops => Color.Purple,
+                JunimoType.IndoorPots => Color.Orange,
                 _ => UnlockFishing.JunimoColor }; // Fishing
             this.currentLocation = assignment.hut.Location;
             this.Breather = false;

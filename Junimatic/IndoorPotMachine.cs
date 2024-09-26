@@ -24,7 +24,7 @@ namespace NermNermNerm.Junimatic
 
         public new IndoorPot Machine => (IndoorPot)base.Machine;
 
-        public override bool IsCompatibleWithJunimo(JunimoType projectType) => projectType == JunimoType.Crops;
+        public override bool IsCompatibleWithJunimo(JunimoType projectType) => projectType == JunimoType.IndoorPots;
 
         public override bool FillMachineFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {

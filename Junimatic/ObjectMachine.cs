@@ -278,14 +278,17 @@ namespace NermNermNerm.Junimatic
                 ["egg_item", "large_egg_item", "slime_egg_item"],
                 ["category_vegetable", "category_fruit", "keg_wine", "preserves_pickle", "preserves_jelly"],
                 ["category_fish"],
-                []]; // there aren't any tags for wood stuff listed
+                [], // there aren't any tags for wood stuff listed
+                [] // Only for plant pots and fruit trees
+                ];
 
             int[][] categories = [
                 [StardewValley.Object.GemCategory, StardewValley.Object.mineralsCategory, StardewValley.Object.metalResources, StardewValley.Object.monsterLootCategory],
                 [StardewValley.Object.EggCategory, StardewValley.Object.MilkCategory, StardewValley.Object.meatCategory, StardewValley.Object.sellAtPierresAndMarnies /* wool, duck feather, etc. */, StardewValley.Object.artisanGoodsCategory],
                 [StardewValley.Object.VegetableCategory, StardewValley.Object.FruitsCategory, StardewValley.Object.SeedsCategory, StardewValley.Object.flowersCategory, StardewValley.Object.fertilizerCategory, StardewValley.Object.artisanGoodsCategory],
                 [StardewValley.Object.junkCategory, StardewValley.Object.baitCategory],
-                [StardewValley.Object.buildingResources]
+                [StardewValley.Object.buildingResources],
+                []
                 ];
 
             if (machineData?.OutputRules is not null)

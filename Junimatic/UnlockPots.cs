@@ -21,14 +21,17 @@ namespace NermNermNerm.Junimatic
         public UnlockPots() { }
 
         private const string MetLewisMopingEventId = "Junimatic.MetLewisMoping";
-        private const string MetPotJunimoEventId = "Junimatic.MetPotJunimo";
         private const string EvelynExplainsEventId = "Junimatic.EvelynExplains";
+        private const string PotJunimoThankYouEventId = "Junimatic.PotJunimoThankYou";
 
-        private const string BringPotToWoodsQuestId = "Junimatic.BringPotToWoods";
         private const string GiveLewisPlantQuestId = "Junimatic.GiveLewisPlant";
 
         private const string MightHaveBeenRoseObjectId = "Junimatic.MightabeenRose";
         private const string MightHaveBeenRoseObjectQiid = "(BC)Junimatic.MightabeenRose";
+        private const string IndoorWellObjectId = "Junimatic.IndoorWell";
+        private const string IndoorWellObjectQiid = "(BC)Junimatic.IndoorWell";
+
+        private const string IndoorWellRecipeId = "Junimatic.IndoorWellRecipe";
 
         private const string LewisGotPlantConversationTopic = "Junimatic.LewisGotPlant";
 
@@ -38,8 +41,7 @@ namespace NermNermNerm.Junimatic
             mod.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
         }
 
-        // Suggestions - 'add mail flag in completing quest'
-        public bool IsUnlocked => ModEntry.Config.EnableWithoutQuests /* TODO */;
+        public bool IsUnlocked => ModEntry.Config.EnableWithoutQuests || Game1.MasterPlayer.eventsSeen.Contains(PotJunimoThankYouEventId);
 
         private void OnAssetRequested(object? sender, StardewModdingAPI.Events.AssetRequestedEventArgs e)
         {
@@ -54,37 +56,85 @@ namespace NermNermNerm.Junimatic
                         SpriteIndex = 1,
                         CanBePlacedIndoors = false,
                         CanBePlacedOutdoors = false,
-                        Description = L("A house plant that the Junimos want me to bring to Lewis."),
+                        Description = L("A house plant that a Junimo wants me to give to Lewis."),
                         DisplayName = L("Mightabeen Rose"),
+                        Texture = ModEntry.BigCraftablesSpritesPseudoPath,
+                    };
+                    objects[IndoorWellObjectId] = new BigCraftableData()
+                    {
+                        Name = IndoorWellObjectId,
+                        SpriteIndex = 2,
+                        CanBePlacedIndoors = true,
+                        CanBePlacedOutdoors = false,
+                        Description = L("A source of water for Junimos watering crops.  (Not implemented yet)"),
+                        DisplayName = L("Junimo Well"),
                         Texture = ModEntry.BigCraftablesSpritesPseudoPath,
                     };
                 });
             }
-            if (e.NameWithoutLocale.IsEquivalentTo("Data/Quests"))
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/CraftingRecipes"))
+            {
+                e.Edit(editor =>
+                {
+                    IDictionary<string, string> recipes = editor.AsDictionary<string, string>().Data;
+
+                    recipes[IndoorWellRecipeId] = IF($"{StardewValley.Object.stoneID} 20 {StardewValley.Object.woodID} 5 {330 /* clay*/} 5/Field/{IndoorWellObjectId}/true/None/");
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Quests"))
             {
                 e.Edit(editor =>
                 {
                     var data = editor.AsDictionary<string, string>().Data;
-                    data[BringPotToWoodsQuestId] = SdvQuest("Basic/Bring a pot to the Secret Woods/Bring a plant pot to the secret woods//null/-1/0/-1/false");
                     data[GiveLewisPlantQuestId] = SdvQuest("ItemDelivery/Bring the plant to Lewis/Bring the Mightabeen Rose to Lewis/Evelyn might want to have a look at this plant before you give it to Lewis, drop by her house for her to check it out./Lewis (BC)Junimatic.MightabeenRose 1/-1/0/-1/false/For me?  How considerate!  I do love to garden!#$b#Mmm...  The flower's scent it...  it... brings back old memories... and some fresh ones too...#$b#Yes!  I do think I will enjoy this plant.  I sure hope I don't kill it!#$t Junimatic.LewisGotPlant 999");
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/Farmhouse"))
+            {
+                e.Edit(editor =>
+                {
+                    (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (0, 7) : (0, 0);
+                    var d = editor.AsDictionary<string, string>().Data;
+                    d[IF($"{PotJunimoThankYouEventId}/H/t 600 620/ActiveDialogueEvent {LewisGotPlantConversationTopic}")] = SdvEvent($@"communityCenter
+-2000 -2000
+farmer {29 + modDeltaX} {14 + modDeltaY} 3 Junimo {26 + modDeltaX} {14 + modDeltaY} 1
+{ModEntry.SetJunimoColorEventCommand} Orange
+setSkipActions MarkCraftingRecipeKnown All {IndoorWellRecipeId}
+skippable
+changeLocation Woods
+viewport {27 + modDeltaX} {12 + modDeltaY} true
+animate Junimo true true 50 16 17 18 19 20 21 22 23
+spriteText 4 ""Thank you for bringing my flower to Lewis...""
+pause 3000
+playSound junimoMeep1
+animate Junimo true true 50 0 1 2 3 4 5 6 7
+spriteText 4 ""Since you helped Lewis, I will help with your indoor plants...""
+pause 1000
+itemAboveHead
+playsound getNewSpecialItem
+addCraftingRecipe {IndoorWellRecipeId}
+animate Junimo true true 100 28 29 30 31
+pause 2000
+fade
+end bed
+").Replace("\r", "").Replace("\n", "/");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/Woods"))
             {
-                (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (40, 15) : (0, 0);
-
                 e.Edit(editor =>
                 {
-                    // TODO: Adjust coordinates when not running SVE!
+                    (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (0, 0) : (40, 15);
+
                     var d = editor.AsDictionary<string, string>().Data;
                     // 'e 900553' means seen Evelyn's plant-pot event
                     d[IF($"{MetLewisMopingEventId}/H/f Lewis 8/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
 -1000 -1000
-farmer 80 29 3 Lewis 69 28 0 Junimo -2000 -2000 2
+farmer {80 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
 setSkipActions addItem {MightHaveBeenRoseObjectQiid} 1#addQuest {GiveLewisPlantQuestId}
 skippable
 makeInvisible 68 22 4 9
-viewport 67 27 true
+viewport {67 - modDeltaX} {27 - modDeltaY} true
 
 move farmer -9 0 3
 pause 100
@@ -127,7 +177,7 @@ move farmer -1 0 3
 
 playSound junimoMeep1
 screenFlash .8
-warp Junimo 68 29
+warp Junimo {68 - modDeltaX} {29 - modDeltaY}
 pause 100
 jump farmer
 pause 300
@@ -140,14 +190,13 @@ pause 1000
 emote Junimo 8
 pause 2000
 
-
 message ""I think the Junimo wants to help...""
 
 pause 500
 jump Junimo 4
 screenFlash .8
 playSound wand
-temporaryAnimatedSprite ""Mods/NermNermNerm/Junimatic/Sprites"" 16 0 16 32 999999 1 0 69 28 false false 9999 0 1 0 0 0
+temporaryAnimatedSprite ""Mods/NermNermNerm/Junimatic/Sprites"" 16 0 16 32 999999 1 0 {69 - modDeltaX} {28 - modDeltaY} false false 9999 0 1 0 0 0
 pause 1000
 jump Junimo 4
 playSound junimoMeep1
@@ -155,7 +204,7 @@ pause 500
 
 message ""The Junimo wants me to give this plant to Lewis...""
 animate farmer true false 100 58 59 60 61
-removeSprite 69 28
+removeSprite {69 - modDeltaX} {28 - modDeltaY}
 playSound dwop
 pause 1000
 emote Junimo 20
@@ -206,7 +255,7 @@ pause 1000
 move Evelyn -1 0 3
 move Evelyn 0 1 1
 pause 1000
-speak Evelyn ""I haven't seen one of these plants for a long, long time.#$b#My grandfather kept one in his study.  I was always a happy, beautiful plant.#$b#Whenever he fell into a funk, he'd go tend to it and emerge feeling better.$1#$b#When he passed, my mother tried to take care of it, but it just slowly withered away.  It missed him too I guess!""
+speak Evelyn ""I haven't seen one of these plants for a long, long time.#$b#My grandfather kept one in his study.  It was always a happy, beautiful plant.#$b#Whenever he fell into a funk, he'd go tend to it and emerge feeling better.$1#$b#When he passed, my mother tried to take care of it, but it just slowly withered away.  It missed him too I guess!""
 speak Evelyn ""I researched it as a young woman, and it turns out these plants are rare, somewhat finicky, and notoriously hard to propagate.#$b#Some people say the smell of the flower helps them to remember that what might have been isn't necessarily better than the here and now.$1""
 shake Evelyn 500
 speak Evelyn ""But honestly, I don't feel anything at all from smelling it!  But you say you mean to give it as a gift?""
@@ -230,8 +279,6 @@ end fade
         }
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
-        {
-            this.mod.WriteToLog(message, level, isOnceOnly);
-        }
+            => this.mod.WriteToLog(message, level, isOnceOnly);
     }
 }
