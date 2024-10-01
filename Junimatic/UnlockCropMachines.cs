@@ -131,7 +131,7 @@ end
                 e.Edit(editor =>
                 {
                     var data = editor.AsDictionary<string, string>().Data;
-                    data[ConversationKeyBigCrops] = L("Did you ever see the giant crops your Granddad used to crow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1");
+                    data[ConversationKeyBigCrops] = L("Did you ever see the giant crops your Granddad used to grow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1");
                     ConversationKeys.EditAssets(e.NameWithoutLocale, editor.AsDictionary<string, string>().Data);
                 });
             }

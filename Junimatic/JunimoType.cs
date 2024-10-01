@@ -9,6 +9,7 @@ namespace NermNermNerm.Junimatic
         Animals,
         Crops,
         Fishing,
-        Forestry
+        Forestry,
+        IndoorPots,
     };
 }

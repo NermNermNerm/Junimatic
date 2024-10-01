@@ -186,7 +186,7 @@ farmer {29+modDeltaX} {14+modDeltaY} 3 Junimo {26+modDeltaX} {14+modDeltaY} 1/
 {ModEntry.SetJunimoColorEventCommand} PapayaWhip/
 skippable/
 changeLocation Woods/
-viewport 27 12 true/
+viewport {27 + modDeltaX} {12 + modDeltaY} true
 animate Junimo true true 50 16 17 18 19 20 21 22 23/
 spriteText 4 ""Thank you for helping our friend get home...""/
 pause 3000/
