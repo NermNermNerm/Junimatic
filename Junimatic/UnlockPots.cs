@@ -20,7 +20,8 @@ namespace NermNermNerm.Junimatic
 
         public UnlockPots() { }
 
-        private const string MetLewisMopingEventId = "Junimatic.MetLewisMoping";
+        private const string MetLewisMopingPart1EventId = "Junimatic.MetLewisMoping1";
+        private const string MetLewisMopingPart2EventId = "Junimatic.MetLewisMoping2";
         private const string EvelynExplainsEventId = "Junimatic.EvelynExplains";
         private const string PotJunimoThankYouEventId = "Junimatic.PotJunimoThankYou";
 
@@ -34,6 +35,7 @@ namespace NermNermNerm.Junimatic
         private const string IndoorWellRecipeId = "Junimatic.IndoorWellRecipe";
 
         private const string LewisGotPlantConversationTopic = "Junimatic.LewisGotPlant";
+        private const string SawLewisMopingConversationTopic = "Junimatic.SawLewisMoping";
 
         public void Entry(ModEntry mod)
         {
@@ -128,7 +130,46 @@ end bed
 
                     var d = editor.AsDictionary<string, string>().Data;
                     // 'e 900553' means seen Evelyn's plant-pot event
-                    d[IF($"{MetLewisMopingEventId}/H/f Lewis 8/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
+                    d[IF($"{MetLewisMopingPart1EventId}/H/f Lewis 8/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
+-1000 -1000
+farmer {80 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
+setSkipActions addItem {MightHaveBeenRoseObjectQiid} 1#addQuest {GiveLewisPlantQuestId}
+skippable
+makeInvisible 68 22 4 9
+viewport {67 - modDeltaX} {27 - modDeltaY} true
+
+move farmer -9 0 3
+pause 100
+faceDirection Lewis 1
+
+jump Lewis 3
+speak Lewis ""Ah!  @!  What brings you to the forest today?#$r -1 0 -1 0 event_lewismopes1#Hunting mushrooms!#$r -1 0 event_lewismopes2#Catching exotic fish!#$r -1 0 event_lewismopes3#Just looking for quiet time in the woods""
+pause 1000
+speak Lewis ""Hm.  It's a good place for that.""
+emote farmer 8
+pause 1000
+speak Lewis ""Me??""
+faceDirection Lewis 2
+pause 500
+faceDirection Lewis 1
+pause 500
+speak Lewis ""Well, I guess I just like a good walk in the woods from time to time.  It cheers me up.""
+pause 1000
+emote farmer 8
+speak Lewis ""Feeling down?  Me?  No no no.  Right as rain.""
+faceDirection Lewis 2
+pause 1500
+faceDirection Lewis 1
+pause 500
+speak Lewis ""It was nice chatting with you!  I'd better get back to town!#$b#Being mayor is a 24x7 job!""
+move Lewis 10 0 1
+move farmer -1 0 3
+addConversationTopic {SawLewisMopingConversationTopic} 90
+
+end fade
+").Replace("\r", "").Replace("\n", "/");
+
+                d[IF($"{MetLewisMopingPart2EventId}/H/f Lewis 8/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
 -1000 -1000
 farmer {80 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
 setSkipActions addItem {MightHaveBeenRoseObjectQiid} 1#addQuest {GiveLewisPlantQuestId}
@@ -215,7 +256,7 @@ addQuest {GiveLewisPlantQuestId}
 message ""Huh...  I wonder why a plant would be of help.  Junimos work in strange ways.""
 end fade
 ").Replace("\r", "").Replace("\n", "/");
-                });
+            });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/JoshHouse"))
             {
