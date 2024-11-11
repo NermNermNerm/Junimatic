@@ -269,7 +269,7 @@ namespace NermNermNerm.Junimatic
                 rotation: 0f,
                 rotationChange: 0f)
             {
-                light = true,
+                // light = true,
             };
 
             Game1.Multiplayer.broadcastSprites(Game1.currentLocation, dustTas);
