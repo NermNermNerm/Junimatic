@@ -11,7 +11,10 @@
         "^\\w*[\\p{Ll}\\d][\\p{Lu}]\\w*$",
 
         // Qualified item id's (O)blah.blah or (BC)Chest
-        "^\\([A-Z]+\\)[\\p{L}\\d\\.]+$"
+        "^\\([A-Z]+\\)[\\p{L}\\d\\.]+$",
+
+        // Hack until I figure out what to do with CallerArgumentExpressionAttribute
+        "^var atTile$"
     ],
     "invariantMethods": [
         "System.Text.RegularExpressions.Regex.ctor",
