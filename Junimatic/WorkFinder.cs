@@ -60,7 +60,6 @@ namespace NermNermNerm.Junimatic
                     junimo.OnDayEnding(location);
                 }
             }
-            this.LogTrace($"WorkFinder.OnDayEnding - not doing anything because this is not the master game.");
         }
 
         // 10 minutes in SDV takes 7.17 seconds of real time.  So our setting of 3 means
@@ -82,7 +81,7 @@ namespace NermNermNerm.Junimatic
 
             if (!this.isDayStarted)
             {
-                this.LogTrace($"Canceling OnSecondUpdateTicked processing because the day hasn't started yet.");
+                // Happens during the day transition when the user is looking at level-up messages and the like.
                 return;
             }
 
