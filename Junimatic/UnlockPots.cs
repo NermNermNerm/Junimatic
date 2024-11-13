@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -68,7 +69,7 @@ namespace NermNermNerm.Junimatic
                         SpriteIndex = 2,
                         CanBePlacedIndoors = true,
                         CanBePlacedOutdoors = false,
-                        Description = L("A source of water for Junimos watering crops.  (Not implemented yet)"),
+                        Description = L("A source of water for Junimos watering indoor crops.  (Not implemented yet!)"),
                         DisplayName = L("Junimo Well"),
                         Texture = ModEntry.BigCraftablesSpritesPseudoPath,
                     };
@@ -89,6 +90,13 @@ namespace NermNermNerm.Junimatic
                 {
                     var data = editor.AsDictionary<string, string>().Data;
                     data[GiveLewisPlantQuestId] = SdvQuest("ItemDelivery/Bring the plant to Lewis/Bring the Mightabeen Rose to Lewis/Evelyn might want to have a look at this plant before you give it to Lewis, drop by her house for her to check it out./Lewis (BC)Junimatic.MightabeenRose 1/-1/0/-1/false/For me?  How considerate!  I do love to garden!#$b#Mmm...  The flower's scent it...  it... brings back old memories... and some fresh ones too...#$b#Yes!  I do think I will enjoy this plant.  I sure hope I don't kill it!#$t Junimatic.LewisGotPlant 999");
+                });
+            }
+            else if (e.NameWithoutLocale.StartsWith("Characters/Dialogue/"))
+            {
+                e.Edit(editor =>
+                {
+                    this.AddConversationKeys(e.NameWithoutLocale, editor.AsDictionary<string, string>().Data);
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/Farmhouse"))
@@ -126,26 +134,27 @@ end bed
             {
                 e.Edit(editor =>
                 {
-                    (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (0, 0) : (40, 15);
+                    (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (0, 0) : (19, 13);
 
                     var d = editor.AsDictionary<string, string>().Data;
                     // 'e 900553' means seen Evelyn's plant-pot event
-                    d[IF($"{MetLewisMopingPart1EventId}/H/f Lewis 8/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
+                    d[IF($"{MetLewisMopingPart1EventId}/H/f Lewis 1000/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
 -1000 -1000
-farmer {80 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
-setSkipActions addItem {MightHaveBeenRoseObjectQiid} 1#addQuest {GiveLewisPlantQuestId}
+farmer {78 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
 skippable
 makeInvisible 68 22 4 9
 viewport {67 - modDeltaX} {27 - modDeltaY} true
 
-move farmer -9 0 3
+move farmer -7 0 3
 pause 100
 faceDirection Lewis 1
 
 jump Lewis 3
-speak Lewis ""Ah!  @!  What brings you to the forest today?#$r -1 0 -1 0 event_lewismopes1#Hunting mushrooms!#$r -1 0 event_lewismopes2#Catching exotic fish!#$r -1 0 event_lewismopes3#Just looking for quiet time in the woods""
+speak Lewis ""Ah!  @!  What brings you to the forest today?  Exotic mushrooms?  Fishing?""
 pause 1000
-speak Lewis ""Hm.  It's a good place for that.""
+emote farmer 40
+pause 1000
+speak Lewis ""It's a good place for that.""
 emote farmer 8
 pause 1000
 speak Lewis ""Me??""
@@ -162,22 +171,26 @@ pause 1500
 faceDirection Lewis 1
 pause 500
 speak Lewis ""It was nice chatting with you!  I'd better get back to town!#$b#Being mayor is a 24x7 job!""
-move Lewis 10 0 1
+move Lewis 3 0 1
+faceDirection farmer 1
+move Lewis 6 0 1
+warp Lewis 2000 2000
+pause 1000
 move farmer -1 0 3
 addConversationTopic {SawLewisMopingConversationTopic} 90
 
 end fade
 ").Replace("\r", "").Replace("\n", "/");
 
-                d[IF($"{MetLewisMopingPart2EventId}/H/f Lewis 8/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
+                d[IF($"{MetLewisMopingPart2EventId}/H/f Lewis 2000/e {MetLewisMopingPart1EventId}/w sunny")] = SdvEvent($@"AbigailFlute
 -1000 -1000
-farmer {80 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
+farmer {78 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
 setSkipActions addItem {MightHaveBeenRoseObjectQiid} 1#addQuest {GiveLewisPlantQuestId}
 skippable
 makeInvisible 68 22 4 9
 viewport {67 - modDeltaX} {27 - modDeltaY} true
 
-move farmer -9 0 3
+move farmer -7 0 3
 pause 100
 faceDirection Lewis 1
 
@@ -191,7 +204,7 @@ pause 500
 faceDirection Lewis 1
 pause 500
 speak Lewis ""Some people come to the woods to try and connect with themselves or something.""
-speak Lewis ""Me, well, I come here to kick myself for things I should have done and said but didn't.$2""
+speak Lewis ""Me, well, it seems like I come here to kick myself for things I should have done and said but didn't.$2""
 faceDirection Lewis 2
 pause 1500
 faceDirection Lewis 1
@@ -213,7 +226,10 @@ pause 1500
 faceDirection Lewis 1
 pause 500
 speak Lewis ""I should get back to town.  I'll see you around.""
-move Lewis 10 0 1
+move Lewis 3 0 1
+faceDirection farmer 1
+move Lewis 6 0 1
+warp Lewis 2000 2000
 move farmer -1 0 3
 
 playSound junimoMeep1
@@ -306,7 +322,7 @@ pause 2000
 speak Evelyn ""Oh...$2""
 move Evelyn 0 -1 3
 move Evelyn 2 0 2
-speak Evelyn ""You know Lewis was quite the casanova in his youth.  He made time with *all* the girls.$1""
+speak Evelyn ""You know Lewis was quite the Casanova in his youth.  He made time with *all* the girls.$1""
 speak Evelyn ""There was one girl that was special to him, but she wasn't the sort who wanted to worry about what her man was up to when her back was turned...#$b#At the time, he played like he didn't care.  He was too cool to admit that there was a girl he couldn't get - and kept chasing other girls like it didn't mean anything to him.  I've often wondered if she was the reason he never married.""
 faceDirection Evelyn 3
 pause 2000
@@ -316,6 +332,23 @@ end fade
 
 ").Replace("\r", "").Replace("\n", "/");
                 });
+            }
+        }
+
+        private void AddConversationKeys(IAssetName nameWithoutLocale, IDictionary<string, string> topics)
+        {
+            if (nameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Marnie"))
+            {
+                topics[SawLewisMopingConversationTopic] = L("Sometimes Lewis goes off into the deep woods...  Usually when his spirits are low.#$b#I wish he wouldn't do that; it can be dangerous there.  But when he's in that mood, well...#$b#It seems like whatever I say I just make it worse.$s");
+                topics[LewisGotPlantConversationTopic] = L("Lewis sure has doubled-down on gardening lately!  It's been good for his mood, that's for sure.  Maybe Shane could try it...");
+            }
+            else if (nameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Abigail"))
+            {
+                topics[SawLewisMopingConversationTopic] = L("I've seen Lewis go into the deep woods from time to time...  I wonder what he's up to.#$b#Do you suppose he performs some kinda magic ritual??   With pentagrams and blood sacrifices??!#$b#Lewis is nice...  Maybe a little *too* nice.");
+            }
+            if (nameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Gus"))
+            {
+                topics[SawLewisMopingConversationTopic] = L("When Lewis gets the blues, he likes to take walks in the deep woods.#$b#It can be a little bit dangerous, but Lewis can handle himself just fine.#$b#Of course, it'd be better for business if he'd drink his troubles away!$h");
             }
         }
 

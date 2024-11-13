@@ -43,7 +43,7 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        /// <inheritdoc/>>
+        /// <inheritdoc/>
         public override MachineState State
         {
             get
