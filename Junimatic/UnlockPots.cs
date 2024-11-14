@@ -69,8 +69,8 @@ namespace NermNermNerm.Junimatic
                         SpriteIndex = 2,
                         CanBePlacedIndoors = true,
                         CanBePlacedOutdoors = false,
-                        Description = L("A source of water for Junimos watering indoor crops.  (Not implemented yet!)"),
-                        DisplayName = L("Junimo Well"),
+                        Description = L("In future builds of the Junimatic mods, Junimos will be able to get water from this to water indoor pots.  Right now it does nothing."),
+                        DisplayName = L("Junimo Well (PLACEHOLDER)"),
                         Texture = ModEntry.BigCraftablesSpritesPseudoPath,
                     };
                 });
@@ -123,6 +123,7 @@ pause 1000
 itemAboveHead
 playsound getNewSpecialItem
 addCraftingRecipe {IndoorWellRecipeId}
+message ""I learned how to craft an indoor well""/
 animate Junimo true true 100 28 29 30 31
 pause 2000
 fade
@@ -195,18 +196,13 @@ pause 100
 faceDirection Lewis 1
 
 jump Lewis 3
-speak Lewis ""Ah!  @!  You caught me...""
+speak Lewis ""Ah!  @!...  I guess my secret moping spot isn't so secret.""
 emote farmer 8
 pause 1000
-speak Lewis ""...You caught me moping around feeling sorry for myself.$2""
+speak Lewis ""...I come here on those days I can't stop kicking myself for things I should have done and said but didn't.$2""
+speak Lewis ""So many years have passed, yet I just can't seem to forgive myself.""
 faceDirection Lewis 2
 pause 500
-faceDirection Lewis 1
-pause 500
-speak Lewis ""Some people come to the woods to try and connect with themselves or something.""
-speak Lewis ""Me, well, it seems like I come here to kick myself for things I should have done and said but didn't.$2""
-faceDirection Lewis 2
-pause 1500
 faceDirection Lewis 1
 pause 500
 speak Lewis ""Being a bachelor at my age isn't the only way things could have turned out for me...$2""
