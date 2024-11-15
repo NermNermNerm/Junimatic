@@ -105,7 +105,7 @@ namespace NermNermNerm.Junimatic
             if (!skipOptimizedCheck && emptySlots >= itemDescriptions.Count)
             {
                 string? matchItem = itemDescriptions.First()?.qiid;
-                return matchItem is not null && items.Any(i => i.QualifiedItemId == matchItem) ? ProductCapacity.Preferred : ProductCapacity.CanHold;
+                return matchItem is not null && items.Any(i => i is not null && i.QualifiedItemId == matchItem) ? ProductCapacity.Preferred : ProductCapacity.CanHold;
             }
 
             // The other extremely likely case we'll face is where itemDescriptions only has one item in it.  We *could*
