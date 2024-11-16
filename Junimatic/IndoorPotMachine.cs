@@ -45,15 +45,11 @@ namespace NermNermNerm.Junimatic
         {
             get
             {
-                // Harvest foragables
                 // While growing, foragables look like any other crop in HoeDirt, data wise.
                 // Once full grown, the foragable is added to the pot's heldObject field and removed from HoeDirt. See Crop.newDay for logic. 
                 if (this.Machine.heldObject.Value != null)
                 {
-                    // Convert the object to its metadata
                     var harvest = this.Machine.heldObject.Value;
-                    this.Machine.heldObject.Value = null;
-                    this.Machine.readyForHarvest.Value = false;
                     return [this.HeldObjectToEstimatedProduct(harvest)];
                 }
 
