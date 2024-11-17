@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Inventories;
+using StardewValley.Objects;
 
 namespace NermNermNerm.Junimatic
 {
@@ -33,7 +34,7 @@ namespace NermNermNerm.Junimatic
 
         protected EstimatedProduct HeldObjectToEstimatedProduct(Item item)
         {
-            return new EstimatedProduct(item.QualifiedItemId, item.Quality, maxQuantity: 1);
+            return new EstimatedProduct(item.QualifiedItemId, item.Quality, (item as ColoredObject)?.color.Value, maxQuantity: 1);
         }
 
         /// <summary>

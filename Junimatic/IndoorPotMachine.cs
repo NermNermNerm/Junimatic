@@ -61,7 +61,7 @@ namespace NermNermNerm.Junimatic
 
                     return [
                         // The quality is not known until harvest
-                        new EstimatedProduct(data.HarvestItemId, null, data.HarvestMaxStack),
+                        new EstimatedProduct(data.HarvestItemId, null, (crop.programColored.Value ? crop.tintColor?.Value : null), data.HarvestMaxStack),
 
                         // A variety of things can spawn additional items:
                         //  if data.ExtraHarvestChance > 0, then there could be an *infinite* number of extra items with data.HarvestItemId and base quality.
@@ -73,7 +73,7 @@ namespace NermNermNerm.Junimatic
                         // Given that level of mayhem, we're not going to try and replicate all the logic and just say that some random items
                         // can be generated in addition to the crop.  Note that the '5' number doesn't really matter since we didn't give an
                         // item id -- any null-qiid EstimatedProduct will demand that the chest have at least one fully empty slot in it.
-                        new EstimatedProduct(null, null, 5)];
+                        new EstimatedProduct(null, null, null, 5)];
                 }
 
                 // Harvest from bush
@@ -81,7 +81,7 @@ namespace NermNermNerm.Junimatic
                 {
                     // Note: The only stock item that's possible to be harvested via this path is Tea Saplings.
                     string itemQiid = bush.GetShakeOffItem();
-                    return [new EstimatedProduct(itemQiid, 0, 1)];
+                    return [new EstimatedProduct(itemQiid, 0, null, 1)];
                 }
 
                 throw new InvalidOperationException(I("IndoorPotMachine.EstimatedProducts called when the pot wasn't ready to harvest"));

@@ -104,8 +104,13 @@ namespace NermNermNerm.Junimatic
             //  us to loop through the items just once (to determine if it's a preferred chest or not).
             if (!skipOptimizedCheck && emptySlots >= itemDescriptions.Count)
             {
+                // Note that ColoredObject.color is not taken into account in this comparison.  We've established that we have
+                //  open slots in this storage, so even if we don't have a matching item, we have room for it.  By not looking
+                //  at color, the advantage is that if we have a chest with, say, tulips in it, it'll be preferred over chests
+                //  with other flowers in them even if the exact color of tulip isn't represented in this chest.
                 string? matchItem = itemDescriptions.First()?.qiid;
-                return matchItem is not null && items.Any(i => i is not null && i.QualifiedItemId == matchItem) ? ProductCapacity.Preferred : ProductCapacity.CanHold;
+                return matchItem is not null && items.Any(i => i is not null && i.QualifiedItemId == matchItem)
+                    ? ProductCapacity.Preferred : ProductCapacity.CanHold;
             }
 
             // The other extremely likely case we'll face is where itemDescriptions only has one item in it.  We *could*
@@ -126,7 +131,10 @@ namespace NermNermNerm.Junimatic
                 }
                 else if (item.quality is null)
                 {
-                    if (Enumerable.Range(0, 4).All(q => items.Any(i => i?.QualifiedItemId == item.qiid && i.Stack + item.maxQuantity < 1000)))
+                    if (Enumerable
+                        .Range(0, 4)
+                        .Select(q => item with { quality = q })
+                        .All(q => items.Any(i => q.CanStackWith(i) && i.Stack + item.maxQuantity < 1000)))
                     {
                         // there are stacks of every quality level that can hold whatever comes.
                         // Note that this test is not smart enough to detect if it can spread the output across 2 almost complete stacks.
@@ -146,7 +154,7 @@ namespace NermNermNerm.Junimatic
                 else
                 {
                     // Else we have a complete specification - see if there's are exactly matching stacks with sufficient capacity between them.
-                    var existingSlots = items.Where(i => i.QualifiedItemId == item.qiid && i.Quality == item.quality).ToList();
+                    var existingSlots = items.Where(item.CanStackWith).ToList();
                     if (existingSlots.Count > 0 && existingSlots.Sum(i => i.Stack) + item.maxQuantity <= 999 * existingSlots.Count)
                     {
                         isPreferred ??= true;
