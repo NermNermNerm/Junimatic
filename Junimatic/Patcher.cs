@@ -37,6 +37,11 @@ namespace NermNermNerm.Junimatic
             {
                 Patcher.collectedItems = new List<Item>();
 
+                // Bushes (particularly Tea bushes) are broken without this hack.  Bush.inBloom (called during harvest)
+                // relies on Game1.stats.DaysPlayed, which points to the farmer's DaysPlayed stat.  Without these
+                // shenanigans, it'll always decide that the bush isn't actually ready to harvest.
+                Patcher.fakePlayer.stats.DaysPlayed = player.stats.DaysPlayed;
+
                 // Set the backing field for Game1.player so that calls to do animation on the farmer don't happen and
                 //  farmer's experience isn't used to calculate the quality of the crops and no xp is gained.
                 playerField!.SetValue(null, Patcher.fakePlayer);
