@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using StardewValley;
-
+using StardewValley.Objects;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -149,7 +149,11 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         private static void AddToItemList(List<Item> list, Item item)
         {
-            var extantItem = list.FirstOrDefault(x => x.ItemId == item.ItemId && x.Quality == item.Quality && x.Stack + item.Stack < 1000);
+            var extantItem = list.FirstOrDefault(x =>
+                x.ItemId == item.ItemId
+                && x.Quality == item.Quality
+                && isColorMatch(x, item)
+                && x.Stack + item.Stack < 1000);
             if (extantItem is not null)
             {
                 extantItem.Stack += item.Stack;
@@ -157,6 +161,18 @@ namespace NermNermNerm.Junimatic
             else // Otherwise add a new entry
             {
                 list.Add(item);
+            }
+        }
+
+        private static bool isColorMatch(Item i1, Item i2)
+        {
+            if (i1 is ColoredObject c1)
+            {
+                return (i2 is ColoredObject c2) && c1.color.Value == c2.color.Value;
+            }
+            else
+            {
+                return i2 is not ColoredObject;
             }
         }
     }
