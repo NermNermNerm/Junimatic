@@ -244,6 +244,8 @@ namespace NermNermNerm.Junimatic
                     return projectType == JunimoType.Crops; // Otherwise it'll return true for Animals, because there's a recipe (forget which) that involves animal stuff.
                 case "25": // seed maker
                     return projectType == JunimoType.Crops; // There's no data at all in its MachineData.
+                case "182": // Geode Crusher
+                    return projectType == JunimoType.Mining;
                 case "211": // wood chipper
                     return projectType == JunimoType.Forestry; // Else it gets to thinking that fishing would work.
                 case "10": // bee house
