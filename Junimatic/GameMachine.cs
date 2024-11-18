@@ -21,6 +21,11 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public abstract MachineState State { get; }
 
+        /// <summary>
+        ///   Ensures that the machine is still where it was - that is, it wasn't picked up by the player.
+        /// </summary>
+        public abstract bool IsStillPresent { get; }
+
         public bool IsAwaitingPickup => this.State == MachineState.AwaitingPickup;
         public bool IsIdle => this.State == MachineState.Idle;
 

@@ -10,6 +10,7 @@ using NermNermNerm.Stardew.LocalizeFromSource;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 using System;
+using System.Reflection.PortableExecutable;
 
 namespace NermNermNerm.Junimatic
 {
@@ -62,6 +63,9 @@ namespace NermNermNerm.Junimatic
                 }
             }
         }
+
+        public override bool IsStillPresent =>
+            this.Machine.Location.getObjectAtTile((int)this.Machine.TileLocation.X, (int)this.Machine.TileLocation.Y) == this.Machine;
 
         /// <inheritdoc/>>
         protected override IReadOnlyList<EstimatedProduct> EstimatedProducts => [this.HeldObjectToEstimatedProduct(this.Machine.heldObject.Value)];

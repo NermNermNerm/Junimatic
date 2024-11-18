@@ -164,14 +164,20 @@ namespace NermNermNerm.Junimatic
             else
             {
                 var machine = (GameMachine)this.Assignment.target;
-                if (machine.State == MachineState.Idle)
+                if (!machine.IsStillPresent)
+                {
+                    this.LogTrace($"Junimo could not load {this.Assignment} - the machine isn't where it was when the assignment was given out.");
+                    this.JunimoQuitsInDisgust();
+                    return;
+                }
+                else if (machine.State == MachineState.Idle)
                 {
                     machine.FillMachineFromInventory(this.Carrying);
                     l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
                 }
                 else
                 {
-                    this.LogTrace($"Junimo could not load {this.Assignment} - perhaps a player loaded it?");
+                    this.LogTrace($"Junimo could not load {this.Assignment} - the machine is no longer idle.  Perhaps a player loaded it.");
                     this.JunimoQuitsInDisgust();
                     return;
                 }
