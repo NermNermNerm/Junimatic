@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 
 
@@ -44,15 +45,19 @@ namespace NermNermNerm.Junimatic
             {
                 return flooring.whichFloor.Value;
             }
-            else if (!l.IsOutdoors && l.isTilePassable(tile) && l.isTilePlaceable(tile) && l.getObjectAtTile(point.X, point.Y) is null)
+            else if (!l.IsOutdoors && l.isTilePassable(tile) && l.isTilePlaceable(tile))
             {
-                return I("#BARE_FLOOR#");
-            }
-            else
-            {
-                return null;
-            }
-        }
+                var objectAtLocation = l.getObjectAtTile(point.X, point.Y);
 
+                // Treat carpets as bare floor.
+                if (objectAtLocation is null
+                    || (objectAtLocation is Furniture f && f.furniture_type.Value == Furniture.rug))
+                {
+                    return I("#BARE_FLOOR#");
+                }
+            }
+
+            return null;
+        }
     }
 }
