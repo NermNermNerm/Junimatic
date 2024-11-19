@@ -196,23 +196,31 @@ pause 100
 faceDirection Lewis 1
 
 jump Lewis 3
-speak Lewis ""Ah!  @!...  I guess my secret moping spot isn't so secret.""
+speak Lewis ""Oh hi @!...  Nice to see you again.""
 emote farmer 8
 pause 1000
-speak Lewis ""...I come here on those days I can't stop kicking myself for things I should have done and said but didn't.$2""
-speak Lewis ""So many years have passed, yet I just can't seem to forgive myself.""
+speak Lewis ""Me?  Feeling down?  No...""
+pause 800
+speak Lewis ""Well, not exactly.""
+faceDirection Lewis 2
+pause 500
+faceDirection Lewis 1
+pause 500
+speak Lewis ""I come here on those days I can't stop kicking myself for things I should have done and said but didn't.$2""
+speak Lewis ""So many years have passed, yet I just can't seem to let it go.""
 faceDirection Lewis 2
 pause 500
 faceDirection Lewis 1
 pause 500
 speak Lewis ""Being a bachelor at my age isn't the only way things could have turned out for me...$2""
+pause 500
 speak Lewis ""I'm not unhappy...""
 pause 1000
 faceDirection Lewis 2
 pause 1500
 faceDirection Lewis 1
 pause 500
-speak Lewis ""9 days out of 10...  But sometimes...$2""
+speak Lewis ""But sometimes...$2""
 pause 500
 emote farmer 60
 speak Lewis ""I shouldn't trouble you.  I hope you'll forgive me for dumping this on you; thanks for lending an ear.""
