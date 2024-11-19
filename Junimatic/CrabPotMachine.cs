@@ -23,7 +23,24 @@ namespace NermNermNerm.Junimatic
 
         public new CrabPot Machine => (CrabPot)base.Machine;
 
-        public override bool IsIdle => this.Machine.heldObject.Value is null && this.Machine.bait.Value is null;
+        public override MachineState State
+        {
+            get
+            {
+                if (this.Machine.heldObject.Value is not null)
+                {
+                    return MachineState.AwaitingPickup;
+                }
+                else if (this.Machine.bait.Value is null)
+                {
+                    return MachineState.Idle;
+                }
+                else
+                {
+                    return MachineState.Working;
+                }
+            }
+        }
 
         public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
@@ -43,7 +60,7 @@ namespace NermNermNerm.Junimatic
             return null;
         }
 
-        protected override StardewValley.Object TakeItemFromMachine()
+        public override List<StardewValley.Item> GetProducts()
         {
             var oldHeldObject = this.Machine.heldObject.Value;
             this.Machine.heldObject.Value = null;
@@ -54,7 +71,7 @@ namespace NermNermNerm.Junimatic
             this.Machine.lidFlapTimer = 60f;
             this.Machine.shake = Vector2.Zero;
             this.Machine.shakeTimer = 0f;
-            return oldHeldObject;
+            return [oldHeldObject];
         }
 
         public override bool FillMachineFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
@@ -78,18 +95,14 @@ namespace NermNermNerm.Junimatic
             return true;
         }
 
-        public override bool FillMachineFromInventory(Inventory inventory)
+        public override void FillMachineFromInventory(Inventory inventory)
         {
-            if (!base.FillMachineFromInventory(inventory))
-            {
-                return false;
-            }
+            base.FillMachineFromInventory(inventory);
 
             // The base game's crab pot implementation of FillMachineFromInventory can leave null slots in the inventory,
             // which I'd like to avoid.  Consider moving this up to the base implementation of this method - can't see how
             // it could do any harm.
             inventory.RemoveEmptySlots();
-            return true;
         }
     }
 }

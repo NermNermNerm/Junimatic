@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Framework.ModLoading.Rewriters.StardewValley_1_6;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Locations;
@@ -281,6 +282,15 @@ namespace NermNermNerm.Junimatic
             {
                 var tank = new FishTankFurniture("2414", new Vector2(8, 10)) { AllowLocalRemoval = false };
                 @event.props.Add(tank);
+
+                // This code doesn't work - I'm pretty sure event prop fish tanks can't have stuff in them
+                //  (well, they can, but the contents don't get drawn.)  The code is left here just because
+                //  maybe someday it'll start to work and it doesn't seem to do any harm.
+                var rock = ItemRegistry.Create(StardewValley.Object.stoneQID);
+                var seaweed = ItemRegistry.Create("(O)152"); // seaweed
+                tank.AddItem(rock);
+                tank.AddItem(seaweed);
+
                 @event.props.Add(new Furniture("DecorativeBarrel", new Vector2(7, 11)) { AllowLocalRemoval = false });
                 @event.props.Add(new Furniture("DecorativeBarrel", new Vector2(10, 11)) { AllowLocalRemoval = false });
             }
@@ -316,6 +326,10 @@ namespace NermNermNerm.Junimatic
                     {
                         var tank = new FishTankFurniture("2414", new Vector2(8, 12)) { AllowLocalRemoval = false };
                         e.NewLocation.furniture.Add(tank);
+                        var rock = ItemRegistry.Create(StardewValley.Object.stoneQID);
+                        var seaweed = ItemRegistry.Create("(O)152"); // seaweed
+                        tank.AddItem(rock);
+                        tank.AddItem(seaweed);
                         e.NewLocation.furniture.Add(new Furniture("DecorativeBarrel", new Vector2(7, 12)) { AllowLocalRemoval = false });
                         e.NewLocation.furniture.Add(new Furniture("DecorativeBarrel", new Vector2(10, 12)) { AllowLocalRemoval = false });
                     }

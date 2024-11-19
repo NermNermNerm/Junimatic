@@ -29,20 +29,22 @@ namespace NermNermNerm.Junimatic
         /// <param name="storage">If the tile contains a storage machine that the junimo could use, this is set.</param>
         public void GetThingAt(Point tileToCheck, Point reachableTile, FlooringSet validFloors, out bool isWalkable, out GameMachine? machine, out GameStorage? storage)
         {
+            if (validFloors.IsTileWalkable(this.location, tileToCheck))
+            {
+                isWalkable = true;
+                machine = null;
+                storage = null;
+                return;
+            }
+
+            // We check the IsTileWalkable before this because the item might be a rug, which is walkable, but
+            // otherwise would trip this case, which would cause us to stop working.
             var item = this.location.getObjectAtTile(tileToCheck.X, tileToCheck.Y);
             if (item is not null)
             {
                 isWalkable = false;
                 machine = ObjectMachine.TryCreate(item, reachableTile);
                 storage = GameStorage.TryCreate(item, reachableTile);
-                return;
-            }
-
-            if (validFloors.IsTileWalkable(this.location, tileToCheck))
-            {
-                isWalkable = true;
-                machine = null;
-                storage = null;
                 return;
             }
 

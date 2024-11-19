@@ -74,14 +74,8 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            if (Game1.isTimePaused || !Game1.IsMasterGame)
+            if (Game1.isTimePaused || !Game1.IsMasterGame || !this.isDayStarted)
             {
-                return;
-            }
-
-            if (!this.isDayStarted)
-            {
-                // Happens during the day transition when the user is looking at level-up messages and the like.
                 return;
             }
 
@@ -213,7 +207,8 @@ namespace NermNermNerm.Junimatic
                 { JunimoType.Mining, this.mod.UnlockMiner.IsUnlocked ? 1 : 0 },
                 { JunimoType.Animals, this.mod.UnlockAnimal.IsUnlocked ? 1 : 0 },
                 { JunimoType.Fishing, this.mod.UnlockFishing.IsUnlocked ? 1 : 0 },
-                { JunimoType.Forestry, this.mod.UnlockForest.IsUnlocked ? 1 : 0 }
+                { JunimoType.Forestry, this.mod.UnlockForest.IsUnlocked ? 1 : 0 },
+                { JunimoType.IndoorPots, this.mod.UnlockPots.IsUnlocked ? 1 : 0 },
             };
             return result;
         }
@@ -246,24 +241,36 @@ namespace NermNermNerm.Junimatic
                 // Try and empty a machine
                 foreach (var fullMachine in machines)
                 {
-                    if (fullMachine.HeldObject is not null && fullMachine.IsCompatibleWithJunimo(projectType))
+                    if (fullMachine.IsAwaitingPickup && fullMachine.IsCompatibleWithJunimo(projectType))
                     {
-                        var goodChest = network.Chests.FirstOrDefault(c => c.IsPreferredStorageForMachinesOutput(fullMachine.HeldObject));
-                        if (goodChest is null)
+                        GameStorage? goodChest = null;
+                        foreach (var c in network.Chests)
                         {
-                            goodChest = network.Chests.FirstOrDefault(c => c.IsPossibleStorageForMachinesOutput(fullMachine.HeldObject));
+                            var usageValidity = fullMachine.CanHoldProducts(c);
+                            if (usageValidity == ProductCapacity.Preferred)
+                            {
+                                goodChest = c;
+                                break;
+                            }
+                            else if (usageValidity == ProductCapacity.CanHold)
+                            {
+                                goodChest = c;
+                            }
                         }
 
                         if (goodChest is not null)
                         {
-                            string wasHolding = fullMachine.HeldObject.Name;
-                            if (fullMachine.TryPutHeldObjectInStorage(goodChest))
+                            var wasHolding = fullMachine.GetProducts();
+                            string wasHoldingLogText = ObjectListToLogString(wasHolding); // Calculate now - TryStore alters the list quantities.
+                            if (goodChest.TryStore(wasHolding))
                             {
-                                this.LogTrace($"Automatic machine empty of {fullMachine} holding {wasHolding} on {location.Name} into {goodChest}");
+                                this.LogTrace($"Automatic machine empty of {fullMachine} in {location.Name} holding {wasHoldingLogText} into {goodChest}");
                             }
                             else
                             {
-                                this.LogError($"FAILED: Automatic machine empty of {fullMachine} holding {fullMachine.HeldObject.Name} on {location.Name} into {goodChest}");
+                                // This should be prevented by the code in the above foreach loop which should only mark a chest as the
+                                //  'goodChest' if it has sufficient storage.
+                                this.LogError($"Automatic machine empty failed!  Attempting to unload {fullMachine} holding {wasHoldingLogText} on {location.Name} into {goodChest}.");
                             }
 
                             return true;
@@ -273,6 +280,12 @@ namespace NermNermNerm.Junimatic
             }
             return false;
         }
+
+        public static string ObjectToLogString(Item item)
+            => IF($"{item.DisplayName}[{item.Quality}]x{item.Stack}");
+
+        public static string ObjectListToLogString(IEnumerable<Item> items)
+            => string.Join(",", items.Select(ObjectToLogString));
 
         record class MachineNetwork(
             IReadOnlyDictionary<JunimoType,IReadOnlyList<GameMachine>> Machines,
@@ -445,7 +458,8 @@ namespace NermNermNerm.Junimatic
                             // See if we can create a mission to carry from a full machine to this chest
                             foreach (var machineNeedingPickup in fullMachines)
                             {
-                                if (chest.IsPreferredStorageForMachinesOutput(machineNeedingPickup.HeldObject!))
+                                // TODO: Cache results of CanHoldProducts lookups.
+                                if (machineNeedingPickup.CanHoldProducts(chest) == ProductCapacity.Preferred)
                                 {
                                     return new JunimoAssignment(projectType, location, portal, originTile, machineNeedingPickup, chest, itemsToRemoveFromChest: null);
                                 }
@@ -466,13 +480,13 @@ namespace NermNermNerm.Junimatic
                         }
                         else if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.GameObject))
                         {
-                            if (machine.HeldObject is not null)
+                            if (machine.IsAwaitingPickup)
                             {
                                 // Try and find a chest to tote it to
-                                var targetChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine.HeldObject));
-                                if (targetChest is not null)
+                                var preferredChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine));
+                                if (preferredChest is not null)
                                 {
-                                    return new JunimoAssignment(projectType, location, portal, originTile, machine, targetChest, itemsToRemoveFromChest: null);
+                                    return new JunimoAssignment(projectType, location, portal, originTile, machine, preferredChest, itemsToRemoveFromChest: null);
                                 }
 
                                 fullMachines.Add(machine);
@@ -517,10 +531,10 @@ namespace NermNermNerm.Junimatic
 
                             if (machine is not null && machine.IsCompatibleWithJunimo(projectType) && !busyMachines.Contains(machine.GameObject))
                             {
-                                if (machine.HeldObject is not null)
+                                if (machine.IsAwaitingPickup)
                                 {
                                     // Try and find a chest to tote it to
-                                    var targetChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine.HeldObject));
+                                    var targetChest = knownChests.FirstOrDefault(chest => chest.IsPreferredStorageForMachinesOutput(machine));
                                     if (targetChest is not null)
                                     {
                                         return new JunimoAssignment(projectType, location, portal, originTile, machine, targetChest, itemsToRemoveFromChest: null);
@@ -556,7 +570,7 @@ namespace NermNermNerm.Junimatic
                 var fullMachine = fullMachines.FirstOrDefault();
                 if (fullMachine is not null)
                 {
-                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.IsPossibleStorageForMachinesOutput(fullMachine.HeldObject!));
+                    var chestWithSpace = knownChests.FirstOrDefault(chest => chest.IsPossibleStorageForMachinesOutput(fullMachine));
                     if (chestWithSpace is not null)
                     {
                         return new JunimoAssignment(projectType, location, portal, originTile, fullMachine, chestWithSpace, itemsToRemoveFromChest: null);

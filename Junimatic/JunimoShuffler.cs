@@ -48,6 +48,7 @@ namespace NermNermNerm.Junimatic
                 JunimoType.Animals => Color.PapayaWhip,
                 JunimoType.Forestry => Color.ForestGreen,
                 JunimoType.Crops => Color.Purple,
+                JunimoType.IndoorPots => Color.Orange,
                 _ => UnlockFishing.JunimoColor }; // Fishing
             this.currentLocation = assignment.hut.Location;
             this.Breather = false;
@@ -98,9 +99,9 @@ namespace NermNermNerm.Junimatic
 
                 l.playSound("pickUpItem"); // Maybe 'openChest' instead?
             }
-            else if (this.Assignment.source is GameMachine machine && machine.HeldObject is not null)
+            else if (this.Assignment.source is GameMachine machine && machine.IsAwaitingPickup)
             {
-                this.Carrying.Add(machine.RemoveHeldObject());
+                this.Carrying.AddRange(machine.GetProducts());
                 l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
             }
             else
@@ -149,7 +150,11 @@ namespace NermNermNerm.Junimatic
             {
                 l.playSound("Ship");
                 // Put what we're carrying into the chest or huck it overboard if we can't.
-                if (!chest.TryStore(this.Carrying))
+                if (chest.TryStore(this.Carrying))
+                {
+                    this.Carrying.Clear();
+                }
+                else
                 {
                     this.LogWarning($"Target {chest} did not have room for {this.Carrying[0].Stack} {this.Carrying[0].Name}");
                     this.JunimoQuitsInDisgust();
@@ -158,15 +163,24 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                bool isLoaded = ((GameMachine)this.Assignment.target).FillMachineFromInventory(this.Carrying);
-                if (!isLoaded)
+                var machine = (GameMachine)this.Assignment.target;
+                if (!machine.IsStillPresent)
                 {
-                    this.LogTrace($"Junimo could not load {this.Assignment} - perhaps a player loaded it?");
+                    this.LogTrace($"Junimo could not load {this.Assignment} - the machine isn't where it was when the assignment was given out.");
                     this.JunimoQuitsInDisgust();
                     return;
                 }
-
-                l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
+                else if (machine.State == MachineState.Idle)
+                {
+                    machine.FillMachineFromInventory(this.Carrying);
+                    l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
+                }
+                else
+                {
+                    this.LogTrace($"Junimo could not load {this.Assignment} - the machine is no longer idle.  Perhaps a player loaded it.");
+                    this.JunimoQuitsInDisgust();
+                    return;
+                }
             }
 
             var newAssignment = this.workFinder!.FindProject(this.Assignment.hut, this.Assignment.projectType, this);
@@ -413,16 +427,12 @@ namespace NermNermNerm.Junimatic
                     var itemOffset = new Vector2(xOffset - 2.5f * this.Carrying.Count, 0);
                     xOffset += 5f;
                     ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(carried.QualifiedItemId);
-                    b.Draw(
-                        dataOrErrorItem.GetTexture(),
-                        Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset) + bounce + itemOffset),
-                        dataOrErrorItem.GetSourceRect(0, carried.ParentSheetIndex),
-                        Color.White * this.alpha,
-                        0f,
-                        Vector2.Zero,
-                        4f * (float)this.Scale*(1 + scaleFactor),
-                        SpriteEffects.None,
-                        base.Position.Y / 10000f + 0.0001f);
+                    var position = Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset) + bounce + itemOffset);
+                    float scaling = (float)this.Scale * (1 + scaleFactor);
+                    // Note that the 4th+ parameters (except for StackDrawType.Hide) are copied from the 3-parameter version
+                    // of drawInMenu.  The long-form needs to be used because we want 'StackDrawType.Hide'.  Otherwise, we'd see
+                    // the quality-stars and a quantity count for the items being carried.
+                    carried.drawInMenu(b, position, scaling, 1f, 0.9f, StackDrawType.Hide, Color.White, drawShadow: true);
                 }
             }
         }

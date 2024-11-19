@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using StardewValley;
 using StardewValley.Buildings;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
@@ -11,6 +13,13 @@ namespace NermNermNerm.Junimatic
             : base(building, accessPoint)
         {
         }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        ///   Might there be mods that would allow buildings to be moved while the player is present?
+        ///   Seems like a rare enough thing to not worry about...
+        /// </remarks>
+        public override bool IsStillPresent => true;
 
         public static BuildingMachine? TryCreate(Building building, Point accessPoint)
         {
