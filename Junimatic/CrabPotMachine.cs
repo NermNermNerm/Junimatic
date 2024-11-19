@@ -99,17 +99,10 @@ namespace NermNermNerm.Junimatic
         {
             base.FillMachineFromInventory(inventory);
 
-            // The game code seems to be busted.  It does properly fill the machine, but it doesn't
-            // remove the items.
-            var inventoryStack = inventory.First(i => i.QualifiedItemId == this.Machine.bait.Value.QualifiedItemId);
-            if (inventoryStack.Stack > 1)
-            {
-                --inventoryStack.Stack;
-            }
-            else
-            {
-                inventory.Remove(inventoryStack);
-            }
+            // The base game's crab pot implementation of FillMachineFromInventory can leave null slots in the inventory,
+            // which I'd like to avoid.  Consider moving this up to the base implementation of this method - can't see how
+            // it could do any harm.
+            inventory.RemoveEmptySlots();
         }
     }
 }

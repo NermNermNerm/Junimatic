@@ -180,24 +180,24 @@ end fade/");
             (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (0, 7) : (0, 0);
 
             eventData[IF($"{AnimalJunimoDreamEvent}/H/sawEvent {DropPortalForJunimoEvent}/time 600 620")]
-                = SdvEvent($@"communityCenter/
--2000 -2000/
-farmer {29+modDeltaX} {14+modDeltaY} 3 Junimo {26+modDeltaX} {14+modDeltaY} 1/
-{ModEntry.SetJunimoColorEventCommand} PapayaWhip/
-skippable/
-changeLocation Woods/
-viewport 27 12 true/
-animate Junimo true true 50 16 17 18 19 20 21 22 23/
-spriteText 4 ""Thank you for helping our friend get home...""/
-pause 3000/
-playSound junimoMeep1/
-animate Junimo true true 50 0 1 2 3 4 5 6 7/
-spriteText 4 ""I can help you, like I helped your Grandfather...""/
-pause 3000/
-animate Junimo true true 100 28 29 30 31/
-spriteText 4 ""I like animals and the wonderful things you can make with their help...""/
-fade/
-end bed");
+                = SdvEvent($@"communityCenter
+-2000 -2000
+farmer {29+modDeltaX} {14+modDeltaY} 3 Junimo {26+modDeltaX} {14+modDeltaY} 1
+{ModEntry.SetJunimoColorEventCommand} PapayaWhip
+skippable
+changeLocation Woods
+viewport {27 + modDeltaX} {12 + modDeltaY} true
+animate Junimo true true 50 16 17 18 19 20 21 22 23
+spriteText 4 ""Thank you for helping our friend get home...""
+pause 3000
+playSound junimoMeep1
+animate Junimo true true 50 0 1 2 3 4 5 6 7
+spriteText 4 ""I can help you, like I helped your Grandfather...""
+pause 3000
+animate Junimo true true 100 28 29 30 31
+spriteText 4 ""I like animals and the wonderful things you can make with their help...""
+fade
+end bed").Replace("\r", "").Replace("\n", "/");
         }
 
         private void EditFarmEvents(IDictionary<string, string> eventData)

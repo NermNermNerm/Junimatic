@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Inventories;
+using StardewValley.Objects;
 
 namespace NermNermNerm.Junimatic
 {
@@ -20,6 +21,11 @@ namespace NermNermNerm.Junimatic
         /// </summary>
         public abstract MachineState State { get; }
 
+        /// <summary>
+        ///   Ensures that the machine is still where it was - that is, it wasn't picked up by the player.
+        /// </summary>
+        public abstract bool IsStillPresent { get; }
+
         public bool IsAwaitingPickup => this.State == MachineState.AwaitingPickup;
         public bool IsIdle => this.State == MachineState.Idle;
 
@@ -33,7 +39,7 @@ namespace NermNermNerm.Junimatic
 
         protected EstimatedProduct HeldObjectToEstimatedProduct(Item item)
         {
-            return new EstimatedProduct(item.QualifiedItemId, item.Quality, maxQuantity: 1);
+            return new EstimatedProduct(item.QualifiedItemId, item.Quality, (item as ColoredObject)?.color.Value, maxQuantity: 1);
         }
 
         /// <summary>

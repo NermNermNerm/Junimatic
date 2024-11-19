@@ -10,6 +10,7 @@ using NermNermNerm.Stardew.LocalizeFromSource;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 using System;
+using System.Reflection.PortableExecutable;
 
 namespace NermNermNerm.Junimatic
 {
@@ -33,13 +34,17 @@ namespace NermNermNerm.Junimatic
             {
                 return new ObjectMachine(item, accessPoint);
             }
+            else if (item is IndoorPot indoorPot)
+            {
+                return new IndoorPotMachine(indoorPot, accessPoint);
+            }
             else
             {
                 return null;
             }
         }
 
-        /// <inheritdoc/>>
+        /// <inheritdoc/>
         public override MachineState State
         {
             get
@@ -58,6 +63,9 @@ namespace NermNermNerm.Junimatic
                 }
             }
         }
+
+        public override bool IsStillPresent =>
+            this.Machine.Location.getObjectAtTile((int)this.Machine.TileLocation.X, (int)this.Machine.TileLocation.Y) == this.Machine;
 
         /// <inheritdoc/>>
         protected override IReadOnlyList<EstimatedProduct> EstimatedProducts => [this.HeldObjectToEstimatedProduct(this.Machine.heldObject.Value)];
@@ -236,6 +244,8 @@ namespace NermNermNerm.Junimatic
                     return projectType == JunimoType.Crops; // Otherwise it'll return true for Animals, because there's a recipe (forget which) that involves animal stuff.
                 case "25": // seed maker
                     return projectType == JunimoType.Crops; // There's no data at all in its MachineData.
+                case "182": // Geode Crusher
+                    return projectType == JunimoType.Mining;
                 case "211": // wood chipper
                     return projectType == JunimoType.Forestry; // Else it gets to thinking that fishing would work.
                 case "10": // bee house
@@ -274,14 +284,17 @@ namespace NermNermNerm.Junimatic
                 ["egg_item", "large_egg_item", "slime_egg_item"],
                 ["category_vegetable", "category_fruit", "keg_wine", "preserves_pickle", "preserves_jelly"],
                 ["category_fish"],
-                []]; // there aren't any tags for wood stuff listed
+                [], // there aren't any tags for wood stuff listed
+                [] // Only for plant pots and fruit trees
+                ];
 
             int[][] categories = [
                 [StardewValley.Object.GemCategory, StardewValley.Object.mineralsCategory, StardewValley.Object.metalResources, StardewValley.Object.monsterLootCategory],
                 [StardewValley.Object.EggCategory, StardewValley.Object.MilkCategory, StardewValley.Object.meatCategory, StardewValley.Object.sellAtPierresAndMarnies /* wool, duck feather, etc. */, StardewValley.Object.artisanGoodsCategory],
                 [StardewValley.Object.VegetableCategory, StardewValley.Object.FruitsCategory, StardewValley.Object.SeedsCategory, StardewValley.Object.flowersCategory, StardewValley.Object.fertilizerCategory, StardewValley.Object.artisanGoodsCategory],
                 [StardewValley.Object.junkCategory, StardewValley.Object.baitCategory],
-                [StardewValley.Object.buildingResources]
+                [StardewValley.Object.buildingResources],
+                []
                 ];
 
             if (machineData?.OutputRules is not null)

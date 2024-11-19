@@ -257,7 +257,7 @@ pause 500
 stopAnimation Linus
 
 pause 2000
-Junimatic.LightCampFires 30 13 146
+Junimatic.LightCampFires {30 + modDeltaX} {13 + modDeltaY} 146
 playSound clank
 
 textAboveHead Linus ""Dinner is served!""
@@ -344,7 +344,7 @@ move farmer 5 0 1 true
 pause 1000
 fade
 viewport -1000 -1000 true
-Junimatic.LightCampFires 30 13
+Junimatic.LightCampFires {30 + modDeltaX} {13 + modDeltaY}
 addQuest {GrowMysticTreeQuest}
 end warpOut
 ").Replace("\r", "").Replace("\n", "/");

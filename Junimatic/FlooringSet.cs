@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 
 
@@ -39,20 +40,28 @@ namespace NermNermNerm.Junimatic
         internal static string? getFlooringId(GameLocation l, Point point)
         {
             Vector2 tile = point.ToVector2();
-            l.terrainFeatures.TryGetValue(tile, out var terrainFeatures);
-            if (terrainFeatures is Flooring flooring)
-            {
-                return flooring.whichFloor.Value;
-            }
-            else if (!l.IsOutdoors && l.isTilePassable(tile) && l.isTilePlaceable(tile) && l.getObjectAtTile(point.X, point.Y) is null)
-            {
-                return I("#BARE_FLOOR#");
-            }
-            else
+
+            var objectAtLocation = l.getObjectAtTile(point.X, point.Y);
+
+            // If there's an object that's not a rug, it's not walkable
+            if (objectAtLocation is not null
+                && !(objectAtLocation is Furniture f && f.furniture_type.Value == Furniture.rug))
             {
                 return null;
             }
-        }
 
+            l.terrainFeatures.TryGetValue(tile, out var terrainFeatures);
+            if (terrainFeatures is Flooring flooring)
+            {
+                // *assumes that if flooring can be placed there, then it must be passable...  Not sure how safe an assumption that is...
+                return flooring.whichFloor.Value;
+            }
+            else if (!l.IsOutdoors && l.isTilePassable(tile) && l.isTilePlaceable(tile))
+            {
+                return I("#BARE_FLOOR#");
+            }
+
+            return null;
+        }
     }
 }

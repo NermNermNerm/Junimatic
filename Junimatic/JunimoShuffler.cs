@@ -48,6 +48,7 @@ namespace NermNermNerm.Junimatic
                 JunimoType.Animals => Color.PapayaWhip,
                 JunimoType.Forestry => Color.ForestGreen,
                 JunimoType.Crops => Color.Purple,
+                JunimoType.IndoorPots => Color.Orange,
                 _ => UnlockFishing.JunimoColor }; // Fishing
             this.currentLocation = assignment.hut.Location;
             this.Breather = false;
@@ -163,14 +164,20 @@ namespace NermNermNerm.Junimatic
             else
             {
                 var machine = (GameMachine)this.Assignment.target;
-                if (machine.State == MachineState.Idle)
+                if (!machine.IsStillPresent)
+                {
+                    this.LogTrace($"Junimo could not load {this.Assignment} - the machine isn't where it was when the assignment was given out.");
+                    this.JunimoQuitsInDisgust();
+                    return;
+                }
+                else if (machine.State == MachineState.Idle)
                 {
                     machine.FillMachineFromInventory(this.Carrying);
                     l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
                 }
                 else
                 {
-                    this.LogTrace($"Junimo could not load {this.Assignment} - perhaps a player loaded it?");
+                    this.LogTrace($"Junimo could not load {this.Assignment} - the machine is no longer idle.  Perhaps a player loaded it.");
                     this.JunimoQuitsInDisgust();
                     return;
                 }
@@ -420,16 +427,12 @@ namespace NermNermNerm.Junimatic
                     var itemOffset = new Vector2(xOffset - 2.5f * this.Carrying.Count, 0);
                     xOffset += 5f;
                     ParsedItemData dataOrErrorItem = ItemRegistry.GetDataOrErrorItem(carried.QualifiedItemId);
-                    b.Draw(
-                        dataOrErrorItem.GetTexture(),
-                        Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset) + bounce + itemOffset),
-                        dataOrErrorItem.GetSourceRect(0, carried.ParentSheetIndex),
-                        Color.White * this.alpha,
-                        0f,
-                        Vector2.Zero,
-                        4f * (float)this.Scale*(1 + scaleFactor),
-                        SpriteEffects.None,
-                        base.Position.Y / 10000f + 0.0001f);
+                    var position = Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2(8f, -64f * (float)this.Scale + 4f + (float)this.yJumpOffset) + bounce + itemOffset);
+                    float scaling = (float)this.Scale * (1 + scaleFactor);
+                    // Note that the 4th+ parameters (except for StackDrawType.Hide) are copied from the 3-parameter version
+                    // of drawInMenu.  The long-form needs to be used because we want 'StackDrawType.Hide'.  Otherwise, we'd see
+                    // the quality-stars and a quantity count for the items being carried.
+                    carried.drawInMenu(b, position, scaling, 1f, 0.9f, StackDrawType.Hide, Color.White, drawShadow: true);
                 }
             }
         }

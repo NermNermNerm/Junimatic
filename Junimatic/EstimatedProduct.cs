@@ -1,4 +1,7 @@
-﻿namespace NermNermNerm.Junimatic
+using Microsoft.Xna.Framework;
+using StardewValley.Objects;
+
+namespace NermNermNerm.Junimatic
 {
     /// <summary>
     ///   An estimation of the production for a machine.
@@ -15,5 +18,34 @@
     /// <param name="maxQuantity">
     ///   The maximum number of items that will be produced.
     /// </param>
-    public record EstimatedProduct(string? qiid, int? quality, int maxQuantity = 1);
+    /// <param name="color">
+    ///   If the product is tinted and the color is known, this is the color (tint) that it will stack with.
+    ///   There is no way to specify that the object is known not to be colored.  However, when this object
+    ///   is compared with an uncolored item, this will be ignored
+    /// </param>
+    public record EstimatedProduct(string? qiid, int? quality, Color? color, int maxQuantity = 1)
+    {
+        public bool CanStackWith(StardewValley.Item item)
+        {
+            if (item.QualifiedItemId != this.qiid)
+            {
+                return false;
+            }
+
+            if (this.quality is null || item.Quality != this.quality.Value)
+            {
+                return false;
+            }
+
+            if (item is ColoredObject colored)
+            {
+                if (this.color is null || this.color.Value != colored.color.Value)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
 }

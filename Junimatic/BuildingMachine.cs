@@ -14,6 +14,13 @@ namespace NermNermNerm.Junimatic
         {
         }
 
+        /// <inheritdoc/>
+        /// <remarks>
+        ///   Might there be mods that would allow buildings to be moved while the player is present?
+        ///   Seems like a rare enough thing to not worry about...
+        /// </remarks>
+        public override bool IsStillPresent => true;
+
         public static BuildingMachine? TryCreate(Building building, Point accessPoint)
         {
             if (building is FishPond fishPond)

@@ -112,12 +112,12 @@ namespace NermNermNerm.Junimatic
 -2000 -1000/
 farmer 13 23 2/
 skippable/
-fade/
 addTemporaryActor Grandpa 1 1 -100 -100 2 true/
 specificTemporarySprite grandpaSpirit/
 viewport -1000 -1000 true/
 pause 8000/
-speak Grandpa ""My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...""/playmusic none/
+speak Grandpa ""My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...""/
+playmusic none/
 pause 1000/
 end bed");
         }
