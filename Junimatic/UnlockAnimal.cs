@@ -17,7 +17,10 @@ namespace NermNermNerm.Junimatic
         private const string DropPortalForJunimoEvent = "Junimatic.GivePortalForJunimoEvent";
         private const string AnimalJunimoDreamEvent = "Junimatic.AnimalJunimoDreamEvent";
         private const string CollectLostChickenQuest = "Junimatic.CollectLostChickenQuest";
-        private const string RescueCindersnapJunimoQuest = "Junimatic.RescueCindersnapJunimoQuest";
+
+        // Note:  The quest has cinder-*S*nap in it because it was originally misspelled that way.  Keeping it
+        //  the same ensures compat between versions and this string isn't visible to the player.
+        private const string RescueCindersapJunimoQuest = "Junimatic.RescueCindersnapJunimoQuest"; 
         private const string StartAnimalJunimoEventCriteria = "Junimatic.StartAnimalJunimoEventCriteria";
 
         public void Entry(ModEntry mod)
@@ -64,7 +67,7 @@ namespace NermNermNerm.Junimatic
 -2000 -2000/
 farmer 90 60 2 Junimo 95 72 3/
 removeQuest {CollectLostChickenQuest}/
-addQuest {RescueCindersnapJunimoQuest}/
+addQuest {RescueCindersapJunimoQuest}/
 {ModEntry.SetJunimoColorEventCommand} Gold/
 skippable/
 makeInvisible 89 60 3 15/
@@ -105,7 +108,7 @@ end/");
     = SdvEvent($@"sadpiano/
 -2000 -2000/
 farmer 90 60 2 Junimo 89 72 3 Marnie 87 48 2/
-removeQuest {RescueCindersnapJunimoQuest}/
+removeQuest {RescueCindersapJunimoQuest}/
 skippable/
 makeInvisible 86 48 6 27/
 viewport 90 69 true/
@@ -225,8 +228,8 @@ end");
 
         private void EditQuests(IDictionary<string, string> data)
         {
-            data[CollectLostChickenQuest] = SdvQuest("Basic/Chicken Round-Up/Marnie thinks one of your chickens has escaped and is in the forest south of her farm; you should investigate./Enter the Cindersnap Forest during the day./null/-1/0/-1/false");
-            data[RescueCindersnapJunimoQuest] = SdvQuest("Basic/Help the Junimo Go Home/Help the Junimo in the Cindersnap Forest get home./Enter the Cindersnap Forest during the day with a Junimo Portal in your inventory./null/-1/0/-1/false");
+            data[CollectLostChickenQuest] = SdvQuest("Basic/Chicken Round-Up/Marnie thinks one of your chickens has escaped and is in the forest south of her farm; you should investigate./Enter the Cindersap Forest during the day./null/-1/0/-1/false");
+            data[RescueCindersapJunimoQuest] = SdvQuest("Basic/Help the Junimo Go Home/Help the Junimo in the Cindersap Forest get home./Enter the Cindersap Forest during the day with a Junimo Portal in your inventory./null/-1/0/-1/false");
         }
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
