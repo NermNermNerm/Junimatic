@@ -1,83 +1,31 @@
 ﻿# Junimatic
 
-This is a mod for people who can't play without [Pathoschild's Automate mod](https://github.com/Pathoschild/StardewMods/tree/develop/Automate),
-but feel real dirty for it.  Its effect is so awesome and you just get it for free...
+This is the source code for the Stardew Valley mod, Junimatic.  It's a mod for people who can't play
+without [Pathoschild's Automate mod](https://github.com/Pathoschild/StardewMods/tree/develop/Automate),
+but feel real dirty for it.  For more details on what it does and installation, see
+the [Nexus Page](https://www.nexusmods.com/stardewvalley/mods/22672?tab=description).
 
-This mod requires a mildly demanding series of quests be done, and then you get an automation
-system that is decidedly less efficient, but hopefully more engaging.  As part of that
-"feel less like cheating/playing the game for you" idea, some things in the main Automate
-mod will not be replicated.  For example, in Automate, you can rig up an automation of
-traps and level yourself up to max-level fishing without ever casting a line after you
-unlocked traps.  This mod's intention is to not do that - anything collected by the
-Junimo's won't do anything for the player.
+## Contributing
 
-Think of this mod as *Early Access* - it is incomplete and may be janky at times.
-If you want stability, Automate is the way to go.
-
-## Installing the mod
-
-Unpack the latest release into your Mods folder.  The folder structure should end up as `StardewValley\Mods\Junimatic`.
-
-## Playing with the mod
-
-After the first rainy day after the first week or so, you'll get a message in the morning about
-the rain possibly having washed stuff away.  After that, you can find a odd-looking weed on the
-farm that can be picked up.  That will start you on a quest line to see the wizard where you get
-instructed on how to make the portals.
-
-To actually get things to happen, you need to enlist some Junimos.  Each junimo will only handle
-certain classes of machines:
-
-* The Mining Junimo (furnaces and the like) is unlocked by finding a quest object inside a big slime.  In the mines,
-  you'll only find them on slime-infested levels.
-* The Crops Junimo is unlocked by growing a giant crop.
-* The Animals Junimo is unlocked by having several different types of animals including at least 2 chickens.
-* Tree Junimos (tappers, stumps, etc.) are not implemented yet.
-* Fishing Junimos (traps, recycling machines, bait machines...) are not implemented yet.
-
-## Placement
-
-Unlike Automate, you have to create pathways for the Junimos to follow to do their thing.  Outdoors,
-you must place flooring adjacent to the hut and create paths to each machine and chest you want them
-to work with.  Right now, it considers all the floor tiles one tile north, south, east and west of the
-portal to be legit walkable tiles.  It won't step on tiles other than these.  (Perhaps someday we should
-make the tiles configurable.)  The safe play is to use a single style of flooring for where you want
-your Junimos to travel outdoors.  Indoors, Junimos are happy to walk on bare floor.  You can use different
-styles of walkways to cordon off areas and yet leave them easily accessible to you.
-
-There are actually two modes of operation for the mod - one where the Junimos are actively automated
-and the other is where they're operating invisibly to you.  You shouldn't really see that often in
-real gameplay, but be aware that there can be bugs that happen only in one regime or the other.
-Another quirk that's true now but may not stay this way is that animated Junimos will only deal with
-chests and machines that they can walk to a cardinal direction to.  That is, if you have a walkway
-that ends with machines on all sides, the animated Junimos will not touch the ones in the corners,
-but off-screen Junimos will.
-
-## Help Wanted
-
-If you'd like to help with the mod, please get in touch either with a github issue or through Discord.
-Someone with an interest in working on the art would be most welcome.  Here are some examples:
-
-* The dream-sequence events don't have good backdrops and feel stilted and broken.
-* It'd be fun to make the Junimos need some maintenance.  In particular I think they should
-  work harder if you had permanent giant crops, permanent mystic and mahogany trees, and,
-  of course, a steady source of raisins.  I'd like there to be a "Junimo Happiness Scorecard"
-  accessible somewhere.
+If you'd like to help with the mod, please file an 'issue' here on github first so that we can share
+ideas and ensure that it's something that we can agree fits the mission of the mod.  From there, create
+a pull request as normal.
   
 ## Translating the mods
-There are two ways you can do it.  One you're probably already familiar with, which is just create
-a copy of `default.json` and translate the English, test it in-game and send it back to me either
-on discord, Nexus, or here on GitHub via an Issue.  If you're into something fancier, you can
-use the [new language template](https://github.com/NermNermNerm/Junimatic/blob/main/Junimatic/i18n/new-language-template.json).
-You can either edit it as the comment describes or use it as a reference guide for the old
-copy-default.json approach.
 
-If you do send me a language json, be sure to note exactly which version of the mod you're
-running!
+The mod can be translated like other Stardew Valley mods.  Look in the game's installation folder,
+then look for `Mods\Junimatic\i18n\default.json`.  Copy that to a file with your language code
+(e.g. `es.json` for Spanish) and replace the English string values with the translated strings.
 
-Oh, and if you're a developer as well, you can clone the repo and build from the tip of `main`.
+Please don't be a slave to accuracy.  If a line doesn't make sense or sound funny to you, it's likely
+that it won't make sense to anybody who would want to use your translations.  For example, there's a line,
+that Linus says, "Except for Jeremy Clarkson, my pet Schnauzer."  Schnauzer is a breed of dog whose
+name just sounds funny and Jeremy Clarkson is an infamous BBC TV personality.  It's very likely that
+people who don't speak English will have no idea who that is and won't think a Schnauzer is a particularly
+funny-sounding name.  Pick something that will be funny in the language that you're translating to.
 
 ## Compiling the mods
+
 Installing stable releases from Nexus Mods is recommended for most users. If you really want to
 compile the mod yourself, read on.
 
@@ -91,6 +39,7 @@ build it and deploy it to your 'mod' directory in your Stardew Valley installati
 Launching it under the debugger will start Stardew Valley and your mod will be picked up as in the game.
 
 ### Compiling a mod for release
+
 To package a mod for release:
 
 1. Switch to `Release` build configuration.
