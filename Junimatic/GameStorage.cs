@@ -30,11 +30,9 @@ namespace NermNermNerm.Junimatic
     ///   items not marked as shiny and never just "possible".
     ///  </para>
     /// </remarks>
-    public class GameStorage
+    public abstract class GameStorage
         : GameInteractiveThing
     {
-        private StardewValley.Object item => (StardewValley.Object)base.GameObject;
-
         internal GameStorage(StardewValley.Object item, Point accessPoint)
             : base(item, accessPoint)
         {
@@ -48,17 +46,45 @@ namespace NermNermNerm.Junimatic
             }
             else if (item is Chest chest && (chest.SpecialChestType == Chest.SpecialChestTypes.None || chest.SpecialChestType == Chest.SpecialChestTypes.JunimoChest || chest.SpecialChestType == Chest.SpecialChestTypes.BigChest))
             {
-                return new GameStorage(item, accessPoint);
+                return new ChestStorage(chest, accessPoint);
             }
             else if (item.ItemId == "165") // auto-grabber
             {
-                return new GameStorage(item, accessPoint);
+                return new AutoGrabberStorage(item, accessPoint);
+            }
+            else if (item.QualifiedItemId == UnlockPots.IndoorWellObjectQiid)
+            {
+                return new IndoorWellStorage(item, accessPoint);
             }
             else
             {
                 return null;
             }
         }
+
+        /// <summary>
+        ///   Test to see if the chest can hold the output of a machine.
+        /// </summary>
+        /// <param name="itemDescriptions">
+        ///   A collection of items which will be added to the chest.
+        /// </param>
+        /// <returns>
+        ///   <list type="bullet">
+        ///     <item>
+        ///      <see cref="ProductCapacity.Preferred"/> if the chest could hold the described items and the chest
+        ///      already has an item that is the same as the first entry in <paramref name="itemDescriptions"/>.
+        ///     </item>
+        ///     <item>
+        ///      <see cref="ProductCapacity.CanHold"/> if the chest could hold the described items but doesn't
+        ///      already have matching items.
+        ///     </item>
+        ///     <item>
+        ///      <see cref="ProductCapacity.Unusable"/> if the chest hasn't got enough space to hold the items.
+        ///     </item>
+        ///   </list>
+        /// </returns>
+        public abstract ProductCapacity CanHold(IReadOnlyList<EstimatedProduct> itemDescriptions);
+
 
         /// <summary>
         ///   DELETE ME!  I'm just here to enable running without the optimization to better check the functioning of the fullish
@@ -87,21 +113,17 @@ namespace NermNermNerm.Junimatic
         ///     </item>
         ///   </list>
         /// </returns>
-        public ProductCapacity CanHold(IReadOnlyList<EstimatedProduct> itemDescriptions)
+        protected static ProductCapacity ChestCanHold(Chest chest, IReadOnlyList<EstimatedProduct> itemDescriptions)
         {
             if (itemDescriptions.Count == 0)
             {
                 throw new InvalidOperationException();
             }
 
-            if (!(this.item is Chest chest))
-            {
-                return ProductCapacity.Unusable;
-            }
+            var rawInventory = chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
 
             // This routine gets called an awful lot - so we want to make it as quick as possible, which means as
             // few iterations of the items list as we can do.
-            var items = this.RawInventory;
             int emptySlots = chest.GetActualCapacity() - chest.Items.CountItemStacks();
 
             // Most of the time chests will have enough open slots to contain all our output.  This shortcut enables
@@ -113,7 +135,7 @@ namespace NermNermNerm.Junimatic
                 //  at color, the advantage is that if we have a chest with, say, tulips in it, it'll be preferred over chests
                 //  with other flowers in them even if the exact color of tulip isn't represented in this chest.
                 string? matchItem = itemDescriptions.First()?.qiid;
-                return matchItem is not null && items.Any(i => i is not null && i.QualifiedItemId == matchItem)
+                return matchItem is not null && rawInventory.Any(i => i is not null && i.QualifiedItemId == matchItem)
                     ? ProductCapacity.Preferred : ProductCapacity.CanHold;
             }
 
@@ -138,7 +160,7 @@ namespace NermNermNerm.Junimatic
                     if (Enumerable
                         .Range(0, 4)
                         .Select(q => item with { quality = q })
-                        .All(q => items.Any(i => q.CanStackWith(i) && i.Stack + item.maxQuantity < 1000)))
+                        .All(q => rawInventory.Any(i => q.CanStackWith(i) && i.Stack + item.maxQuantity < 1000)))
                     {
                         // there are stacks of every quality level that can hold whatever comes.
                         // Note that this test is not smart enough to detect if it can spread the output across 2 almost complete stacks.
@@ -152,13 +174,13 @@ namespace NermNermNerm.Junimatic
                         }
                         --emptySlots;
 
-                        isPreferred ??= items.Any(i => i?.QualifiedItemId == item.qiid);
+                        isPreferred ??= rawInventory.Any(i => i?.QualifiedItemId == item.qiid);
                     }
                 }
                 else
                 {
                     // Else we have a complete specification - see if there's are exactly matching stacks with sufficient capacity between them.
-                    var existingSlots = items.Where(item.CanStackWith).ToList();
+                    var existingSlots = rawInventory.Where(item.CanStackWith).ToList();
                     if (existingSlots.Count > 0 && existingSlots.Sum(i => i.Stack) + item.maxQuantity <= 999 * existingSlots.Count)
                     {
                         isPreferred ??= true;
@@ -171,13 +193,14 @@ namespace NermNermNerm.Junimatic
                         }
                         --emptySlots;
 
-                        isPreferred ??= items.Any(i => i?.QualifiedItemId == item.qiid);
+                        isPreferred ??= rawInventory.Any(i => i?.QualifiedItemId == item.qiid);
                     }
                 }
             }
 
             return isPreferred == true ? ProductCapacity.Preferred : ProductCapacity.CanHold;
         }
+
 
         public bool IsPreferredStorageForMachinesOutput(GameMachine machine)
             => machine.CanHoldProducts(this) == ProductCapacity.Preferred;
@@ -193,44 +216,7 @@ namespace NermNermNerm.Junimatic
         ///  The current implementation assumes that there's only one item in the given Inventory
         ///  and does not do anything to prevent a partial success.
         /// </remarks>
-        public bool TryStore(IEnumerable<StardewValley.Item> items)
-        {
-            if (this.item is Chest chest)
-            {
-                foreach (var item in items)
-                {
-                    if (chest.addItem(item) is not null)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        ///  Attempts to store the given item in the chest.  Partial success is not
-        ///  considered - either the whole stack goes or none.
-        /// </summary>
-        public bool TryStore(StardewValley.Object item)
-        {
-            if (this.item is Chest chest)
-            {
-                if (chest.addItem(item) is not null)
-                {
-                    return false;
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        public abstract bool TryStore(IEnumerable<StardewValley.Item> items);
 
         /// <summary>
         ///   Given a list of items and quantities, <paramref name="shoppingList"/>, first see if the chest actually contains that much stuff
@@ -287,17 +273,6 @@ namespace NermNermNerm.Junimatic
         ///   This is strictly for use by the <see cref="GameMachine"/> class, which
         ///   can remove items from this inventory.
         /// </remarks>
-        internal IInventory RawInventory
-        {
-            get =>
-                (this.item is Chest chest ? chest : (Chest)this.item.heldObject.Value)
-                    .GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
-        }
-
-        public override string ToString()
-        {
-            return IF($"{this.item.Name} at {this.item.TileLocation}");
-        }
-
+        public abstract IInventory RawInventory { get; }
     }
 }

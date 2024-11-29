@@ -12,7 +12,7 @@ If you'd like to help with the mod, please file an 'issue' here on github first 
 ideas and ensure that it's something that we can agree fits the mission of the mod.  From there, create
 a pull request as normal.
   
-## Translating the mods
+## Translating
 
 The mod can be translated like other Stardew Valley mods.  Look in the game's installation folder,
 then look for `Mods\Junimatic\i18n\default.json`.  Copy that to a file with your language code

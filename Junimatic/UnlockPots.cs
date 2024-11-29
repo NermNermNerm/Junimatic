@@ -21,6 +21,9 @@ namespace NermNermNerm.Junimatic
 
         public UnlockPots() { }
 
+        public const string IndoorWellObjectId = "Junimatic.IndoorWell";
+        public const string IndoorWellObjectQiid = "(BC)Junimatic.IndoorWell";
+
         private const string MetLewisMopingPart1EventId = "Junimatic.MetLewisMoping1";
         private const string MetLewisMopingPart2EventId = "Junimatic.MetLewisMoping2";
         private const string EvelynExplainsEventId = "Junimatic.EvelynExplains";
@@ -30,8 +33,6 @@ namespace NermNermNerm.Junimatic
 
         private const string MightHaveBeenRoseObjectId = "Junimatic.MightabeenRose";
         private const string MightHaveBeenRoseObjectQiid = "(BC)Junimatic.MightabeenRose";
-        private const string IndoorWellObjectId = "Junimatic.IndoorWell";
-        private const string IndoorWellObjectQiid = "(BC)Junimatic.IndoorWell";
 
         private const string IndoorWellRecipeId = "Junimatic.IndoorWellRecipe";
 
@@ -69,8 +70,8 @@ namespace NermNermNerm.Junimatic
                         SpriteIndex = 2,
                         CanBePlacedIndoors = true,
                         CanBePlacedOutdoors = false,
-                        Description = L("In future builds of the Junimatic mods, Junimos will be able to get water from this to water indoor pots.  Right now it does nothing."),
-                        DisplayName = L("Junimo Well (PLACEHOLDER)"),
+                        Description = L("Junimos can get water from this to water indoor pots."),
+                        DisplayName = L("Indoor Well"),
                         Texture = ModEntry.BigCraftablesSpritesPseudoPath,
                     };
                 });

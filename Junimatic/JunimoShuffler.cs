@@ -8,7 +8,7 @@ using StardewValley;
 using StardewValley.Inventories;
 using StardewValley.ItemTypeDefinitions;
 using StardewValley.Pathfinding;
-
+using StardewValley.Tools;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -124,7 +124,10 @@ namespace NermNermNerm.Junimatic
             this.LogTrace($"Junimo quits {this.Assignment}");
             foreach (Item item in this.Carrying)
             {
-                this.TurnIntoDebris(item);
+                if (!(item is WateringCan))
+                {
+                    this.TurnIntoDebris(item);
+                }
             }
             this.Carrying.Clear();
             this.doEmote(12);

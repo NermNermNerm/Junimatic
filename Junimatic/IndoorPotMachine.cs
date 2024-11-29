@@ -5,10 +5,11 @@ using System.Reflection.PortableExecutable;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Extensions;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-
+using StardewValley.Tools;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -28,18 +29,57 @@ namespace NermNermNerm.Junimatic
 
         public override bool FillMachineFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
+            if (this.Machine.hoeDirt.Value is HoeDirt dirt && !dirt.readyForHarvest() && !dirt.isWatered() && storage is IndoorWellStorage)
+            {
+                dirt.state.Value = 1;
+                return true;
+            }
+
             throw new NotImplementedException(); // Guaranteed not to be called because of the state implementation
         }
+
+        private static float fudgePlus = 0.01f;
 
         public override void FillMachineFromInventory(Inventory inventory)
         {
-            throw new NotImplementedException(); // Guaranteed not to be called because of the state implementation
+            if (this.Machine.hoeDirt.Value is HoeDirt dirt && !dirt.readyForHarvest() && !dirt.isWatered())
+            {
+                dirt.performToolAction((Tool)inventory[0], 0, this.Machine.TileLocation);
+
+                var item = this.Machine.TileLocation;
+                // This code is mostly lifted from WateringCan.doFunction, but if you actually go in-game and water an indoor pot, you'll
+                // see the watering animation plays *behind* the plant pot.  Kinda underwhelming.  Changing the last parameter to the
+                // TemporaryAnimatedSprite code from subtracting .01f to adding .001f reverses that.  Perhaps there are better fudge-factors
+                // somewhere, but this one draws the splash above the pot and below the plant... at least for the locations I tested.
+                // We also offset the 'y' coordinate by -20f to center the splash on the center of the pot.
+                Game1.Multiplayer.broadcastSprites(this.Machine.Location, new TemporaryAnimatedSprite(13, new Vector2(item.X * 64f, item.Y * 64f - 20f), Color.White, 10, Game1.random.NextBool(), 70f, 0, 64, (item.Y * 64f + 32f) / 10000f + 0.001f)
+                {
+                    delayBeforeAnimationStart = 200
+                });
+                this.Machine.Location.playSound("wateringCan");
+            }
+
+            inventory.Clear();
         }
 
         public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
-            => null;
+        {
+            if (this.NeedsWater && storage is IndoorWellStorage)
+            {
+                return new List<Item> { ItemRegistry.Create("(T)SteelWateringCan") };
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-        public override MachineState State => this.IsHarvestable() ? MachineState.AwaitingPickup : MachineState.Working;
+        public override MachineState State =>
+            this.IsHarvestable
+                ? MachineState.AwaitingPickup
+                : this.NeedsWater
+                    ? MachineState.Idle
+                    : MachineState.Working;
 
         protected override IReadOnlyList<EstimatedProduct> EstimatedProducts
         {
@@ -174,18 +214,34 @@ namespace NermNermNerm.Junimatic
         /// Check if the plant growing in the pot is ready to be harvested
         /// </summary>
         /// <returns>True if pot is ready for harvest. Default: false</returns>
-        private bool IsHarvestable()
+        private bool IsHarvestable
         {
-            // Check forage
-            if (this.Machine.heldObject.Value != null) return true;
+            get
+            {
+                // Check forage
+                if (this.Machine.heldObject.Value != null) return true;
 
-            // Check HoeDirt
-            if (this.Machine.hoeDirt.Value is HoeDirt dirt && dirt.readyForHarvest()) return true;
+                // Check HoeDirt
+                if (this.Machine.hoeDirt.Value is HoeDirt dirt && dirt.readyForHarvest()) return true;
 
-            // Check Bush
-            if (this.Machine.bush.Value is Bush bush && bush.tileSheetOffset.Value == 1 && bush.inBloom()) return true;
+                // Check Bush
+                if (this.Machine.bush.Value is Bush bush && bush.tileSheetOffset.Value == 1 && bush.inBloom()) return true;
 
-            return false;
+                return false;
+            }
+        }
+
+        private bool NeedsWater
+        {
+            get
+            {
+                if (this.Machine.hoeDirt.Value is HoeDirt dirt && dirt.needsWatering() && !dirt.isWatered())
+                {
+                    return true;
+                }
+
+                return false;
+            }
         }
     }
 }
