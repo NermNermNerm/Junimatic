@@ -6,11 +6,10 @@ using StardewValley.GameData.Machines;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
+using System;
 using NermNermNerm.Stardew.LocalizeFromSource;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
-using System;
-using System.Reflection.PortableExecutable;
 
 namespace NermNermNerm.Junimatic
 {
@@ -30,13 +29,13 @@ namespace NermNermNerm.Junimatic
             {
                 return new CrabPotMachine(crabPot, accessPoint);
             }
-            else if (item.GetMachineData() is not null)
-            {
-                return new ObjectMachine(item, accessPoint);
-            }
             else if (item is IndoorPot indoorPot)
             {
                 return new IndoorPotMachine(indoorPot, accessPoint);
+            }
+            else if (item.GetMachineData() is not null)
+            {
+                return new ObjectMachine(item, accessPoint);
             }
             else
             {

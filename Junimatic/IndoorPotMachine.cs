@@ -36,7 +36,7 @@ namespace NermNermNerm.Junimatic
                 return true;
             }
 
-            throw new NotImplementedException(); // Guaranteed not to be called because of the state implementation
+            return false;
         }
 
         private static float fudgePlus = 0.01f;
