@@ -66,7 +66,13 @@ namespace NermNermNerm.Junimatic
             this.alpha = 0;
             this.alphaChange = 0.05f;
             this.workFinder = workFinder;
+            this.SetSpeed();
             this.LogTrace($"Junimo created {this.Assignment}");
+        }
+
+        private void SetSpeed()
+        {
+            this.speed = this.workFinder!.AreJunimosRaisinPowered ? 5 : 3;
         }
 
         public JunimoAssignment? Assignment { get; private set; }
@@ -79,6 +85,8 @@ namespace NermNermNerm.Junimatic
             {
                 return;
             }
+
+            this.SetSpeed(); // dark forces may have unset the speed
 
             this.LogTrace($"Junimo reached its source {this.Assignment}");
 
@@ -148,6 +156,8 @@ namespace NermNermNerm.Junimatic
             }
 
             this.LogTrace($"Junimo reached target {this.Assignment}");
+
+            this.SetSpeed(); // dark forces may have unset the speed
 
             if (this.Assignment.target is GameStorage chest)
             {
