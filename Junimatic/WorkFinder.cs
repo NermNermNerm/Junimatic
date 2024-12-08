@@ -19,6 +19,9 @@ namespace NermNermNerm.Junimatic
         private int numActionsAtThisGameTime;
 
         private bool isDayStarted = false;
+        private bool haveLookedForRaisins = false;
+
+        public bool AreJunimosRaisinPowered { get; private set; }
 
         /// <summary>The number of Junimos that are being simulated out doing stuff.</summary>
         private readonly Dictionary<JunimoType, int> numAutomatedJunimos = Enum.GetValues<JunimoType>().ToDictionary(t => t, t => 0);
@@ -42,6 +45,8 @@ namespace NermNermNerm.Junimatic
         {
             this.LogTrace($"WorkFinder.OnDayStarted unleashed the junimos");
             this.isDayStarted = true;
+            this.AreJunimosRaisinPowered = false;
+            this.haveLookedForRaisins = false;
         }
 
         private void GameLoop_DayEnding(object? sender, StardewModdingAPI.Events.DayEndingEventArgs e)
@@ -62,9 +67,9 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        // 10 minutes in SDV takes 7.17 seconds of real time.  So our setting of 3 means
-        //  that we assume that junimo actions take about 2 seconds to do.
-        private const int numActionsPerTenMines = 3;
+        // 10 minutes in SDV takes 7.17 seconds of real time.  So our setting of 2 means
+        //  that we assume that junimo actions take about 3-4 seconds to do.
+        private const int numActionsPerTenMinutes = 2;
 
         private void GameLoop_OneSecondUpdateTicked(object? sender, StardewModdingAPI.Events.OneSecondUpdateTickedEventArgs e)
         {
@@ -94,7 +99,7 @@ namespace NermNermNerm.Junimatic
                 ++this.numActionsAtThisGameTime;
             }
 
-            if (this.numActionsAtThisGameTime >= numActionsPerTenMines)
+            if (!this.AreJunimosRaisinPowered && this.numActionsAtThisGameTime >= numActionsPerTenMinutes)
             {
                 return;
             }
@@ -136,24 +141,51 @@ namespace NermNermNerm.Junimatic
             foreach (GameLocation location in animatedLocations)
             {
                 this.cachedNetworks.Remove(location);
-                foreach (var portal in new GameMap(location).GetPortals())
+
+                var map = new GameMap(location);
+                bool startedRaisinProject = false;
+
+                if (!this.haveLookedForRaisins)
                 {
-                    bool junimoCreated = false;
-                    foreach (var junimoType in Enum.GetValues<JunimoType>())
+                    foreach (var portal in map.GetPortals())
                     {
-                        if (numAvailableJunimos[junimoType] > 0)
+                        var junimoType = Enum.GetValues<JunimoType>().Select(i => (JunimoType?)i).FirstOrDefault(i => numAvailableJunimos[i!.Value] > 0);
+                        if (junimoType.HasValue)
                         {
-                            var project = this.FindProject(portal, junimoType, null, isShinyTest);
-                            if (project is not null)
+                            if (numAvailableJunimos[junimoType.Value] > 0)
                             {
-                                this.LogTrace($"Starting Animated Junimo for {project}");
-                                location.characters.Add(new JunimoShuffler(project, this));
-                                junimoCreated = true; // Only create one animated junimo per portal per second
+                                var raisinProject = this.FindRaisinProject(portal, junimoType.Value, isShinyTest);
+                                if (raisinProject != null)
+                                {
+                                    this.haveLookedForRaisins = true; // disable further raisin hunting
+                                    this.LogTrace($"Starting Animated Junimo to grab a raisin: {raisinProject}");
+                                    location.characters.Add(new JunimoShuffler(raisinProject, this));
+                                    startedRaisinProject = true;
+                                    break;
+                                }
                             }
                         }
-                        if (junimoCreated) break;
                     }
-                    if (junimoCreated) break;
+                }
+
+                if (!startedRaisinProject)
+                {
+                    foreach (var portal in map.GetPortals())
+                    {
+                        foreach (var junimoType in Enum.GetValues<JunimoType>())
+                        {
+                            if (numAvailableJunimos[junimoType] > 0)
+                            {
+                                var project = this.FindProject(portal, junimoType, null, isShinyTest);
+                                if (project is not null)
+                                {
+                                    this.LogTrace($"Starting Animated Junimo for {project}");
+                                    location.characters.Add(new JunimoShuffler(project, this));
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -167,12 +199,15 @@ namespace NermNermNerm.Junimatic
                         {
                             if (this.TryDoAutomationsForLocation(location, junimoType, isShinyTest))
                             {
+                                this.LogInfo($"{Game1.timeOfDay}: Did a job {junimoType}");
                                 numAvailableJunimos[junimoType] -= 1;
                             }
                         }
                     }
                 }
             }
+
+            this.haveLookedForRaisins = true; // We always do the raisin check on the first tick of the day.
         }
 
         private List<GameLocation> GetAllJunimoFriendlyLocations()
@@ -213,7 +248,8 @@ namespace NermNermNerm.Junimatic
             return result;
         }
 
-        private bool TryDoAutomationsForLocation(GameLocation location, JunimoType projectType, Func<Item,bool> isShinyTest)
+
+        private bool TryDoAutomationsForLocation(GameLocation location, JunimoType projectType, Func<Item, bool> isShinyTest)
         {
             if (!this.cachedNetworks.TryGetValue(location, out var networks))
             {
@@ -223,6 +259,20 @@ namespace NermNermNerm.Junimatic
 
             foreach (var network in networks)
             {
+                if (!this.haveLookedForRaisins)
+                {
+                    foreach (var storage in network.Chests)
+                    {
+                        var raisinStack = storage.RawInventory.FirstOrDefault(i => i.QualifiedItemId == "(O)Raisins" && !isShinyTest(i));
+                        if (raisinStack is not null)
+                        {
+                            this.LogTrace($"Automated Raisin collection from {storage} at {location.Name}");
+                            storage.RawInventory.Reduce(raisinStack, 1);
+                            this.JunimosGotDailyRaisin();
+                        }
+                    }
+                }
+
                 var machines = network.Machines[projectType];
 
                 // Try and load a machine
@@ -288,7 +338,7 @@ namespace NermNermNerm.Junimatic
             => string.Join(",", items.Select(ObjectToLogString));
 
         record class MachineNetwork(
-            IReadOnlyDictionary<JunimoType,IReadOnlyList<GameMachine>> Machines,
+            IReadOnlyDictionary<JunimoType, IReadOnlyList<GameMachine>> Machines,
             IReadOnlyList<GameStorage> Chests);
 
         private List<MachineNetwork> BuildNetwork(GameLocation location)
@@ -300,90 +350,7 @@ namespace NermNermNerm.Junimatic
             var portals = map.GetPortals();
             foreach (var portal in portals)
             {
-                var machines = new Dictionary<JunimoType, List<GameMachine>>(Enum.GetValues<JunimoType>().Select(e => new KeyValuePair<JunimoType, List<GameMachine>>(e, new List<GameMachine>())));
-                var chests = new List<GameStorage>();
-                var checkedForWorkTiles = new HashSet<Point>();
-                var walkedTiles = new HashSet<Point>();
-
-                map.GetStartingInfo(portal, out var startingPoints, out var walkableFloorTypes);
-
-                foreach (var startingTile in startingPoints)
-                {
-                    var tilesToInvestigate = new Queue<Point>();
-                    tilesToInvestigate.Enqueue(startingTile);
-
-                    while (tilesToInvestigate.TryDequeue(out var reachableTile))
-                    {
-                        if (walkedTiles.Contains(reachableTile))
-                        {
-                            continue;
-                        }
-
-                        foreach (var direction in reachableDirections)
-                        {
-                            var adjacentTile = reachableTile + direction;
-                            if (checkedForWorkTiles.Contains(adjacentTile))
-                            {
-                                continue;
-                            }
-
-                            map.GetThingAt(adjacentTile, reachableTile, walkableFloorTypes, out bool isWalkable, out var machine, out var storage);
-                            if (storage is not null)
-                            {
-                                chests.Add(storage);
-                                checkedForWorkTiles.Add(adjacentTile);
-                            }
-                            else if (machine is not null)
-                            {
-                                foreach (JunimoType junimoType in Enum.GetValues<JunimoType>())
-                                {
-                                    if (machine.IsCompatibleWithJunimo(junimoType))
-                                    {
-                                        machines[junimoType].Add(machine);
-                                    }
-                                }
-                                checkedForWorkTiles.Add(adjacentTile);
-                            }
-                            else if (isWalkable && (direction.X == 0 || direction.Y == 0)) // && is not on a diagonal
-                            {
-                                tilesToInvestigate.Enqueue(adjacentTile);
-                            }
-                            else if (!isWalkable)
-                            {
-                                checkedForWorkTiles.Add(adjacentTile);
-                            }
-                        }
-
-                        if (location.IsOutdoors)
-                        {
-                            foreach (var direction in crabPotReachableDirections)
-                            {
-                                var adjacentTile = reachableTile + direction;
-                                if (checkedForWorkTiles.Contains(adjacentTile))
-                                {
-                                    continue;
-                                }
-
-                                map.GetCrabPotAt(adjacentTile, reachableTile, out var machine);
-                                if (machine is not null)
-                                {
-                                    foreach (JunimoType junimoType in Enum.GetValues<JunimoType>())
-                                    {
-                                        if (machine.IsCompatibleWithJunimo(junimoType))
-                                        {
-                                            machines[junimoType].Add(machine);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        checkedForWorkTiles.Add(reachableTile);
-                        walkedTiles.Add(reachableTile);
-                    }
-
-                    result.Add(new MachineNetwork(machines.ToDictionary(pair => pair.Key, pair => (IReadOnlyList<GameMachine>)pair.Value), chests));
-                }
+                result.Add(BuildNetwork(map, portal));
             }
 
             long elapsedMs = watch.ElapsedMilliseconds;
@@ -392,6 +359,93 @@ namespace NermNermNerm.Junimatic
                 this.LogInfo($"WorkFinder.BuildNetwork for {location.Name} took {watch.ElapsedMilliseconds}ms");
             }
             return result;
+        }
+
+        private static MachineNetwork BuildNetwork(GameMap map, StardewValley.Object portal)
+        {
+            var machines = new Dictionary<JunimoType, List<GameMachine>>(Enum.GetValues<JunimoType>().Select(e => new KeyValuePair<JunimoType, List<GameMachine>>(e, new List<GameMachine>())));
+            var chests = new List<GameStorage>();
+            var checkedForWorkTiles = new HashSet<Point>();
+            var walkedTiles = new HashSet<Point>();
+            map.GetStartingInfo(portal, out var startingPoints, out var walkableFloorTypes);
+
+            foreach (var startingTile in startingPoints)
+            {
+                var tilesToInvestigate = new Queue<Point>();
+                tilesToInvestigate.Enqueue(startingTile);
+
+                while (tilesToInvestigate.TryDequeue(out var reachableTile))
+                {
+                    if (walkedTiles.Contains(reachableTile))
+                    {
+                        continue;
+                    }
+
+                    foreach (var direction in reachableDirections)
+                    {
+                        var adjacentTile = reachableTile + direction;
+                        if (checkedForWorkTiles.Contains(adjacentTile))
+                        {
+                            continue;
+                        }
+
+                        map.GetThingAt(adjacentTile, reachableTile, walkableFloorTypes, out bool isWalkable, out var machine, out var storage);
+                        if (storage is not null)
+                        {
+                            chests.Add(storage);
+                            checkedForWorkTiles.Add(adjacentTile);
+                        }
+                        else if (machine is not null)
+                        {
+                            foreach (JunimoType junimoType in Enum.GetValues<JunimoType>())
+                            {
+                                if (machine.IsCompatibleWithJunimo(junimoType))
+                                {
+                                    machines[junimoType].Add(machine);
+                                }
+                            }
+                            checkedForWorkTiles.Add(adjacentTile);
+                        }
+                        else if (isWalkable && (direction.X == 0 || direction.Y == 0)) // && is not on a diagonal
+                        {
+                            tilesToInvestigate.Enqueue(adjacentTile);
+                        }
+                        else if (!isWalkable)
+                        {
+                            checkedForWorkTiles.Add(adjacentTile);
+                        }
+                    }
+
+                    if (map.Location.IsOutdoors)
+                    {
+                        foreach (var direction in crabPotReachableDirections)
+                        {
+                            var adjacentTile = reachableTile + direction;
+                            if (checkedForWorkTiles.Contains(adjacentTile))
+                            {
+                                continue;
+                            }
+
+                            map.GetCrabPotAt(adjacentTile, reachableTile, out var machine);
+                            if (machine is not null)
+                            {
+                                foreach (JunimoType junimoType in Enum.GetValues<JunimoType>())
+                                {
+                                    if (machine.IsCompatibleWithJunimo(junimoType))
+                                    {
+                                        machines[junimoType].Add(machine);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    checkedForWorkTiles.Add(reachableTile);
+                    walkedTiles.Add(reachableTile);
+                }
+
+            }
+            return new MachineNetwork(machines.ToDictionary(pair => pair.Key, pair => (IReadOnlyList<GameMachine>)pair.Value), chests);
         }
 
         public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType, JunimoShuffler? forJunimo)
@@ -582,6 +636,123 @@ namespace NermNermNerm.Junimatic
             }
 
             return null;
+        }
+
+
+        public JunimoAssignment? FindRaisinProject(StardewValley.Object portal, JunimoType projectType, Func<Item, bool> isShinyTest)
+        {
+            // Yet another clone of BuildNetwork for the specialized purpose of finding a raisin to eat
+
+            var location = portal.Location;
+            // These lists are all in order of nearest to farthest from the portal
+            var knownChests = new HashSet<GameStorage>();
+            var visitedTiles = new HashSet<Point>();
+
+            var map = new GameMap(location);
+
+            map.GetStartingInfo(portal, out var startingPoints, out var walkableFloorTypes);
+
+            foreach (var startingTile in startingPoints)
+            {
+                var tilesToInvestigate = new Queue<Point>();
+                tilesToInvestigate.Enqueue(startingTile);
+
+                while (tilesToInvestigate.TryDequeue(out var tile))
+                {
+                    if (visitedTiles.Contains(tile))
+                    {
+                        continue;
+                    }
+
+                    foreach (var direction in walkableDirections)
+                    {
+                        var adjacentTile = tile + direction;
+                        if (visitedTiles.Contains(adjacentTile))
+                        {
+                            continue;
+                        }
+
+                        map.GetThingAt(adjacentTile, tile, walkableFloorTypes, out bool isWalkable, out var machine, out var chest);
+
+                        if (chest is not null && !knownChests.Contains(chest))
+                        {
+                            var raisinStack = chest.RawInventory.FirstOrDefault(i => i?.QualifiedItemId == "(O)Raisins" && i.Stack > 0 && !isShinyTest(i));
+                            if (raisinStack != null)
+                            {
+                                var targetHut = new JunimoHutMachine(portal, startingTile, this);
+                                return new JunimoAssignment(projectType, location, portal, startingTile, chest, targetHut, [ItemRegistry.Create("(O)Raisins", 1, raisinStack.Quality)]);
+                            }
+                            else
+                            {
+                                knownChests.Add(chest);
+                            }
+                        }
+                        else if (isWalkable)
+                        {
+                            tilesToInvestigate.Enqueue(adjacentTile);
+                        }
+                        else
+                        {
+                            visitedTiles.Add(adjacentTile);
+                        }
+                    }
+
+                    visitedTiles.Add(tile);
+                }
+            }
+
+            return null;
+        }
+
+        public void JunimosGotDailyRaisin()
+        {
+            this.haveLookedForRaisins = true;
+            this.AreJunimosRaisinPowered = true;
+
+            foreach (var location in Game1.getOnlineFarmers().Select(f => f.currentLocation).Distinct())
+            {
+                foreach (var portal in new GameMap(location).GetPortals())
+                {
+                    portal.shakeTimer = 100;
+                    MakePoof(new Vector2(portal.TileLocation.X, portal.TileLocation.Y));
+                }
+            }
+            Game1.playSound("yoba"); // Maybe a sound could be blended from a bunch of junimo meeps
+        }
+
+        private static void MakePoof(Vector2 tile)
+        {
+            var colors = new Color[4][] {
+                [Color.SpringGreen, Color.LawnGreen, Color.LightGreen],
+                [Color.DarkGreen, Color.ForestGreen, Color.Green],
+                [Color.Orange, Color.DarkRed, Color.Red],
+                [Color.White, Color.LightBlue, Color.LightGray]
+            };
+
+            var colorChoice = Game1.currentLocation.IsOutdoors ? colors[Game1.seasonIndex] : colors[0];
+
+            Vector2 landingPos = tile * 64f;
+            landingPos.Y -= 64;
+            landingPos.X -= 16;
+            float scale = 0.15f;
+            TemporaryAnimatedSprite? dustTas = new(
+                textureName: Game1.animationsName,
+                sourceRect: new Rectangle(0, 256, 64, 64),
+                animationInterval: 120f,
+                animationLength: 8,
+                numberOfLoops: 0,
+                position: landingPos,
+                flicker: false,
+                flipped: Game1.random.NextDouble() < 0.5,
+                layerDepth: (landingPos.Y + 150) / 10000f, // SDV uses a base value of y/10k for layerDepth. +150 is a fudge factor that seems to be above the hut, but below any trees or what have you in front of the hut.
+                alphaFade: 0.01f,
+                color: colorChoice[Game1.random.Next(colorChoice.Length)],
+                scale: Game1.pixelZoom * scale,
+                scaleChange: 0.02f,
+                rotation: 0f,
+                rotationChange: 0f);
+
+            Game1.Multiplayer.broadcastSprites(Game1.currentLocation, dustTas);
         }
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)

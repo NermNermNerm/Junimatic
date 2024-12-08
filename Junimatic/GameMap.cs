@@ -8,28 +8,31 @@ using StardewValley.Objects;
 
 namespace NermNermNerm.Junimatic
 {
+    /// <summary>
+    ///   This class tries to encapsulate all the ways which this mod deals with finding things on maps.
+    /// </summary>
     internal class GameMap
     {
-        private readonly GameLocation location;
-
         public GameMap(GameLocation location)
         {
-            this.location = location;
+            this.Location = location;
         }
+
+        public GameLocation Location { get; }
 
         /// <summary>
         ///   Given a point, try and see what's there.  One or none of the output parameters will be set.
         ///   If none, it means that the point contains nothing and is impassible.
         /// </summary>
         /// <param name="tileToCheck">The location to test.</param>
-        /// <param name="reachableTile">An adjacent point that a juniumo can reach.</param>
+        /// <param name="reachableTile">An adjacent point that a junimo can reach.</param>
         /// <param name="validFloors">The set of floortiles that we can traverse.</param>
         /// <param name="isWalkable">True if the tile is empty, but a Junimo would be allowed to walk there.</param>
         /// <param name="machine">If the tile contains a machine that a junimo could interact with, this is set.</param>
         /// <param name="storage">If the tile contains a storage machine that the junimo could use, this is set.</param>
         public void GetThingAt(Point tileToCheck, Point reachableTile, FlooringSet validFloors, out bool isWalkable, out GameMachine? machine, out GameStorage? storage)
         {
-            if (validFloors.IsTileWalkable(this.location, tileToCheck))
+            if (validFloors.IsTileWalkable(this.Location, tileToCheck))
             {
                 isWalkable = true;
                 machine = null;
@@ -39,7 +42,7 @@ namespace NermNermNerm.Junimatic
 
             // We check the IsTileWalkable before this because the item might be a rug, which is walkable, but
             // otherwise would trip this case, which would cause us to stop working.
-            var item = this.location.getObjectAtTile(tileToCheck.X, tileToCheck.Y);
+            var item = this.Location.getObjectAtTile(tileToCheck.X, tileToCheck.Y);
             if (item is not null)
             {
                 isWalkable = false;
@@ -48,7 +51,7 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            var building = this.location.getBuildingAt(tileToCheck.ToVector2());
+            var building = this.Location.getBuildingAt(tileToCheck.ToVector2());
             if (building != null)
             {
                 isWalkable = false;
@@ -66,7 +69,7 @@ namespace NermNermNerm.Junimatic
 
         public void GetCrabPotAt(Point tileToCheck, Point reachableTile, out GameMachine? machine)
         {
-            var item = this.location.getObjectAtTile(tileToCheck.X, tileToCheck.Y);
+            var item = this.Location.getObjectAtTile(tileToCheck.X, tileToCheck.Y);
             machine = item is CrabPot pot ? new CrabPotMachine(pot, reachableTile) : null;
         }
 
@@ -79,7 +82,7 @@ namespace NermNermNerm.Junimatic
             foreach (var direction in walkableDirections)
             {
                 var targetPoint = direction + portal.TileLocation.ToPoint();
-                string? floorIdAt = FlooringSet.getFlooringId(this.location, targetPoint);
+                string? floorIdAt = FlooringSet.getFlooringId(this.Location, targetPoint);
 
                 if (floorIdAt is not null)
                 {
@@ -102,7 +105,7 @@ namespace NermNermNerm.Junimatic
 
         public IEnumerable<StardewValley.Object> GetPortals()
         {
-            return this.location.objects.Values.Where(o => o.ItemId == UnlockPortal.JunimoPortal);
+            return this.Location.objects.Values.Where(o => o.ItemId == UnlockPortal.JunimoPortal);
         }
     }
 }

@@ -39,8 +39,6 @@ namespace NermNermNerm.Junimatic
             return false;
         }
 
-        private static float fudgePlus = 0.01f;
-
         public override void FillMachineFromInventory(Inventory inventory)
         {
             if (this.Machine.hoeDirt.Value is HoeDirt dirt && !dirt.readyForHarvest() && !dirt.isWatered())

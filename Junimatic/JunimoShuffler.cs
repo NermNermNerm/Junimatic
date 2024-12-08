@@ -52,7 +52,7 @@ namespace NermNermNerm.Junimatic
                 _ => UnlockFishing.JunimoColor }; // Fishing
             this.currentLocation = assignment.hut.Location;
             this.Breather = false;
-            this.speed = 3;
+            this.speed = workFinder.AreJunimosRaisinPowered ? 5 : 3;
             this.forceUpdateTimer = 9999;
             this.ignoreMovementAnimation = true;
             this.farmerPassesThrough = true;
