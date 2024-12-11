@@ -714,10 +714,23 @@ namespace NermNermNerm.Junimatic
                 foreach (var portal in new GameMap(location).GetPortals())
                 {
                     portal.shakeTimer = 100;
-                    MakePoof(new Vector2(portal.TileLocation.X, portal.TileLocation.Y));
+                    var poofAction = () => MakePoof(new Vector2(portal.TileLocation.X, portal.TileLocation.Y));
+                    DelayedAction.functionAfterDelay(poofAction, 500);
+                    DelayedAction.functionAfterDelay(poofAction, 1500);
+                    DelayedAction.functionAfterDelay(poofAction, 2500);
                 }
+
+                for (int i = 0; i < 15; i++)
+                {
+                    int delay = Math.Max(Game1.random.Next(11), Game1.random.Next(11))
+                              + Math.Max(Game1.random.Next(11), Game1.random.Next(11))
+                              + Game1.random.Next(11);
+                    // delay is a number between 0 and 30 on a bell-curve that's pushed to the right of average.
+                    DelayedAction.functionAfterDelay(() => location.playSound("junimoMeep1"), delay * 100);
+                }
+
+                Game1.addHUDMessage(new HUDMessage(L("The Junimos munched a box of grapes this morning!")));
             }
-            Game1.playSound("yoba"); // Maybe a sound could be blended from a bunch of junimo meeps
         }
 
         private static void MakePoof(Vector2 tile)

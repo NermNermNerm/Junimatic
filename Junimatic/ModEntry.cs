@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -69,7 +70,7 @@ namespace NermNermNerm.Junimatic
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 
-            this.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
+            //this.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
 
             Event.RegisterCommand(SetJunimoColorEventCommand, this.SetJunimoColor);
         }
@@ -81,12 +82,29 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
+            // Testing the grape celebration
+
             foreach (var portal in new GameMap(Game1.currentLocation).GetPortals())
             {
-                portal.shakeTimer = 100;
-                this.MakePoof(new Vector2(portal.TileLocation.X, portal.TileLocation.Y));
+                portal.shakeTimer = 3000;
+                var poofAction = () => this.MakePoof(new Vector2(portal.TileLocation.X, portal.TileLocation.Y));
+                DelayedAction.functionAfterDelay(poofAction, 500);
+                DelayedAction.functionAfterDelay(poofAction, 1500);
+                DelayedAction.functionAfterDelay(poofAction, 2500);
             }
-            Game1.playSound("yoba");
+
+            for (int i = 0; i < 15; i++)
+            {
+                int delay = Math.Max(Game1.random.Next(11), Game1.random.Next(11))
+                          + Math.Max(Game1.random.Next(11), Game1.random.Next(11))
+                          + Game1.random.Next(11);
+                // delay is a number between 0 and 30 on a bell-curve that's pushed to the right of average.
+                DelayedAction.functionAfterDelay(() => Game1.playSound("junimoMeep1"), delay * 100);
+            }
+
+            //Game1.playSound("junimoMeep1");
+            //DelayedAction.functionAfterDelay(() => { }, 100 /*milliseconds*/);
+            //Game1.playSound("yoba");
         }
 
         private void MakePoof(Vector2 tile)
