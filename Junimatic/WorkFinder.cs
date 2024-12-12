@@ -70,6 +70,7 @@ namespace NermNermNerm.Junimatic
         // 10 minutes in SDV takes 7.17 seconds of real time.  So our setting of 2 means
         //  that we assume that junimo actions take about 3-4 seconds to do.
         private const int numActionsPerTenMinutes = 2;
+        private const int numActionsPerTenMinutesWithRaisins = 7;
 
         private void GameLoop_OneSecondUpdateTicked(object? sender, StardewModdingAPI.Events.OneSecondUpdateTickedEventArgs e)
         {
@@ -99,7 +100,7 @@ namespace NermNermNerm.Junimatic
                 ++this.numActionsAtThisGameTime;
             }
 
-            if (!this.AreJunimosRaisinPowered && this.numActionsAtThisGameTime >= numActionsPerTenMinutes)
+            if (this.numActionsAtThisGameTime >= (this.AreJunimosRaisinPowered ? numActionsPerTenMinutesWithRaisins : numActionsPerTenMinutes))
             {
                 return;
             }
@@ -199,7 +200,6 @@ namespace NermNermNerm.Junimatic
                         {
                             if (this.TryDoAutomationsForLocation(location, junimoType, isShinyTest))
                             {
-                                this.LogInfo($"{Game1.timeOfDay}: Did a job {junimoType}");
                                 numAvailableJunimos[junimoType] -= 1;
                             }
                         }
@@ -282,7 +282,7 @@ namespace NermNermNerm.Junimatic
                     {
                         if (emptyMachine.FillMachineFromChest(chest, isShinyTest))
                         {
-                            this.LogTrace($"Automatic machine fill of {emptyMachine} on {location.Name} from {chest}");
+                            this.LogTrace($"{Game1.timeOfDay} Automatic machine fill of {emptyMachine} on {location.Name} from {chest}");
                             return true;
                         }
                     }
@@ -314,13 +314,13 @@ namespace NermNermNerm.Junimatic
                             string wasHoldingLogText = ObjectListToLogString(wasHolding); // Calculate now - TryStore alters the list quantities.
                             if (goodChest.TryStore(wasHolding))
                             {
-                                this.LogTrace($"Automatic machine empty of {fullMachine} in {location.Name} holding {wasHoldingLogText} into {goodChest}");
+                                this.LogTrace($"{Game1.timeOfDay} Automatic machine empty of {fullMachine} in {location.Name} holding {wasHoldingLogText} into {goodChest}");
                             }
                             else
                             {
                                 // This should be prevented by the code in the above foreach loop which should only mark a chest as the
                                 //  'goodChest' if it has sufficient storage.
-                                this.LogError($"Automatic machine empty failed!  Attempting to unload {fullMachine} holding {wasHoldingLogText} on {location.Name} into {goodChest}.");
+                                this.LogError($"{Game1.timeOfDay} Automatic machine empty failed!  Attempting to unload {fullMachine} holding {wasHoldingLogText} on {location.Name} into {goodChest}.");
                             }
 
                             return true;
@@ -728,9 +728,9 @@ namespace NermNermNerm.Junimatic
                     // delay is a number between 0 and 30 on a bell-curve that's pushed to the right of average.
                     DelayedAction.functionAfterDelay(() => location.playSound("junimoMeep1"), delay * 100);
                 }
-
-                Game1.addHUDMessage(new HUDMessage(L("The Junimos munched a box of grapes this morning!")));
             }
+
+            Game1.addHUDMessage(new HUDMessage(L("The Junimos munched a box of grapes this morning!"), HUDMessage.achievement_type));
         }
 
         private static void MakePoof(Vector2 tile)
