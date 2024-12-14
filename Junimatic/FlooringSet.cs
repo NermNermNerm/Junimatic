@@ -50,13 +50,13 @@ namespace NermNermNerm.Junimatic
                 return null;
             }
 
-            l.terrainFeatures.TryGetValue(tile, out var terrainFeatures);
-            if (terrainFeatures is Flooring flooring)
+            l.terrainFeatures.TryGetValue(tile, out var terrainFeature);
+            if (terrainFeature is Flooring flooring)
             {
                 // *assumes that if flooring can be placed there, then it must be passable...  Not sure how safe an assumption that is...
                 return flooring.whichFloor.Value;
             }
-            else if (!l.IsOutdoors && l.isTilePassable(tile) && l.isTilePlaceable(tile))
+            else if (terrainFeature is null && !l.IsOutdoors && l.isTilePassable(tile) && l.isTilePlaceable(tile))
             {
                 return I("#BARE_FLOOR#");
             }

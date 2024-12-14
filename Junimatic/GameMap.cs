@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Objects;
+using StardewValley.TerrainFeatures;
 
 namespace NermNermNerm.Junimatic
 {
@@ -56,6 +57,14 @@ namespace NermNermNerm.Junimatic
             {
                 isWalkable = false;
                 machine = BuildingMachine.TryCreate(building, reachableTile);
+                storage = null;
+                return;
+            }
+
+            if (this.Location.terrainFeatures.TryGetValue(tileToCheck.ToVector2(), out var terrainFeature) && terrainFeature is FruitTree fruitTree)
+            {
+                isWalkable = false;
+                machine = new FruitTreeMachine(fruitTree, reachableTile);
                 storage = null;
                 return;
             }
