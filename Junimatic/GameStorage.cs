@@ -48,6 +48,10 @@ namespace NermNermNerm.Junimatic
             {
                 return new ChestStorage(chest, accessPoint);
             }
+            else if (item is Chest miniShippingBin && (miniShippingBin.SpecialChestType == Chest.SpecialChestTypes.MiniShippingBin))
+            {
+                return new MiniShippingBinStorage(miniShippingBin, accessPoint);
+            }
             else if (item.ItemId == "165") // auto-grabber
             {
                 return new AutoGrabberStorage(item, accessPoint);

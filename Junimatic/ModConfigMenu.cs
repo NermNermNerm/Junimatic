@@ -48,6 +48,14 @@ namespace NermNermNerm.Junimatic
                 setValue: value => Config.EnableWithoutQuests = value,
                 tooltip: () => L("Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.")
             );
+
+            configMenu.AddBoolOption(
+                mod: ModManifest,
+                name: () => L("Allow Shipping"),
+                getValue: () => Config.AllowShippingArtisan,
+                setValue: value => Config.AllowShippingArtisan = value,
+                tooltip: () => L("If this is checked, Junimos will prefer to take artisan goods to mini-shipping bins.")
+            );
         }
     }
 }
