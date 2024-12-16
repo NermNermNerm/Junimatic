@@ -10,8 +10,6 @@ namespace NermNermNerm.Junimatic
 {
     internal class FruitTreeMachine : GameMachine
     {
-        private static bool isHarmonyPatchApplied = false;
-
         internal FruitTreeMachine(FruitTree machine, Point accessPoint)
             : base(machine, accessPoint)
         {
