@@ -16,8 +16,10 @@ namespace NermNermNerm.Junimatic
     ///   Abstraction for chests.
     /// </summary>
     public class MiniShippingBinStorage
-        : GameStorage
+        : ObjectMachine
     {
+        private const int MaxToteableStack = 5;
+
         private Chest chest => (Chest)base.GameObject;
 
         internal MiniShippingBinStorage(Chest item, Point accessPoint)
@@ -25,49 +27,81 @@ namespace NermNermNerm.Junimatic
         {
         }
 
-        public override ProductCapacity CanHold(IReadOnlyList<EstimatedProduct> itemDescriptions)
-            =>  ModEntry.Config.AllowShippingArtisan
-                && itemDescriptions.All(i => i.qiid is not null && ItemIsArtisanGood(i.qiid))
-                && ChestStorage.ChestCanHold(this.chest, itemDescriptions) != ProductCapacity.Unusable
-                ? ProductCapacity.Preferred : ProductCapacity.Unusable;
+        public override MachineState State => MachineState.Idle;
 
-        /// <inheritdoc/>
-        public override bool TryStore(IEnumerable<StardewValley.Item> items)
+        public override bool FillMachineFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
-            foreach (var item in items)
+            if (!ModEntry.Config.AllowShippingArtisan)
             {
-                if (this.chest.addItem(item) is not null)
-                {
-                    return false;
-                }
+                return false;
             }
+
+            var shippable = storage.RawInventory.FirstOrDefault(
+                i => i is not null
+                  && i.Category == StardewValley.Object.artisanGoodsCategory
+                  && i.Stack > 0
+                  && !isShinyTest(i));
+            if (shippable is null)
+            {
+                return false;
+            }
+
+            int numToTake = Math.Min(MaxToteableStack, shippable.Stack);
+            if (!this.CanHold(shippable, numToTake))
+            {
+                return false;
+            }
+
+            Item duplicate = ItemRegistry.Create(shippable.QualifiedItemId, numToTake, shippable.Quality);
+            storage.RawInventory.Reduce(shippable, numToTake);
+            this.chest.addItem(duplicate);
             return true;
         }
 
-        /// <inheritdoc/>
-        public override IInventory RawInventory
+        public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
-            get => this.chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
+            if (!ModEntry.Config.AllowShippingArtisan)
+            {
+                return null;
+            }
+
+            var shippable = storage.RawInventory.FirstOrDefault(
+                i => i is not null
+                  && i.Category == StardewValley.Object.artisanGoodsCategory
+                  && i.Stack > 0
+                  && !isShinyTest(i));
+            if (shippable is not null && this.CanHold(shippable, 5))
+            {
+                return new List<Item> { ItemRegistry.Create(shippable.QualifiedItemId, Math.Min(shippable.Stack, MaxToteableStack), shippable.Quality) };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public override void FillMachineFromInventory(Inventory inventory)
+        {
+            foreach (var item in inventory)
+            {
+                this.chest.addItem(item);
+            }
+            inventory.Clear();
+        }
+
+        public override bool IsCompatibleWithJunimo(JunimoType projectType) => true;
+
+        private bool CanHold(Item item, int actualStack)
+        {
+            var rawInventory = this.chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
+
+            int emptySlots = this.chest.GetActualCapacity() - rawInventory.CountItemStacks();
+            return emptySlots > 0 || rawInventory.Any(i => i.canStackWith(item) && i.Stack + item.Stack < 1000);
         }
 
         public override string ToString()
         {
             return IF($"{this.chest.Name} at {this.chest.TileLocation}");
-        }
-
-        private static Dictionary<string, bool> isArtisanCache = new Dictionary<string, bool>();
-
-        private static bool ItemIsArtisanGood(string qiid)
-        {
-            if (isArtisanCache.TryGetValue(qiid, out bool isArtisan))
-            {
-                return isArtisan;
-            }
-
-            var data = ItemRegistry.GetData(qiid);
-            isArtisan = data is not null && data.Category == StardewValley.Object.artisanGoodsCategory;
-            isArtisanCache[qiid] = isArtisan;
-            return isArtisan;
         }
     }
 }

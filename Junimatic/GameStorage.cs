@@ -48,10 +48,6 @@ namespace NermNermNerm.Junimatic
             {
                 return new ChestStorage(chest, accessPoint);
             }
-            else if (item is Chest miniShippingBin && (miniShippingBin.SpecialChestType == Chest.SpecialChestTypes.MiniShippingBin))
-            {
-                return new MiniShippingBinStorage(miniShippingBin, accessPoint);
-            }
             else if (item.ItemId == "165") // auto-grabber
             {
                 return new AutoGrabberStorage(item, accessPoint);
@@ -128,7 +124,7 @@ namespace NermNermNerm.Junimatic
 
             // This routine gets called an awful lot - so we want to make it as quick as possible, which means as
             // few iterations of the items list as we can do.
-            int emptySlots = chest.GetActualCapacity() - chest.Items.CountItemStacks();
+            int emptySlots = chest.GetActualCapacity() - rawInventory.CountItemStacks();
 
             // Most of the time chests will have enough open slots to contain all our output.  This shortcut enables
             //  us to loop through the items just once (to determine if it's a preferred chest or not).
