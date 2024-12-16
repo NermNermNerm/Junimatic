@@ -27,6 +27,10 @@ namespace NermNermNerm.Junimatic
             {
                 return new FishPondMachine(fishPond, accessPoint);
             }
+            else if (building is ShippingBin shippingBin)
+            {
+                return new ShippingBinMachine(shippingBin, accessPoint);
+            }
             else
             {
                 return null;

@@ -39,7 +39,7 @@ namespace NermNermNerm.Junimatic
             }
             else if (item is Chest miniShippingBin && (miniShippingBin.SpecialChestType == Chest.SpecialChestTypes.MiniShippingBin))
             {
-                return new MiniShippingBinStorage(miniShippingBin, accessPoint);
+                return new MiniShippingBinMachine(miniShippingBin, accessPoint);
             }
             else
             {

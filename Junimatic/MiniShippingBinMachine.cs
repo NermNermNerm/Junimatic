@@ -13,16 +13,16 @@ using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 namespace NermNermNerm.Junimatic
 {
     /// <summary>
-    ///   Abstraction for chests.
+    ///   This is for the mini-shipping bin.  It always wants stuff and never produces anything.
     /// </summary>
-    public class MiniShippingBinStorage
+    public class MiniShippingBinMachine
         : ObjectMachine
     {
         private const int MaxToteableStack = 5;
 
         private Chest chest => (Chest)base.GameObject;
 
-        internal MiniShippingBinStorage(Chest item, Point accessPoint)
+        internal MiniShippingBinMachine(Chest item, Point accessPoint)
             : base(item, accessPoint)
         {
         }
