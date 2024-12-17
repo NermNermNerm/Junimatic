@@ -1,0 +1,1044 @@
+// Do not manually edit this file!  Follow these instructions to import changes:
+// https://github.com/NermNermNerm/LocalizeFromSource?tab=readme-ov-file#ingesting-translations
+{
+  "translations": [
+    {
+      "source": "You've been to the mines I see...  Your grandfather did too, even after his mind began to go.  I worried for him, but there was no stopping him.$0#$b#Then one day he came to me, shaken to the core.  He sobbed 'A big slime ate my friend!' but I know he went to the mines alone...$2#$b#He kept going on like that for several days.  I felt terrible for him, because although *I* knew it wasn't real, it was real enough to him.$0#$b#He never went back to the mines; that was very much for the best.$2",
+      "translation": "Veo que has estado en las minas... Tu abuelo también lo hizo, incluso después de que su mente comenzó a fallar. Me preocupé por él, pero no había forma de detenerlo.$0#$b#Entonces un día Vino a mí, conmocionado hasta los huesos. Sollozaba: \"¡Un gran Slime se comió a mi amigo!\", pero sé que fue solo a las minas... $2#$b#. Siguió así durante varios días. Sentí terrible para él, porque aunque *yo* sabía que no era real, para él era lo suficientemente real.$0#$b#Nunca regresó a las minas; eso fue lo mejor.$2",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "= $ Shiny things $ =",
+      "translation": "= $ Cosas brillantes $ =",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Junimos won't put items with equal or better quality\nthan these items into machines or shipping bins.",
+      "translation": "Junimos no colocará artículos con una calidad igual o mejor que estos artículos en máquinas o contenedores de envío.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Junimos work anywhere",
+      "translation": "Los Junimos funcionan en cualquier lugar",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
+      "translation": "Normalmente, los Junimos solo funcionan en granjas de jugadores, ya que son tímidos. Activar esta opción permite que los portales de los Junimos funcionen en cualquier lugar.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Minimal Questing",
+      "translation": "Misión mínima",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.",
+      "translation": "Normalmente se requieren misiones para desbloquear los Junimos. Esto permite omitir la mayoría de las misiones: solo tienes que completar la misión del portal.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I wonder what {{arg0}} has been up to...",
+      "translation": "Me pregunto qué ha estado haciendo {{arg0}}...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Pets sometimes have an uncanny ability to spot missing things!$0#$b#Just last week I lost my favorite milking bucket.  I came across it a few days later and my cat, Muffin, was sleeping in it.$1#$b#Well, I guess she didn't exactly find it for me, but at least she knew where it was!$0",
+      "translation": "¡A veces las mascotas tienen una habilidad asombrosa para detectar cosas que faltan!$0#$b#La semana pasada perdí mi balde de ordeño favorito. Lo encontré unos días después y mi gato, Muffin, estaba durmiendo en él.$1#$b#Bueno, supongo que no lo encontró exactamente por mí, ¡pero al menos sabía dónde estaba!$0",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Do I miss my \"normal\" life on days like this?$2#$b#No, not really.  Except for Jeremy Clarkson...$1#$b#...My pet Schnauzer.  He had an uncanny ability to fetch the thing I wanted before I even knew I wanted it.$0",
+      "translation": "¿Extraño mi vida \"normal\" en días como estos?$2#$b#No, en realidad no. Excepto Jeremy Clarkson...$1#$b#...Mi Schnauzer mascota. Tenía una habilidad asombrosa para traerme lo que quería antes de que yo supiera que lo quería.$0",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "That's not a chicken.",
+      "translation": "Eso no es un pollo.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I wonder if it's lost and can't find its way home...  It seems distressed.",
+      "translation": "Me pregunto si está perdido y no puede encontrar el camino a casa... Parece angustiado.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Maybe a Junimo Portal would help it find its way home.",
+      "translation": "Tal vez un Portal Junimo le ayudaría a encontrar el camino a casa.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "That wasn't a chicken...  was it?$2#$b#Your grandfather had some little houses like that on his farm.  He said they were for his 'helpers'.  But as he declined, he was prone to say, well, a lot of stuff....$2#$b#I suppose I caught a glimpse of them from time to time, but, well...  I think I'm more comfortable not seeing them.$3#$b#You say they're good creatures?  Well...  Okay.  *Something* was sure keeping that farm in trim when your Grandad was declining.$2#$b#I suppose everybody needs a little magic in their lives from time to time.$0",
+      "translation": "Eso no era un pollo... ¿verdad?$2#$b#Tu abuelo tenía algunas casitas como esa en su granja. Decía que eran para sus 'ayudantes'. Pero cuando se negó, se inclinó a decir, bueno, muchas cosas...$2#$b#Supongo que las vi de vez en cuando, pero, bueno... creo que me siento más cómodo sin verlas.$3#$b#¿Dices que son buenas criaturas? Bueno... Está bien. *Algo* estaba manteniendo esa granja en orden cuando tu abuelo estaba en decadencia.$2#$b#Supongo que todos necesitan un poco de magia en sus vidas de vez en cuando.$0",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Thank you for helping our friend get home...",
+      "translation": "Gracias por ayudar a nuestro amigo a llegar a casa...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I can help you, like I helped your Grandfather...",
+      "translation": "Puedo ayudarte, como ayudé a tu abuelo...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I like animals and the wonderful things you can make with their help...",
+      "translation": "Me gustan los animales y las cosas maravillosas que puedes hacer con su ayuda...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Hello @!  Are you missing any chickens?  I think one might have run off!",
+      "translation": "¡Hola @! ¿Echas de menos alguna gallina? ¡Creo que se te ha escapado una!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I saw it across the river to the south of my farm!  I went over to try and round it up, but it ran away from me!$2#$b#Maybe it would come to you if you went down there and called it!",
+      "translation": "¡Lo vi al otro lado del río al sur de mi granja! Fui a intentar atraparlo, ¡pero se me escapó!$2#$b#¡Quizás venga a ti si bajas y lo llamas!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Oof! I need to be getting back! Anyway, I hope you can wrangle it back home!  Bye now!  Don't be a stranger!",
+      "translation": "¡Uf! ¡Tengo que volver! De todos modos, ¡espero que puedas volver a casa! ¡Adiós! ¡No seas un extraño!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Chicken Round-Up",
+      "translation": "Reunión de pollos",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Marnie thinks one of your chickens has escaped and is in the forest south of her farm; you should investigate.",
+      "translation": "Marnie cree que una de tus gallinas se ha escapado y está en el bosque al sur de su granja; deberías investigar.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Enter the Cindersap Forest during the day.",
+      "translation": "Entra al Bosque Cindersap durante el día.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Help the Junimo Go Home",
+      "translation": "Ayuda a Junimo a volver a casa",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Help the Junimo in the Cindersap Forest get home.",
+      "translation": "Ayuda al Junimo en el Bosque Cindersap a llegar a casa.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Enter the Cindersap Forest during the day with a Junimo Portal in your inventory.",
+      "translation": "Ingresa al Bosque Cindersap durante el día con un Portal Junimo en tu inventario.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "We love giant crops!  Please keep growing them!",
+      "translation": "¡Nos encantan los cultivos gigantes! ¡Por favor, sigan cultivándolos!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "One of us will come and help with your kegs, casks and preserves jars if you connect them to a portal!",
+      "translation": "Uno de nosotros vendrá a ayudarte con tus barriles, toneles y frascos de conserva si los conectas a un portal",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Did you ever see the giant crops your Granddad used to grow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1",
+      "translation": "¿Viste alguna vez los cultivos gigantes que cultivaba tu abuelo? Calabazas enormes y locas. #$b#Abby hizo campaña para que yo comprara una cada año. Creo que quería que comprara una para poder tener un casa para ella sola.$1",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Has Abby been needling you about growing giant pumpkins?$4#$b#Don't do it, really, there's no money in it.  Quantity is good, sure, but the quality isn't.$2#$b#Your grandpa grew them in his declining years in particular.  He said 'my helpers like them'.  Not sure what he meant by that, but he really enjoyed them that made it worth it to him!$1",
+      "translation": "¿Abby te ha estado molestando con lo de cultivar calabazas gigantes?$4#$b#No lo hagas, de verdad, no hay dinero en ello. La cantidad es buena, claro, pero la calidad no lo es.$2#$ b#Tu abuelo los cultivó en sus últimos años en particular. Dijo \"a mis ayudantes les gustan\". No estoy seguro de qué quiso decir con eso, pero los disfrutaba tanto que para él valió la pena. $1",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
+      "translation": "Cuando eras niño y visitabas la granja, ¿alguna vez viste alguna de las coliflores gigantes que cultivaba tu abuelo? ¡Quiero decir enormes! ¡Muy enormes! $1#$b# Solo pude verlas una vez que Recuerdo cuando mi mamá me llevó allí una tarde. #$b#Subí a uno como un árbol y mi mamá se preocupó. #$b#Tu abuelo me pescó y le dijo a mi mamá que no se preocupara porque las criaturas mágicas me protegerían. yo.#$b#No sé por qué, supongo que es porque era solo un niño, pero me sentí realmente especial durante mucho tiempo después de ese día",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn't buy one and your grandad invented this cock&bull story about magical creatures.$5#$b#Didn't he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2",
+      "translation": "Tu abuelo solía cultivar calabazas gigantes. Yo quería tallar una de esas cosas.$1#$b#Pero mi madre no quería comprar una y tu abuelo inventó esta historia absurda sobre criaturas mágicas.$5#$b#¿No sabía que yo era demasiado mayor para historias como esa? Meh. Supongo que debería perdonarle por ser viejo y senil.$2#$b#Entonces... ¿Quieres saber más sobre mis problemas del primer mundo?$2",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Enables the fishing Junimo - Enables the Junimo for handling fishing things with or without having done the quest.",
+      "translation": "Habilita al Junimo pescador - Habilita al Junimo para manejar cosas de pesca con o sin haber realizado la misión.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "{{arg0}} of 6 teleported",
+      "translation": "{{arg0}} de 6 teletransportados",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "You've made a new Junimo friend that will help with traps and fishing-related machines",
+      "translation": "Has hecho un nuevo amigo Junimo que te ayudará con las trampas y las máquinas relacionadas con la pesca",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "@!  I'm so glad you came!",
+      "translation": "@! ¡Me alegro mucho de que hayas venido!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Please come to the mines with me.  There's something I have to show you!",
+      "translation": "Por favor, ven conmigo a las minas. ¡Tengo algo que mostrarte!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I had been having these recurring dreams...  In it, there was somebody like me, but wasn't me...  You know how dreams are.",
+      "translation": "Había estado teniendo estos sueños recurrentes... En ellos, había alguien como yo, pero no era yo... Ya sabes cómo son los sueños.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Anyway, this other me was at a pool, deep in a cave.  It was filled with litter, but the whole community was pitching in to clean it up.",
+      "translation": "De todos modos, este otro yo estaba en una piscina, en lo profundo de una cueva. Estaba llena de basura, pero toda la comunidad estaba colaborando para limpiarla.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "They cleaned it, but there were no fish in it anymore, which made the other me sad.",
+      "translation": "Lo limpiaron, pero ya no había peces, lo que entristeció al otro yo.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "But then a fish tank appeared!  And then fish started appearing in the fish tank, and the other me started netting them out and releasing them into the pond!",
+      "translation": "¡Pero entonces apareció una pecera! ¡Y entonces empezaron a aparecer peces en la pecera, y el otro yo empezó a sacarlos con una red y a soltarlos en el estanque!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "As to what happened next, well, you'd best see for yourself.  Please take the elevator down to 60.",
+      "translation": "En cuanto a lo que pasó después, bueno, será mejor que lo veas por ti mismo. Por favor, toma el ascensor hasta el piso 60.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "It was just a dream, I thought, but the next night I dreamt the same thing, so I just had to come down here.",
+      "translation": "Fue solo un sueño, pensé, pero la noche siguiente soñé lo mismo, así que tuve que bajar aquí.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Look at this!  The fish tank from my dream!  Where did that come from?",
+      "translation": "¡Mira esto! ¡La pecera de mi sueño! ¿De dónde salió eso?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Well, the tank was empty, and I decided I'd try putting a fish in there, so I caught a ghostfish and put it in there.",
+      "translation": "Bueno, el tanque estaba vacío y decidí intentar poner un pez allí, así que atrapé un pez fantasma y lo puse allí.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "AND IT DISAPPEARED!",
+      "translation": "¡Y DESAPARECIÓ!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Poof!",
+      "translation": "¡Puf!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Gone!",
+      "translation": "¡Se fue!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "So I put in another, and it disappeared too!",
+      "translation": "Entonces puse otro y ¡también desapareció!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Is it going to the world in my dream?  I don't know, but after about half a dozen fish went in there they stopped disappearing.",
+      "translation": "¿Va a ir al mundo en mi sueño? No lo sé, pero después de que aproximadamente media docena de peces entraron allí, dejaron de desaparecer",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "...But the tank is still here...",
+      "translation": "...Pero el tanque todavía está aquí...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I see some smaller fish darting around in the pool, but I haven't been able to land any of them.",
+      "translation": "Veo algunos peces más pequeños dando vueltas en la piscina, pero no he podido pescar ninguno.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "You're the only one that can help since you've got the skill, the equipment and can handle yourself this deep in the mine.",
+      "translation": "Eres el único que puede ayudar, ya que tienes la habilidad, el equipo y puedes arreglártelas en lo profundo de la mina.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Could you try and catch some of those little fish and put them in the tank and see what happens?",
+      "translation": "¿Podrías intentar atrapar algunos de esos pequeños peces y ponerlos en el tanque y ver qué sucede?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I'm afraid I've got to leave you to it.  I know it could take a while to catch them and I...",
+      "translation": "Me temo que tendré que dejarte solo. Sé que podría llevar un tiempo atraparlos y yo...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Well, I've got a lot to think about.",
+      "translation": "Bueno, tengo mucho en qué pensar.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Find Linus At His Tent",
+      "translation": "Encuentra a Linus en su tienda",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Linus said he had something he needed your help with.",
+      "translation": "Linus dijo que tenía algo en lo que necesitaba tu ayuda.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Go to Linus' tent before 10pm",
+      "translation": "Ve a la tienda de Linus antes de las 10 pm",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Meet Linus At Level 60",
+      "translation": "Conoce a Linus en el nivel 60",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Linus had something he wanted to show you at level 60 of the mines.",
+      "translation": "Linus tenía algo que quería mostrarte en el nivel 60 de las minas.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Follow Linus to level 60",
+      "translation": "Sigue a Linus hasta el nivel 60",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Catch Six Ice Pips",
+      "translation": "Atrapa seis pepitas de hielo",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Catch six ice pips and put them in the mysterious fish tank.",
+      "translation": "Atrapa seis pepitas de hielo y colócalas en la pecera misteriosa.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus",
+      "translation": "@,^Por favor, ven a visitarme a mi tienda. He encontrado algo y necesito tu ayuda para solucionarlo.^ -Linus",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Meet Linus at his tent",
+      "translation": "Encuentra a Linus en su tienda",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I'm still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He's disappointed and puzzled.#$b#I'm pretty puzzled too.  But I'm glad you're working on it.",
+      "translation": "Sigo teniendo esos sueños. El otro yo... que cada noche parece menos como yo, sigue mirando esa pecera en su mundo. Está decepcionado y desconcertado. #$b#Yo también estoy bastante desconcertado. Pero me alegro de que estés trabajando en ello.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Did you finish collecting those fish?  I'm betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I've never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that's good.#$b#But I still hope they go away.",
+      "translation": "¿Terminaste de recolectar esos peces? Apuesto a que sí. Tuve un último sueño, donde los peces fueron liberados y el tanque desapareció.#$b#Sabes, una de las razones por las que adopté mi, uh... estilo de vida es que yo no era, bueno, tan estable en la cabeza.#$b#Y a veces estaba enojada. Esa fue la parte que me hizo hacer lo que la mayoría consideraría un cambio drástico en mi estilo de vida.#$b#Pero nunca me he sentido más cuerda. Al menos hasta que estos sueños comenzaron a suceder.#$b#Pero en estas visiones no hay nada como la ira, así que, bueno, eso es bueno.#$b#Pero todavía espero que desaparezcan.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3",
+      "translation": "Hola, acabo de leer un artículo escrito por uno de mis antiguos compañeros de la universidad sobre la restauración del hábitat de una piscina subterránea poblada de peces fantasma y peces de hielo. $1#$b#Me han dicho que tenemos una caverna así en lo profundo de las minas. Tal vez puedas llevarme a ella algún día.#$b#Es curioso, el artículo no especifica de dónde sacó los peces para repoblar...$3",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Thx!  Bai!!!",
+      "translation": "¡Gracias! ¡Bai!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "The giant trees were cut down to make ships and buildings and other wonderful things...",
+      "translation": "Los árboles gigantes fueron talados para hacer barcos y edificios y otras cosas maravillosas...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "...but they cut like there would always be more, until they cut down the last one.",
+      "translation": "...pero cortaron como si siempre hubiera más, hasta que cortaron el último.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "You will be wiser.  We will help.",
+      "translation": "Serás más sabio. Te ayudaremos.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Welcome!  You're just in time!",
+      "translation": "¡Bienvenido! ¡Llegas justo a tiempo!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I hiked the back-woods trail today.",
+      "translation": "Hoy caminé por el sendero del bosque.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "It can be a bit treacherous at my age...",
+      "translation": "Puede ser un poco traicionero a mi edad...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "But the view of the desert is breathtaking.",
+      "translation": "Pero la vista del desierto es impresionante.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I picked a few wild mushrooms and herbs along the way.",
+      "translation": "Recogí algunos hongos silvestres y hierbas en el camino.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Dinner is served!",
+      "translation": "¡La cena está servida!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "What do you think?",
+      "translation": "¿Qué piensas?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I'm glad you like it.",
+      "translation": "Me alegro que te guste.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "You know, when people see you talking to the trees, well...  They tend to think you're crazy.$2",
+      "translation": "Sabes, cuando la gente te ve hablando con los árboles, bueno... tienden a pensar que estás loco.$2",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "But when you hear the trees talking *to* *you*, then... well...#$b#Then maybe they're right.$2",
+      "translation": "Pero cuando escuchas a los árboles hablándote *a* ti*, entonces... bueno...#$b#Entonces tal vez tengan razón.$2",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Last night I dreamt I saw what these trees looked like before they were cut...",
+      "translation": "Anoche soñé que veía cómo eran estos árboles antes de que los cortaran...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Then, the vision pivoted to your farm; your farm when those big stumps and logs were standing trees...",
+      "translation": "Luego, la visión giró hacia su granja; su granja cuando esos grandes tocones y troncos eran árboles en pie...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I found these seeds in my tent as I was stepping out this morning.#$b#I guess I tracked them in last night.  They're usually not so easy to find.  Here.  I think they're meant for you.",
+      "translation": "Encontré estas semillas en mi tienda cuando salía esta mañana. Supongo que las seguí anoche. No suelen ser tan fáciles de encontrar. Toma. Creo que son para ti.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I'm glad you're the sort of friend that doesn't mind listening to the ravings of a crazy old man.",
+      "translation": "Me alegra que seas el tipo de amigo al que no le importa escuchar los desvaríos de un viejo loco",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Well...  It's getting late.  You should get back to your farm and I should crawl into my tent.#$b#I plan on breaking camp in the morning and making the hike up to the mountain.",
+      "translation": "Bueno... Se está haciendo tarde. Deberías volver a tu granja y yo debería meterme en mi tienda. #$b#Pienso levantar el campamento por la mañana y hacer la caminata hasta la montaña.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Do the trees talk to you too?",
+      "translation": "Los árboles también te hablan?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Hm.  Perhaps it's best not to answer that one...",
+      "translation": "Hm. Quizás sea mejor no responder a esa pregunta...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Plant The Mystic Seed",
+      "translation": "Planta la semilla mística",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Linus gave you some tree seeds...  Do the Junimos talk to him too?",
+      "translation": "Linus te dio algunas semillas de árboles... ¿Los Junimos también hablan con él?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Grow a Mystic Tree and 2 Mahogony Trees to adulthood on your farm.",
+      "translation": "Cultiva un árbol místico y 2 árboles de caoba hasta que alcancen la edad adulta en tu granja.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Meet Linus In The Secret Woods",
+      "translation": "Conoce a Linus en el bosque secreto",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Have dinner with Linus in the Secret Woods",
+      "translation": "Cena con Linus en el Bosque Secreto",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Enter the secret woods on a sunny day between 6 and 11pm.",
+      "translation": "Entra en el bosque secreto en un día soleado entre las 6 y las 11 de la tarde.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
+      "translation": "@,^¿cómo estás? He decidido pasar una noche o dos en lo profundo del bosque, al oeste del rancho de Marnie. ¿Te gustaría compartir una comida en la naturaleza conmigo? ^ -Linus",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Meet at Linus' camp in the woods",
+      "translation": "Nos vemos en el campamento de Linus en el bosque",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Give the strange orb to the host player - only the host can advance this quest.  (Put it in a chest for them)",
+      "translation": "Entrégale el orbe extraño al jugador anfitrión. Solo el anfitrión puede avanzar en esta misión. (Colócalo en un cofre para él)",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "a strange faintly glowing orb",
+      "translation": "un extraño orbe que brilla débilmente",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "It looks vaguely magical. It's quite hard and smooth.",
+      "translation": "Parece vagamente mágico. Es bastante duro y suave",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...",
+      "translation": "Mi querido muchacho...^Mi amada nieta...#$b#Lamento tener que venir a ti de esta manera, pero tenía que agradecerte por rescatar a mi querido amigo Junimo.#$b#Él me protegió en un momento en el que mi peor enemigo era mi propia mente en decadencia.#$b#En mejores días, me ayudó con mis fundiciones y otras máquinas relacionadas con la mina. Él también te ayudará a ti; ¡realmente disfruta viendo el resplandor de los incendios!#$b#Ahora descanso mucho más tranquilo sabiendo que mi amigo está a salvo. Estoy muy orgulloso de ti...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "What have you brought for me this time?",
+      "translation": "¿Qué me has traído esta vez?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Hm..  Yes...#$b#Junimos are harmless, but they are not defenseless.  When this one was overwhelmed by the slime, it bound itself into a protective stasis and went into a sort of torpor.#$b#If we return this to the Junimo's world, they will be able to care for this one.",
+      "translation": "Hm... Sí...#$b#Los Junimos son inofensivos, pero no indefensos. Cuando este fue abrumado por la baba, se unió a un estado de estasis protector y entró en una especie de letargo.#$b#Si lo devolvemos al mundo de los Junimo, podrán cuidar de este.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I shall, using my immense powers, transport this one back to the Junimo realm!",
+      "translation": "¡Usando mis inmensos poderes, transportaré a este de regreso al reino de Junimo!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "There.  Done.",
+      "translation": "Listo. Listo.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Yes.  Done.  It's safely back to the Junimo realm and you should get about your business.",
+      "translation": "Sí. Listo. Has regresado sano y salvo al reino de Junimo y puedes continuar con tus asuntos.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "That's it...#$b#Really...#$b#I think.",
+      "translation": "Eso es...#$b#De verdad...#$b#Creo.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "The Strange Orb",
+      "translation": "El Orbe Extraño",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Investigate the strange glowing thing you found inside a big slime.",
+      "translation": "Investiga la extraña cosa brillante que encontraste dentro de un gran limo",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Bring the faintly glowing orb to the wizard's tower.",
+      "translation": "Lleva el orbe tenuemente brillante a la torre del mago.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Ah... Come in.",
+      "translation": "Ah... Adelante.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)",
+      "translation": "Entrégale la extraña estructura al jugador anfitrión. Solo el anfitrión puede avanzar en esta misión. (Colócala en un cofre para ellos).",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "A portal through which Junimos who want to help out on the farm can appear.  Place pathways next to these when placing them outdoors so the Junimos will know where to go.",
+      "translation": "Un portal a través del cual pueden aparecer los Junimos que quieran ayudar en la granja. Coloca caminos junto a estos cuando los coloques al aire libre para que los Junimos sepan a dónde ir.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Junimo Portal",
+      "translation": "Portal Junimo",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "a strange little structure",
+      "translation": "una pequeña estructura extraña",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard's forest-magic potion.",
+      "translation": "Al principio parecía una mala hierba leñosa, pero al mirarla más de cerca se ve como una pequeña estructura y huele como la poción mágica del bosque del mago.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "You have something to show me?  Well, bring it to me!",
+      "translation": "¿Tienes algo que mostrarme? ¡Pues tráemelo!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...",
+      "translation": "Ah, ya veo por qué pensaste que debería ver esto...#$b#Creo que reconozco los rastros mágicos, pero déjame consultar mi vasta biblioteca de referencia para estar seguro...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Come along then!",
+      "translation": "¡Venid conmigo entonces!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Yes.  I was right...#$b#As always.",
+      "translation": "Sí. Tenía razón...#$b#Como siempre.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.",
+      "translation": "Este es un tipo de portal rudimentario, hecho por tu abuelo para permitir que Junimos viajara fácilmente entre su mundo y el nuestro. #$b# Es algo fácil de construir, incluso el aprendiz más novato podría hacerlo. Ven, déjame enseñártelo.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I learned how to craft a 'Junimo Portal'",
+      "translation": "Aprendí a crear un 'Portal Junimo'",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Enticing a Junimo to *use* it, well, that's up to the Junimo...",
+      "translation": "Convencer a un Junimo para que lo *use*, bueno, eso depende del Junimo...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Usage: After completing quests to get junimo helpers, you can place Junimo Portals either in buildings or outside.  If outside, place walkways between the hut and any chests or machines you want the Junimo to automate.  If in a building, you can place walkways or just leave a clear path.",
+      "translation": "Uso: Después de completar misiones para conseguir ayudantes Junimo, puedes colocar portales Junimo en edificios o en el exterior. Si están en el exterior, coloca pasarelas entre la cabaña y cualquier cofre o máquina que quieras que Junimo automatice. Si están en un edificio, puedes colocar pasarelas o simplemente dejar un camino libre.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!",
+      "translation": "¡Vaya tormenta! ¡Me pregunto si la lluvia lavó el barro de las cosas viejas del abuelo!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "The Strange Little Structure",
+      "translation": "La extraña pequeña estructura",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it.",
+      "translation": "Encontraste los restos de lo que parece un pequeño edificio. Huele como si tuviera algo de magia del bosque.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Bring the remnants of the strange little structure to the wizard's tower.",
+      "translation": "Lleva los restos de la pequeña y extraña estructura a la torre del mago.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Sometimes Lewis goes off into the deep woods...  Usually when his spirits are low.#$b#I wish he wouldn't do that; it can be dangerous there.  But when he's in that mood, well...#$b#It seems like whatever I say I just make it worse.$s",
+      "translation": "A veces Lewis se adentra en lo profundo del bosque... Generalmente cuando está deprimido.#$b#Ojalá no lo hiciera; puede ser peligroso allí. Pero cuando está de ese humor, bueno... ...#$b#Parece que todo lo que digo solo lo empeoro.$s",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Lewis sure has doubled-down on gardening lately!  It's been good for his mood, that's for sure.  Maybe Shane could try it...",
+      "translation": "¡Lewis ha redoblado sus esfuerzos con la jardinería últimamente! Le ha ido bien para el humor, eso seguro. Tal vez Shane podría intentarlo...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I've seen Lewis go into the deep woods from time to time...  I wonder what he's up to.#$b#Do you suppose he performs some kinda magic ritual??   With pentagrams and blood sacrifices??!#$b#Lewis is nice...  Maybe a little *too* nice.",
+      "translation": "He visto a Lewis adentrarse en lo profundo del bosque de vez en cuando... Me pregunto qué estará haciendo.#$b#¿Crees que realiza algún tipo de ritual mágico? ¿Con pentagramas y sacrificios de sangre??!#$b#Lewis es agradable... Tal vez un poco *demasiado* agradable.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "When Lewis gets the blues, he likes to take walks in the deep woods.#$b#It can be a little bit dangerous, but Lewis can handle himself just fine.#$b#Of course, it'd be better for business if he'd drink his troubles away!$h",
+      "translation": "Cuando Lewis se deprime, le gusta dar paseos por lo profundo del bosque.#$b#Puede ser un poco peligroso, pero Lewis puede cuidarse muy bien.#$b#¡Por supuesto, sería mejor para el negocio si bebiera para olvidar sus problemas!$h",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "A house plant that a Junimo wants me to give to Lewis.",
+      "translation": "Una planta de interior que un Junimo quiere que le regale a Lewis.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Mightabeen Rose",
+      "translation": "Podría haber sido rosa",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Junimos can get water from this to water indoor pots.",
+      "translation": "Los Junimos pueden obtener agua de esto para regar macetas de interior.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Indoor Well",
+      "translation": "Pozo interior",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Bring the plant to Lewis",
+      "translation": "Lleva la planta a Lewis",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Bring the Mightabeen Rose to Lewis",
+      "translation": "Llévale la rosa que podría haber existido a Lewis",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Evelyn might want to have a look at this plant before you give it to Lewis, drop by her house for her to check it out.",
+      "translation": "Evelyn podría querer echarle un vistazo a esta planta antes de dársela a Lewis. Pásate por su casa para que la revise",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Please come in!",
+      "translation": "¡Por favor, entre!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Oh now what have you got there?  Bring it over here where the light is better.",
+      "translation": "Oh, ¿qué tienes ahí? Tráelo aquí, donde hay más luz",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I haven't seen one of these plants for a long, long time.#$b#My grandfather kept one in his study.  It was always a happy, beautiful plant.#$b#Whenever he fell into a funk, he'd go tend to it and emerge feeling better.$1#$b#When he passed, my mother tried to take care of it, but it just slowly withered away.  It missed him too I guess!",
+      "translation": "No he visto una de estas plantas desde hace mucho, mucho tiempo.#$b#Mi abuelo tenía una en su estudio. Siempre era una planta feliz y hermosa.#$b#Siempre que se ponía de mal humor, iba a cuidarla y salía sintiéndose mejor.$1#$b#Cuando falleció, mi madre intentó cuidarla, pero se fue marchitando lentamente. ¡Supongo que también lo extrañaba!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I researched it as a young woman, and it turns out these plants are rare, somewhat finicky, and notoriously hard to propagate.#$b#Some people say the smell of the flower helps them to remember that what might have been isn't necessarily better than the here and now.$1",
+      "translation": "Lo investigué cuando era joven y resulta que estas plantas son raras, algo delicadas y notoriamente difíciles de propagar.#$b#Algunas personas dicen que el olor de la flor les ayuda a recordar que lo que podría haber sido no es necesariamente mejor que el aquí y ahora.$1",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "But honestly, I don't feel anything at all from smelling it!  But you say you mean to give it as a gift?",
+      "translation": "Pero, sinceramente, ¡no siento nada en absoluto al olerlo! ¿Pero dices que lo vas a regalar?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "For Lewis?",
+      "translation": "¿Para Lewis?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Oh...$2",
+      "translation": "Oh...$2",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "You know Lewis was quite the Casanova in his youth.  He made time with *all* the girls.$1",
+      "translation": "Ya sabes que Lewis era todo un Casanova en su juventud. Se pasaba el tiempo con *todas* las chicas.$1",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "There was one girl that was special to him, but she wasn't the sort who wanted to worry about what her man was up to when her back was turned...#$b#At the time, he played like he didn't care.  He was too cool to admit that there was a girl he couldn't get - and kept chasing other girls like it didn't mean anything to him.  I've often wondered if she was the reason he never married.",
+      "translation": "Había una chica que era especial para él, pero no era del tipo que quería preocuparse por lo que su hombre estaba haciendo cuando ella no le daba la espalda...#$b#En ese momento, él actuó como si no le importara. Era demasiado tranquilo para admitir que había una chica que no podía conseguir, y siguió persiguiendo a otras chicas como si eso no significara nada para él. A menudo me he preguntado si ella fue la razón por la que nunca se casó.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "But just between you and me, I think it turned out for the best for both of them.$1",
+      "translation": "Pero entre tú y yo, creo que resultó lo mejor para ambos. $1",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Thank you for bringing my flower to Lewis...",
+      "translation": "Gracias por traerle mi flor a Lewis...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Since you helped Lewis, I will help with your indoor plants...",
+      "translation": "Ya que ayudaste a Lewis, te ayudaré con tus plantas de interior...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I learned how to craft an indoor well",
+      "translation": "Aprendí a fabricar un pozo interior",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Ah!  @!  What brings you to the forest today?  Exotic mushrooms?  Fishing?",
+      "translation": "¡Ah! @! ¿Qué te trae hoy al bosque? ¿Hongos exóticos? ¿Pesca?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "It's a good place for that.",
+      "translation": "Es un buen lugar para eso.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Me??",
+      "translation": "¿Yo?",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Well, I guess I just like a good walk in the woods from time to time.  It cheers me up.",
+      "translation": "Bueno, supongo que simplemente me gusta dar un buen paseo por el bosque de vez en cuando. Me anima.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Feeling down?  Me?  No no no.  Right as rain.",
+      "translation": "¿Me siento deprimido? ¿Yo? No, no, no. Estoy tan bien como la lluvia",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "It was nice chatting with you!  I'd better get back to town!#$b#Being mayor is a 24x7 job!",
+      "translation": "¡Fue un placer charlar contigo! ¡Será mejor que regrese a la ciudad! ¡Ser alcalde es un trabajo de 24 horas al día, 7 días a la semana!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Oh hi @!...  Nice to see you again.",
+      "translation": "¡Oh, hola @!... Me alegro de verte de nuevo.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Me?  Feeling down?  No...",
+      "translation": "¿Yo? ¿Me siento mal? No...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Well, not exactly.",
+      "translation": "Bueno, no exactamente.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I come here on those days I can't stop kicking myself for things I should have done and said but didn't.$2",
+      "translation": "Vengo aquí esos días en los que no puedo dejar de lamentarme por cosas que debería haber hecho y dicho pero no hice.$2",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "So many years have passed, yet I just can't seem to let it go.",
+      "translation": "Han pasado tantos años y aún así no puedo dejarlo ir.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Being a bachelor at my age isn't the only way things could have turned out for me...$2",
+      "translation": "Ser soltero a mi edad no es la única manera en que las cosas podrían haber resultado para mí...$2",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I'm not unhappy...",
+      "translation": "No soy infeliz...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "But sometimes...$2",
+      "translation": "Pero a veces...$2",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I shouldn't trouble you.  I hope you'll forgive me for dumping this on you; thanks for lending an ear.",
+      "translation": "No debería molestarte. Espero que me perdones por soltarte esto; gracias por escucharme.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I should get back to town.  I'll see you around.",
+      "translation": "Debería volver a la ciudad. Nos vemos por ahí.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "I think the Junimo wants to help...",
+      "translation": "Creo que el Junimo quiere ayudar...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "The Junimo wants me to give this plant to Lewis...",
+      "translation": "El Junimo quiere que le dé esta planta a Lewis...",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "Huh...  I wonder why a plant would be of help.  Junimos work in strange ways.",
+      "translation": "Eh... Me pregunto por qué una planta sería de ayuda. Los Junimos funcionan de maneras extrañas.",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    },
+    {
+      "source": "The Junimos munched a box of grapes this morning!",
+      "translation": "¡Los Junimos se comieron una caja de uvas esta mañana!",
+      "author": "nexus:Krad13",
+      "ingestionDate": "2024-12-17T14:13:41.526063-08:00"
+    }
+  ]
+}
