@@ -245,6 +245,14 @@ namespace NermNermNerm.Junimatic
 
             foreach (var network in networks)
             {
+                if (!ModEntry.Config.AllowAllLocations && network.corners.Any(c => JunimoShuffler.IsVillagerNear(location, c)))
+                {
+                    location.Objects[network.hut.TileLocation] = (StardewValley.Object)ItemRegistry.Create(UnlockPortal.AbandonedJunimoPortalQiid);
+                    this.cachedNetworks.Remove(location); // Invalidate the cache so it gets rebuilt next tick
+                    this.LogInfo($"A Junimo encountered a villager at {location.Name}, became frightened, and abandoned the Junimo Hut it came from.  Junimos are afraid of villagers and won't work in areas villagers frequent.  If you don't like this rule, it can be turned off in the Junimatic mod settings.");
+                    continue; // Continue to process other networks - possibly removing more.
+                }
+
                 if (!this.haveLookedForRaisins)
                 {
                     foreach (var storage in network.Chests)
@@ -325,7 +333,9 @@ namespace NermNermNerm.Junimatic
 
         record class MachineNetwork(
             IReadOnlyDictionary<JunimoType, IReadOnlyList<GameMachine>> Machines,
-            IReadOnlyList<GameStorage> Chests);
+            IReadOnlyList<GameStorage> Chests,
+            StardewValley.Object hut,
+            IReadOnlyList<Vector2> corners);
 
         private List<MachineNetwork> BuildNetwork(GameLocation location)
         {
@@ -431,7 +441,12 @@ namespace NermNermNerm.Junimatic
                 }
 
             }
-            return new MachineNetwork(machines.ToDictionary(pair => pair.Key, pair => (IReadOnlyList<GameMachine>)pair.Value), chests);
+            int minX = walkedTiles.Min(x => x.X);
+            int maxX = walkedTiles.Max(x => x.X);
+            int minY = walkedTiles.Min(x => x.Y);
+            int maxY = walkedTiles.Max(x => x.Y);
+            return new MachineNetwork(machines.ToDictionary(pair => pair.Key, pair => (IReadOnlyList<GameMachine>)pair.Value), chests,
+                portal, [new Vector2(minX,minY), new Vector2(minX, maxY), new Vector2(maxX, minY), new Vector2(maxX, maxY)]);
         }
 
         public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType, JunimoShuffler? forJunimo)
