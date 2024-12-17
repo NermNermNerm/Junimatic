@@ -28,6 +28,9 @@ namespace NermNermNerm.Junimatic
         public const string JunimoPortal = "Junimatic.JunimoPortal";
         public const string JunimoPortalDiscoveryEvent = "Junimatic.JunimoPortalDiscoveryEvent"; // Public because event code can depend on this.
 
+        public const string AbandonedJunimoPortalId = "Junimatic.AbandonedPortal";
+        public const string AbandonedJunimoPortalQiid = "(BC)Junimatic.AbandonedPortal";
+
         /// <summary>
         ///   The key to the value that tells us whether the portal was put down somewhere.
         ///   (It may have been picked up since then.)  The value stored is really just a
@@ -125,6 +128,18 @@ namespace NermNermNerm.Junimatic
                 Description = L("A portal through which Junimos who want to help out on the farm can appear.  Place pathways next to these when placing them outdoors so the Junimos will know where to go."),
                 DisplayName = L("Junimo Portal"),
                 Texture = ModEntry.BigCraftablesSpritesPseudoPath,
+                Price = 0,
+            };
+            objects[AbandonedJunimoPortalId] = new BigCraftableData()
+            {
+                Name = AbandonedJunimoPortalId,
+                SpriteIndex = 3,
+                CanBePlacedIndoors = true,
+                CanBePlacedOutdoors = true,
+                Description = L("This was a Junimo Portal, but a Junimo that came out of it saw a villager, got scared, and disabled it.  It's trash now."),
+                DisplayName = L("Abandoned Portal"),
+                Texture = ModEntry.BigCraftablesSpritesPseudoPath,
+                Price = 0,
             };
         }
 

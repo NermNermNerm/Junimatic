@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
@@ -7,6 +8,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Inventories;
 using StardewValley.ItemTypeDefinitions;
+using StardewValley.Locations;
 using StardewValley.Pathfinding;
 using StardewValley.Tools;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
@@ -22,6 +24,7 @@ namespace NermNermNerm.Junimatic
         private readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
         private readonly NetRef<Inventory> carrying = new NetRef<Inventory>(new Inventory());
         private readonly WorkFinder? workFinder;
+        private bool isScared = false;
 
         public JunimoShuffler()
         {
@@ -72,7 +75,7 @@ namespace NermNermNerm.Junimatic
 
         private void SetSpeed()
         {
-            this.speed = this.workFinder!.AreJunimosRaisinPowered ? 5 : 3;
+            this.speed = this.isScared ? 6 : (this.workFinder!.AreJunimosRaisinPowered ? 5 : 3);
         }
 
         public JunimoAssignment? Assignment { get; private set; }
@@ -138,7 +141,7 @@ namespace NermNermNerm.Junimatic
                 }
             }
             this.Carrying.Clear();
-            this.doEmote(12);
+            this.doEmote(this.isScared ? 16 : 12);
 
             this.controller = new PathFindController(this, base.currentLocation, this.Assignment.origin, 0, this.JunimoReachedHut);
         }
@@ -218,7 +221,39 @@ namespace NermNermNerm.Junimatic
             this.LogTrace($"Junimo returned to its hut {this.Assignment}");
             this.controller = null;
             this.destroy = true;
+
+            if (this.isScared)
+            {
+                var tile = this.Assignment.hut.TileLocation;
+                this.Assignment.hut.Location.Objects[tile] = (StardewValley.Object)ItemRegistry.Create(UnlockPortal.AbandonedJunimoPortalQiid);
+                this.MakePoof(tile - new Vector2(.5f, 1f), 2f);
+                this.Assignment.hut.Location.playSound("stumpCrack");
+            }
         }
+
+        private void MakePoof(Vector2 tile, float scale)
+        {
+            Vector2 landingPos = tile * 64f;
+            TemporaryAnimatedSprite? dustTas = new(
+                textureName: Game1.mouseCursorsName,
+                sourceRect: new Rectangle(464, 1792, 16, 16),
+                animationInterval: 120f,
+                animationLength: 5,
+                numberOfLoops: 0,
+                position: landingPos,
+                flicker: false,
+                flipped: Game1.random.NextDouble() < 0.5,
+                layerDepth: 9999, // (landingPos.Y + 40f) / 10000f,
+                alphaFade: 0.01f,
+                color: Color.White,
+                scale: Game1.pixelZoom * scale,
+                scaleChange: 0.02f,
+                rotation: 0f,
+                rotationChange: 0f);
+
+            Game1.Multiplayer.broadcastSprites(Game1.currentLocation, dustTas);
+        }
+
 
         protected override void initNetFields()
         {
@@ -400,6 +435,16 @@ namespace NermNermNerm.Junimatic
             {
                 this.Sprite.Animate(time, 0, 8, 50f);
             }
+
+            if (!this.isScared && !ModEntry.Config.AllowAllLocations && Game1.random.Next(500) == 0 && IsVillagerNear(this.currentLocation, this.Tile))
+            {
+                this.LogInfo($"A Junimo encountered a villager at {this.currentLocation.Name}, became frightened, and abandoned the Junimo Hut it came from.  Junimos are afraid of villagers and won't work in areas villagers frequent.  If you don't like this rule, it can be turned off in the Junimatic mod settings.");
+                this.isScared = true;
+                this.JunimoQuitsInDisgust();
+                this.speed = 0;
+                this.jumpWithoutSound();
+                Game1.delayedActions.Add(new DelayedAction(1500, () => this.SetSpeed()));
+            }
         }
 
         private static readonly int[] yBounceBasedOnFrame = new int[] { 12, 10, 8, 6, 4, 4, 8, 10 };
@@ -448,11 +493,27 @@ namespace NermNermNerm.Junimatic
                     carried.drawInMenu(b, position, scaling, 1f, 0.9f, StackDrawType.Hide, Color.White, drawShadow: true);
                 }
             }
+
+            if (!Game1.eventUp)
+            {
+                this.DrawEmote(b);
+            }
         }
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
         {
             this.workFinder?.WriteToLog(message, level, isOnceOnly);
+        }
+
+        public static bool IsVillagerNear(GameLocation location, Vector2 tile)
+        {
+            if (location == Game1.getFarm() || location is FarmHouse)
+            {
+                return false;
+            }
+
+            var isNear = (Vector2 p1, Vector2 p2) => Math.Abs(p1.X - p2.X) < 50 || Math.Abs(p2.Y - p1.Y) < 50;
+            return location.characters.Any(npc => isNear(npc.Tile, tile));
         }
     }
 }

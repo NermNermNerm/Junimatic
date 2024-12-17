@@ -216,21 +216,7 @@ namespace NermNermNerm.Junimatic
                         .Select(b => b.indoors.Value)
                         .Where(l => l is not null).Select(l => l!)
                         .ToList();
-            if (ModEntry.Config.AllowAllLocations)
-            {
-                allJunimoFriendlyLocations.AddRange(Game1.locations);
-            }
-            else
-            {
-                allJunimoFriendlyLocations.Add(Game1.getFarm());
-                // using I() rather than a [nostrict] over the whole thing because I think all this needs to get moved out to a config setting.
-                allJunimoFriendlyLocations.AddRange(
-                    new string[] { "FarmCave", "IslandWest", I("Cellar"), "FarmHouse", "IslandFarmHouse", I("Greenhouse"),
-                        "Custom_GrandpasShed", "Custom_GrandpasShedGreenhouse", "Custom_ForestWest" } // <- SVE locations
-                    .Select(name => Game1.getLocationFromName(name))
-                    .Union(Game1.locations.Where(l => l.GetData()?.CustomFields?.ContainsKey("Junimatic.IsJunimoFriendly") == true))
-                    .Where(l => l is not null));
-            }
+            allJunimoFriendlyLocations.AddRange(Game1.locations);
             return allJunimoFriendlyLocations;
         }
 
