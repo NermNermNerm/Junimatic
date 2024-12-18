@@ -513,7 +513,7 @@ namespace NermNermNerm.Junimatic
             }
 
             var isNear = (Vector2 p1, Vector2 p2) => Math.Abs(p1.X - p2.X) < 50 || Math.Abs(p2.Y - p1.Y) < 50;
-            return location.characters.Any(npc => isNear(npc.Tile, tile));
+            return location.characters.Any(npc => npc is not JunimoShuffler && npc.Name != I("Birdie") && isNear(npc.Tile, tile));
         }
     }
 }
