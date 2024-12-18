@@ -39,7 +39,7 @@ namespace NermNermNerm.Junimatic
         public bool IsUnlocked => ModEntry.Config.EnableWithoutQuests || Game1.MasterPlayer.eventsSeen.Contains(GiantCropCelebrationEventId);
 
         private bool GiantCropIsGrowingOnFarm(GameLocation location, string eventId, string[] args)
-            => location.resourceClumps.OfType<GiantCrop>().Any();
+            => !ModEntry.Config.EnableWithoutQuests && location.resourceClumps.OfType<GiantCrop>().Any();
 
         private void FocusOnGiantCrop(Event @event, string[] split, EventContext context)
         {

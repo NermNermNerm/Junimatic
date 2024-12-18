@@ -136,6 +136,11 @@ end bed
             {
                 e.Edit(editor =>
                 {
+                    if (ModEntry.Config.EnableWithoutQuests)
+                    {
+                        return;
+                    }
+
                     (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (0, 0) : (19, 13);
 
                     var d = editor.AsDictionary<string, string>().Data;

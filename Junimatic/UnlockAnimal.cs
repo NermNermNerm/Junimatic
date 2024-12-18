@@ -31,6 +31,11 @@ namespace NermNermNerm.Junimatic
 
             Event.RegisterPrecondition(StartAnimalJunimoEventCriteria, (GameLocation location, string eventId, string[] args) =>
             {
+                if (ModEntry.Config.EnableWithoutQuests)
+                {
+                    return false;
+                }
+
                 var farmAnimals = Game1.getFarm().animals;
                 bool hasEnoughAnimals = farmAnimals.Length >= 6;
                 bool hasEnoughChickens = farmAnimals.Values.Count(a => a.type.Value.EndsWith(I(" Chicken"))) >= 2;

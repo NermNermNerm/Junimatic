@@ -95,7 +95,12 @@ namespace NermNermNerm.Junimatic
 
         private void OnDayEnding(object? sender, DayEndingEventArgs e)
         {
-            if (Game1.IsMasterGame && this.mod.UnlockPortalQuest.IsUnlocked && Game1.player.foragingLevel.Value >= 6 && Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 6 && !Game1.player.hasOrWillReceiveMail(MeetLinusMailKey))
+            if (Game1.IsMasterGame
+                && !ModEntry.Config.EnableWithoutQuests
+                && this.mod.UnlockPortalQuest.IsUnlocked
+                && Game1.player.foragingLevel.Value >= 6
+                && Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 6
+                && !Game1.player.hasOrWillReceiveMail(MeetLinusMailKey))
             {
                 Game1.player.mailForTomorrow.Add(MeetLinusMailKey);
             }

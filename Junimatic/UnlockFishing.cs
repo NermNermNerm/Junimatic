@@ -148,6 +148,7 @@ namespace NermNermNerm.Junimatic
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
         {
             if (Game1.IsMasterGame
+                && !ModEntry.Config.EnableWithoutQuests
                 && this.mod.UnlockPortalQuest.IsUnlocked
                 && Game1.player.fishingLevel.Value >= 8
                 && Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 6
