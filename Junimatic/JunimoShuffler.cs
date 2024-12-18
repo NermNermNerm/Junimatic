@@ -507,13 +507,16 @@ namespace NermNermNerm.Junimatic
 
         public static bool IsVillagerNear(GameLocation location, Vector2 tile)
         {
-            if (location == Game1.getFarm() || location is FarmHouse)
+            // IslandWest is special-cased because it was outright allowed in early versions of the mod, plus
+            // it just makes sense to allow them to work there.  Perhaps another way to go would be to substantially
+            // reduce the radius instead - so they work, but not near Birdie or the Tiger Slimes.
+            if (location == Game1.getFarm() || location is FarmHouse || location is IslandWest)
             {
                 return false;
             }
 
-            var isNear = (Vector2 p1, Vector2 p2) => Math.Abs(p1.X - p2.X) < 50 || Math.Abs(p2.Y - p1.Y) < 50;
-            return location.characters.Any(npc => npc is not JunimoShuffler && npc.Name != I("Birdie") && isNear(npc.Tile, tile));
+            var isNear = (Vector2 p1, Vector2 p2) => Math.Abs(p1.X - p2.X) < 50 && Math.Abs(p2.Y - p1.Y) < 50;
+            return location.characters.Any(npc => npc is not JunimoShuffler && isNear(npc.Tile, tile));
         }
     }
 }
