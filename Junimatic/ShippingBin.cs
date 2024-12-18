@@ -50,7 +50,8 @@ namespace NermNermNerm.Junimatic
             }
 
             int numToTake = Math.Min(MaxToteableStack, shippable.Stack);
-            Item duplicate = ItemRegistry.Create(shippable.QualifiedItemId, numToTake, shippable.Quality);
+            Item duplicate = shippable.getOne();
+            duplicate.Stack = numToTake;
             storage.RawInventory.Reduce(shippable, numToTake);
 
             var farm = Game1.getFarm();
@@ -75,7 +76,9 @@ namespace NermNermNerm.Junimatic
                   && !isShinyTest(i));
             if (shippable is not null)
             {
-                return new List<Item> { ItemRegistry.Create(shippable.QualifiedItemId, Math.Min(shippable.Stack, MaxToteableStack), shippable.Quality) };
+                var duplicate = shippable.getOne();
+                duplicate.Stack = Math.Min(shippable.Stack, MaxToteableStack);
+                return new List<Item> { duplicate };
             }
             else
             {

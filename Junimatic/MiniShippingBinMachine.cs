@@ -52,7 +52,8 @@ namespace NermNermNerm.Junimatic
                 return false;
             }
 
-            Item duplicate = ItemRegistry.Create(shippable.QualifiedItemId, numToTake, shippable.Quality);
+            Item duplicate = shippable.getOne();
+            duplicate.Stack = numToTake;
             storage.RawInventory.Reduce(shippable, numToTake);
             this.chest.addItem(duplicate);
             return true;
@@ -72,7 +73,9 @@ namespace NermNermNerm.Junimatic
                   && !isShinyTest(i));
             if (shippable is not null && this.CanHold(shippable, 5))
             {
-                return new List<Item> { ItemRegistry.Create(shippable.QualifiedItemId, Math.Min(shippable.Stack, MaxToteableStack), shippable.Quality) };
+                var duplicate = shippable.getOne();
+                duplicate.Stack = Math.Min(shippable.Stack, MaxToteableStack);
+                return new List<Item> { duplicate };
             }
             else
             {
