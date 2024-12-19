@@ -197,6 +197,25 @@ namespace NermNermNerm.Junimatic
 
         private static Dictionary<string,bool> cachedCompatList = new Dictionary<string,bool>();
 
+
+        private static string[][] tags = [
+            [I("category_minerals"), I("category_gem"), I("bone_item")],
+            [I("egg_item"), I("large_egg_item"), I("slime_egg_item")],
+            [I("category_vegetable"), I("category_fruit"), I("keg_wine"), I("preserves_pickle"), I("preserves_jelly"), I("coffee_item")],
+            [I("category_fish")],
+            [], // there aren't any tags for wood stuff listed
+            [] // Only for plant pots and fruit trees
+        ];
+
+        private static int[][] categories = [
+            [StardewValley.Object.GemCategory, StardewValley.Object.mineralsCategory, StardewValley.Object.metalResources, StardewValley.Object.monsterLootCategory],
+            [StardewValley.Object.EggCategory, StardewValley.Object.MilkCategory, StardewValley.Object.meatCategory, StardewValley.Object.sellAtPierresAndMarnies /* wool, duck feather, etc. */, StardewValley.Object.artisanGoodsCategory, StardewValley.Object.CookingCategory],
+            [StardewValley.Object.VegetableCategory, StardewValley.Object.FruitsCategory, StardewValley.Object.SeedsCategory, StardewValley.Object.flowersCategory, StardewValley.Object.fertilizerCategory, StardewValley.Object.artisanGoodsCategory],
+            [StardewValley.Object.junkCategory, StardewValley.Object.baitCategory],
+            [StardewValley.Object.buildingResources],
+            []
+        ];
+
         /// <summary>
         ///   Returns true if the machine has a recipe that the Junimo can do.
         /// </summary>
@@ -208,15 +227,49 @@ namespace NermNermNerm.Junimatic
                 return result;
             }
 
-            result = this.IsCompatibleWithJunimoNoCache(projectType);
-            cachedCompatList[cacheKey] = result;
-            return result;
+            bool? noCacheResult = this.IsCompatViaMachineOutputRule(projectType);
+            if (noCacheResult.HasValue)
+            {
+                cachedCompatList[cacheKey] = noCacheResult.Value;
+                return noCacheResult.Value;
+            }
+
+            // A common cause of the rule-based system to not work is machines that
+            // don't have a direct relationship between an input item and an output.
+            // Many of these are spew-an-item-a-day machines.  This system ensures
+            // that we can at least empty these machines if not fill them.
+            if (this.Machine.heldObject.Value is not null)
+            {
+                var heldObject = this.Machine.heldObject.Value;
+                if (categories[(int)projectType].Contains(heldObject.Category))
+                {
+                    return true;
+                }
+
+                if (heldObject.GetContextTags().Any(tag => tags[(int)projectType].Contains(tag)))
+                {
+                    return true;
+                }
+
+                // If the object is just completely unrecognizable, let anything grab it...
+                if (!categories.SelectMany(c => c).Contains(heldObject.Category) // If heldObject.Category doesn't match any of our categories
+                    && !tags.SelectMany(tagSet => tagSet).Intersect(heldObject.GetContextTags()).Any())
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool IsManualFeedMachine => this.Machine.ItemId == "21"; // Crystalarium
 
+        /// <summary>
+        ///   Tries to determine if a machine is compatible with a particular type of junimo by looking at the
+        ///   machine's rule data.  Often, the rule data is not conclusive - if that's the case, it returns null.
+        /// </summary>
         [NoStrict]
-        private bool IsCompatibleWithJunimoNoCache(JunimoType projectType)
+        private bool? IsCompatViaMachineOutputRule(JunimoType projectType)
         {
             // The MachineData contains clues as to what the assignments should be, but it's definitely fuzzy.
             // The game's notion of "category" is largely a matter of taste and isn't really consistent, and
@@ -282,30 +335,17 @@ namespace NermNermNerm.Junimatic
 
             // TODO: Add configurable special cases.
 
-            string[][] tags = [
-                ["category_minerals", "category_gem", "bone_item"],
-                ["egg_item", "large_egg_item", "slime_egg_item"],
-                ["category_vegetable", "category_fruit", "keg_wine", "preserves_pickle", "preserves_jelly"],
-                ["category_fish"],
-                [], // there aren't any tags for wood stuff listed
-                [] // Only for plant pots and fruit trees
-                ];
 
-            int[][] categories = [
-                [StardewValley.Object.GemCategory, StardewValley.Object.mineralsCategory, StardewValley.Object.metalResources, StardewValley.Object.monsterLootCategory],
-                [StardewValley.Object.EggCategory, StardewValley.Object.MilkCategory, StardewValley.Object.meatCategory, StardewValley.Object.sellAtPierresAndMarnies /* wool, duck feather, etc. */, StardewValley.Object.artisanGoodsCategory],
-                [StardewValley.Object.VegetableCategory, StardewValley.Object.FruitsCategory, StardewValley.Object.SeedsCategory, StardewValley.Object.flowersCategory, StardewValley.Object.fertilizerCategory, StardewValley.Object.artisanGoodsCategory],
-                [StardewValley.Object.junkCategory, StardewValley.Object.baitCategory],
-                [StardewValley.Object.buildingResources],
-                []
-                ];
-
+            bool hasLegibleOutputRule = false;
             if (machineData?.OutputRules is not null)
             {
                 foreach (var rule in machineData.OutputRules)
                 {
                     foreach (var trigger in rule.Triggers)
                     {
+                        hasLegibleOutputRule |= trigger.RequiredTags is not null && trigger.RequiredTags.Any();
+                        hasLegibleOutputRule |= trigger.RequiredItemId is not null;
+
                         if (trigger.RequiredTags is not null && trigger.RequiredTags.Intersect(tags[(int)projectType]).Any())
                         {
                             return true;
@@ -327,7 +367,7 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            return false;
+            return null;
         }
 
         public override List<StardewValley.Item> GetProducts()
