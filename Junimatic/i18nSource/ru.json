@@ -1,0 +1,1044 @@
+// Do not manually edit this file!  Follow these instructions to import changes:
+// https://github.com/NermNermNerm/LocalizeFromSource?tab=readme-ov-file#ingesting-translations
+{
+  "translations": [
+    {
+      "source": "You've been to the mines I see...  Your grandfather did too, even after his mind began to go.  I worried for him, but there was no stopping him.$0#$b#Then one day he came to me, shaken to the core.  He sobbed 'A big slime ate my friend!' but I know he went to the mines alone...$2#$b#He kept going on like that for several days.  I felt terrible for him, because although *I* knew it wasn't real, it was real enough to him.$0#$b#He never went back to the mines; that was very much for the best.$2",
+      "translation": "Ты, кажется, был в шахтах... Твой дед тоже туда ходил, даже когда его разум начал подводить. Я переживал за него, но его было не остановить.$0#$b#Однажды он пришёл ко мне, потрясённый до глубины души. Он рыдал: 'Большой слизень съел моего друга!' но я знал, что он ходил в шахты один...$2#$b#Он так говорил несколько дней. Мне было его жаль, потому что, хотя я знал, что это не было правдой, для него это было вполне реально.$0#$b#Он больше никогда не возвращался в шахты; и это было к лучшему.$2",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "= $ Shiny things $ =",
+      "translation": "= $ Блестящие вещи $ =",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Junimos won't put items with equal or better quality\nthan these items into machines or shipping bins.",
+      "translation": "Джунимо не будут класть предметы с таким же или лучшим качеством,\nчем эти, в машины или коробки для отправки.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Junimos work anywhere",
+      "translation": "Джунимо работают везде",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
+      "translation": "Обычно Джунимо работают только на фермах игрока, так как они застенчивы. Включение этой опции позволяет порталам Джунимов работать в любом месте.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Minimal Questing",
+      "translation": "Минимальные квесты",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.",
+      "translation": "Обычно для разблокировки Джунимов требуется выполнить квесты. Включение этой опции позволяет пропустить большинство квестов — нужно только завершить квест с порталом.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I wonder what {{arg0}} has been up to...",
+      "translation": "Интересно, что {{arg0}} делал...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Pets sometimes have an uncanny ability to spot missing things!$0#$b#Just last week I lost my favorite milking bucket.  I came across it a few days later and my cat, Muffin, was sleeping in it.$1#$b#Well, I guess she didn't exactly find it for me, but at least she knew where it was!$0",
+      "translation": "Питомцы иногда обладают необычным умением находить потерянные вещи!$0#$b#На прошлой неделе я потерял своё любимое ведро для доения. Несколько дней спустя я его нашёл, а моя кошка, Маффин, спала в нём.$1#$b#Ну, не сказать, что она именно нашла его для меня, но хотя бы знала, где оно!$0",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Do I miss my \"normal\" life on days like this?$2#$b#No, not really.  Except for Jeremy Clarkson...$1#$b#...My pet Schnauzer.  He had an uncanny ability to fetch the thing I wanted before I even knew I wanted it.$0",
+      "translation": "Скучаю ли я по своей \"нормальной\" жизни в такие дни?$2#$b#Нет, не особо. За исключением моего питомца Шнауцера$1#$b#У него было необычное умение приносить то, что я хотел, ещё до того, как я сам понял, что хочу это.$0",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "That's not a chicken.",
+      "translation": "Это не курица.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I wonder if it's lost and can't find its way home...  It seems distressed.",
+      "translation": "Интересно, не потерял ли он путь домой... Похоже, он в беспокойстве.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Maybe a Junimo Portal would help it find its way home.",
+      "translation": "Может быть, Портал Джунимов поможет ему найти путь домой.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "That wasn't a chicken...  was it?$2#$b#Your grandfather had some little houses like that on his farm.  He said they were for his 'helpers'.  But as he declined, he was prone to say, well, a lot of stuff....$2#$b#I suppose I caught a glimpse of them from time to time, but, well...  I think I'm more comfortable not seeing them.$3#$b#You say they're good creatures?  Well...  Okay.  *Something* was sure keeping that farm in trim when your Grandad was declining.$2#$b#I suppose everybody needs a little magic in their lives from time to time.$0",
+      "translation": "Это была не курица... да?$2#$b#У твоего дедушки были такие маленькие домики на его ферме. Он говорил, что они были для его 'помощников'.  Но по мере того, как он старел, он часто говорил... ну, много всякого...$2#$b#Я, наверное, время от времени их видела, но... Думаю, мне комфортнее их не видеть.$3#$b#Ты говоришь, что они хорошие существа? Ну... ладно.  *Что-то* точно помогало поддерживать порядок на ферме, когда твой дедушка старел.$2#$b#Похоже, всем иногда нужно немного магии в жизни.$0",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Thank you for helping our friend get home...",
+      "translation": "Спасибо, что помог нашему другу вернуться домой...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I can help you, like I helped your Grandfather...",
+      "translation": "Я могу помочь тебе, как помогал твоему дедушке...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I like animals and the wonderful things you can make with their help...",
+      "translation": "Мне нравятся животные и удивительные вещи, которые можно сделать с их помощью...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Hello @!  Are you missing any chickens?  I think one might have run off!",
+      "translation": "Привет, @! Не потерялась ли у тебя какая-нибудь курица? Мне кажется, одна могла убежать!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I saw it across the river to the south of my farm!  I went over to try and round it up, but it ran away from me!$2#$b#Maybe it would come to you if you went down there and called it!",
+      "translation": "Я увидела её на другом берегу реки к югу от моей фермы! Я подошла, чтобы попытаться поймать её, но она убежала от меня!$2#$b#Может быть, она придёт к тебе, если ты спустишься туда и позовёшь её!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Oof! I need to be getting back! Anyway, I hope you can wrangle it back home!  Bye now!  Don't be a stranger!",
+      "translation": "Ох! Мне нужно возвращаться! В любом случае, надеюсь, ты сможешь вернуть её домой! Пока! Не пропадай!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Chicken Round-Up",
+      "translation": "Погоня за курицей",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Marnie thinks one of your chickens has escaped and is in the forest south of her farm; you should investigate.",
+      "translation": "Марни думает, что одна из твоих куриц сбежала и находится в лесу к югу от её фермы; тебе стоит расследовать.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Enter the Cindersap Forest during the day.",
+      "translation": "Зайди в Пепельносмольный лес днём.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Help the Junimo Go Home",
+      "translation": "Помоги Джуниму вернуться домой",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Help the Junimo in the Cindersap Forest get home.",
+      "translation": "Помоги Джуниму в Пепельносмольном лесу вернуться домой.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Enter the Cindersap Forest during the day with a Junimo Portal in your inventory.",
+      "translation": "Зайди в Пепельносмольный лес днём, имея в инвентаре Портал Джунимов.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "We love giant crops!  Please keep growing them!",
+      "translation": "Мы обожаем гигантские урожаи! Пожалуйста, продолжай их выращивать!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "One of us will come and help with your kegs, casks and preserves jars if you connect them to a portal!",
+      "translation": "Один из нас придёт и поможет с твоими бочками, бочонками и кадками для консервирования, если ты подключишь их к порталу!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Did you ever see the giant crops your Granddad used to grow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1",
+      "translation": "Ты когда-нибудь видел гигантские урожаи, которые твой дедушка выращивал? Безумно большие тыквы.#$b#Эбби каждый год упрашивала меня купить одну. Думаю, она хотела, чтобы я купила её, чтобы вырезать себе домик.$1",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Has Abby been needling you about growing giant pumpkins?$4#$b#Don't do it, really, there's no money in it.  Quantity is good, sure, but the quality isn't.$2#$b#Your grandpa grew them in his declining years in particular.  He said 'my helpers like them'.  Not sure what he meant by that, but he really enjoyed them that made it worth it to him!$1",
+      "translation": "Эбби всё время подкалывает тебя насчёт выращивания гигантских тыкв?$4#$b#Не стоит, правда, в этом нет смысла. Количество — да, это хорошо, но вот качество — нет.$2#$b#Твой дедушка особенно выращивал их в свои последние годы. Он говорил: 'Моим помощникам они нравятся'. Не знаю, что он имел в виду, но ему действительно нравилось их выращивать, и это стоило того!$1",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
+      "translation": "Когда ты был ребёнком и посещал ферму, ты когда-нибудь видел гигантские цветные капусты, которые выращивал твой дедушка? Ну, прям гигантские! Просто огромные!$1#$b#Я видела их только один раз, когда мама привела меня туда в какой-то день.#$b#Я залезла на одну, как на дерево, и моя мама очень переживала.#$b#Твой дедушка спустил меня и сказал маме не волноваться, потому что меня будут защищать магические существа.#$b#Не знаю, почему, наверное, потому что я была ребёнком, но я долго чувствовала себя особенной после того дня.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn't buy one and your grandad invented this cock&bull story about magical creatures.$5#$b#Didn't he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2",
+      "translation": "Твой дедушка раньше выращивал эти гигантские тыквы. Я реально хотела вырезать одну из них.$1#$b#Но моя мама не хотела её покупать, и твой дедушка выдумал эту чепуху про магических существ.$5#$b#Неужели он не знал, что я уже слишком взрослая для таких историй? Ммм. Думаю, можно простить его, ведь он был стар и немощен.$2#$b#Так... Хочешь послушать ещё о моих проблемах из мира богатых?$2",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Enables the fishing Junimo - Enables the Junimo for handling fishing things with or without having done the quest.",
+      "translation": "Включает рыболовного Джунимо — включает Джунимо для работы с рыболовными предметами, независимо от того, был ли выполнен квест.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "{{arg0}} of 6 teleported",
+      "translation": "{{arg0}} из 6 телепортировался.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "You've made a new Junimo friend that will help with traps and fishing-related machines",
+      "translation": "Ты завёл нового друга-Джунимо, который поможет с ловушками и рыболовными машинами.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "@!  I'm so glad you came!",
+      "translation": "@!  Как здорово, что ты пришёл!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Please come to the mines with me.  There's something I have to show you!",
+      "translation": "Пожалуйста, сходи со мной в шахту. Там есть кое-что, что я хочу тебе показать!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I had been having these recurring dreams...  In it, there was somebody like me, but wasn't me...  You know how dreams are.",
+      "translation": "Мне снились повторяющиеся сны... В них был кто-то вроде меня, но не я... Ты ведь знаешь, как это бывает в снах.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Anyway, this other me was at a pool, deep in a cave.  It was filled with litter, but the whole community was pitching in to clean it up.",
+      "translation": "Как бы то ни было, этот другой я был у бассейна, глубоко в пещере. Он был завален мусором, но все жители помогали убирать его.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "They cleaned it, but there were no fish in it anymore, which made the other me sad.",
+      "translation": "Они убрали мусор, но рыбы в нем уже не было, и это огорчило другого меня.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "But then a fish tank appeared!  And then fish started appearing in the fish tank, and the other me started netting them out and releasing them into the pond!",
+      "translation": "Но затем появился аквариум! И в нем начала появляться рыба, и этот другой я стал вылавливать её и выпускать в пруд!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "As to what happened next, well, you'd best see for yourself.  Please take the elevator down to 60.",
+      "translation": "Что произошло потом, ну, лучше увидеть самому. Пожалуйста, воспользуйся лифтом и спустись на 60-й этаж.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "It was just a dream, I thought, but the next night I dreamt the same thing, so I just had to come down here.",
+      "translation": "Я подумал, что это был просто сон, но следующей ночью мне приснилось то же самое, и я просто должен был спуститься сюда.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Look at this!  The fish tank from my dream!  Where did that come from?",
+      "translation": "Посмотри на это! Аквариум из моего сна! Откуда он здесь взялся?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Well, the tank was empty, and I decided I'd try putting a fish in there, so I caught a ghostfish and put it in there.",
+      "translation": "Ну, аквариум был пустой, и я решил попробовать положить туда рыбу, так что я поймал пятнистый криворот и поместил его в аквариум.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "AND IT DISAPPEARED!",
+      "translation": "И ОНА ИСЧЕЗЛА!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Poof!",
+      "translation": "Пуф!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Gone!",
+      "translation": "Исчезла!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "So I put in another, and it disappeared too!",
+      "translation": "Так я положил другую, и она тоже исчезла!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Is it going to the world in my dream?  I don't know, but after about half a dozen fish went in there they stopped disappearing.",
+      "translation": "Попадают ли они в мир из моего сна? Не знаю, но после того как в аквариум попало около полудюжины рыб, они перестали исчезать.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "...But the tank is still here...",
+      "translation": "...Но аквариум всё ещё здесь...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I see some smaller fish darting around in the pool, but I haven't been able to land any of them.",
+      "translation": "Я вижу несколько маленьких рыбок, которые быстро плавают в бассейне, но мне ещё не удалось поймать ни одну из них.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "You're the only one that can help since you've got the skill, the equipment and can handle yourself this deep in the mine.",
+      "translation": "Ты единственный, кто может помочь, ведь у тебя есть навыки, снаряжение и ты способен работать так глубоко в шахте.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Could you try and catch some of those little fish and put them in the tank and see what happens?",
+      "translation": "Можешь попробовать поймать несколько из этих маленьких рыбок, поместить их в аквариум и посмотреть, что будет?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I'm afraid I've got to leave you to it.  I know it could take a while to catch them and I...",
+      "translation": "Боюсь, мне нужно оставить тебя с этим. Знаю, что поймать их может занять время, а я...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Well, I've got a lot to think about.",
+      "translation": "Ну, мне предстоит многое обдумать.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Find Linus At His Tent",
+      "translation": "Найди Линуса у его палатки.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Linus said he had something he needed your help with.",
+      "translation": "Линус сказал, что ему нужна твоя помощь с чем-то.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Go to Linus' tent before 10pm",
+      "translation": "Пойди к палатке Линуса до 10 вечера.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Meet Linus At Level 60",
+      "translation": "Встреча на 60 уровне",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Linus had something he wanted to show you at level 60 of the mines.",
+      "translation": "Линус хотел показать тебе что-то на 60 уровне шахты.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Follow Linus to level 60",
+      "translation": "Следуй за Линусом на 60 уровень",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Catch Six Ice Pips",
+      "translation": "Поймай шесть Ледопипов",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Catch six ice pips and put them in the mysterious fish tank.",
+      "translation": "Поймай шесть Ледопипов и помести их в таинственный аквариум.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus",
+      "translation": "@,^Пожалуйста, зайди ко мне в палатку. Я кое-что нашёл и мне нужна твоя помощь, чтобы с этим разобраться.^   -Линус",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Meet Linus at his tent",
+      "translation": "Встреться с Линусом в его палатке.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I'm still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He's disappointed and puzzled.#$b#I'm pretty puzzled too.  But I'm glad you're working on it.",
+      "translation": "Я всё ещё вижу эти сны. Другой я... который с каждым разом всё меньше похож на меня, продолжает проверять тот аквариум в своём мире. Он разочарован и озадачен.#$b#Я тоже в растерянности. Но я рад, что ты этим занимаешься.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Did you finish collecting those fish?  I'm betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I've never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that's good.#$b#But I still hope they go away.",
+      "translation": "Ты закончил ловить этих рыб? Думаю, ты уже сделал это. Мне приснился последний сон, в котором рыбы были выпущены, а аквариум исчез.#$b#Знаешь, одна из причин, по которой я выбрал свой... образ жизни, это то, что я был, ну, не совсем в порядке с головой.#$b#И иногда злился. Это была та часть, которая заставила меня сделать то, что большинство сочло бы резкой переменой в жизни.#$b#Но я никогда не чувствовал себя более здоровым. По крайней мере, до тех пор, пока не начались эти сны.#$b#Но в этих видениях нет места злости, так что это хорошо.#$b#Но я всё равно надеюсь, что они уйдут.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3",
+      "translation": "Эй, я только что прочитал статью, написанную одним из моих старых друзей по колледжу о восстановлении экосистемы подземного озера, населенного Пятнистыми криворотами и Ледопипами!$1#$b#Говорят, что у нас есть такая пещера глубоко в шахтах. Может быть, ты сможешь показать мне её когда-нибудь.#$b#Странно, в статье не указано, откуда он взял рыбу для повторного заселения...$3",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Thx!  Bai!!!",
+      "translation": "Спасибо! Пока!!!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "The giant trees were cut down to make ships and buildings and other wonderful things...",
+      "translation": "Гигантские деревья были вырублены для строительства кораблей, зданий и других замечательных вещей...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "...but they cut like there would always be more, until they cut down the last one.",
+      "translation": "...но они рубили, как будто их всегда будет хватать, пока не вырубили последнее.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "You will be wiser.  We will help.",
+      "translation": "Ты станешь мудрее. Мы поможем.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Welcome!  You're just in time!",
+      "translation": "Добро пожаловать! Ты как раз вовремя!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I hiked the back-woods trail today.",
+      "translation": "Я сегодня прогулялся по тропе в лесу.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "It can be a bit treacherous at my age...",
+      "translation": "Это может быть немного опасно в моем возрасте...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "But the view of the desert is breathtaking.",
+      "translation": "Но вид на пустыню захватывает дух.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I picked a few wild mushrooms and herbs along the way.",
+      "translation": "По пути я собрал несколько лесных грибов и трав.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Dinner is served!",
+      "translation": "Ужин подан!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "What do you think?",
+      "translation": "Как тебе?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I'm glad you like it.",
+      "translation": "Я рад, что тебе понравилось.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "You know, when people see you talking to the trees, well...  They tend to think you're crazy.$2",
+      "translation": "Знаешь, когда люди видят, как ты говоришь с деревьями, ну... они склонны думать, что ты сошел с ума.$2",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "But when you hear the trees talking *to* *you*, then... well...#$b#Then maybe they're right.$2",
+      "translation": "Но когда ты слышишь, как деревья говорят *с тобой*, тогда... ну...#$b#Тогда, возможно, они правы.$2",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Last night I dreamt I saw what these trees looked like before they were cut...",
+      "translation": "Прошлой ночью мне приснилось, как эти деревья выглядели до того, как их срубили...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Then, the vision pivoted to your farm; your farm when those big stumps and logs were standing trees...",
+      "translation": "Затем видение переключилось на твою ферму; твою ферму, когда эти большие пни и бревна были стоящими деревьями...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I found these seeds in my tent as I was stepping out this morning.#$b#I guess I tracked them in last night.  They're usually not so easy to find.  Here.  I think they're meant for you.",
+      "translation": "Я нашел эти семена в своей палатке, когда выходил утром.#$b#Наверное, я пронес их с собой прошлой ночью. Обычно их не так легко найти. Вот. Думаю, они для тебя.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I'm glad you're the sort of friend that doesn't mind listening to the ravings of a crazy old man.",
+      "translation": "Я рад, что ты тот друг, который не боится слушать бредни старого безумца.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Well...  It's getting late.  You should get back to your farm and I should crawl into my tent.#$b#I plan on breaking camp in the morning and making the hike up to the mountain.",
+      "translation": "Ну... уже поздно. Тебе стоит возвращаться на свою ферму, а мне пора залезать в палатку.#$b#Я планирую собрать лагерь с утра и отправиться в поход к горе.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Do the trees talk to you too?",
+      "translation": "Деревья тоже с тобой разговаривают?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Hm.  Perhaps it's best not to answer that one...",
+      "translation": "Хм. Возможно, лучше не отвечать на этот вопрос...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Plant The Mystic Seed",
+      "translation": "Посади мистическое семя",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Linus gave you some tree seeds...  Do the Junimos talk to him too?",
+      "translation": "Линус дал тебе семена деревьев... Джунимо тоже с ним разговаривают?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Grow a Mystic Tree and 2 Mahogony Trees to adulthood on your farm.",
+      "translation": "Вырастите мистическое дерево и 2 красных дерева до взрослого состояния на своей ферме.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Meet Linus In The Secret Woods",
+      "translation": "Ужин в Тайном лесу",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Have dinner with Linus in the Secret Woods",
+      "translation": "Поужинай с Линусом в Тайном Лесу",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Enter the secret woods on a sunny day between 6 and 11pm.",
+      "translation": "Войдите в Тайный Лес в солнечный день между 18:00 и 23:00.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
+      "translation": "@,^Как твои дела? Я решил провести пару ночей в глухих лесах на западе от ранчо Марни. Ты не хочешь разделить со мной ужин в дикой природе? ^   -Линус",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Meet at Linus' camp in the woods",
+      "translation": "Встреться с Линусом у его лагеря в лесу",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Give the strange orb to the host player - only the host can advance this quest.  (Put it in a chest for them)",
+      "translation": "Отдай Странный слабо светящийся шар главному игроку — только главный игрок может продолжить этот квест. (Положи его в сундук для него)",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "a strange faintly glowing orb",
+      "translation": "Странный слабо светящийся шар",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "It looks vaguely magical. It's quite hard and smooth.",
+      "translation": "Он выглядит слегка магическим. Очень твёрдый и гладкий.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...",
+      "translation": "Мой дорогой мальчик...^Моя любимая внучка...#$b#Прости, что обращаюсь к тебе так, но я должен поблагодарить тебя за спасение моего дорогого друга Джунимо.#$b#Он защитил меня в тот момент, когда моим самым страшным врагом было моё собственное слабеющее сознание.#$b#В лучшие дни он помогал мне с плавильными печами и другими шахтерскими машинами. Он поможет и тебе; ему действительно нравится наблюдать за светом огня!#$b#Теперь я сплю гораздо спокойнее, зная, что мой друг в безопасности. Я так горжусь тобой...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "What have you brought for me this time?",
+      "translation": "Что ты принес мне на этот раз?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Hm..  Yes...#$b#Junimos are harmless, but they are not defenseless.  When this one was overwhelmed by the slime, it bound itself into a protective stasis and went into a sort of torpor.#$b#If we return this to the Junimo's world, they will be able to care for this one.",
+      "translation": "Хм.. Да...#$b#Джунимо безобидны, но они не беззащитны. Когда его одолела слизь, он погрузился в защитный стазис и впал в оцепенение.#$b#Если мы вернем его в мир Джунимо, они смогут позаботиться о нем.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I shall, using my immense powers, transport this one back to the Junimo realm!",
+      "translation": "Используя свою огромную силу, я перенесу его обратно в мир Джунимо!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "There.  Done.",
+      "translation": "Вот. Готово.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Yes.  Done.  It's safely back to the Junimo realm and you should get about your business.",
+      "translation": "Да. Готово.\nОн в безопасности, вернулся в мир Джунимо, а тебе стоит продолжить свои дела.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "That's it...#$b#Really...#$b#I think.",
+      "translation": "Вот и всё...#$b#Правда...#$b#Кажется, да.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "The Strange Orb",
+      "translation": "Странный шар",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Investigate the strange glowing thing you found inside a big slime.",
+      "translation": "Исследуй Странный слабо светящийся шар, который ты нашел внутри большого слизня.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Bring the faintly glowing orb to the wizard's tower.",
+      "translation": "Принеси Странный слабо светящийся шар к башне волшебника.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Ah... Come in.",
+      "translation": "Ах... Заходи.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)",
+      "translation": "Передай Странное маленькое строение хосту — только хост может продвинуться в этом квесте. (Положи его в сундук для него.)",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "A portal through which Junimos who want to help out on the farm can appear.  Place pathways next to these when placing them outdoors so the Junimos will know where to go.",
+      "translation": "Портал, через который Джунимо, желающие помочь на ферме, могут появиться. Разместите дорожки рядом с ними на улице, чтобы Джунимо знали, куда идти.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Junimo Portal",
+      "translation": "Портал Джунимо",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "a strange little structure",
+      "translation": "Странное маленькое строение",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard's forest-magic potion.",
+      "translation": "Сначала это выглядело как древесный сорняк, но приглядевшись поближе, можно было увидеть, что это маленькое строение, и оно пахнет чем-то вроде лесного зелья волшебника.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "You have something to show me?  Well, bring it to me!",
+      "translation": "Ты хочешь показать мне что-то? Ну, не тяни, покажи!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...",
+      "translation": "А, понимаю, почему ты думал, что мне стоит это увидеть...#$b#Я думаю, что узнаю магические следы, но позволь мне проконсультироваться с моей обширной библиотекой, чтобы быть уверенным...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Come along then!",
+      "translation": "Ну, пошли же!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Yes.  I was right...#$b#As always.",
+      "translation": "Да.  Я был прав...#$b#Как всегда.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.",
+      "translation": "Это своего рода примитивный портал, созданный твоим дедом, чтобы Джунимо могли легко перемещаться между их миром и нашим.#$b#Построить его легко, даже самый неопытный ученик справится. Вот, позволь мне научить тебя.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I learned how to craft a 'Junimo Portal'",
+      "translation": "Ты научился создавать 'Портал Джунимо'",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Enticing a Junimo to *use* it, well, that's up to the Junimo...",
+      "translation": "Привлечь Джунимо, чтобы он *использовал* его, ну, это уже зависит от самого Джунимо...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Usage: After completing quests to get junimo helpers, you can place Junimo Portals either in buildings or outside.  If outside, place walkways between the hut and any chests or machines you want the Junimo to automate.  If in a building, you can place walkways or just leave a clear path.",
+      "translation": "Использование: После выполнения заданий для получения помощников Джунимо, вы можете установить порталы Джунимо как в зданиях, так и на улице. Если на улице, прокладывайте дорожки между хижиной и любыми сундуками или машинами, которые вы хотите, чтобы Джунимо автоматизировал. Если в здании, можно проложить дорожки или оставить свободный путь.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!",
+      "translation": "Это была настоящая буря! Интересно, смыл ли дождь грязь с каких-нибудь старых вещей дедушки!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "The Strange Little Structure",
+      "translation": "Странное маленькое строение",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it.",
+      "translation": "Ты нашел остатки того, что похоже на маленькое строение. Похоже, оно пропитано лесной магией.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Bring the remnants of the strange little structure to the wizard's tower.",
+      "translation": "Принеси остатки странного маленького строения в башню волшебника.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Sometimes Lewis goes off into the deep woods...  Usually when his spirits are low.#$b#I wish he wouldn't do that; it can be dangerous there.  But when he's in that mood, well...#$b#It seems like whatever I say I just make it worse.$s",
+      "translation": "Иногда Льюис уходит вглубь леса... Обычно, когда он не в духе. #$b#Жаль, что он это делает, ведь там может быть опасно. Но когда он в таком настроении, что ж...#$b#Кажется, что бы я ни сказала, я только усугубляю ситуацию.$s",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Lewis sure has doubled-down on gardening lately!  It's been good for his mood, that's for sure.  Maybe Shane could try it...",
+      "translation": "Льюис в последнее время серьезно увлекся садоводством! Это точно пошло ему на пользу. Может, Шейну тоже стоит попробовать...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I've seen Lewis go into the deep woods from time to time...  I wonder what he's up to.#$b#Do you suppose he performs some kinda magic ritual??   With pentagrams and blood sacrifices??!#$b#Lewis is nice...  Maybe a little *too* nice.",
+      "translation": "Я видела, как Льюис время от времени уходил глубоко в лес... Интересно, что он там делает#$b#Ты думаешь, он проводит какой-то магический ритуал??  С пентаграммами и жертвоприношениями??!#$b#Льюис хороший...  Может, даже *чересчур* хороший.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "When Lewis gets the blues, he likes to take walks in the deep woods.#$b#It can be a little bit dangerous, but Lewis can handle himself just fine.#$b#Of course, it'd be better for business if he'd drink his troubles away!$h",
+      "translation": "Когда у Льюиса плохое настроение, он любит прогуливаться глубоко в лесу.#$b#Это может быть немного опасно, но Льюис с этим справляется.#$b#Конечно, для бизнеса было бы лучше, если бы он выпивал, чтобы забыться!$h",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "A house plant that a Junimo wants me to give to Lewis.",
+      "translation": "Комнатное растение, которое Джунимо просит меня отдать Льюису.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Mightabeen Rose",
+      "translation": "Роза Майтабин",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Junimos can get water from this to water indoor pots.",
+      "translation": "Джунимо могут использовать эту воду для полива горшков внутри помещений.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Indoor Well",
+      "translation": "Внутренний колодец",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Bring the plant to Lewis",
+      "translation": "Принеси растение Льюису",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Bring the Mightabeen Rose to Lewis",
+      "translation": "Принеси Розу Майтабин Льюису",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Evelyn might want to have a look at this plant before you give it to Lewis, drop by her house for her to check it out.",
+      "translation": "Эвелин, возможно, захочет взглянуть на это растение перед тем, как ты отдашь его Льюису. Загляни к ней домой, чтобы она его проверила.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Please come in!",
+      "translation": "Пожалуйста, заходите!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Oh now what have you got there?  Bring it over here where the light is better.",
+      "translation": "О, а что это у тебя? Принеси сюда, где свет ярче.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I haven't seen one of these plants for a long, long time.#$b#My grandfather kept one in his study.  It was always a happy, beautiful plant.#$b#Whenever he fell into a funk, he'd go tend to it and emerge feeling better.$1#$b#When he passed, my mother tried to take care of it, but it just slowly withered away.  It missed him too I guess!",
+      "translation": "Я не видела таких растений уже очень-очень давно.#$b#Мой дедушка держал одно в своем кабинете. Это всегда было счастливое, красивое растение.#$b#Когда он впадал в уныние, он уходил к растению, ухаживал за ним и всегда чувствовал себя лучше.$1#$b#Когда его не стало, моя мама попыталась заботиться о нем, но оно медленно засохло. Наверное, оно тоже скучало по нему!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I researched it as a young woman, and it turns out these plants are rare, somewhat finicky, and notoriously hard to propagate.#$b#Some people say the smell of the flower helps them to remember that what might have been isn't necessarily better than the here and now.$1",
+      "translation": "Я изучала это растение, когда была молодой, и оказалось, что такие растения редки, довольно капризны и известны своей сложностью в размножении.#$b#Некоторые говорят, что запах его цветка помогает им помнить: то, что могло быть, не обязательно лучше, чем то, что есть сейчас.$1",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "But honestly, I don't feel anything at all from smelling it!  But you say you mean to give it as a gift?",
+      "translation": "Но, честно говоря, я вообще ничего не чувствую, когда вдыхаю его запах! Но ты говоришь, что хочешь подарить его?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "For Lewis?",
+      "translation": "Для Льюиса?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Oh...$2",
+      "translation": "Ох...$2",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "You know Lewis was quite the Casanova in his youth.  He made time with *all* the girls.$1",
+      "translation": "Ты знаешь, в молодости Льюис был настоящим Казановой. Он ухаживал *за всеми* девушками.$1",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "There was one girl that was special to him, but she wasn't the sort who wanted to worry about what her man was up to when her back was turned...#$b#At the time, he played like he didn't care.  He was too cool to admit that there was a girl he couldn't get - and kept chasing other girls like it didn't mean anything to him.  I've often wondered if she was the reason he never married.",
+      "translation": "Была одна девушка, которая была особенной для него, но она не была той, кто хотел бы волноваться о том, чем её парень занят, когда она не видит...#$b#Тогда он вел себя так, будто ему всё равно. Был слишком крутым, чтобы признаться, что есть девушка, которую он не может завоевать, и продолжал бегать за другими, как будто это ничего не значило. Я часто задумываюсь, может быть, она была той причиной, почему он так и не женился.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "But just between you and me, I think it turned out for the best for both of them.$1",
+      "translation": "Но, честно говоря, между нами, я думаю, что для них обоих всё обернулось к лучшему.$1",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Thank you for bringing my flower to Lewis...",
+      "translation": "Спасибо, что принёс мой цветок Льюису...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Since you helped Lewis, I will help with your indoor plants...",
+      "translation": "Поскольку ты помог Льюису, я помогу с твоими комнатными растениями...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I learned how to craft an indoor well",
+      "translation": "Ты научился создавать внутренний колодец.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Ah!  @!  What brings you to the forest today?  Exotic mushrooms?  Fishing?",
+      "translation": "Ах! @! Что привело тебя в лес сегодня? Экзотические грибы? Рыбалка?",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "It's a good place for that.",
+      "translation": "Здесь для этого отличное место.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Me??",
+      "translation": "Я??",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Well, I guess I just like a good walk in the woods from time to time.  It cheers me up.",
+      "translation": "Ну, наверное, мне просто нравится время от времени прогуляться по лесу. Это поднимает мне настроение.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Feeling down?  Me?  No no no.  Right as rain.",
+      "translation": "Плохо себя чувствуешь? Я? Нет-нет, все в порядке, как никогда!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "It was nice chatting with you!  I'd better get back to town!#$b#Being mayor is a 24x7 job!",
+      "translation": "Было приятно поболтать! Мне пора возвращаться в город!#$b#Быть мэром — это работа без выходных!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Oh hi @!...  Nice to see you again.",
+      "translation": "О, привет @!... Рад снова тебя видеть.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Me?  Feeling down?  No...",
+      "translation": "Я? Плохо себя чувствую? Нет...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Well, not exactly.",
+      "translation": "Ну, не совсем.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I come here on those days I can't stop kicking myself for things I should have done and said but didn't.$2",
+      "translation": "Я прихожу сюда в те дни, когда не могу перестать корить себя за вещи, которые следовало бы сделать и сказать, но я этого не сделал.$2",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "So many years have passed, yet I just can't seem to let it go.",
+      "translation": "Столько лет прошло, а я все не могу отпустить это.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Being a bachelor at my age isn't the only way things could have turned out for me...$2",
+      "translation": "Быть холостяком в моем возрасте — это не единственный вариант того, как могла бы сложиться моя жизнь...$2",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I'm not unhappy...",
+      "translation": "Я не несчастен...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "But sometimes...$2",
+      "translation": "Но иногда...$2",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I shouldn't trouble you.  I hope you'll forgive me for dumping this on you; thanks for lending an ear.",
+      "translation": "Не хотел тебя беспокоить. Надеюсь, ты не обидишься за то, что я вывалил это на тебя. Спасибо, что выслушал.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I should get back to town.  I'll see you around.",
+      "translation": "Мне пора возвращаться в город. Увидимся!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "I think the Junimo wants to help...",
+      "translation": "Я думаю, что Джунимо хочет помочь...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "The Junimo wants me to give this plant to Lewis...",
+      "translation": "Джунимо хочет, чтобы я отдал это растение Льюису...",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Huh...  I wonder why a plant would be of help.  Junimos work in strange ways.",
+      "translation": "Хм... Интересно, как именно это растение может помочь. Джунимо действуют необычно.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "The Junimos munched a box of grapes this morning!",
+      "translation": "Джунимо полакомились коробкой изюма этим утром!",
+      "author": "github:KREZOO",
+      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    }
+  ]
+}
