@@ -43,10 +43,10 @@ namespace NermNermNerm.Junimatic
 
             configMenu.AddBoolOption(
                 mod: ModManifest,
-                name: () => L("Minimal Questing"),
+                name: () => L("No Questing"),
                 getValue: () => Config.EnableWithoutQuests,
                 setValue: value => Config.EnableWithoutQuests = value,
-                tooltip: () => L("Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.")
+                tooltip: () => L("Normally quests are required to unlock the Junimos; setting this just enables all the junimos.  To get started, craft a 'Junimo Portal' and place it down.")
             );
 
             configMenu.AddBoolOption(

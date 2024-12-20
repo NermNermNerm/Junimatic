@@ -282,7 +282,7 @@ end warpOut");
                 && !Game1.player.questLog.Any(q => q.id.Value == OldJunimoPortalQuest)
                 && !this.IsUnlocked)
             {
-                Game1.player.addItemToInventory(ItemRegistry.Create(OldJunimoPortalQiid));
+                Game1.player.craftingRecipes.TryAdd(JunimoPortalRecipe, 0);
             }
             else if (Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal)
                 && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_AlertedPlayer)

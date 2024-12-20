@@ -136,16 +136,11 @@ end bed
             {
                 e.Edit(editor =>
                 {
-                    if (ModEntry.Config.EnableWithoutQuests)
-                    {
-                        return;
-                    }
-
                     (int modDeltaX, int modDeltaY) = this.mod.IsRunningSve ? (0, 0) : (19, 13);
 
                     var d = editor.AsDictionary<string, string>().Data;
                     // 'e 900553' means seen Evelyn's plant-pot event
-                    d[IF($"{MetLewisMopingPart1EventId}/H/f Lewis 1000/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
+                    d[IF($"{MetLewisMopingPart1EventId}/e {UnlockPortal.JunimoPortalDiscoveryEvent}/H/f Lewis 1000/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
 -1000 -1000
 farmer {78 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
 skippable
