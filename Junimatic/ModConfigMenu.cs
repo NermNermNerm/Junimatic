@@ -38,7 +38,7 @@ namespace NermNermNerm.Junimatic
                 name: () => L("Junimos work anywhere"),
                 getValue: () => Config.AllowAllLocations,
                 setValue: value => Config.AllowAllLocations = value,
-                tooltip: () => L("Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.")
+                tooltip: () => L("Normally Junimos only work where there are no villagers or monsters, as they are shy.  Turning this on allows Junimo portals to work anywhere.")
             );
 
             configMenu.AddBoolOption(
@@ -54,7 +54,7 @@ namespace NermNermNerm.Junimatic
                 name: () => L("Allow Shipping"),
                 getValue: () => Config.AllowShippingArtisan,
                 setValue: value => Config.AllowShippingArtisan = value,
-                tooltip: () => L("If this is checked, Junimos will prefer to take artisan goods to mini-shipping bins.")
+                tooltip: () => L("If this is checked, Junimos will take artisan goods to mini-shipping bins.")
             );
         }
     }
