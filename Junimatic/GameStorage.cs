@@ -230,7 +230,7 @@ namespace NermNermNerm.Junimatic
             var chestInventory = this.RawInventory;
             foreach (var item in shoppingList)
             {
-                if (chestInventory.Where(i => i.ItemId == item.ItemId).Sum(i => i.Stack) < item.Stack)
+                if (chestInventory.Where(i => i?.ItemId == item.ItemId).Sum(i => i.Stack) < item.Stack)
                 {
                     return false;
                 }
