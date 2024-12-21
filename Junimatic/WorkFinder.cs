@@ -346,7 +346,11 @@ namespace NermNermNerm.Junimatic
             var portals = map.GetPortals();
             foreach (var portal in portals)
             {
-                result.Add(BuildNetwork(map, portal));
+                var network = TryBuildNetwork(map, portal);
+                if (network is not null)
+                {
+                    result.Add(network);
+                }
             }
 
             long elapsedMs = watch.ElapsedMilliseconds;
@@ -357,7 +361,7 @@ namespace NermNermNerm.Junimatic
             return result;
         }
 
-        private static MachineNetwork BuildNetwork(GameMap map, StardewValley.Object portal)
+        private static MachineNetwork? TryBuildNetwork(GameMap map, StardewValley.Object portal)
         {
             var machines = new Dictionary<JunimoType, List<GameMachine>>(Enum.GetValues<JunimoType>().Select(e => new KeyValuePair<JunimoType, List<GameMachine>>(e, new List<GameMachine>())));
             var chests = new List<GameStorage>();
@@ -439,14 +443,22 @@ namespace NermNermNerm.Junimatic
                     checkedForWorkTiles.Add(reachableTile);
                     walkedTiles.Add(reachableTile);
                 }
-
             }
-            int minX = walkedTiles.Min(x => x.X);
-            int maxX = walkedTiles.Max(x => x.X);
-            int minY = walkedTiles.Min(x => x.Y);
-            int maxY = walkedTiles.Max(x => x.Y);
-            return new MachineNetwork(machines.ToDictionary(pair => pair.Key, pair => (IReadOnlyList<GameMachine>)pair.Value), chests,
-                portal, [new Vector2(minX,minY), new Vector2(minX, maxY), new Vector2(maxX, minY), new Vector2(maxX, maxY)]);
+
+            if (chests.Any() && machines.SelectMany(d => d.Value).Any())
+            {
+                // ^^ Note if there are any chests or any machines, walkedTiles will have to contain an item
+                int minX = walkedTiles.Any() ? walkedTiles.Min(x => x.X) : 0;
+                int maxX = walkedTiles.Any() ? walkedTiles.Max(x => x.X) : 0;
+                int minY = walkedTiles.Any() ? walkedTiles.Min(x => x.Y) : 0;
+                int maxY = walkedTiles.Any() ? walkedTiles.Max(x => x.Y) : 0;
+                return new MachineNetwork(machines.ToDictionary(pair => pair.Key, pair => (IReadOnlyList<GameMachine>)pair.Value), chests,
+                    portal, [new Vector2(minX, minY), new Vector2(minX, maxY), new Vector2(maxX, minY), new Vector2(maxX, maxY)]);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public JunimoAssignment? FindProject(StardewValley.Object portal, JunimoType projectType, JunimoShuffler? forJunimo)
