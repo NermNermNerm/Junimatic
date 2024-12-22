@@ -143,6 +143,14 @@ namespace NermNermNerm.Junimatic
             {
                 this.cachedNetworks.Remove(location);
 
+                if (IsLocationTemporarilyNotDoingJunimos(location))
+                {
+                    // ^ the above is attempting to test if the location is a farm building that's under construction.
+                    this.LogInfoOnce($"Junimos are not working at {location.Name} on day {Game1.dayOfMonth} -- They are scared of {location.characters.First(JunimoShuffler.IsScaryVillager).Name}.");
+                    // ... But they're not gonna get so agro as to tear down the hut.
+                    continue;
+                }
+
                 var map = new GameMap(location);
                 bool startedRaisinProject = false;
 
@@ -194,6 +202,14 @@ namespace NermNermNerm.Junimatic
             {
                 foreach (GameLocation location in allJunimoFriendlyLocations.Where(l => !animatedLocations.Contains(l)))
                 {
+                    if (IsLocationTemporarilyNotDoingJunimos(location))
+                    {
+                        // ^ the above is attempting to test if the location is a farm building that's under construction.
+                        this.LogInfoOnce($"Junimos are not working at {location.Name} on day {Game1.dayOfMonth} -- They are scared of {location.characters.First(JunimoShuffler.IsScaryVillager).Name}.");
+                        // ... But they're not gonna get so agro as to tear down the hut.
+                        continue;
+                    }
+
                     foreach (var junimoType in Enum.GetValues<JunimoType>())
                     {
                         if (numAvailableJunimos[junimoType] > 0)
@@ -209,6 +225,14 @@ namespace NermNermNerm.Junimatic
 
             this.haveLookedForRaisins = true; // We always do the raisin check on the first tick of the day.
         }
+
+        /// <summary>
+        ///  This returns true if this is a farm structure that's being renovated by Robin.
+        /// </summary>
+        private static bool IsLocationTemporarilyNotDoingJunimos(GameLocation location)
+            => IsFarmLocation(location) && location.characters.Any(JunimoShuffler.IsScaryVillager);
+
+        private static bool IsFarmLocation(GameLocation location) => location.IsFarm || (location.GetParentLocation() is not null && IsFarmLocation(location.GetParentLocation()));
 
         private List<GameLocation> GetAllJunimoFriendlyLocations()
         {
