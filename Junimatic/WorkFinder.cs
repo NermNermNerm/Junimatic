@@ -281,7 +281,7 @@ namespace NermNermNerm.Junimatic
                 {
                     foreach (var storage in network.Chests)
                     {
-                        var raisinStack = storage.RawInventory.FirstOrDefault(i => i.QualifiedItemId == "(O)Raisins" && !isShinyTest(i));
+                        var raisinStack = storage.RawInventory.FirstOrDefault(i => i?.QualifiedItemId == "(O)Raisins" && !isShinyTest(i));
                         if (raisinStack is not null)
                         {
                             this.LogTrace($"Automated Raisin collection from {storage} at {location.Name}");
