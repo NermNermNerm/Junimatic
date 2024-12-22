@@ -151,7 +151,7 @@ namespace NermNermNerm.Junimatic
                 && !ModEntry.Config.EnableWithoutQuests
                 && this.mod.UnlockPortalQuest.IsUnlocked
                 && Game1.player.fishingLevel.Value >= 8
-                && Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 6
+                && Game1.player.getFriendshipHeartLevelForNPC("Linus") >= 7
                 && Game1.player.deepestMineLevel > 60
                 && !Game1.player.hasOrWillReceiveMail(LinusHadADreamMailKey))
             {
