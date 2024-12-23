@@ -50,6 +50,11 @@ namespace NermNermNerm.Junimatic
                 return null;
             }
 
+            if (l.getBuildingAt(point.ToVector2()) is not null)
+            {
+                return null;
+            }
+
             l.terrainFeatures.TryGetValue(tile, out var terrainFeature);
             if (terrainFeature is Flooring flooring)
             {
