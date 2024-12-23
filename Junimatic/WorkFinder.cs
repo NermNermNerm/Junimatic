@@ -143,11 +143,8 @@ namespace NermNermNerm.Junimatic
             {
                 this.cachedNetworks.Remove(location);
 
-                if (IsLocationTemporarilyNotDoingJunimos(location))
+                if (this.IsLocationTemporarilyNotDoingJunimos(location))
                 {
-                    // ^ the above is attempting to test if the location is a farm building that's under construction.
-                    this.LogInfoOnce($"Junimos are not working at {location.Name} on day {Game1.dayOfMonth} -- They are scared of {location.characters.First(JunimoShuffler.IsScaryVillager).Name}.");
-                    // ... But they're not gonna get so agro as to tear down the hut.
                     continue;
                 }
 
@@ -202,11 +199,8 @@ namespace NermNermNerm.Junimatic
             {
                 foreach (GameLocation location in allJunimoFriendlyLocations.Where(l => !animatedLocations.Contains(l)))
                 {
-                    if (IsLocationTemporarilyNotDoingJunimos(location))
+                    if (this.IsLocationTemporarilyNotDoingJunimos(location))
                     {
-                        // ^ the above is attempting to test if the location is a farm building that's under construction.
-                        this.LogInfoOnce($"Junimos are not working at {location.Name} on day {Game1.dayOfMonth} -- They are scared of {location.characters.First(JunimoShuffler.IsScaryVillager).Name}.");
-                        // ... But they're not gonna get so agro as to tear down the hut.
                         continue;
                     }
 
@@ -226,12 +220,38 @@ namespace NermNermNerm.Junimatic
             this.haveLookedForRaisins = true; // We always do the raisin check on the first tick of the day.
         }
 
+
+        private HashSet<GameLocation> alreadyDisabledLocations = new HashSet<GameLocation>();
+
         /// <summary>
         ///  This returns true if this is a farm structure that's being renovated by Robin.
         /// </summary>
-        private static bool IsLocationTemporarilyNotDoingJunimos(GameLocation location)
-            => IsFarmLocation(location) && location.characters.Any(JunimoShuffler.IsScaryVillager);
+        private bool IsLocationTemporarilyNotDoingJunimos(GameLocation location)
+        {
+            if (!IsFarmLocation(location))
+            {
+                // If it's not the farm, it won't be a temporary suspension; it'll be permanent.
+                return false;
+            }
 
+            var scaryVillager = location.characters.FirstOrDefault(JunimoShuffler.IsScaryVillager);
+            if (scaryVillager is null)
+            {
+                return false;
+            }
+
+            if (!this.alreadyDisabledLocations.Contains(location))
+            {
+                this.alreadyDisabledLocations.Add(location);
+
+                this.LogInfoOnce($"Junimos are not working at {location.Name} on day {Game1.Date.TotalDays}.  They are scared of {scaryVillager.Name}.");
+                Game1.hudMessages.Add(new HUDMessage(LF($"Junimos are not working at {location.Name} today.  They are scared of {scaryVillager.Name}."), HUDMessage.error_type));
+            }
+
+            return true;
+        }
+
+        /// <summary>Returns true for the main farm and any buildings within it.</summary>
         private static bool IsFarmLocation(GameLocation location) => location.IsFarm || (location.GetParentLocation() is not null && IsFarmLocation(location.GetParentLocation()));
 
         private List<GameLocation> GetAllJunimoFriendlyLocations()
