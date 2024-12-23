@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
-
+using StardewValley.TokenizableStrings;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -244,8 +244,19 @@ namespace NermNermNerm.Junimatic
             {
                 this.alreadyDisabledLocations.Add(location);
 
-                this.LogInfoOnce($"Junimos are not working at {location.Name} on day {Game1.Date.TotalDays}.  They are scared of {scaryVillager.Name}.");
-                Game1.hudMessages.Add(new HUDMessage(LF($"Junimos are not working at {location.Name} today.  They are scared of {scaryVillager.Name}."), HUDMessage.error_type));
+                if (location.Objects.Values.Any(o => o.QualifiedItemId == UnlockPortal.JunimoPortalQiid))
+                {
+                    this.LogInfo($"Junimos are not working at {location.Name} on day {Game1.Date.TotalDays}.  They are scared of {scaryVillager.Name}.");
+                    if (location.ParentBuilding is null)
+                    {
+                        Game1.hudMessages.Add(new HUDMessage(LF($"Junimos are not working on the {location.DisplayName} today.  They are scared of {scaryVillager.displayName}."), HUDMessage.error_type));
+                    }
+                    else
+                    {
+                        string name = TokenParser.ParseText(location.ParentBuilding.GetData().Name);
+                        Game1.hudMessages.Add(new HUDMessage(LF($"Junimos are not working in the {name} today.  They are scared of {scaryVillager.displayName}."), HUDMessage.error_type));
+                    }
+                }
             }
 
             return true;

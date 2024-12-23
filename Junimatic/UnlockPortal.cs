@@ -26,6 +26,7 @@ namespace NermNermNerm.Junimatic
         private const string OldJunimoPortalQuest = "Junimatic.OldJunimoPortalQuest";
 
         public const string JunimoPortal = "Junimatic.JunimoPortal";
+        public const string JunimoPortalQiid = "(BC)Junimatic.JunimoPortal";
         public const string JunimoPortalDiscoveryEvent = "Junimatic.JunimoPortalDiscoveryEvent"; // Public because event code can depend on this.
 
         public const string AbandonedJunimoPortalId = "Junimatic.AbandonedPortal";
