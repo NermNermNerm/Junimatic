@@ -25,7 +25,15 @@ namespace NermNermNerm.Junimatic
 
         internal static ObjectMachine? TryCreate(StardewValley.Object item, Point accessPoint)
         {
-            if (item is CrabPot crabPot)
+            if (item.QualifiedItemId == "(BC)101")
+            {
+                // This is the Incubator.  It exists as its own unbreakable object within the coop.  When an egg "hatches"
+                // out of it, the egg exists as the 'heldObject' until a player walks into the coop, when it gets turned into
+                // whatever critter was in the egg.  If we didn't have this special case, then the Junimos would grab the
+                // egg, throw it into a chest and ultimately mayonnaise-ify it.
+                return null;
+            }
+            else if (item is CrabPot crabPot)
             {
                 return new CrabPotMachine(crabPot, accessPoint);
             }
