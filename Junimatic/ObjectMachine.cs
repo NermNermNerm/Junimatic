@@ -224,6 +224,12 @@ namespace NermNermNerm.Junimatic
             []
         ];
 
+        public static bool HasMatchingTag(JunimoType projectType, IEnumerable<string> itemTags)
+            => tags[(int)projectType].Intersect(itemTags).Any();
+
+        public static bool IsCategoryCompatibleWithProject(JunimoType projectType, int category)
+            => categories[(int)projectType].Contains(category);
+
         /// <summary>
         ///   Returns true if the machine has a recipe that the Junimo can do.
         /// </summary>
@@ -249,12 +255,12 @@ namespace NermNermNerm.Junimatic
             if (this.Machine.heldObject.Value is not null)
             {
                 var heldObject = this.Machine.heldObject.Value;
-                if (categories[(int)projectType].Contains(heldObject.Category))
+                if (IsCategoryCompatibleWithProject(projectType, heldObject.Category))
                 {
                     return true;
                 }
 
-                if (heldObject.GetContextTags().Any(tag => tags[(int)projectType].Contains(tag)))
+                if (HasMatchingTag(projectType, heldObject.GetContextTags()))
                 {
                     return true;
                 }
@@ -354,7 +360,7 @@ namespace NermNermNerm.Junimatic
                         hasLegibleOutputRule |= trigger.RequiredTags is not null && trigger.RequiredTags.Any();
                         hasLegibleOutputRule |= trigger.RequiredItemId is not null;
 
-                        if (trigger.RequiredTags is not null && trigger.RequiredTags.Intersect(tags[(int)projectType]).Any())
+                        if (trigger.RequiredTags is not null && HasMatchingTag(projectType, trigger.RequiredTags))
                         {
                             return true;
                         }
@@ -366,7 +372,7 @@ namespace NermNermNerm.Junimatic
                             {
                                 ModEntry.Instance.LogWarningOnce($"ItemRegistry.GetData failed for {trigger.RequiredItemId} - this could render {this.Machine.Name} unusable to Junimos");
                             }
-                            else if (categories[(int)projectType].Contains(itemData.Category))
+                            else if (IsCategoryCompatibleWithProject(projectType, itemData.Category))
                             {
                                 return true;
                             }

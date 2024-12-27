@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Buildings;
@@ -30,6 +31,10 @@ namespace NermNermNerm.Junimatic
             else if (building is ShippingBin shippingBin)
             {
                 return new ShippingBinMachine(shippingBin, accessPoint);
+            }
+            else if (MillMachine.IsAutomatable(building))
+            {
+                return new MillMachine(building, accessPoint);
             }
             else
             {
