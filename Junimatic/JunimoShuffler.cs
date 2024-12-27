@@ -90,8 +90,6 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            this.SetSpeed(); // dark forces may have unset the speed
-
             this.LogTrace($"Junimo reached its source {this.Assignment}");
 
             if (this.Carrying.Count != 0) throw new InvalidOperationException(I("inventory should be empty here"));
@@ -160,8 +158,6 @@ namespace NermNermNerm.Junimatic
             }
 
             this.LogTrace($"Junimo reached target {this.Assignment}");
-
-            this.SetSpeed(); // dark forces may have unset the speed
 
             if (this.Assignment.target is GameStorage chest)
             {
@@ -445,6 +441,11 @@ namespace NermNermNerm.Junimatic
                 this.speed = 0;
                 this.jumpWithoutSound();
                 Game1.delayedActions.Add(new DelayedAction(1500, () => this.SetSpeed()));
+            }
+
+            if (this.speed != 0)
+            {
+                this.SetSpeed(); // Various things, including bumping into things, seem to change the speed...
             }
         }
 
