@@ -20,7 +20,8 @@ namespace NermNermNerm.Junimatic
     public class MillMachine
         : BuildingMachine
     {
-        private static Dictionary<(Building,JunimoType), bool> isCompatCache = new Dictionary<(Building, JunimoType), bool>();
+        private static Dictionary<(Guid,JunimoType), bool> isCompatCache = new Dictionary<(Guid, JunimoType), bool>();
+        private static List<StardewValley.Item> allObjects = new List<StardewValley.Item>();
 
         public MillMachine(Building mill, Point accessPoint)
             : base(mill, accessPoint)
@@ -159,12 +160,10 @@ namespace NermNermNerm.Junimatic
             return recipe;
         }
 
-        private static List<StardewValley.Item> allObjects = new List<StardewValley.Item>();
-
         /// <inheritdoc/>
         public override bool IsCompatibleWithJunimo(JunimoType projectType)
         {
-            if (isCompatCache.TryGetValue((this.Building,projectType), out bool result)) { return result; }
+            if (isCompatCache.TryGetValue((this.Building.id.Value,projectType), out bool result)) { return result; }
 
             var itemConversions = this.Building.GetData().ItemConversions;
 
@@ -194,7 +193,8 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            // Perhaps run this if !result?
+            // Perhaps run this if !result?  This doesn't help at all in the case of stock Mills because Wheat Flour, Rice and Sugar
+            // don't have any categories or tags that pin down what Junimo should be messing with it.  (At least none that I can see).
             //
             //foreach (var conversion in itemConversions)
             //{
@@ -221,7 +221,7 @@ namespace NermNermNerm.Junimatic
             //    }
             //}
 
-            isCompatCache[(this.Building,projectType)] = result;
+            isCompatCache[(this.Building.id.Value,projectType)] = result;
             return result;
         }
         public override List<Item> GetProducts()
