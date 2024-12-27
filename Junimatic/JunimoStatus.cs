@@ -169,11 +169,11 @@ namespace NermNermNerm.Junimatic
             {
                 for (int i = item.Quality; i < 5; ++i)
                 {
-                    hashSets[i].Add(item.Name);
+                    hashSets[i].Add(item.QualifiedItemId);
                 }
             }
 
-            return item => item is not null && hashSets[item.Quality].Contains(item.Name);
+            return item => item is not null && hashSets[item.Quality].Contains(item.QualifiedItemId);
         }
     }
 }
