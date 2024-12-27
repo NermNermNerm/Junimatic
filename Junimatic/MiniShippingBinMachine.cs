@@ -18,7 +18,7 @@ namespace NermNermNerm.Junimatic
     public class MiniShippingBinMachine
         : ObjectMachine
     {
-        private const int MaxToteableStack = 5;
+        public const int MaxToteableStackSize = 5;
 
         private Chest chest => (Chest)base.GameObject;
 
@@ -46,7 +46,7 @@ namespace NermNermNerm.Junimatic
                 return false;
             }
 
-            int numToTake = Math.Min(MaxToteableStack, shippable.Stack);
+            int numToTake = Math.Min(MaxToteableStackSize, shippable.Stack);
             if (!this.CanHold(shippable, numToTake))
             {
                 return false;
@@ -74,7 +74,7 @@ namespace NermNermNerm.Junimatic
             if (shippable is not null && this.CanHold(shippable, 5))
             {
                 var duplicate = shippable.getOne();
-                duplicate.Stack = Math.Min(shippable.Stack, MaxToteableStack);
+                duplicate.Stack = Math.Min(shippable.Stack, MaxToteableStackSize);
                 return new List<Item> { duplicate };
             }
             else

@@ -23,6 +23,8 @@ namespace NermNermNerm.Junimatic
         private static Dictionary<(Guid,JunimoType), bool> isCompatCache = new Dictionary<(Guid, JunimoType), bool>();
         private static List<StardewValley.Item> allObjects = new List<StardewValley.Item>();
 
+        public const int MaxToteableStackSize = MiniShippingBinMachine.MaxToteableStackSize;
+
         public MillMachine(Building mill, Point accessPoint)
             : base(mill, accessPoint)
         {
@@ -85,11 +87,12 @@ namespace NermNermNerm.Junimatic
                 int numberOfItemThatCanBeAddedToThisInventoryList = Utility.GetNumberOfItemThatCanBeAddedToThisInventoryList(item, this.InputChest.Items, 36);
                 if (item.Stack > itemConversionForItem.RequiredCount && numberOfItemThatCanBeAddedToThisInventoryList < itemConversionForItem.RequiredCount)
                 {
-                    // This item would work, but the chest can't take anymore
+                    // This item would work, but the building's chest can't take anymore
                     continue;
                 }
 
                 int num = Math.Min(numberOfItemThatCanBeAddedToThisInventoryList, item.Stack) / itemConversionForItem.RequiredCount * itemConversionForItem.RequiredCount;
+                num = Math.Min(num, MaxToteableStackSize);
                 if (num == 0)
                 {
                     continue;
@@ -146,13 +149,14 @@ namespace NermNermNerm.Junimatic
                 }
 
                 int num = Math.Min(numberOfItemThatCanBeAddedToThisInventoryList, item.Stack) / itemConversionForItem.RequiredCount * itemConversionForItem.RequiredCount;
+                num = Math.Min(MaxToteableStackSize, num);
                 if (num == 0)
                 {
                     continue;
                 }
 
                 Item one = item.getOne();
-                one.Stack = num;
+                one.Stack = Math.Min(num, MaxToteableStackSize);
                 recipe.Add(one);
                 break; // <- we only will fulfill one conversion possibility per trip for animated junimos.
             }
@@ -231,7 +235,13 @@ namespace NermNermNerm.Junimatic
             {
                 return [];
             }
-            else
+            else if (firstItem.Stack > MaxToteableStackSize)
+            {
+                var splitItem = firstItem.getOne();
+                splitItem.Stack = MaxToteableStackSize;
+                firstItem.Stack -= MaxToteableStackSize;
+                return [splitItem];
+            }
             {
                 this.OutputChest.Items.Remove(firstItem);
                 return [firstItem];
