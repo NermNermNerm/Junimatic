@@ -8,6 +8,8 @@ using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Objects;
+using StardewValley.Locations;
+using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
@@ -292,6 +294,17 @@ end warpOut");
                 Game1.addHUDMessage(new HUDMessage(L("That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!")) { noIcon = true });
                 Game1.MasterPlayer.modData[ModDataKey_AlertedPlayer] = Game1.Date.TotalDays.ToString();
             }
+
+            if (Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal) // The portal was placed in the past
+                && !this.IsUnlocked                                                    // the player hasn't completed the quest
+                && !Game1.player.questLog.Any(q => q.id.Value == OldJunimoPortalQuest) // the player isn't on the quest
+                && !Game1.getFarm().objects.Values.Any(o => o.QualifiedItemId == OldJunimoPortalQiid) // The portal isn't on the farm
+                && !IsItemInGameAnywhere(OldJunimoPortalQiid)) // and another player didn't stash it in a chest for the master player
+            {
+                this.LogInfo($"The old portal seems to have been destroyed.  Placing a new copy.");
+                // Then re-create the quest-starter portal
+                this.PlacePortalRemains();
+            }
         }
 
         public void PlacePortalRemains()
@@ -342,6 +355,57 @@ end warpOut");
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
         {
             this.mod.WriteToLog(message, level, isOnceOnly);
+        }
+
+        // vv LookupAnything was the starting point for this code - I vastly simplified it (at the expense of some completeness)
+
+        /// <summary>Get all game locations except temporary ones like mine levels.</summary>
+        private static IEnumerable<GameLocation> GetLocations()
+        {
+            var locations = Game1.locations
+                .Concat(
+                    from location in Game1.locations
+                    from indoors in location.GetInstancedBuildingInteriors()
+                    select indoors
+                );
+
+            return locations;
+        }
+
+        public static bool IsItemInGameAnywhere(string qualifiedItemId)
+        {
+            foreach (GameLocation location in GetLocations())
+            {
+                // farmhouse fridge
+                Chest? fridge = location switch
+                {
+                    FarmHouse house => house.fridge.Value,
+                    IslandFarmHouse house => house.fridge.Value,
+                    _ => null
+                };
+                if (fridge is not null && fridge.GetItemsForPlayer().Any(i => i?.QualifiedItemId == qualifiedItemId))
+                {
+                    return true;
+                }
+
+                foreach (var item in location.objects.Values)
+                {
+                    if (item is Chest chest && chest.GetItemsForPlayer().Any(i => i?.QualifiedItemId == qualifiedItemId))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            foreach (var p in Game1.getAllFarmers())
+            {
+                if (p.Items.Any(i => i?.QualifiedItemId == qualifiedItemId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
