@@ -108,41 +108,73 @@ namespace NermNermNerm.Junimatic
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
             this.owner.LogInfo($"In receiveLeftClick, heldItem={base.heldItem?.Name ?? nullstr}");
-            Item? item = base.heldItem;
-            int num = item?.Stack ?? (-1);
             if (base.isWithinBounds(x, y))
             {
                 this.owner.LogInfo($"In base.isWithinBounds case");
                 base.receiveLeftClick(x, y, playSound: false);
             }
 
-            if (this.ItemsToGrabMenu.isWithinBounds(x, y))
+            var slot = this.ItemsToGrabMenu.inventory.FirstOrDefault(s => s.containsPoint(x, y));
+            if (slot is not null)
             {
-                base.heldItem = this.ItemsToGrabMenu.leftClick(x, y, base.heldItem, playSound: false);
-                this.owner.LogInfo($"  itemToGrabMenu.leftClick changed heldItem to: {base.heldItem?.Name ?? nullstr}");
-                if ((base.heldItem != null && item == null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)))
+                // Concentrating the bat-spit-crazy:
+                int num = Convert.ToInt32(slot.name);
+                Item? slotItem = this.ItemsToGrabMenu.actualInventory[num];
+
+                bool shinyListChanged = false;
+                if (base.heldItem is not null && slotItem is null)
+                {
+                    if (base.heldItem.Stack > 1)
+                    {
+                        slotItem = base.heldItem.getOne();
+                        --base.heldItem.Stack;
+                    }
+                    else
+                    {
+                        slotItem = base.heldItem;
+                        base.heldItem = null;
+                    }
+                    shinyListChanged = true;
+                }
+                else if (base.heldItem is not null && slotItem is not null)
+                {
+                    if (base.heldItem.Stack == 1)
+                    {
+                        var hold = base.heldItem;
+                        base.heldItem = slotItem;
+                        slotItem = hold;
+                        shinyListChanged = true;
+                    }
+                    // else can't exchange - it'd create 3 stacks
+                }
+                else if (base.heldItem is null && slotItem is not null)
+                {
+                    if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(slot.item))
+                    {
+                        // nothing to do in here, addItem made the magic happen already.
+                    }
+                    else
+                    {
+                        base.heldItem = slotItem;
+                    }
+                    slotItem = null;
+                    shinyListChanged = true;
+                }
+
+                if (shinyListChanged)
                 {
                     this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
                     Game1.playSound("dwop");
-                }
 
-                if ((base.heldItem == null && item != null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)))
-                {
-                    Item? one = base.heldItem;
-                    if (base.heldItem == null && this.ItemsToGrabMenu.getItemAt(x, y) != null && num < this.ItemsToGrabMenu.getItemAt(x, y).Stack)
+                    if (slotItem is null)
                     {
-                        one = item.getOne();
-                        one.Stack = num;
+                        Utility.removeItemFromInventory(num, this.ItemsToGrabMenu.actualInventory);
+                    }
+                    else
+                    {
+                        Utility.addItemToInventory(slotItem, num, this.ItemsToGrabMenu.actualInventory, this.ItemsToGrabMenu.onAddItem);
                     }
 
-                    this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
-                    Game1.playSound("Ship");
-                }
-                else if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(base.heldItem))
-                {
-                    base.heldItem = null;
-                    this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
-                    Game1.playSound("coin");
                 }
             }
 
