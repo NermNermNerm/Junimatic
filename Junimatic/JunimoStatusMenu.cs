@@ -116,19 +116,14 @@ namespace NermNermNerm.Junimatic
                 base.receiveLeftClick(x, y, playSound: false);
             }
 
-            bool flag = true;
             if (this.ItemsToGrabMenu.isWithinBounds(x, y))
             {
                 base.heldItem = this.ItemsToGrabMenu.leftClick(x, y, base.heldItem, playSound: false);
                 this.owner.LogInfo($"  itemToGrabMenu.leftClick changed heldItem to: {base.heldItem?.Name ?? nullstr}");
                 if ((base.heldItem != null && item == null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)))
                 {
-                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item);
-
-                    if (flag)
-                    {
-                        Game1.playSound("dwop");
-                    }
+                    this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
+                    Game1.playSound("dwop");
                 }
 
                 if ((base.heldItem == null && item != null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)))
@@ -140,22 +135,14 @@ namespace NermNermNerm.Junimatic
                         one.Stack = num;
                     }
 
-                    flag = this.itemChangeBehavior(item, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), one);
-
-                    if (flag)
-                    {
-                        Game1.playSound("Ship");
-                    }
+                    this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
+                    Game1.playSound("Ship");
                 }
                 else if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(base.heldItem))
                 {
                     base.heldItem = null;
-                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item);
-
-                    if (flag)
-                    {
-                        Game1.playSound("coin");
-                    }
+                    this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
+                    Game1.playSound("coin");
                 }
             }
 
@@ -172,73 +159,10 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-
-        private bool itemChangeBehavior(Item? i, int position, Item? old)
-        {
-            // The arguments to this thing are pretty much impossible to name well.
-            //
-            // If the user has an item that they've selected:
-            //  'onRemoval' is false, 'i' is the incoming item and 'old' is null.
-            //
-            // If nothing is selected and the user clicks on an item in the box:
-            //  'onRemoval' is true, 'i' is the item in the chest and 'old' is null.
-            //
-            // If the user has something selected and clicks on an item in the box, two events are generated:
-            //  #1 - 'onRemoval' is true, 'i' is the item in the chest and 'old' is the item the user has selected.
-            //  #2 - 'onRemoval' is false, 'i' is the incoming item, 'old' is the item in the chest.
-            //
-            // Apparently, 'i' is never null.  I'm leaving guards against it in-place.
-            //
-            // The return value indicates whether a sound should be played.
-            //
-            // container.heldItem is the item that is currently being "dragged" in the dialog.
-
-            this.owner.LogInfo($"i={(i is null ? "null" : IF($"{i.Name}:{i.Quality}#{i.Stack}"))} old={(old is null ? "null" : IF($"{old.Name}:{old.Quality}#{old.Stack}"))}");
-            try
-            {
-                if (old != null && old.Stack > 1 && !old.Equals(i))
-                {
-                    return false;
-                }
-                return true;
-            }
-            finally
-            {
-                this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
-            }
-        }
-
         public override void receiveRightClick(int x, int y, bool playSound = true)
         {
             this.owner.LogInfo($"In receiveRightClick, heldItem={base.heldItem?.Name ?? nullstr}");
-            int num = ((base.heldItem != null) ? base.heldItem.Stack : 0);
-            Item? item = base.heldItem;
-            if (base.isWithinBounds(x, y))
-            {
-                base.receiveRightClick(x, y, playSound: true);
-                this.owner.LogInfo($" after base.receiveRightClick, heldItem={base.heldItem?.Name ?? nullstr}");
-            }
-
-            if (!this.ItemsToGrabMenu.isWithinBounds(x, y))
-            {
-                this.owner.LogInfo($" exiting receiveRightClick, heldItem={base.heldItem?.Name ?? nullstr}");
-                return;
-            }
-
-            base.heldItem = this.ItemsToGrabMenu.rightClick(x, y, base.heldItem, playSound: false);
-            if ((base.heldItem != null && item == null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)) || (base.heldItem != null && item != null && base.heldItem.Equals(item) && base.heldItem.Stack != num))
-            {
-                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item);
-                Game1.playSound("dwop");
-            }
-
-            if (base.heldItem is not null && Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(base.heldItem))
-            {
-                base.heldItem = null;
-                Game1.playSound("coin");
-                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item);
-            }
-            this.owner.LogInfo($" exiting receiveRightClick-2, heldItem={base.heldItem?.Name ?? nullstr}");
+            base.receiveRightClick(x, y, playSound);
         }
 
         public override void update(GameTime time)
