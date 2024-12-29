@@ -104,22 +104,20 @@ namespace NermNermNerm.Junimatic
                 null, this.ItemsToGrabMenu.capacity, this.ItemsToGrabMenu.rows);
         }
 
-        public static string nullstr = I("null");
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
-            this.owner.LogInfo($"In receiveLeftClick, heldItem={base.heldItem?.Name ?? nullstr}");
             if (base.isWithinBounds(x, y))
             {
-                this.owner.LogInfo($"In base.isWithinBounds case");
                 base.receiveLeftClick(x, y, playSound: false);
             }
 
             var slot = this.ItemsToGrabMenu.inventory.FirstOrDefault(s => s.containsPoint(x, y));
             if (slot is not null)
             {
-                // Concentrating the bat-spit-crazy:
+                // Bat-spit-crazy stuff to replicate what's in InventoryMenu.leftClick
                 int num = Convert.ToInt32(slot.name);
                 Item? slotItem = this.ItemsToGrabMenu.actualInventory[num];
+                // end bsc
 
                 bool shinyListChanged = false;
                 if (base.heldItem is not null && slotItem is null)
@@ -149,7 +147,7 @@ namespace NermNermNerm.Junimatic
                 }
                 else if (base.heldItem is null && slotItem is not null)
                 {
-                    if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(slot.item))
+                    if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(slotItem))
                     {
                         // nothing to do in here, addItem made the magic happen already.
                     }
@@ -163,9 +161,7 @@ namespace NermNermNerm.Junimatic
 
                 if (shinyListChanged)
                 {
-                    this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
-                    Game1.playSound("dwop");
-
+                    // begin bsc
                     if (slotItem is null)
                     {
                         Utility.removeItemFromInventory(num, this.ItemsToGrabMenu.actualInventory);
@@ -174,7 +170,10 @@ namespace NermNermNerm.Junimatic
                     {
                         Utility.addItemToInventory(slotItem, num, this.ItemsToGrabMenu.actualInventory, this.ItemsToGrabMenu.onAddItem);
                     }
+                    // end bsc
 
+                    this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
+                    Game1.playSound("dwop");
                 }
             }
 
@@ -189,12 +188,6 @@ namespace NermNermNerm.Junimatic
                 Utility.trashItem(base.heldItem);
                 base.heldItem = null;
             }
-        }
-
-        public override void receiveRightClick(int x, int y, bool playSound = true)
-        {
-            this.owner.LogInfo($"In receiveRightClick, heldItem={base.heldItem?.Name ?? nullstr}");
-            base.receiveRightClick(x, y, playSound);
         }
 
         public override void update(GameTime time)
