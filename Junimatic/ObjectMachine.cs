@@ -25,7 +25,7 @@ namespace NermNermNerm.Junimatic
 
         internal static ObjectMachine? TryCreate(StardewValley.Object item, Point accessPoint)
         {
-            if (item.QualifiedItemId == "(BC)101")
+            if (item.QualifiedItemId == "(BC)101" || item.QualifiedItemId == "(BC)254") // incubator or ostrich incubator
             {
                 // This is the Incubator.  It exists as its own unbreakable object within the coop.  When an egg "hatches"
                 // out of it, the egg exists as the 'heldObject' until a player walks into the coop, when it gets turned into
