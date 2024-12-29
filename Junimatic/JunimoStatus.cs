@@ -71,7 +71,7 @@ namespace NermNermNerm.Junimatic
 
         private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
-            if (e.Button == SButton.MouseRight)
+            if (e.Button == SButton.MouseRight && Game1.activeClickableMenu is null)
             {
                 Vector2 tile = this.Helper.Input.GetCursorPosition().GrabTile;
                 var obj = Game1.player?.currentLocation?.getObjectAtTile((int)tile.X, (int)tile.Y);
