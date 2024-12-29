@@ -104,12 +104,15 @@ namespace NermNermNerm.Junimatic
                 null, this.ItemsToGrabMenu.capacity, this.ItemsToGrabMenu.rows);
         }
 
+        public static string nullstr = I("null");
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
-            Item item = base.heldItem;
+            this.owner.LogInfo($"In receiveLeftClick, heldItem={base.heldItem?.Name ?? nullstr}");
+            Item? item = base.heldItem;
             int num = item?.Stack ?? (-1);
             if (base.isWithinBounds(x, y))
             {
+                this.owner.LogInfo($"In base.isWithinBounds case");
                 base.receiveLeftClick(x, y, playSound: false);
             }
 
@@ -117,9 +120,10 @@ namespace NermNermNerm.Junimatic
             if (this.ItemsToGrabMenu.isWithinBounds(x, y))
             {
                 base.heldItem = this.ItemsToGrabMenu.leftClick(x, y, base.heldItem, playSound: false);
+                this.owner.LogInfo($"  itemToGrabMenu.leftClick changed heldItem to: {base.heldItem?.Name ?? nullstr}");
                 if ((base.heldItem != null && item == null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)))
                 {
-                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, onRemoval: true);
+                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item);
 
                     if (flag)
                     {
@@ -136,42 +140,17 @@ namespace NermNermNerm.Junimatic
                         one.Stack = num;
                     }
 
-                    flag = this.itemChangeBehavior(item, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), one, onRemoval: true);
+                    flag = this.itemChangeBehavior(item, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), one);
 
                     if (flag)
                     {
                         Game1.playSound("Ship");
                     }
                 }
-
-                Item? item2 = base.heldItem;
-                if (item2 != null && item2.IsRecipe)
-                {
-                    string key = item2.Name.Substring(0, item2.Name.IndexOf("Recipe") - 1);
-                    try
-                    {
-                        if (item2.Category == -7)
-                        {
-                            Game1.player.cookingRecipes.Add(key, 0);
-                        }
-                        else
-                        {
-                            Game1.player.craftingRecipes.Add(key, 0);
-                        }
-
-                        this.poof = new TemporaryAnimatedSprite("TileSheets\\animations", new Rectangle(0, 320, 64, 64), 50f, 8, 0, new Vector2(x - x % 64 + 16, y - y % 64 + 16), flicker: false, flipped: false);
-                        Game1.playSound("newRecipe");
-                    }
-                    catch (Exception)
-                    {
-                    }
-
-                    base.heldItem = null;
-                }
                 else if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(base.heldItem))
                 {
                     base.heldItem = null;
-                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, onRemoval: true);
+                    flag = this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item);
 
                     if (flag)
                     {
@@ -194,7 +173,7 @@ namespace NermNermNerm.Junimatic
         }
 
 
-        private bool itemChangeBehavior(Item? i, int position, Item? old, bool onRemoval)
+        private bool itemChangeBehavior(Item? i, int position, Item? old)
         {
             // The arguments to this thing are pretty much impossible to name well.
             //
@@ -214,42 +193,10 @@ namespace NermNermNerm.Junimatic
             //
             // container.heldItem is the item that is currently being "dragged" in the dialog.
 
-            this.owner.LogInfo($"i={(i is null ? "null" : IF($"{i.Name}:{i.Quality}#{i.Stack}"))} old={(old is null ? "null" : IF($"{old.Name}:{old.Quality}#{old.Stack}"))} onRemoval={onRemoval}");
+            this.owner.LogInfo($"i={(i is null ? "null" : IF($"{i.Name}:{i.Quality}#{i.Stack}"))} old={(old is null ? "null" : IF($"{old.Name}:{old.Quality}#{old.Stack}"))}");
             try
             {
-                if (!onRemoval && i is not null)
-                {
-                    if (i.Stack > 1 || (i.Stack == 1 && old != null && old.Stack == 1 && i.canStackWith(old)))
-                    {
-                        // This case covers the first event of the swap operation and the add operations where we have more than one item held
-
-                        if (old != null && old.canStackWith(i)) // something's held and it's the same kind of thing as what's in the chest
-                        {
-                            // This does nothing - the items in the actual inventory are always stack size 1.
-                            this.ItemsToGrabMenu.actualInventory[position].Stack = 1;
-
-                            // This does nothing - when onRemove is false, 'old' is the item in the chest, so container.heldItem already == old
-                            this.heldItem = old;
-                            return false;
-                        }
-
-                        if (old != null)
-                        {
-                            // swaps what's in the hand and what's in the chest.
-                            Utility.addItemToInventory(old, position, this.ItemsToGrabMenu.actualInventory);
-                            this.heldItem = i;
-                            return false;
-                        }
-
-                        // This is the case where you're adding to an empty slot
-                        int allButOne = i.Stack - 1; // The stack size after putting it in the container - can be zero
-                        Item reject = i.getOne(); // 'reject' is the part of the incoming stack that won't fit because we only take one item.
-                        reject.Stack = allButOne; //   <- see that it's the right size
-                        this.heldItem = reject; //  And now that's what's in-hand
-                        i.Stack = 1; // 
-                    }
-                }
-                else if (old != null && old.Stack > 1 && !old.Equals(i))
+                if (old != null && old.Stack > 1 && !old.Equals(i))
                 {
                     return false;
                 }
@@ -263,38 +210,35 @@ namespace NermNermNerm.Junimatic
 
         public override void receiveRightClick(int x, int y, bool playSound = true)
         {
+            this.owner.LogInfo($"In receiveRightClick, heldItem={base.heldItem?.Name ?? nullstr}");
             int num = ((base.heldItem != null) ? base.heldItem.Stack : 0);
             Item? item = base.heldItem;
             if (base.isWithinBounds(x, y))
             {
                 base.receiveRightClick(x, y, playSound: true);
+                this.owner.LogInfo($" after base.receiveRightClick, heldItem={base.heldItem?.Name ?? nullstr}");
             }
 
             if (!this.ItemsToGrabMenu.isWithinBounds(x, y))
             {
+                this.owner.LogInfo($" exiting receiveRightClick, heldItem={base.heldItem?.Name ?? nullstr}");
                 return;
             }
 
             base.heldItem = this.ItemsToGrabMenu.rightClick(x, y, base.heldItem, playSound: false);
             if ((base.heldItem != null && item == null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)) || (base.heldItem != null && item != null && base.heldItem.Equals(item) && base.heldItem.Stack != num))
             {
-                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, onRemoval: true);
+                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item);
                 Game1.playSound("dwop");
             }
 
-            if ((base.heldItem == null && item != null) || (base.heldItem != null && item != null && !base.heldItem.Equals(item)))
-            {
-                this.itemChangeBehavior(item, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), base.heldItem, onRemoval: false);
-                Game1.playSound("Ship");
-            }
-
-            Item? item2 = base.heldItem;
-            if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(base.heldItem))
+            if (base.heldItem is not null && Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(base.heldItem))
             {
                 base.heldItem = null;
                 Game1.playSound("coin");
-                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item, onRemoval: true);
+                this.itemChangeBehavior(base.heldItem, this.ItemsToGrabMenu.getInventoryPositionOfClick(x, y), item);
             }
+            this.owner.LogInfo($" exiting receiveRightClick-2, heldItem={base.heldItem?.Name ?? nullstr}");
         }
 
         public override void update(GameTime time)
