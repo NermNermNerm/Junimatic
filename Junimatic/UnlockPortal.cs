@@ -77,6 +77,14 @@ namespace NermNermNerm.Junimatic
                     this.LogWarning($"Player received a {OldJunimoPortalQiid} when they've already got or have completed the quest");
                 }
             }
+
+            var abandoned = e.Added.FirstOrDefault(i => i.QualifiedItemId == AbandonedJunimoPortalQiid);
+            if (abandoned is not null)
+            {
+                Game1.addHUDMessage(new HUDMessage(L("Junimo huts can't be placed near where villagers go.")) { noIcon = true });
+                e.Player.removeItemFromInventory(abandoned);
+                e.Player.addItemToInventory(ItemRegistry.Create(JunimoPortalQiid));
+            }
         }
 
         private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
