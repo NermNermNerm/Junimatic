@@ -433,7 +433,7 @@ namespace NermNermNerm.Junimatic
                 this.Sprite.Animate(time, 0, 8, 50f);
             }
 
-            if (!this.isScared && !ModEntry.Config.AllowAllLocations && Game1.random.Next(500) == 0 && IsVillagerNear(this.currentLocation, this.Tile))
+            if (!this.isScared && Game1.random.Next(500) == 0 && IsVillagerNear(this.currentLocation, this.Tile))
             {
                 this.LogInfo($"A Junimo encountered a villager at {this.currentLocation.Name}, became frightened, and abandoned the Junimo Hut it came from.  Junimos are afraid of villagers and won't work in areas villagers frequent.  If you don't like this rule, it can be turned off in the Junimatic mod settings.");
                 this.isScared = true;
@@ -509,6 +509,11 @@ namespace NermNermNerm.Junimatic
 
         public static bool IsVillagerNear(GameLocation location, Vector2 tile)
         {
+            if (ModEntry.Config.AllowAllLocations)
+            {
+                return false;
+            }
+
             // IslandWest is special-cased because it was outright allowed in early versions of the mod, plus
             // it just makes sense to allow them to work there.  Perhaps another way to go would be to substantially
             // reduce the radius instead - so they work, but not near Birdie or the Tiger Slimes.
@@ -523,7 +528,7 @@ namespace NermNermNerm.Junimatic
 
         public static bool IsScaryVillager(NPC npc)
         {
-            return npc is not Horse && npc is not Pet && npc is not Child && npc.Name != I("Junimo") && npc.getSpouse() is null;
+            return !ModEntry.Config.AllowAllLocations && npc is not Horse && npc is not Pet && npc is not Child && npc.Name != I("Junimo") && npc.getSpouse() is null;
         }
     }
 }
