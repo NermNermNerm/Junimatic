@@ -23,6 +23,7 @@ namespace NermNermNerm.Junimatic
 
         public const string IndoorWellObjectId = "Junimatic.IndoorWell";
         public const string IndoorWellObjectQiid = "(BC)Junimatic.IndoorWell";
+        public const string IndoorWellRecipeId = "Junimatic.IndoorWellRecipe";
 
         private const string MetLewisMopingPart1EventId = "Junimatic.MetLewisMoping1";
         private const string MetLewisMopingPart2EventId = "Junimatic.MetLewisMoping2";
@@ -33,8 +34,6 @@ namespace NermNermNerm.Junimatic
 
         private const string MightHaveBeenRoseObjectId = "Junimatic.MightabeenRose";
         private const string MightHaveBeenRoseObjectQiid = "(BC)Junimatic.MightabeenRose";
-
-        private const string IndoorWellRecipeId = "Junimatic.IndoorWellRecipe";
 
         private const string LewisGotPlantConversationTopic = "Junimatic.LewisGotPlant";
         private const string SawLewisMopingConversationTopic = "Junimatic.SawLewisMoping";

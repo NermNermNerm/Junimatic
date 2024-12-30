@@ -294,6 +294,7 @@ end warpOut");
                 && !this.IsUnlocked)
             {
                 Game1.player.craftingRecipes.TryAdd(JunimoPortalRecipe, 0);
+                Game1.player.craftingRecipes.TryAdd(UnlockPots.IndoorWellRecipeId, 0);
             }
             else if (Game1.MasterPlayer.modData.ContainsKey(ModDataKey_PlacedOldPortal)
                 && !Game1.MasterPlayer.modData.ContainsKey(ModDataKey_AlertedPlayer)
