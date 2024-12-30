@@ -81,7 +81,7 @@ namespace NermNermNerm.Junimatic
             var abandoned = e.Added.FirstOrDefault(i => i.QualifiedItemId == AbandonedJunimoPortalQiid);
             if (abandoned is not null)
             {
-                Game1.addHUDMessage(new HUDMessage(L("Junimo huts can't be placed near where villagers go.")) { noIcon = true });
+                Game1.addHUDMessage(new HUDMessage(L("Junimos are afraid of villagers; move this hut away from townspeople and hostile mobs.")) { noIcon = true });
                 e.Player.removeItemFromInventory(abandoned);
                 e.Player.addItemToInventory(ItemRegistry.Create(JunimoPortalQiid));
             }
