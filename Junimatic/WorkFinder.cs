@@ -300,7 +300,7 @@ namespace NermNermNerm.Junimatic
 
             foreach (var network in networks)
             {
-                if (network.corners.Any(c => JunimoShuffler.IsVillagerNear(location, c)))
+                if (network.corners.Any(c => JunimoShuffler.IsVillagerNear(location, c, JunimoShuffler.VillagerDetectionRange)))
                 {
                     location.Objects[network.hut.TileLocation] = (StardewValley.Object)ItemRegistry.Create(UnlockPortal.AbandonedJunimoPortalQiid);
                     this.cachedNetworks.Remove(location); // Invalidate the cache so it gets rebuilt next tick

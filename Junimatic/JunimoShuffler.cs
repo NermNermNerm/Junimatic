@@ -27,6 +27,8 @@ namespace NermNermNerm.Junimatic
         private readonly WorkFinder? workFinder;
         private bool isScared = false;
 
+        public const int VillagerDetectionRange = 50;
+
         public JunimoShuffler()
         {
             this.Breather = false;
@@ -433,7 +435,9 @@ namespace NermNermNerm.Junimatic
                 this.Sprite.Animate(time, 0, 8, 50f);
             }
 
-            if (!this.isScared && Game1.random.Next(500) == 0 && IsVillagerNear(this.currentLocation, this.Tile))
+            if (!this.isScared
+                && ((Game1.random.Next(500) == 0 && IsVillagerNear(this.currentLocation, this.Tile, VillagerDetectionRange))
+                 || IsVillagerNear(this.currentLocation, this.Tile, 10)))
             {
                 this.LogInfo($"A Junimo encountered a villager at {this.currentLocation.Name}, became frightened, and abandoned the Junimo Hut it came from.  Junimos are afraid of villagers and won't work in areas villagers frequent.  If you don't like this rule, it can be turned off in the Junimatic mod settings.");
                 this.isScared = true;
@@ -507,28 +511,21 @@ namespace NermNermNerm.Junimatic
             this.workFinder?.WriteToLog(message, level, isOnceOnly);
         }
 
-        public static bool IsVillagerNear(GameLocation location, Vector2 tile)
+        public static bool IsVillagerNear(GameLocation location, Vector2 tile, int withinTiles)
         {
-            if (ModEntry.Config.AllowAllLocations)
-            {
-                return false;
-            }
-
-            // IslandWest is special-cased because it was outright allowed in early versions of the mod, plus
-            // it just makes sense to allow them to work there.  Perhaps another way to go would be to substantially
-            // reduce the radius instead - so they work, but not near Birdie or the Tiger Slimes.
-            if (location is IslandWest)
-            {
-                return false;
-            }
-
-            var isNear = (Vector2 p1, Vector2 p2) => Math.Abs(p1.X - p2.X) < 50 && Math.Abs(p2.Y - p1.Y) < 50;
-            return location.characters.Any(npc => npc is not JunimoShuffler && isNear(npc.Tile, tile) && IsScaryVillager(npc));
+            var isNear = (Vector2 p1, Vector2 p2) => Math.Abs(p1.X - p2.X) < withinTiles && Math.Abs(p2.Y - p1.Y) < withinTiles;
+            return location.characters.Any(npc => isNear(npc.Tile, tile) && IsScaryVillager(npc));
         }
 
         public static bool IsScaryVillager(NPC npc)
         {
-            return !ModEntry.Config.AllowAllLocations && npc is not Horse && npc is not Pet && npc is not Child && npc.Name != I("Junimo") && npc.getSpouse() is null;
+            // IslandWest is special-cased because it was outright allowed in early versions of the mod, plus
+            // it just makes sense to allow them to work there.  Perhaps another way to go would be to substantially
+            // reduce the radius instead - so they work, but not near Birdie or the Tiger Slimes.
+            return !ModEntry.Config.AllowAllLocations
+                && npc.currentLocation is not IslandWest
+                && npc is not JunimoShuffler
+                && npc is not Horse && npc is not Pet && npc is not Child && npc.getSpouse() is null;
         }
     }
 }
