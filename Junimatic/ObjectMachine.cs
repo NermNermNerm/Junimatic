@@ -207,12 +207,13 @@ namespace NermNermNerm.Junimatic
 
 
         private static string[][] tags = [
-            [I("category_minerals"), I("category_gem"), I("bone_item")],
-            [I("egg_item"), I("large_egg_item"), I("slime_egg_item")],
-            [I("category_vegetable"), I("category_fruit"), I("keg_wine"), I("preserves_pickle"), I("preserves_jelly"), I("coffee_item")],
+            [I("category_minerals"), I("category_gem"), I("bone_item"), I("ore_item")],
+            [I("egg_item"), I("large_egg_item"), I("slime_egg_item"), I("milk_item")],
+            [I("category_vegetable"), I("category_fruit"), I("keg_wine"), I("preserves_pickle"), I("preserves_jelly"), I("coffee_item"),
+                I("fruit_item"), I("fruit_tree_item"), I("honey_item"), I("juice_item"), I("mayo_item"), I("pickle_item")],
             [I("category_fish")],
-            [], // there aren't any tags for wood stuff listed
-            [] // Only for plant pots and fruit trees
+            [I("forage_item"), I("syrup_item"), I("wood_item")],
+            [I("fruit_item"), I("fruit_tree_item")]
         ];
 
         private static int[][] categories = [
