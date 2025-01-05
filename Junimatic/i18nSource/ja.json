@@ -1,27 +1,21 @@
-// Do not manually edit this file!
-// Instead, collect updates to the translation files distributed with your package and
-// use the tooling to merge the changes like this:
-//
-// msbuild /target:IngestTranslations /p:TranslatedFile=<path-to-file>.json;TranslationAuthor=<author-id>
-//
-// Where 'author-id' is '<platform>:<moniker>' where '<platform>' is something like 'nexus' or 'github' and
-// '<id>' is the identity of the person who supplied the translations on that platform.
+// Do not manually edit this file!  Follow these instructions to import changes:
+// https://github.com/NermNermNerm/LocalizeFromSource?tab=readme-ov-file#ingesting-translations
 {
   "translations": [
     {
-      "source": "You\u0027ve been to the mines I see...  Your grandfather did too, even after his mind began to go.  I worried for him, but there was no stopping him.$0#$b#Then one day he came to me, shaken to the core.  He sobbed \u0027A big slime ate my friend!\u0027 but I know he went to the mines alone...$2#$b#He kept going on like that for several days.  I felt terrible for him, because although *I* knew it wasn\u0027t real, it was real enough to him.$0#$b#He never went back to the mines; that was very much for the best.$2",
+      "source": "You've been to the mines I see...  Your grandfather did too, even after his mind began to go.  I worried for him, but there was no stopping him.$0#$b#Then one day he came to me, shaken to the core.  He sobbed 'A big slime ate my friend!' but I know he went to the mines alone...$2#$b#He kept going on like that for several days.  I felt terrible for him, because although *I* knew it wasn't real, it was real enough to him.$0#$b#He never went back to the mines; that was very much for the best.$2",
       "translation": "鉱山に行ったことがあるんだね…。君のおじいさんもそうだった、色々とおかしくなってからもね。心配はしたが、止めることはできなかったよ。$0#$b#そしてある日、彼が心底震えながら私のところに来た。「ビックスライムが親友を食べてしまった！」と嘆いていたが、私は彼が1人で鉱山に行ったことを知っていたんだ…$2#$b#それから数日間、そのような状態が続いた。本当に気の毒に思ったよ。それが現実でないとしても、彼にとっては現実であったからね。$0#$b#それ以降、彼は鉱山に行くことはなかった。それで良かったと思ってる。$2",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Pets sometimes have an uncanny ability to spot missing things!$0#$b#Just last week I lost my favorite milking bucket.  I came across it a few days later and my cat, Muffin, was sleeping in it.$1#$b#Well, I guess she didn\u0027t exactly find it for me, but at least she knew where it was!$0",
+      "source": "Pets sometimes have an uncanny ability to spot missing things!$0#$b#Just last week I lost my favorite milking bucket.  I came across it a few days later and my cat, Muffin, was sleeping in it.$1#$b#Well, I guess she didn't exactly find it for me, but at least she knew where it was!$0",
       "translation": "ペットは時に、足りないものを見つける不思議な能力を持っているわ！$0#$b#つい先週、お気に入りのミルクいれをなくしてしまったの。数日後、私はそれを見つけたのだけど、飼い猫のマフィンがその中で寝ていたわ。$1#$b#まあ、彼女が私のために見つけてくれたわけではないんだろうけど、少なくとも彼女はどこにあるか知っていたみたい！$0",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Do I miss my \u0022normal\u0022 life on days like this?$2#$b#No, not really.  Except for Jeremy Clarkson...$1#$b#...My pet Schnauzer.  He had an uncanny ability to fetch the thing I wanted before I even knew I wanted it.$0",
+      "source": "Do I miss my \"normal\" life on days like this?$2#$b#No, not really.  Except for Jeremy Clarkson...$1#$b#...My pet Schnauzer.  He had an uncanny ability to fetch the thing I wanted before I even knew I wanted it.$0",
       "translation": "こんな日は「普通」の生活が恋しくなるかって？$2#$b#いや、そんなことはない。ジェレミー・クラークソン以外はね…$1#$b#…私のペットのシュナウザー。彼はオレが欲しいと思っているものを、欲しいと思っていることに気づく前に取ってくる不思議な能力を持っていたんだ。$0",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -45,7 +39,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Oof! I need to be getting back! Anyway, I hope you can wrangle it back home!  Bye now!  Don\u0027t be a stranger!",
+      "source": "Oof! I need to be getting back! Anyway, I hope you can wrangle it back home!  Bye now!  Don't be a stranger!",
       "translation": "おっと、そろそろ帰らないといけないわ。とにかく、何とかお家に帰せるといいわね。またね！ できれば早く見つけてあげてね！",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -63,37 +57,19 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Enter the Cindersnap Forest during the day.",
-      "translation": "日中にシンダーサップの森へ行く。",
-      "author": "github:mitekano23",
-      "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
-    },
-    {
       "source": "Help the Junimo Go Home",
       "translation": "ジュニモが家に帰るのを助ける",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Help the Junimo in the Cindersnap Forest get home.",
-      "translation": "シンダーサップの森にいるジュニモが家に帰れるように助けてあげよう。",
-      "author": "github:mitekano23",
-      "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
-    },
-    {
-      "source": "Enter the Cindersnap Forest during the day with a Junimo Portal in your inventory.",
-      "translation": "日中にジョニモポータルを所持して、シンダーサップの森へ行く。",
-      "author": "github:mitekano23",
-      "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
-    },
-    {
-      "source": "That\u0027s not a chicken.",
+      "source": "That's not a chicken.",
       "translation": "ニワトリじゃない。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I wonder if it\u0027s lost and can\u0027t find its way home...  It seems distressed.",
+      "source": "I wonder if it's lost and can't find its way home...  It seems distressed.",
       "translation": "迷子になって帰り道がわからなくなっているのだろうか…。困っているみたいだ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -105,7 +81,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "That wasn\u0027t a chicken...  was it?$2#$b#Your grandfather had some little houses like that on his farm.  He said they were for his \u0027helpers\u0027.  But as he declined, he was prone to say, well, a lot of stuff....$2#$b#I suppose I caught a glimpse of them from time to time, but, well...  I think I\u0027m more comfortable not seeing them.$3#$b#You say they\u0027re good creatures?  Well...  Okay.  *Something* was sure keeping that farm in trim when your Grandad was declining.$2#$b#I suppose everybody needs a little magic in their lives from time to time.$0",
+      "source": "That wasn't a chicken...  was it?$2#$b#Your grandfather had some little houses like that on his farm.  He said they were for his 'helpers'.  But as he declined, he was prone to say, well, a lot of stuff....$2#$b#I suppose I caught a glimpse of them from time to time, but, well...  I think I'm more comfortable not seeing them.$3#$b#You say they're good creatures?  Well...  Okay.  *Something* was sure keeping that farm in trim when your Grandad was declining.$2#$b#I suppose everybody needs a little magic in their lives from time to time.$0",
       "translation": "アレはニワトリじゃない…わよね？$2#$b#あなたのおじいさんの牧場にも、あの小さな家がいくつかあったわ。彼は「ヘルパー」のためだと言っていたの。彼が衰えたあとは、まあ…色々と言われていたわ…$2#$b#私も時々、チラッと見ることはあったわ。でも、まあ…彼らを見ないほうがいいと思ってるの。$3#$b#良い生物か分からないじゃない？ だけど…あなたのおじいさんが衰えた時「何か」が牧場を維持してくれていた事実もあるわ。$2#$b#誰にだって、たまには人生にちょっとした魔法が必要なのかもしれないわね。$0",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -129,25 +105,19 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Did you ever see the giant crops your Granddad used to crow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1",
-      "translation": "あなたのおじいさんが作っていた巨大な作物は見たことがあるかしら？ びっくりするほど大きなカボチャだったわ。#$b#それをアビーは毎年、私に買うよう言ってきたの。後々理由を聞くと、自分の家として使うのが目的だったのよ。$1",
-      "author": "github:mitekano23",
-      "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
-    },
-    {
-      "source": "Has Abby been needling you about growing giant pumpkins?$4#$b#Don\u0027t do it, really, there\u0027s no money in it.  Quantity is good, sure, but the quality isn\u0027t.$2#$b#Your grandpa grew them in his declining years in particular.  He said \u0027my helpers like them\u0027.  Not sure what he meant by that, but he really enjoyed them that made it worth it to him!$1",
+      "source": "Has Abby been needling you about growing giant pumpkins?$4#$b#Don't do it, really, there's no money in it.  Quantity is good, sure, but the quality isn't.$2#$b#Your grandpa grew them in his declining years in particular.  He said 'my helpers like them'.  Not sure what he meant by that, but he really enjoyed them that made it worth it to him!$1",
       "translation": "アビーから、巨大カボチャの栽培についてしつこく聞かれませんでしたか？$4#$b#やめておいた方がいいですよ、アレはお金にならないです。量は良いですが、質がよろしくない。$2#$b#あなたのおじいさんが、衰えた頃に「ヘルパーが気に入っている」と言って、熱心に栽培をされていました。どういう意味かは分かりませんが、楽しそうではありましたね。$1",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don\u0027t know why, I guess it\u0027s because I was just a kid, but I felt really special for a long time after that day.",
+      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
       "translation": "子どもの頃に、あなたのおじいさんの牧場に遊びに行った時、巨大なカリフラワーを育てているのを見たの。すごく大きかったわ！$1#$b#たしか、ある日の午後にママに連れられて行ったのだけど…#$b#私が木のように登ったら、ママが心配したんだ。#$b#その時にあなたのおじいさんが私を抱き上げてくれ、魔法の生き物が守ってくれるから心配ないとも言ってくれたわ。#$b#まだ子どもだったし意味は分からなかったわ。でも、その日から長い間、うまく言えないけど特別な何かを感じることがあったんだ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn\u0027t buy one and your grandad invented this cock\u0026bull story about magical creatures.$5#$b#Didn\u0027t he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2",
+      "source": "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn't buy one and your grandad invented this cock&bull story about magical creatures.$5#$b#Didn't he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2",
       "translation": "あなたのおじいさんは、巨大なカボチャを育てていたのよ。アレを彫ってみたかったわ。$1#$b#でも、ママは買ってくれなかったし、おじいさんは魔法の生き物の話をでっちあげてきたの。$5#$b#まだそんなことを信じる子どもって思っていたのかしら？ まあ、お年寄り人ってそういうところあるもんね。$2#$b#…あたしの小さい頃の話はもう十分かもね。$2",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -165,13 +135,13 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I\u0027m told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn\u0027t specify where he got the fish to repopulate from...$3",
+      "source": "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3",
       "translation": "ヒヨケウオとアイスピップが生息する地底湖の復元について、大学時代の仲間が書いた論文を読んだんだ！$1#$b#鉱山の奥深くにそんな場所があるみたいなんだ。もしかしたら、いつか連れて行ってくれるかもしれない。#$b#そして、面白いことにその論文には、彼がどこから再繁殖のための魚を手に入れたのかが明記されていなかったんだよ…$3",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "@,^Please come visit me at my tent.  I\u0027ve found something and I need your help to sort it out.^   -Linus",
+      "source": "@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus",
       "translation": "やあ、@。^オレのテントに来てくれないか。あるものを見つけたのだが、これには君の助けが必要なんだ。^^-ライナスより",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -189,25 +159,25 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Go to Linus\u0027 tent before 10pm",
+      "source": "Go to Linus' tent before 10pm",
       "translation": "午後10時までにライナスのテントへ行く",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "@!  I\u0027m so glad you came!",
+      "source": "@!  I'm so glad you came!",
       "translation": "@！ 来てくれて嬉しいよ！",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Please come to the mines with me.  There\u0027s something I have to show you!",
+      "source": "Please come to the mines with me.  There's something I have to show you!",
       "translation": "オレと一緒に鉱山に来てほしい。君に見せたいものがあるんだ！",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I had been having these recurring dreams...  In it, there was somebody like me, but wasn\u0027t me...  You know how dreams are.",
+      "source": "I had been having these recurring dreams...  In it, there was somebody like me, but wasn't me...  You know how dreams are.",
       "translation": "同じ夢を繰り返し見たんだ…。その夢の中で、オレに似ているけど、オレじゃない誰かがいたんだ…。夢とはどういうものか知っているだろう？",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -231,7 +201,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "As to what happened next, well, you\u0027d best see for yourself.  Please take the elevator down to 60.",
+      "source": "As to what happened next, well, you'd best see for yourself.  Please take the elevator down to 60.",
       "translation": "その後どうなったかは、まあ、自分の目で確かめてほしい。エレベーターで60階まで降りてみてくれ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -267,7 +237,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Well, the tank was empty, and I decided I\u0027d try putting a fish in there, so I caught a ghostfish and put it in there.",
+      "source": "Well, the tank was empty, and I decided I'd try putting a fish in there, so I caught a ghostfish and put it in there.",
       "translation": "水槽が空っぽになったので、魚を入れようと思い、ヒヨケウオを捕まえて入れてみた。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -297,7 +267,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Is it going to the world in my dream?  I don\u0027t know, but after about half a dozen fish went in there they stopped disappearing.",
+      "source": "Is it going to the world in my dream?  I don't know, but after about half a dozen fish went in there they stopped disappearing.",
       "translation": "夢の中の世界に行ったのだろうか？ それから、半ダースくらい魚を入れてみると、消えなくなったんだ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -309,13 +279,13 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I see some smaller fish darting around in the pool, but I haven\u0027t been able to land any of them.",
+      "source": "I see some smaller fish darting around in the pool, but I haven't been able to land any of them.",
       "translation": "小さい魚が池の中を泳ぎ回ってはいるが、まだ1匹も釣れないんだよ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "You\u0027re the only one that can help since you\u0027ve got the skill, the equipment and can handle yourself this deep in the mine.",
+      "source": "You're the only one that can help since you've got the skill, the equipment and can handle yourself this deep in the mine.",
       "translation": "君には技術があるし、装備もある。そして、この鉱山の奥深くに自力で来ることができる。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -327,19 +297,19 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I\u0027m afraid I\u0027ve got to leave you to it.  I know it could take a while to catch them and I...",
+      "source": "I'm afraid I've got to leave you to it.  I know it could take a while to catch them and I...",
       "translation": "残念だが、これは君に任せるしかない。捕まえるのには時間がかかるだろうし、オレには…",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Well, I\u0027ve got a lot to think about.",
+      "source": "Well, I've got a lot to think about.",
       "translation": "まあ、色々と考えたいことがある。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I\u0027m still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He\u0027s disappointed and puzzled.#$b#I\u0027m pretty puzzled too.  But I\u0027m glad you\u0027re working on it.",
+      "source": "I'm still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He's disappointed and puzzled.#$b#I'm pretty puzzled too.  But I'm glad you're working on it.",
       "translation": "まだあの夢を見るんだ。もう1人のオレは…毎晩、彼の世界にある水槽をチェックし続けている。そして、困惑している。#$b#オレもかなり困惑しているよ。でも、君が解決に向けて取り組んでくれているようで嬉しい。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -363,13 +333,13 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "You\u0027ve made a new Junimo friend that will help with traps and fishing-related machines",
+      "source": "You've made a new Junimo friend that will help with traps and fishing-related machines",
       "translation": "仕掛けや釣り関連の設備を扱える、新しいジュニモの友達ができた",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Did you finish collecting those fish?  I\u0027m betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I\u0027ve never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that\u0027s good.#$b#But I still hope they go away.",
+      "source": "Did you finish collecting those fish?  I'm betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I've never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that's good.#$b#But I still hope they go away.",
       "translation": "魚を集め終わったかい？ そうだろうね。魚が放たれ、水槽が消える夢を見たんだ。#$b#オレがこのライフスタイルを始めたひとつには、考えの整理が苦手だったのもある。#$b#それでも怒りを覚える時はあったさ。それが今までとは大きく異なることを実行しようとしたキッカケにもなった。#$b#でも、これほど正気だと感じたことはない。 少なくとも、このような夢を見るようになるまではね。#$b#でも、この夢に対しては怒りのようなものはない。#$b#それでも、彼らがいなくなったことは喜ばしいことだ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -381,7 +351,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "@,^how are you doing?  I\u0027ve decided to spend a night or two in the deep woods, west of Marnie\u0027s ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
+      "source": "@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
       "translation": "やあ、@。^元気にしているかい？ マーニーの牧場の西にある秘密の森で1泊することにしたんだ。よければオレと一緒に野生の食事を分かち合わないかな？^^-ライナスより",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -405,7 +375,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Welcome!  You\u0027re just in time!",
+      "source": "Welcome!  You're just in time!",
       "translation": "ようこそ！ ちょうどいいところに来たね！",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -447,19 +417,19 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I\u0027m glad you like it.",
+      "source": "I'm glad you like it.",
       "translation": "気に入ってもらえて良かったよ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "You know, when people see you talking to the trees, well...  They tend to think you\u0027re crazy.$2",
+      "source": "You know, when people see you talking to the trees, well...  They tend to think you're crazy.$2",
       "translation": "君が木に話しかけているのを見た人は…頭がおかしくなったと思っているだろう。$2",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "But when you hear the trees talking *to* *you*, then... well...#$b#Then maybe they\u0027re right.$2",
+      "source": "But when you hear the trees talking *to* *you*, then... well...#$b#Then maybe they're right.$2",
       "translation": "でも、木々が「君に」語りかけているとしたら…#$b#その場合は彼らが正しいのかもしれないね。$2",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -477,19 +447,19 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I found these seeds in my tent as I was stepping out this morning.#$b#I guess I tracked them in last night.  They\u0027re usually not so easy to find.  Here.  I think they\u0027re meant for you.",
+      "source": "I found these seeds in my tent as I was stepping out this morning.#$b#I guess I tracked them in last night.  They're usually not so easy to find.  Here.  I think they're meant for you.",
       "translation": "今朝、外に出ようとしたとき、テントの中でこのタネを見つけた。#$b#昨夜の夢の影響だと思う。これは簡単に見つかるものじゃない。これは君に渡すべきものだろう。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I\u0027m glad you\u0027re the sort of friend that doesn\u0027t mind listening to the ravings of a crazy old man.",
+      "source": "I'm glad you're the sort of friend that doesn't mind listening to the ravings of a crazy old man.",
       "translation": "君が狂った老人の戯言を気にせず聞いてくれるような友人でよかった。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Well...  It\u0027s getting late.  You should get back to your farm and I should crawl into my tent.#$b#I plan on breaking camp in the morning and making the hike up to the mountain.",
+      "source": "Well...  It's getting late.  You should get back to your farm and I should crawl into my tent.#$b#I plan on breaking camp in the morning and making the hike up to the mountain.",
       "translation": "さて…夜も更けてきたようだね。そろそろ牧場に帰りなさい。オレはテントで寝るとするよ。#$b#朝にはキャンプを切り上げ、山までのハイキングをするつもりなんだ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -501,7 +471,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Hm.  Perhaps it\u0027s best not to answer that one...",
+      "source": "Hm.  Perhaps it's best not to answer that one...",
       "translation": "いや、今の質問には答えなくていい…",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -573,7 +543,7 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Hm..  Yes...#$b#Junimos are harmless, but they are not defenseless.  When this one was overwhelmed by the slime, it bound itself into a protective stasis and went into a sort of torpor.#$b#If we return this to the Junimo\u0027s world, they will be able to care for this one.",
+      "source": "Hm..  Yes...#$b#Junimos are harmless, but they are not defenseless.  When this one was overwhelmed by the slime, it bound itself into a protective stasis and went into a sort of torpor.#$b#If we return this to the Junimo's world, they will be able to care for this one.",
       "translation": "ふむ、そうだな…#$b#ジュニモは無害だが、モンスターには関係がない。これはスライムに襲われたとき、自身を保護するためにオーブの状態となったのだ。言わば休眠状態といえるな。#$b#これはジュニモの世界に返せば、元に戻るだろう。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -591,13 +561,13 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Yes.  Done.  It\u0027s safely back to the Junimo realm and you should get about your business.",
+      "source": "Yes.  Done.  It's safely back to the Junimo realm and you should get about your business.",
       "translation": "言葉どおりだ。無事にジュニモの世界に戻った。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "That\u0027s it...#$b#Really...#$b#I think.",
+      "source": "That's it...#$b#Really...#$b#I think.",
       "translation": "ふむ…#$b#…#$b#戻れたと見てよさそうだな。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -615,19 +585,19 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "It looks vaguely magical. It\u0027s quite hard and smooth.",
+      "source": "It looks vaguely magical. It's quite hard and smooth.",
       "translation": "どことなく不思議な感じがする。かなり硬くて滑らかだ。a",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Bring the faintly glowing orb to the wizard\u0027s tower.",
+      "source": "Bring the faintly glowing orb to the wizard's tower.",
       "translation": "ほのかに光るオーブを魔術師の塔に持って行く。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "That was some storm!  I wonder if the rain washed the mud off of any of Grandpa\u0027s old stuff!",
+      "source": "That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!",
       "translation": "凄い嵐だった！ 牧場のどこかに異常がないか確認した方が良さそうだ。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -681,19 +651,19 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It\u0027s an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.",
+      "source": "This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.",
       "translation": "これは、ジュニモたちの世界と我らの世界を簡単に行き来できるように、貴殿の祖父が作った簡易ポータルのようなものだ。#$b#製作するのは容易で、素人でもできる。ほら、教えてやろう。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "I learned how to craft a \u0027Junimo Portal\u0027",
+      "source": "I learned how to craft a 'Junimo Portal'",
       "translation": "「ジュニモポータル」の作り方を学びました！",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Enticing a Junimo to *use* it, well, that\u0027s up to the Junimo...",
+      "source": "Enticing a Junimo to *use* it, well, that's up to the Junimo...",
       "translation": "ジュニモがそれを「使う」かは彼ら次第ではあるがな…",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
@@ -723,16 +693,394 @@
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard\u0027s forest-magic potion.",
+      "source": "At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard's forest-magic potion.",
       "translation": "最初は木のような雑草に見えたが、よく見ると小さな建物のようで、魔術師の森の魔法薬ような香りがしている。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
     },
     {
-      "source": "Bring the remnants of the strange little structure to the wizard\u0027s tower.",
+      "source": "Bring the remnants of the strange little structure to the wizard's tower.",
       "translation": "奇妙な小さな建造物の残骸を魔術師の塔に持って行く。",
       "author": "github:mitekano23",
       "ingestionDate": "2024-06-20T20:29:22.2121878-07:00"
+    },
+    {
+      "source": "= $ Shiny things $ =",
+      "translation": "= $ 輝くものたち $ =",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Junimos won't put items with equal or better quality\nthan these items into machines or shipping bins.",
+      "translation": "ジュニモは、これらのアイテムと同等またはそれ以上の品質のアイテムを機械や出荷箱に入れません。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Junimos work anywhere",
+      "translation": "ジュニモはどこでも作業します",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Normally Junimos only work where there are no villagers or monsters, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
+      "translation": "通常、ジュニモは恥ずかしがり屋のため、住民やモンスターがいない場所でしか作業しません。この設定をオンにすると、ジュニモのポータルがどこでも機能するようになります。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "No Questing",
+      "translation": "クエストなし",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Normally quests are required to unlock the Junimos; setting this just enables all the junimos.  To get started, craft a 'Junimo Portal' and place it down.",
+      "translation": "通常、クエストが必要でジュニモを解放しますが、これを設定するとすべてのジュニモが有効になります。始めるには「ジュニモポータル」を作成し、設置してください。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Allow Shipping",
+      "translation": "配送を許可",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "If this is checked, Junimos will take artisan goods to mini-shipping bins.",
+      "translation": "これがチェックされていると、ジュニモたちは職人商品をミニ配送箱に運びます。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Enter the Cindersap Forest during the day.",
+      "translation": "日中にシンダーサップの森へ行く。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Help the Junimo in the Cindersap Forest get home.",
+      "translation": "シンダーサップの森にいるジュニモが家に帰れるように助けてあげよう。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Enter the Cindersap Forest during the day with a Junimo Portal in your inventory.",
+      "translation": "日中にジョニモポータルを所持して、シンダーサップの森へ行く。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Did you ever see the giant crops your Granddad used to grow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1",
+      "translation": "あなたのおじいさんが作っていた巨大な作物は見たことがあるかしら？ びっくりするほど大きなカボチャだったわ。#$b#それをアビーは毎年、私に買うよう言ってきたの。後々理由を聞くと、自分の家として使うのが目的だったのよ。$1",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Meet Linus at his tent",
+      "translation": "ライナスのテントで会う",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Meet at Linus' camp in the woods",
+      "translation": "森の中のライナスのキャンプで会う",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Junimos are afraid of villagers; move this hut away from townspeople and hostile mobs.",
+      "translation": "ジュニモたちは村人が怖いので、この小屋を町の人々や敵対的なモンスターから離れた場所に移動してください。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "This was a Junimo Portal, but a Junimo that came out of it saw a villager, got scared, and disabled it.  It's trash now.",
+      "translation": "これはジュニモポータルでしたが、出てきたジュニモが村人を見て怖がり、無効にしました。今はゴミです。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Abandoned Portal",
+      "translation": "放棄されたポータル",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Sometimes Lewis goes off into the deep woods...  Usually when his spirits are low.#$b#I wish he wouldn't do that; it can be dangerous there.  But when he's in that mood, well...#$b#It seems like whatever I say I just make it worse.$s",
+      "translation": "時々、ルイスは深い森の中に行くんです... 普段は気分が落ち込んでいる時に。#$b#あまり行ってほしくないんですけど、あそこは危険ですから。 でも、そんな時は、何を言っても悪化させてしまうみたいで...#$b#どうしたらいいのか、わからないんです。$s",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Lewis sure has doubled-down on gardening lately!  It's been good for his mood, that's for sure.  Maybe Shane could try it...",
+      "translation": "ルイスは最近、ガーデニングに力を入れているようですね！ それが彼の気分には良い効果を与えているのは確かです。 シェーンも試してみたらどうでしょうね...",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I've seen Lewis go into the deep woods from time to time...  I wonder what he's up to.#$b#Do you suppose he performs some kinda magic ritual??   With pentagrams and blood sacrifices??!#$b#Lewis is nice...  Maybe a little *too* nice.",
+      "translation": "時々、ルイスが深い森に入っていくのを見かけます… 彼は何をしているんでしょうね。#$b#もしかして、魔法の儀式でも行っているのでしょうか？？ 魔法陣や血の儀式とか！？#$b#ルイスは優しい人ですね… ちょっと*優しすぎる*かもしれません。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "When Lewis gets the blues, he likes to take walks in the deep woods.#$b#It can be a little bit dangerous, but Lewis can handle himself just fine.#$b#Of course, it'd be better for business if he'd drink his troubles away!$h",
+      "translation": "ルイスが落ち込んでいるとき、彼は深い森を散歩するのが好きです。#$b#ちょっと危険なこともありますが、ルイスなら自分でなんとかできるでしょう。#$b#もちろん、ビジネス的には彼が酒で悩みを忘れたほうが良いですね！$h",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "A house plant that a Junimo wants me to give to Lewis.",
+      "translation": "ジュニモがルイスに渡して欲しい観葉植物。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Mightabeen Rose",
+      "translation": "マイタビーン・ローズ",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Junimos can get water from this to water indoor pots.",
+      "translation": "ジュニモはこれから水を汲んで、室内の鉢植えに水をやります。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Indoor Well",
+      "translation": "室内の井戸",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Bring the plant to Lewis",
+      "translation": "その植物をルイスに持っていく",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Bring the Mightabeen Rose to Lewis",
+      "translation": "マイタビーンローズをルイスに持っていく",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Evelyn might want to have a look at this plant before you give it to Lewis, drop by her house for her to check it out.",
+      "translation": "ルイスに渡す前にエブリンにこの植物を見てもらいたいかもしれない。彼女の家に立ち寄ってチェックしてもらおう。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Please come in!",
+      "translation": "どうぞ、お入りください！",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Oh now what have you got there?  Bring it over here where the light is better.",
+      "translation": "あら、今それは何を持っているの？ もっと明るいところに持ってきて見せてちょうだい。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I haven't seen one of these plants for a long, long time.#$b#My grandfather kept one in his study.  It was always a happy, beautiful plant.#$b#Whenever he fell into a funk, he'd go tend to it and emerge feeling better.$1#$b#When he passed, my mother tried to take care of it, but it just slowly withered away.  It missed him too I guess!",
+      "translation": "この植物を見るのは本当に久しぶりね。#b#私の祖父が勉強部屋に置いていたの。いつも元気で美しい植物だったわ。#b#祖父が落ち込んだときには、その植物を世話して元気を取り戻していたのよ。$1#b#祖父が亡くなったとき、母がその植物を世話しようとしたけれど、だんだん枯れていってしまったの。きっと祖父がいなくなったことを寂しく思っていたのでしょうね。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I researched it as a young woman, and it turns out these plants are rare, somewhat finicky, and notoriously hard to propagate.#$b#Some people say the smell of the flower helps them to remember that what might have been isn't necessarily better than the here and now.$1",
+      "translation": "若い頃に調べたことがあるんだけど、この植物は珍しくて、少し扱いが難しく、繁殖も非常に難しいと言われているの。#b#花の香りが、過去にあったかもしれないことが必ずしも今より良いものではないことを思い出させてくれると感じる人もいるわ。$1",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "But honestly, I don't feel anything at all from smelling it!  But you say you mean to give it as a gift?",
+      "translation": "でも正直、私はこれを嗅いでも何も感じないわ！ でも、あなたはこれを贈り物として渡すつもりだと言うのね？",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "For Lewis?",
+      "translation": "ルイスに？",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Oh...$2",
+      "translation": "ああ...",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "You know Lewis was quite the Casanova in his youth.  He made time with *all* the girls.$1",
+      "translation": "ルイスは若い頃、かなりの女たらしだったんですよ。*すべて*の女の子と関係を持っていたんです。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "There was one girl that was special to him, but she wasn't the sort who wanted to worry about what her man was up to when her back was turned...#$b#At the time, he played like he didn't care.  He was too cool to admit that there was a girl he couldn't get - and kept chasing other girls like it didn't mean anything to him.  I've often wondered if she was the reason he never married.",
+      "translation": "彼には特別な女の子がいたんですが、その子は彼が背を向けている間に、彼が何をしているかを気にしたくないタイプの子でした...#$b#その時、彼は気にしていないふりをしていました。手に入らない女の子がいることを認めるにはあまりにもクールすぎて、他の女の子を追いかけているふりをして、それが彼にとって何でもないことのように見せていました。私は、彼が結婚しなかった理由がその子にあるのではないかと、よく考えたことがあります。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "But just between you and me, I think it turned out for the best for both of them.$1",
+      "translation": "でも、あなただけに言うけど、二人にとってはこれで良かったんだと思います。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Thank you for bringing my flower to Lewis...",
+      "translation": "ルイスに花を届けてくれてありがとう…",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Since you helped Lewis, I will help with your indoor plants...",
+      "translation": "ルイスを助けてくれたので、今度はあなたの室内植物を手伝うよ…",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I learned how to craft an indoor well",
+      "translation": "室内の井戸の作り方を学んだ",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Ah!  @!  What brings you to the forest today?  Exotic mushrooms?  Fishing?",
+      "translation": "やあ！ @! 今日は森に何をしに来たんだ？ キノコ狩りかな？ それとも釣りかい？",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "It's a good place for that.",
+      "translation": "それには良い場所だね。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Me??",
+      "translation": "私？？",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Well, I guess I just like a good walk in the woods from time to time.  It cheers me up.",
+      "translation": "まあ、たまには森の中を歩くのが好きなんだ。それが気分を良くしてくれるんだよ。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Feeling down?  Me?  No no no.  Right as rain.",
+      "translation": "落ち込んでる？ 私が？ いやいや、全然。元気だよ。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "It was nice chatting with you!  I'd better get back to town!#$b#Being mayor is a 24x7 job!",
+      "translation": "お話できて楽しかったよ！ そろそろ町に戻らないと！",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Oh hi @!...  Nice to see you again.",
+      "translation": "あ、こんにちは@!... また会えて嬉しいよ。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Me?  Feeling down?  No...",
+      "translation": "私？落ち込んでるって？ いいえ...",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Well, not exactly.",
+      "translation": "まあ、正確にはそうじゃないけど。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I come here on those days I can't stop kicking myself for things I should have done and said but didn't.$2",
+      "translation": "私は、やるべきことや言うべきことをできなかった自分を責め続けている日にはここに来るんだ。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "So many years have passed, yet I just can't seem to let it go.",
+      "translation": "何年も経ったけど、どうしてもそれを忘れられないんだ。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Being a bachelor at my age isn't the only way things could have turned out for me...$2",
+      "translation": "この年齢で独身でいることが、私の人生の唯一の結果じゃなかったはずだ...",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I'm not unhappy...",
+      "translation": "私は不幸じゃない...",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "But sometimes...$2",
+      "translation": "でも、時々...",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I shouldn't trouble you.  I hope you'll forgive me for dumping this on you; thanks for lending an ear.",
+      "translation": "キミに迷惑をかけるべきではないな。こんなことを話してしまってすまない。聞いてくれてありがとう。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I should get back to town.  I'll see you around.",
+      "translation": "町に戻らないといけないな、また。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "I think the Junimo wants to help...",
+      "translation": "",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "The Junimo wants me to give this plant to Lewis...",
+      "translation": "ジュニモが助けたいと思っているようだ...",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Huh...  I wonder why a plant would be of help.  Junimos work in strange ways.",
+      "translation": "ふむ... どうして植物が役立つのか不思議だな。ジュニモは変わった方法で働くからな。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Junimos are not working on the {{arg0}} today.  They are scared of {{arg1}}.",
+      "translation": "{{arg0}}の上でジュニモは今日は働いていません。{{arg1}}が怖いからです。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "Junimos are not working in the {{arg0}} today.  They are scared of {{arg1}}.",
+      "translation": "{{arg0}}でジュニモは今日は働いていません。{{arg1}}が怖いからです。",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
+    },
+    {
+      "source": "The Junimos munched a box of grapes this morning!",
+      "translation": "ジュニモたちは今朝、ぶどうの箱をむしゃむしゃ食べました！",
+      "author": "nexus:medisons",
+      "ingestionDate": "2025-01-05T11:34:50.9004831-08:00"
     }
   ]
 }
