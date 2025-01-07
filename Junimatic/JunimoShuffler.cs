@@ -524,7 +524,7 @@ namespace NermNermNerm.Junimatic
             // reduce the radius instead - so they work, but not near Birdie or the Tiger Slimes.
             return !ModEntry.Config.AllowAllLocations
                 && npc.currentLocation is not IslandWest
-                && npc is not JunimoShuffler
+                && npc is not JunimoShuffler && npc is not Junimo && npc is not JunimoHarvester
                 && npc is not Horse && npc is not Pet && npc is not Child && npc.getSpouse() is null;
         }
     }
