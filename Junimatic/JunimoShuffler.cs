@@ -78,7 +78,7 @@ namespace NermNermNerm.Junimatic
 
         private void SetSpeed()
         {
-            this.speed = this.isScared ? 6 : (this.workFinder!.AreJunimosRaisinPowered ? 5 : 3);
+            this.speed = this.isScared ? 6 : (this.workFinder?.AreJunimosRaisinPowered == true ? 5 : 3);
         }
 
         public JunimoAssignment? Assignment { get; private set; }
