@@ -379,6 +379,26 @@ namespace NermNermNerm.Junimatic
                             }
                         }
                     }
+
+                    foreach (var outputItem in rule.OutputItem ?? [])
+                    {
+                        foreach (string? itemId in (outputItem.RandomItemId ?? []).Append(outputItem.ItemId))
+                        {
+                            // TODO: Figure out if there's a better thing to do with FLAVORED_ITEM and DROP_IN.  (For Flavored, maybe, drop-in, definitely not)
+                            if (!string.IsNullOrEmpty(itemId) && !itemId.StartsWith("FLAVORED") && itemId != "DROP_IN")
+                            {
+                                var itemData = ItemRegistry.GetData(itemId);
+                                if (itemData is null)
+                                {
+                                    ModEntry.Instance.LogWarningOnce($"ItemRegistry.GetData failed for {itemId} - this could render {this.Machine.Name} unusable to Junimos");
+                                }
+                                else if (IsCategoryCompatibleWithProject(projectType, itemData.Category))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
