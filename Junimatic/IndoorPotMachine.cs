@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.Inventories;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-using StardewValley.Tools;
-using xTile.Dimensions;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -32,7 +27,7 @@ namespace NermNermNerm.Junimatic
         {
             if (this.Machine.hoeDirt.Value is HoeDirt dirt && !dirt.readyForHarvest() && !dirt.isWatered() && storage is IndoorWellStorage)
             {
-                dirt.state.Value = 1;
+                this.Machine.Water();
                 return true;
             }
 
@@ -44,19 +39,14 @@ namespace NermNermNerm.Junimatic
             if (this.Machine.hoeDirt.Value is HoeDirt dirt && !dirt.readyForHarvest() && !dirt.isWatered())
             {
                 var potTile = this.Machine.TileLocation;
-                var wateringCan = (Tool)inventory[0];
-
-                this.Machine.performToolAction(wateringCan);
+                this.Machine.Water();
 
                 // This code is mostly lifted from WateringCan.DoFunction, but if you actually go in-game and water an indoor pot, you'll
                 // see the watering animation plays *behind* the plant pot.  Kinda underwhelming.  Changing the last parameter to the
-                // TemporaryAnimatedSprite code from subtracting .01f to adding .001f reverses that.  Perhaps there are better fudge-factors
+                // TemporaryAnimatedSprite code from subtracting .01f to adding .0012f reverses that.  Perhaps there are better fudge-factors
                 // somewhere, but this one draws the splash above the pot and below the plant... at least for the locations I tested.
                 // We also offset the 'y' coordinate by -20f to center the splash on the center of the pot.
-                Game1.Multiplayer.broadcastSprites(this.Machine.Location, new TemporaryAnimatedSprite(13, new Vector2(potTile.X * 64f, potTile.Y * 64f - 20f), Color.White, 10, Game1.random.NextBool(), 70f, 0, 64, (potTile.Y * 64f + 32f) / 10000f + 0.001f)
-                {
-                    delayBeforeAnimationStart = 200
-                });
+                Game1.Multiplayer.broadcastSprites(this.Machine.Location, new TemporaryAnimatedSprite(13, new Vector2(potTile.X * 64f, potTile.Y * 64f - 20f), Color.White, 10, Game1.random.NextBool(), 70f, 0, 64, (potTile.Y * 64f + 32f) / 10000f + 0.0012f));
 
                 this.Machine.Location.playSound("wateringCan");
             }
