@@ -163,6 +163,7 @@ namespace NermNermNerm.Junimatic
                                 var raisinProject = this.FindRaisinProject(portal, junimoType.Value, isShinyTest);
                                 if (raisinProject != null)
                                 {
+                                    numAvailableJunimos[junimoType.Value] -= 1;
                                     this.haveLookedForRaisins = true; // disable further raisin hunting
                                     this.LogTrace($"Starting Animated Junimo to grab a raisin: {raisinProject}");
                                     location.characters.Add(new JunimoShuffler(raisinProject, this));
@@ -187,6 +188,7 @@ namespace NermNermNerm.Junimatic
                                 {
                                     this.LogTrace($"Starting Animated Junimo for {project}");
                                     location.characters.Add(new JunimoShuffler(project, this));
+                                    numAvailableJunimos[junimoType] -= 1;
                                     break;
                                 }
                             }
