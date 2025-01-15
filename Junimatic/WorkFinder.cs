@@ -14,6 +14,7 @@ namespace NermNermNerm.Junimatic
     {
         private ModEntry mod = null!;
         private readonly Dictionary<GameLocation, IReadOnlyList<MachineNetwork>> cachedNetworks = new();
+        private readonly HashSet<GameLocation> alreadyDisabledLocations = new HashSet<GameLocation>();
 
         private int timeOfDayAtLastCheck = -1;
         private int numActionsAtThisGameTime;
@@ -47,6 +48,7 @@ namespace NermNermNerm.Junimatic
             this.isDayStarted = true;
             this.AreJunimosRaisinPowered = false;
             this.haveLookedForRaisins = false;
+            this.alreadyDisabledLocations.Clear();
         }
 
         private void GameLoop_DayEnding(object? sender, StardewModdingAPI.Events.DayEndingEventArgs e)
@@ -221,9 +223,6 @@ namespace NermNermNerm.Junimatic
 
             this.haveLookedForRaisins = true; // We always do the raisin check on the first tick of the day.
         }
-
-
-        private HashSet<GameLocation> alreadyDisabledLocations = new HashSet<GameLocation>();
 
         /// <summary>
         ///  This returns true if this is a farm structure that's being renovated by Robin.
