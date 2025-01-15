@@ -221,7 +221,7 @@ namespace NermNermNerm.Junimatic
             this.controller = null;
             this.destroy = true;
 
-            if (this.isScared)
+            if (this.isScared && this.currentLocation is not Farm)
             {
                 var tile = this.Assignment.hut.TileLocation;
                 this.Assignment.hut.Location.Objects[tile] = (StardewValley.Object)ItemRegistry.Create(UnlockPortal.AbandonedJunimoPortalQiid);
