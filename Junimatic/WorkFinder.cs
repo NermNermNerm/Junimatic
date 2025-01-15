@@ -151,7 +151,6 @@ namespace NermNermNerm.Junimatic
                 }
 
                 var map = new GameMap(location);
-                bool startedRaisinProject = false;
 
                 if (!this.haveLookedForRaisins)
                 {
@@ -169,7 +168,6 @@ namespace NermNermNerm.Junimatic
                                     this.haveLookedForRaisins = true; // disable further raisin hunting
                                     this.LogTrace($"Starting Animated Junimo to grab a raisin: {raisinProject}");
                                     location.characters.Add(new JunimoShuffler(raisinProject, this));
-                                    startedRaisinProject = true;
                                     break;
                                 }
                             }
@@ -177,22 +175,19 @@ namespace NermNermNerm.Junimatic
                     }
                 }
 
-                if (!startedRaisinProject)
+                foreach (var portal in map.GetPortals())
                 {
-                    foreach (var portal in map.GetPortals())
+                    foreach (var junimoType in Enum.GetValues<JunimoType>())
                     {
-                        foreach (var junimoType in Enum.GetValues<JunimoType>())
+                        if (numAvailableJunimos[junimoType] > 0)
                         {
-                            if (numAvailableJunimos[junimoType] > 0)
+                            var project = this.FindProject(portal, junimoType, null, isShinyTest);
+                            if (project is not null)
                             {
-                                var project = this.FindProject(portal, junimoType, null, isShinyTest);
-                                if (project is not null)
-                                {
-                                    this.LogTrace($"Starting Animated Junimo for {project}");
-                                    location.characters.Add(new JunimoShuffler(project, this));
-                                    numAvailableJunimos[junimoType] -= 1;
-                                    break;
-                                }
+                                this.LogTrace($"Starting Animated Junimo for {project}");
+                                location.characters.Add(new JunimoShuffler(project, this));
+                                numAvailableJunimos[junimoType] -= 1;
+                                break;
                             }
                         }
                     }
