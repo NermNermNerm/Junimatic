@@ -522,7 +522,12 @@ namespace NermNermNerm.Junimatic
             // IslandWest is special-cased because it was outright allowed in early versions of the mod, plus
             // it just makes sense to allow them to work there.  Perhaps another way to go would be to substantially
             // reduce the radius instead - so they work, but not near Birdie or the Tiger Slimes.
+
+            // Truffle Crabs can appear out of truffles (very rarely).  Although they're a hostile mob, we don't
+            // make them scary to preserve the jump-scare that the player will get when they encounter one of them.
+
             return !ModEntry.Config.AllowAllLocations
+                && npc.Name != I("Truffle Crab")
                 && npc.currentLocation is not IslandWest
                 && npc is not JunimoShuffler && npc is not Junimo && npc is not JunimoHarvester
                 && npc is not Horse && npc is not Pet && npc is not Child && npc.getSpouse() is null;
