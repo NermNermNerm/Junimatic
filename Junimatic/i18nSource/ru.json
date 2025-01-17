@@ -27,24 +27,6 @@
       "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
     },
     {
-      "source": "Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
-      "translation": "Обычно Джунимо работают только на фермах игрока, так как они застенчивы. Включение этой опции позволяет порталам Джунимов работать в любом месте.",
-      "author": "github:KREZOO",
-      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
-    },
-    {
-      "source": "Minimal Questing",
-      "translation": "Минимальные квесты",
-      "author": "github:KREZOO",
-      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
-    },
-    {
-      "source": "Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.",
-      "translation": "Обычно для разблокировки Джунимов требуется выполнить квесты. Включение этой опции позволяет пропустить большинство квестов — нужно только завершить квест с порталом.",
-      "author": "github:KREZOO",
-      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
-    },
-    {
       "source": "I wonder what {{arg0}} has been up to...",
       "translation": "Интересно, что {{arg0}} делал...",
       "author": "github:KREZOO",
@@ -1039,6 +1021,66 @@
       "translation": "Джунимо полакомились коробкой изюма этим утром!",
       "author": "github:KREZOO",
       "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
+    },
+    {
+      "source": "Normally Junimos only work where there are no villagers or monsters, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
+      "translation": "Обычно Джунимо работают только в местах, где нет горожан или монстров, так как они застенчивы. Включив этот параметр, вы позволяете Порталам Джунимо работать в любом месте.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "No Questing",
+      "translation": "Квесты отключены",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "Normally quests are required to unlock the Junimos; setting this just enables all the junimos.  To get started, craft a 'Junimo Portal' and place it down.",
+      "translation": "Обычно выполнение квестов необходимо для разблокировки Джунимо; при включении этого параметра все Джунимо становятся доступными. Чтобы начать, создайте 'Портал Джунимо' и разместите его.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "Allow Shipping",
+      "translation": "Разрешить продажу",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "If this is checked, Junimos will take artisan goods to mini-shipping bins.",
+      "translation": "Если этот параметр включён, Джунимо будут относить товары собственного производства в мини-ящики доставки.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "Junimos are afraid of villagers; move this hut away from townspeople and hostile mobs.",
+      "translation": "Джунимо боятся горожан; переместите эту хижину подальше от жителей города и враждебных существ.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "This was a Junimo Portal, but a Junimo that came out of it saw a villager, got scared, and disabled it.  It's trash now.",
+      "translation": "Это был Портал Джунимо, но один из Джунимо, который вышел из него, увидел горожанина, испугался и отключил его. Теперь это мусор.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "Abandoned Portal",
+      "translation": "Покинутый портал",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "Junimos are not working on the {{arg0}} today.  They are scared of {{arg1}}.",
+      "translation": "Джунимо сегодня не работают над {{arg0}}. Они боятся {{arg1}}.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "Junimos are not working in the {{arg0}} today.  They are scared of {{arg1}}.",
+      "translation": "Джунимо сегодня не работают в {{arg0}}. Они боятся {{arg1}}.",
+      "author": "github:KREZOO",
+      "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
     }
   ]
 }
