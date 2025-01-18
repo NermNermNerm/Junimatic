@@ -8,6 +8,7 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.Framework.ModLoading.Rewriters.StardewValley_1_6;
 using StardewValley;
 using StardewValley.Characters;
+using StardewValley.GameData.Powers;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.Tools;
@@ -384,6 +385,24 @@ namespace NermNermNerm.Junimatic
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
                     data[AfterIcePipsConversationKey] = L("Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3");
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))
+            {
+                e.Edit(asset =>
+                {
+                    var powers = asset.AsDictionary<string, PowersData>();
+                    powers.Data[$"Junimatic.UnlockFishing"] = new PowersData()
+                    {
+                        DisplayName = L("Fishing Junimo"),
+                        Description = L("Junimos will work with fishing-related machines like crab pots and recycling machines."),
+                        TexturePath = Game1.objectSpriteSheetName,
+                        TexturePosition = new Point(224, 464),
+                        UnlockedCondition = IF($"PLAYER_MOD_DATA Current {UnlockFishing.HasDoneIcePipsQuestModDataKey} {true.ToString()}"),
+                        CustomFields = new() {
+                            { "Spiderbuttons.SpecialPowerUtilities/Tab", this.mod.ModManifest.UniqueID },
+                        }
+                    };
                 });
             }
         }

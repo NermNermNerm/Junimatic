@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.GameData.BigCraftables;
+using StardewValley.GameData.Powers;
 using StardewValley.TerrainFeatures;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
@@ -335,6 +336,24 @@ speak Evelyn ""But just between you and me, I think it turned out for the best f
 end fade
 
 ").Replace("\r", "").Replace("\n", "/");
+                });
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))
+            {
+                e.Edit(asset =>
+                {
+                    var powers = asset.AsDictionary<string, PowersData>();
+                    powers.Data[$"Junimatic.UnlockPots"] = new PowersData()
+                    {
+                        DisplayName = L("Indoor Pot Junimo"),
+                        Description = L("Junimos will harvest and water plants grown in indoor pots."),
+                        TexturePath = ModEntry.OneTileSpritesPseudoPath,
+                        TexturePosition = new Point(32, 0),
+                        UnlockedCondition = IF($"PLAYER_HAS_SEEN_EVENT Current {UnlockPots.PotJunimoThankYouEventId}"),
+                        CustomFields = new() {
+                            { "Spiderbuttons.SpecialPowerUtilities/Tab", this.mod.ModManifest.UniqueID },
+                        }
+                    };
                 });
             }
         }

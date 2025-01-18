@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-
+using StardewValley.GameData.Powers;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -62,6 +63,24 @@ namespace NermNermNerm.Junimatic
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Quests"))
             {
                 e.Edit(editor => this.EditQuests(editor.AsDictionary<string, string>().Data));
+            }
+            if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))
+            {
+                e.Edit(asset =>
+                {
+                    var powers = asset.AsDictionary<string, PowersData>();
+                    powers.Data[$"Junimatic.UnlockAnimal"] = new PowersData()
+                    {
+                        DisplayName = L("Crops Junimo"),
+                        Description = L("Junimos will work with animal-related machines like cheese presses, looms and mayonnaise machines."),
+                        TexturePath = Game1.objectSpriteSheetName,
+                        TexturePosition = new Point(288, 112),
+                        UnlockedCondition = IF($"PLAYER_HAS_SEEN_EVENT Current {UnlockAnimal.AnimalJunimoDreamEvent}"),
+                        CustomFields = new() {
+                            { "Spiderbuttons.SpecialPowerUtilities/Tab", this.mod.ModManifest.UniqueID },
+                        }
+                    };
+                });
             }
         }
 

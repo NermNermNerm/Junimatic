@@ -25,14 +25,16 @@ namespace NermNermNerm.Junimatic
 
         public const string SetJunimoColorEventCommand = "junimatic.setJunimoColor";
 
-        public UnlockPortal UnlockPortalQuest = new UnlockPortal();
-        public UnlockCropMachines CropMachineHelperQuest = new UnlockCropMachines();
-        public UnlockMiner UnlockMiner = new UnlockMiner();
-        public UnlockAnimal UnlockAnimal = new UnlockAnimal();
-        public UnlockForest UnlockForest = new UnlockForest();
-        public UnlockFishing UnlockFishing = new UnlockFishing();
-        public UnlockPots UnlockPots = new UnlockPots();
-        public JunimoStatus JunimoStatusDialog = new JunimoStatus();
+        public readonly UnlockPortal UnlockPortalQuest = new UnlockPortal();
+        public readonly UnlockCropMachines CropMachineHelperQuest = new UnlockCropMachines();
+        public readonly UnlockMiner UnlockMiner = new UnlockMiner();
+        public readonly UnlockAnimal UnlockAnimal = new UnlockAnimal();
+        public readonly UnlockForest UnlockForest = new UnlockForest();
+        public readonly UnlockFishing UnlockFishing = new UnlockFishing();
+        public readonly UnlockPots UnlockPots = new UnlockPots();
+        public readonly JunimoStatus JunimoStatusDialog = new JunimoStatus();
+
+        public readonly Powers Powers = new Powers();
 
         private readonly WorkFinder workFinder = new WorkFinder();
         public PetFindsThings PetFindsThings = new PetFindsThings();
@@ -67,6 +69,7 @@ namespace NermNermNerm.Junimatic
             this.UnlockPots.Entry(this);
             this.PetFindsThings.Entry(this);
             this.JunimoStatusDialog.Entry(this);
+            this.Powers.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 

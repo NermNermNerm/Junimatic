@@ -2,6 +2,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.GameData.Powers;
 using StardewValley.TerrainFeatures;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
@@ -28,6 +29,7 @@ namespace NermNermNerm.Junimatic
 
         public void Entry(ModEntry mod)
         {
+            this.mod = mod;
             mod.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 
             Event.RegisterPrecondition(EventCustomConditionGiantCropIsGrowingOnFarm, this.GiantCropIsGrowingOnFarm);
@@ -163,6 +165,24 @@ end
                 });
             }
             // Penny talking about melons?  Doesn't seem quite right somehow.
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))
+            {
+                e.Edit(asset =>
+                {
+                    var powers = asset.AsDictionary<string, PowersData>();
+                    powers.Data[$"Junimatic.UnlockCrops"] = new PowersData()
+                    {
+                        DisplayName = L("Crops Junimo"),
+                        Description = L("Junimos will work with crop-related machines like Kegs"),
+                        TexturePath = Game1.objectSpriteSheetName,
+                        TexturePosition = new Point(224, 160),
+                        UnlockedCondition = IF($"PLAYER_HAS_SEEN_EVENT Current {UnlockCropMachines.GiantCropCelebrationEventId}"),
+                        CustomFields = new() {
+                            { "Spiderbuttons.SpecialPowerUtilities/Tab", this.mod.ModManifest.UniqueID },
+                        }
+                    };
+                });
+            }
         }
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)

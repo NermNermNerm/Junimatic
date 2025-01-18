@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.GameData.Powers;
 using StardewValley.TerrainFeatures;
 
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
@@ -181,6 +182,25 @@ namespace NermNermNerm.Junimatic
                     data[MeetLinusMailKey] = SdvMail($"@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus%item quest {MeetLinusInWoodsQuestKey}%%[#]Meet at Linus' camp in the woods");
                 });
             }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))
+            {
+                e.Edit(asset =>
+                {
+                    var powers = asset.AsDictionary<string, PowersData>();
+                    powers.Data[$"Junimatic.UnlockForest"] = new PowersData()
+                    {
+                        DisplayName = L("Forestry Junimo"),
+                        Description = L("Junimos will work with foraging-related machines like tappers and mushroom logs"),
+                        TexturePath = Game1.objectSpriteSheetName,
+                        TexturePosition = new Point(80, 480),
+                        UnlockedCondition = IF($"PLAYER_HAS_SEEN_EVENT Current {UnlockForest.MysticTreeCelebrationEvent}"),
+                        CustomFields = new() {
+                            { "Spiderbuttons.SpecialPowerUtilities/Tab", this.mod.ModManifest.UniqueID },
+                        }
+                    };
+                });
+            }
+
         }
 
         private void EditFarmEvents(IDictionary<string, string> eventData)

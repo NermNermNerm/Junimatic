@@ -8,6 +8,7 @@ using StardewValley;
 using StardewValley.Extensions;
 using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Objects;
+using StardewValley.GameData.Powers;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
@@ -124,6 +125,25 @@ namespace NermNermNerm.Junimatic
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
                     data[OldJunimoPortalQuest] = SdvQuest("Basic/The Strange Little Structure/You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it./Bring the remnants of the strange little structure to the wizard's tower./null/-1/0/-1/false");
+                });
+            }
+            if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))
+            {
+                e.Edit(asset =>
+                {
+                    var powers = asset.AsDictionary<string, PowersData>();
+                    powers.Data[$"Junimatic.Portal"] = new PowersData()
+                    {
+                        DisplayName = L("Junimo Huts"),
+                        Description = L("Construct Junimo Huts"),
+                        TexturePath = ModEntry.OneTileSpritesPseudoPath,
+                        TexturePosition = new Point(0, 0),
+                        UnlockedCondition = IF($"PLAYER_HAS_SEEN_EVENT Current {UnlockPortal.JunimoPortalDiscoveryEvent}"),
+                        CustomFields = new() {
+                            { "Spiderbuttons.SpecialPowerUtilities/Tab", this.mod.ModManifest.UniqueID },
+                            { "Spiderbuttons.SpecialPowerUtilities/Placement/ToPosition", I("Top") }
+                        }
+                    };
                 });
             }
         }

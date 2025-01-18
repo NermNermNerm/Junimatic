@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.GameData.Objects;
+using StardewValley.GameData.Powers;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 
@@ -92,6 +94,24 @@ namespace NermNermNerm.Junimatic
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Quests"))
             {
                 e.Edit(editor => this.EditQuests(editor.AsDictionary<string, string>().Data));
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))
+            {
+                e.Edit(asset =>
+                {
+                    var powers = asset.AsDictionary<string, PowersData>();
+                    powers.Data[$"Junimatic.UnlockMiner"] = new PowersData()
+                    {
+                        DisplayName = L("Mining Junimo"),
+                        Description = L("Junimos will work with mining-related machines like furnaces and geode crushers."),
+                        TexturePath = Game1.objectSpriteSheetName,
+                        TexturePosition = new Point(32, 192),
+                        UnlockedCondition = IF($"PLAYER_HAS_SEEN_EVENT Current {UnlockMiner.MiningJunimoDreamEvent}"),
+                        CustomFields = new() {
+                            { "Spiderbuttons.SpecialPowerUtilities/Tab", this.mod.ModManifest.UniqueID },
+                        }
+                    };
+                });
             }
         }
 
