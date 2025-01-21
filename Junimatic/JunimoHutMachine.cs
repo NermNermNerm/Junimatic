@@ -28,6 +28,7 @@ namespace NermNermNerm.Junimatic
         public override void FillMachineFromInventory(Inventory inventory)
         {
             // 'inventory' should always be a single raisin
+            inventory.Clear();
             this.workFinder.JunimosGotDailyRaisin();
         }
 

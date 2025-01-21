@@ -189,6 +189,14 @@ namespace NermNermNerm.Junimatic
                 {
                     machine.FillMachineFromInventory(this.Carrying);
                     l.playSound("dwop"); // <- might get overridden by the furnace sound...  but if it's not a furnace...
+
+                    this.Carrying.RemoveEmptySlots();
+                    if (this.Carrying.Count > 0)
+                    {
+                        this.LogError($"The {machine} did not take all of the items the Junimo brought to it.  This probably means there is a problem with the recipe list for the machine (that is, there's a bug in the mod and/or the game code).  This is known to happen for machines that have recipes where one of the recipes has the same item as both the input and the fuel.  These machines, even if the game code worked with them correctly (and as of this writing, it doesn't), aren't good to automate because you can't control which recipe is intended.  It is strongly recommended that you not automate this machine.");
+                        // Toss the unused items
+                        this.JunimoQuitsInDisgust();
+                    }
                 }
                 else
                 {
