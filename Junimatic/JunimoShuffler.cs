@@ -536,6 +536,7 @@ namespace NermNermNerm.Junimatic
 
             return !ModEntry.Config.AllowAllLocations
                 && npc.Name != I("Truffle Crab")
+                && npc.modData.ContainsKey("Junimatic.NotScary")
                 && npc.currentLocation is not IslandWest
                 && !IsCustomCompanion(npc)
                 && npc is not JunimoShuffler && npc is not Junimo && npc is not JunimoHarvester
@@ -546,6 +547,6 @@ namespace NermNermNerm.Junimatic
         ///   The Custom Companion's mod <see href="https://github.com/Floogen/CustomCompanions"/>,
         ///   adds wild animals that can show up all over the place.
         /// </summary>
-        private static bool IsCustomCompanion(NPC npc) => npc.Name.EndsWith(I("_WA"));
+        private static bool IsCustomCompanion(NPC npc) => npc.GetType().Namespace?.StartsWith(I("CustomCompanions.")) == true;
     }
 }
