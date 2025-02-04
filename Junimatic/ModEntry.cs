@@ -37,6 +37,7 @@ namespace NermNermNerm.Junimatic
         public readonly Powers Powers = new Powers();
 
         private readonly WorkFinder workFinder = new WorkFinder();
+        private readonly Childsplay childsplay = new Childsplay();
         public PetFindsThings PetFindsThings = new PetFindsThings();
 
         public static ModEntry Instance = null!;
@@ -70,81 +71,12 @@ namespace NermNermNerm.Junimatic
             this.PetFindsThings.Entry(this);
             this.JunimoStatusDialog.Entry(this);
             this.Powers.Entry(this);
+            this.childsplay.Entry(this);
 
             this.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
 
-            //this.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
-
             Event.RegisterCommand(SetJunimoColorEventCommand, this.SetJunimoColor);
         }
-
-        private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
-        {
-            if (e.Button != SButton.O)
-            {
-                return;
-            }
-
-            // Testing the grape celebration
-
-            foreach (var portal in new GameMap(Game1.currentLocation).GetPortals())
-            {
-                portal.shakeTimer = 3000;
-                var poofAction = () => this.MakePoof(new Vector2(portal.TileLocation.X, portal.TileLocation.Y));
-                DelayedAction.functionAfterDelay(poofAction, 500);
-                DelayedAction.functionAfterDelay(poofAction, 1500);
-                DelayedAction.functionAfterDelay(poofAction, 2500);
-            }
-
-            for (int i = 0; i < 15; i++)
-            {
-                int delay = Math.Max(Game1.random.Next(11), Game1.random.Next(11))
-                          + Math.Max(Game1.random.Next(11), Game1.random.Next(11))
-                          + Game1.random.Next(11);
-                // delay is a number between 0 and 30 on a bell-curve that's pushed to the right of average.
-                DelayedAction.functionAfterDelay(() => Game1.playSound("junimoMeep1"), delay * 100);
-            }
-
-            //Game1.playSound("junimoMeep1");
-            //DelayedAction.functionAfterDelay(() => { }, 100 /*milliseconds*/);
-            //Game1.playSound("yoba");
-        }
-
-        private void MakePoof(Vector2 tile)
-        {
-            var colors = new Color[4][] {
-                [Color.SpringGreen, Color.LawnGreen, Color.LightGreen],
-                [Color.DarkGreen, Color.ForestGreen, Color.Green],
-                [Color.Orange, Color.DarkRed, Color.Red],
-                [Color.White, Color.LightBlue, Color.LightGray]
-            };
-
-            var colorChoice = Game1.currentLocation.IsOutdoors ? colors[Game1.seasonIndex] : colors[0];
-
-            Vector2 landingPos = tile * 64f;
-            landingPos.Y -= 64;
-            landingPos.X -= 16;
-            float scale = 0.15f;
-            TemporaryAnimatedSprite? dustTas = new(
-                textureName: Game1.animationsName,
-                sourceRect: new Rectangle(0, 256, 64, 64),
-                animationInterval: 120f,
-                animationLength: 8,
-                numberOfLoops: 0,
-                position: landingPos,
-                flicker: false,
-                flipped: Game1.random.NextDouble() < 0.5,
-                layerDepth: (landingPos.Y+150) / 10000f, // SDV uses a base value of y/10k for layerDepth. +150 is a fudge factor that seems to be above the hut, but below any trees or what have you in front of the hut.
-                alphaFade: 0.01f,
-                color: colorChoice[Game1.random.Next(colorChoice.Length)],
-                scale: Game1.pixelZoom * scale,
-                scaleChange: 0.02f,
-                rotation: 0f,
-                rotationChange: 0f);
-
-            Game1.Multiplayer.broadcastSprites(Game1.currentLocation, dustTas);
-        }
-
 
         public bool IsRunningSve => this.Helper.ModRegistry.IsLoaded("FlashShifter.SVECode");
 
