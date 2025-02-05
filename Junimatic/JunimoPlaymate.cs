@@ -58,6 +58,7 @@ namespace NermNermNerm.Junimatic
             this.alphaChange = 0.05f;
 
             this.controller = new PathFindController(this, location, endTile, 0, this.JunimoReachedCrib);
+            this.controller = new PathFindController(this, location, endTile, 0, this.JunimoReachedCrib);
         }
 
 
