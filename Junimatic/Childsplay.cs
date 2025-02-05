@@ -64,11 +64,8 @@ namespace NermNermNerm.Junimatic
         private void LaunchJunimoPlaymate()
         {
             var farmHouse = (FarmHouse)Game1.currentLocation;
-            var junimo = new JunimoPlaymate(farmHouse, new Vector2(17, 15) * 64);
-            Point spouseBedSpot = new Point(43,23);
+            var junimo = new JunimoPlaymate(farmHouse, new Vector2(17, 15) * 64, new Point(43,23));
 
-            var controller = new PathFindController(junimo, farmHouse, spouseBedSpot, 0, null);
-            junimo.controller = controller;
             farmHouse.characters.Add(junimo);
 
 
