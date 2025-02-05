@@ -63,28 +63,24 @@ namespace NermNermNerm.Junimatic
 
         private void LaunchJunimoPlaymate()
         {
-            //var farmHouse = (FarmHouse)Game1.currentLocation;
-            //var haley = Game1.currentLocation.characters.First(n => n.Name == "Haley");
-            ////haley.arriveAtFarmHouse((FarmHouse)Game1.currentLocation);
-            //var junimo = new JunimoPlaymate(farmHouse, new Vector2(17, 15)*64);
-            //farmHouse.characters.Add(junimo);
+            var farmHouse = (FarmHouse)Game1.currentLocation;
+            var junimo = new JunimoPlaymate(farmHouse, new Vector2(17, 15) * 64);
+            Point spouseBedSpot = new Point(43,23);
 
-            //Point spouseBedSpot = farmHouse.getSpouseBedSpot("Haley");
-            //PathFindController.endBehavior endBehaviorFunction = null;
-
-            //var controller = new PathFindController(junimo, farmHouse, spouseBedSpot, 0, endBehaviorFunction);
-            //junimo.controller = controller;
+            var controller = new PathFindController(junimo, farmHouse, spouseBedSpot, 0, null);
+            junimo.controller = controller;
+            farmHouse.characters.Add(junimo);
 
 
-            var children = Game1.MasterPlayer.getChildren();
-            var child = children[1 /* Game1.random.Next(children.Count) */];
-            if (child.isInCrib())
-            {
-                if (child.isSleeping.Value)
-                {
-                    this.StartCribVisit(child);
-                }
-            }
+            //var children = Game1.MasterPlayer.getChildren();
+            //var child = children[1 /* Game1.random.Next(children.Count) */];
+            //if (child.isInCrib())
+            //{
+            //    if (child.isSleeping.Value)
+            //    {
+            //        this.StartCribVisit(child);
+            //    }
+            //}
         }
 
         private void StartCribVisit(Child child)
