@@ -59,7 +59,7 @@ namespace NermNermNerm.Junimatic
         }
 
 
-        public JunimoPlaymate(StardewValley.Object portal, Vector2 startingPoint, Child child)
+        public JunimoPlaymate(Vector2 startingPoint, Child child)
             : base(new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
         {
             this.color.Value = Color.Pink; // TODO: Mix this up
@@ -73,28 +73,18 @@ namespace NermNermNerm.Junimatic
             this.collidesWithOtherCharacters.Value = false;
             this.SimpleNonVillagerNPC = true;
             this.childToPlayWith = child;
-
-            // Else we don't really have a plan yet.  The caller should ensure this is true.
-            if (!child.isInCrib())
-            {
-                this.LogError($"Junimo playmate can't play with {child.Name} because they're not in the crib");
-                return;
-            }
-
-            var gameMap = new GameMap(child.currentLocation);
-            gameMap.GetStartingInfo(portal, out var adjacentTiles, out _);
-            foreach (var tile in adjacentTiles)
-            {
-                var playPoint = child.Tile - new Vector2(0, -1);
-                this.controller = new PathFindController(this, child.currentLocation, playPoint.ToPoint(), 0, this.JunimoReachedCrib);
-            }
-
             this.alpha = 0;
             this.alphaChange = 0.05f;
             this.LogTrace($"Junimo playmate created to play with {child.Name}");
         }
 
-        public bool IsViable => this.controller.pathToEndPoint is not null;
+        public void SetupController()
+        {
+            var playPoint = this.childToPlayWith!.Tile + new Vector2(0, 1);
+            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, playPoint.ToPoint(), 0, this.JunimoReachedCrib);
+        }
+
+        public bool IsViable => this.controller?.pathToEndPoint is not null;
 
         public void JunimoReachedCrib(Character c, GameLocation l)
         {
