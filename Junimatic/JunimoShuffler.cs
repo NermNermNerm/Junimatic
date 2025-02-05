@@ -123,6 +123,7 @@ namespace NermNermNerm.Junimatic
             }
 
             // Head to the target
+            this.controller = null;
             this.controller = new PathFindController(this, base.currentLocation, this.Assignment.target.AccessPoint, 0, this.JunimoReachedTarget);
         }
 
@@ -144,6 +145,7 @@ namespace NermNermNerm.Junimatic
             this.Carrying.Clear();
             this.doEmote(this.isScared ? 16 : 12);
 
+            this.controller = null;
             this.controller = new PathFindController(this, base.currentLocation, this.Assignment.origin, 0, this.JunimoReachedHut);
         }
 
@@ -206,6 +208,7 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
+            this.controller = null;
             var newAssignment = this.workFinder!.FindProject(this.Assignment.hut, this.Assignment.projectType, this);
             if (newAssignment is not null)
             {
