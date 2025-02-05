@@ -97,13 +97,11 @@ namespace NermNermNerm.Junimatic
                 foreach (var tile in adjacentTiles)
                 {
                     var playmate = new JunimoPlaymate(tile.ToVector2() * 64, child);
-                    farmhouse.characters.Add(playmate);
-                    playmate.SetupController();
                     if (playmate.IsViable)
                     {
+                        farmhouse.characters.Add(playmate);
                         return;
                     }
-                    farmhouse.characters.Remove(playmate); // Didn't work out.
                 }
             }
         }

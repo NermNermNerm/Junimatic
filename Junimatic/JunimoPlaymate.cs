@@ -40,7 +40,7 @@ namespace NermNermNerm.Junimatic
             this.LogTrace($"Junimo playmate cloned");
         }
 
-        public JunimoPlaymate(GameLocation location, Vector2 startingPoint) // Test API
+        public JunimoPlaymate(GameLocation location, Vector2 startingPoint, Point endTile) // Test API
             : base(new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
         {
             this.color.Value = Color.Pink;
@@ -56,6 +56,8 @@ namespace NermNermNerm.Junimatic
 
             this.alpha = 0;
             this.alphaChange = 0.05f;
+
+            this.controller = new PathFindController(this, location, endTile, 0, this.JunimoReachedCrib);
         }
 
 
@@ -76,10 +78,6 @@ namespace NermNermNerm.Junimatic
             this.alpha = 0;
             this.alphaChange = 0.05f;
             this.LogTrace($"Junimo playmate created to play with {child.Name}");
-        }
-
-        public void SetupController()
-        {
             var playPoint = this.childToPlayWith!.Tile + new Vector2(0, 1);
             this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, playPoint.ToPoint(), 0, this.JunimoReachedCrib);
         }
