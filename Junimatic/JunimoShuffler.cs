@@ -208,15 +208,16 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            this.controller = null;
             var newAssignment = this.workFinder!.FindProject(this.Assignment.hut, this.Assignment.projectType, this);
             if (newAssignment is not null)
             {
                 this.Assignment = newAssignment;
+                this.controller = null;
                 this.controller = new PathFindController(this, this.Assignment.hut.Location, this.Assignment.source.AccessPoint, 0, this.JunimoReachedSource);
             }
             else
             {
+                this.controller = null;
                 this.controller = new PathFindController(this, base.currentLocation, this.Assignment.origin, 0, this.JunimoReachedHut);
             }
         }
