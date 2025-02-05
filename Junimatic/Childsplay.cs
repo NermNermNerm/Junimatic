@@ -63,21 +63,12 @@ namespace NermNermNerm.Junimatic
 
         private void LaunchJunimoPlaymate()
         {
-            var farmHouse = (FarmHouse)Game1.currentLocation;
-            var junimo = new JunimoPlaymate(farmHouse, new Vector2(17, 15) * 64, new Point(43,23));
-
-            farmHouse.characters.Add(junimo);
-
-
-            //var children = Game1.MasterPlayer.getChildren();
-            //var child = children[1 /* Game1.random.Next(children.Count) */];
-            //if (child.isInCrib())
-            //{
-            //    if (child.isSleeping.Value)
-            //    {
-            //        this.StartCribVisit(child);
-            //    }
-            //}
+            var children = Game1.MasterPlayer.getChildren();
+            var child = children[1 /* Game1.random.Next(children.Count) */];
+            if (child.isInCrib())
+            {
+                this.StartCribVisit(child);
+            }
         }
 
         private void StartCribVisit(Child child)

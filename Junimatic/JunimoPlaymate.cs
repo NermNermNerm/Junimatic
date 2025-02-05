@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Characters;
+using StardewValley.Extensions;
+using StardewValley.Locations;
 using StardewValley.Pathfinding;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
@@ -19,6 +22,8 @@ namespace NermNermNerm.Junimatic
         private bool destroy;
         private readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
         private readonly Child? childToPlayWith;
+
+        private int gamesPlayed = 0;
 
         public const int VillagerDetectionRange = 50;
 
@@ -40,28 +45,6 @@ namespace NermNermNerm.Junimatic
             this.LogTrace($"Junimo playmate cloned");
         }
 
-        public JunimoPlaymate(GameLocation location, Vector2 startingPoint, Point endTile) // Test API
-            : base(new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
-        {
-            this.color.Value = Color.Pink;
-            this.currentLocation = location;
-            this.Breather = false;
-            this.forceUpdateTimer = 9999;
-            this.ignoreMovementAnimation = true;
-            this.farmerPassesThrough = true;
-            this.Scale = 0.75f;
-            this.willDestroyObjectsUnderfoot = false;
-            this.collidesWithOtherCharacters.Value = false;
-            this.SimpleNonVillagerNPC = true;
-
-            this.alpha = 0;
-            this.alphaChange = 0.05f;
-
-            this.controller = new PathFindController(this, location, endTile, 0, this.JunimoReachedCrib);
-            this.controller = new PathFindController(this, location, endTile, 0, this.JunimoReachedCrib);
-        }
-
-
         public JunimoPlaymate(Vector2 startingPoint, Child child)
             : base(new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
         {
@@ -79,14 +62,79 @@ namespace NermNermNerm.Junimatic
             this.alpha = 0;
             this.alphaChange = 0.05f;
             this.LogTrace($"Junimo playmate created to play with {child.Name}");
-            var playPoint = this.childToPlayWith!.Tile + new Vector2(0, 1);
-            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, playPoint.ToPoint(), 0, this.JunimoReachedCrib);
+            var playPoint = this.childToPlayWith!.Tile + new Vector2(0, 2); // The crib has some funny z-ordering, going a bit farther away from it.
+            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, playPoint.ToPoint(), 0, (_,_) => this.DoCribGame());
         }
 
         public bool IsViable => this.controller?.pathToEndPoint is not null;
 
-        public void JunimoReachedCrib(Character c, GameLocation l)
+        private void DoCribGame()
         {
+            if (this.gamesPlayed > 10)
+            {
+                this.GoHome();
+            }
+            else
+            {
+                int timeToDelay = Game1.random.Choose(this.CribGameSwitchSide, this.CribGameEmote, this.CribGameMeep, this.CribGameJump)();
+                ++this.gamesPlayed;
+                Game1.pauseThenDoFunction(timeToDelay, () => this.DoCribGame());
+            }
+        }
+
+        private int CribGameSwitchSide()
+        {
+            // TODO: move in a circle 0,0, 1,0, 1,-1, -1,-1, -1,0
+
+            // Move to the right or left side of the crib
+            var playPoint = this.childToPlayWith!.Tile + new Vector2(0, 2);
+            if (playPoint.X == this.Tile.X)
+            {
+                playPoint += new Vector2(2, 0);
+            }
+            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, playPoint.ToPoint(), 0, null);
+
+            return 1000;
+        }
+
+        private int CribGameEmote()
+        {
+            this.doEmote(20);
+            return 3000;
+        }
+
+        private int CribGameJump()
+        {
+            this.jump();
+            return 1000;
+        }
+
+        private int CribGameMeep()
+        {
+            this.currentLocation.playSound("junimoMeep1");
+            return 1000;
+        }
+
+        private void GoHome()
+        {
+            var gameMap = new GameMap(this.currentLocation);
+            foreach (var portal in this.currentLocation.Objects.Values.Where(o => o.QualifiedItemId == UnlockPortal.JunimoPortalQiid).OrderBy(o => Math.Abs(o.TileLocation.X - this.Tile.X) + Math.Abs(o.TileLocation.Y - this.Tile.Y)))
+            {
+                gameMap.GetStartingInfo(portal, out var adjacentTiles, out _);
+                foreach (var tile in adjacentTiles)
+                {
+                    this.controller = null;
+                    this.controller = new PathFindController(this, this.currentLocation, tile, 0, this.JunimoReachedHut);
+                    if (this.IsViable)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            this.LogWarning($"Junimo playmate could not find its way back to a hut!");
+            this.controller = null;
+            this.destroy = true;
         }
 
 
@@ -163,13 +211,7 @@ namespace NermNermNerm.Junimatic
 
         public override void update(GameTime time, GameLocation location)
         {
-            if (Game1.IsMasterGame && this.controller is null)
-            {
-                this.LogTrace($"Junimo playmate can't get where it's going");
-                location.characters.Remove(this);
-                return;
-            }
-
+            this.speed = 5;  // Playmate Junimos are fired up all the time.
             this.netAnimationEvent.Poll();
             base.update(time, location);
 
