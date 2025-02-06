@@ -10,6 +10,7 @@ using StardewValley.Characters;
 using StardewValley.Extensions;
 using StardewValley.Locations;
 using StardewValley.Pathfinding;
+using static System.Collections.Specialized.BitVector32;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -63,14 +64,86 @@ namespace NermNermNerm.Junimatic
             this.alphaChange = 0.05f;
             this.LogTrace($"Junimo playmate created to play with {child.Name}");
             var playPoint = this.childToPlayWith!.Tile + new Vector2(0, 2); // The crib has some funny z-ordering, going a bit farther away from it.
-            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, playPoint.ToPoint(), 0, (_,_) => this.DoCribGame());
+            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, playPoint.ToPoint(), 0, this.OnArrivedAtCrib);
         }
 
         public bool IsViable => this.controller?.pathToEndPoint is not null;
 
+        private void OnArrivedAtCrib(Character c, GameLocation l)
+        {
+            this.gamesPlayed = 0;
+            this.DoCribGame();
+            this.DoCribBabyResponses();
+        }
+
+        private const int NumAwakeCribBabyGamesToPlay = 20;
+
+        private void DoCribBabyResponses()
+        {
+            if (this.gamesPlayed >= NumAwakeCribBabyGamesToPlay-1 || Game1.timeOfDay >= 1200 + 740)
+            {
+                // Baby knocks off when the Junimo is almost done or bedtime is near.
+                return;
+            }
+
+            int CribBabyMoveAroundCrib()
+            {
+                float startingPos = this.childToPlayWith!.Position.X;
+                Vector2 movementInterval = new Vector2(-1, 0);
+                Action advance = () => { };
+                advance = () =>
+                {
+                    this.childToPlayWith!.Position += movementInterval;
+                    if (this.childToPlayWith!.Position.X <= startingPos - 64)
+                    {
+                        movementInterval = new Vector2(1, 0);
+                        DelayedAction.functionAfterDelay(advance, 500); // Hang around on the side for half a second, then go back
+                    }
+                    else if (this.childToPlayWith!.Position.X >= startingPos)
+                    {
+                        this.childToPlayWith!.Position = new Vector2(startingPos, this.childToPlayWith!.Position.Y);
+                        // don't do anything more.
+                    }
+                    else
+                    {
+                        DelayedAction.functionAfterDelay(advance, 1000/64); // Take ~1 second to track from one side to the other.
+                    }
+                };
+                advance();
+
+                return 2500;
+            };
+
+            int CribBabyEmote()
+            {
+                this.childToPlayWith!.doEmote(32);
+                return 3000;
+            };
+
+            int CribBabyJump()
+            {
+                this.childToPlayWith!.jump(2 + Game1.random.Next(1)); // 8 is the normal jump height
+                for (int i = 300; i <= 1800; i += 300)
+                {
+                    DelayedAction.functionAfterDelay(() => this.childToPlayWith!.jump(2 + Game1.random.Next(1)), i);
+                }
+                return 2000;
+            };
+
+            int CribBabyDoNothing()
+            {
+                return 1000;
+            };
+
+            int millisecondsToDelay = Game1.random.Choose(CribBabyMoveAroundCrib, CribBabyEmote, CribBabyJump, CribBabyDoNothing)();
+            ++this.gamesPlayed;
+            DelayedAction.functionAfterDelay(this.DoCribBabyResponses, millisecondsToDelay);
+        }
+
         private void DoCribGame()
         {
-            if (this.gamesPlayed > 20)
+            if (this.gamesPlayed >= NumAwakeCribBabyGamesToPlay // Junimo gets tired and goes home
+                || Game1.timeOfDay > 1200+740) // Babies sleep at 8, so knock off before 7:40
             {
                 this.GoHome();
             }
