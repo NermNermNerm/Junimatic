@@ -86,7 +86,7 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            int CribBabyMoveAroundCrib()
+            int MoveAroundCrib()
             {
                 float startingPos = this.childToPlayWith!.Position.X;
                 Vector2 movementInterval = new Vector2(-1, 0);
@@ -114,13 +114,13 @@ namespace NermNermNerm.Junimatic
                 return 2500;
             };
 
-            int CribBabyEmote()
+            int DoEmote()
             {
                 this.childToPlayWith!.doEmote(32);
                 return 3000;
             };
 
-            int CribBabyJump()
+            int JumpUpAndDown()
             {
                 this.childToPlayWith!.jump(2 + Game1.random.Next(1)); // 8 is the normal jump height
                 for (int i = 300; i <= 1800; i += 300)
@@ -130,12 +130,12 @@ namespace NermNermNerm.Junimatic
                 return 2000;
             };
 
-            int CribBabyDoNothing()
+            int DoNothing()
             {
                 return 1000;
             };
 
-            int millisecondsToDelay = Game1.random.Choose(CribBabyMoveAroundCrib, CribBabyEmote, CribBabyJump, CribBabyDoNothing)();
+            int millisecondsToDelay = Game1.random.Choose(MoveAroundCrib, DoEmote, JumpUpAndDown, DoNothing)();
             ++this.gamesPlayed;
             DelayedAction.functionAfterDelay(this.DoCribBabyResponses, millisecondsToDelay);
         }
@@ -149,54 +149,55 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                int millisecondsToDelay = Game1.random.Choose(this.CribGameSwitchSide, this.CribGameEmote, this.CribGameMeep, this.CribGameJump)();
+                int CribGameSwitchSide()
+                {
+                    // Move to the right or left side of the crib
+                    var startPoint = this.childToPlayWith!.Tile + new Vector2(0, 2);
+                    var waypoints = new Vector2[] { new(1, 0), new(1, -1), new(-1, -1), new(-1, 0), new(0, 0) };
+                    int current = 0;
+                    Action advance = () => { };
+                    advance = () =>
+                    {
+                        if (current < waypoints.Length)
+                        {
+                            this.controller = null;
+                            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, (startPoint + waypoints[current]).ToPoint(), 0, (_, _) => advance());
+                            ++current;
+                        }
+                        else
+                        {
+                            this.controller = null;
+                        }
+                    };
+                    advance();
+
+                    return 3000;
+                };
+
+                int CribGameEmote()
+                {
+                    this.doEmote(20);
+                    return 3000;
+                };
+
+                int CribGameJump()
+                {
+                    this.jump();
+                    return 1000;
+                };
+
+                int CribGameMeep()
+                {
+                    this.currentLocation.playSound("junimoMeep1");
+                    return 1000;
+                };
+
+                int millisecondsToDelay = Game1.random.Choose(CribGameSwitchSide, CribGameEmote, CribGameMeep, CribGameJump)();
                 ++this.gamesPlayed;
                 DelayedAction.functionAfterDelay(() => this.DoCribGame(), millisecondsToDelay);
             }
         }
 
-        private int CribGameSwitchSide()
-        {
-            // Move to the right or left side of the crib
-            var startPoint = this.childToPlayWith!.Tile + new Vector2(0, 2);
-            var waypoints = new Vector2[] { new(1, 0), new(1, -1), new(-1, -1), new(-1, 0), new(0, 0) };
-            int current = 0;
-            Action advance = () => { };
-            advance = () =>
-            {
-                if (current < waypoints.Length)
-                {
-                    this.controller = null;
-                    this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, (startPoint + waypoints[current]).ToPoint(), 0, (_, _) => advance());
-                    ++current;
-                }
-                else
-                {
-                    this.controller = null;
-                }
-            };
-            advance();
-
-            return 3000;
-        }
-
-        private int CribGameEmote()
-        {
-            this.doEmote(20);
-            return 3000;
-        }
-
-        private int CribGameJump()
-        {
-            this.jump();
-            return 1000;
-        }
-
-        private int CribGameMeep()
-        {
-            this.currentLocation.playSound("junimoMeep1");
-            return 1000;
-        }
 
         private void GoHome()
         {
