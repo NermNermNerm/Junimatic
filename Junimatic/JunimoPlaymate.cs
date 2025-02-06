@@ -34,7 +34,7 @@ namespace NermNermNerm.Junimatic
             this.forceUpdateTimer = 9999;
             this.ignoreMovementAnimation = true;
             this.farmerPassesThrough = true;
-            this.Scale = 0.75f;
+            this.Scale = 0.6f;
             this.willDestroyObjectsUnderfoot = false;
             this.collidesWithOtherCharacters.Value = false;
             this.SimpleNonVillagerNPC = true;
@@ -54,7 +54,7 @@ namespace NermNermNerm.Junimatic
             this.forceUpdateTimer = 9999;
             this.ignoreMovementAnimation = true;
             this.farmerPassesThrough = true;
-            this.Scale = 0.75f;
+            this.Scale = 0.6f; // regular ones are .75
             this.willDestroyObjectsUnderfoot = false;
             this.collidesWithOtherCharacters.Value = false;
             this.SimpleNonVillagerNPC = true;
@@ -70,31 +70,41 @@ namespace NermNermNerm.Junimatic
 
         private void DoCribGame()
         {
-            if (this.gamesPlayed > 10)
+            if (this.gamesPlayed > 20)
             {
                 this.GoHome();
             }
             else
             {
-                int timeToDelay = Game1.random.Choose(this.CribGameSwitchSide, this.CribGameEmote, this.CribGameMeep, this.CribGameJump)();
+                int millisecondsToDelay = Game1.random.Choose(this.CribGameSwitchSide, this.CribGameEmote, this.CribGameMeep, this.CribGameJump)();
                 ++this.gamesPlayed;
-                Game1.pauseThenDoFunction(timeToDelay, () => this.DoCribGame());
+                DelayedAction.functionAfterDelay(() => this.DoCribGame(), millisecondsToDelay);
             }
         }
 
         private int CribGameSwitchSide()
         {
-            // TODO: move in a circle 0,0, 1,0, 1,-1, -1,-1, -1,0
-
             // Move to the right or left side of the crib
-            var playPoint = this.childToPlayWith!.Tile + new Vector2(0, 2);
-            if (playPoint.X == this.Tile.X)
+            var startPoint = this.childToPlayWith!.Tile + new Vector2(0, 2);
+            var waypoints = new Vector2[] { new(1, 0), new(1, -1), new(-1, -1), new(-1, 0), new(0, 0) };
+            int current = 0;
+            Action advance = () => { };
+            advance = () =>
             {
-                playPoint += new Vector2(2, 0);
-            }
-            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, playPoint.ToPoint(), 0, null);
+                if (current < waypoints.Length)
+                {
+                    this.controller = null;
+                    this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, (startPoint + waypoints[current]).ToPoint(), 0, (_, _) => advance());
+                    ++current;
+                }
+                else
+                {
+                    this.controller = null;
+                }
+            };
+            advance();
 
-            return 1000;
+            return 3000;
         }
 
         private int CribGameEmote()
@@ -292,6 +302,13 @@ namespace NermNermNerm.Junimatic
             else if (this.moveDown)
             {
                 this.Sprite.Animate(time, 0, 8, 50f);
+            }
+            else if (Game1.random.Next(16) < 4)
+            {
+                if (this.Sprite.Animate(time, 32, 8, 50f))
+                {
+                    this.Sprite.currentFrame = 32;
+                }
             }
         }
 
