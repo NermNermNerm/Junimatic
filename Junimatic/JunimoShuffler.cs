@@ -16,13 +16,8 @@ using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
-    public class JunimoShuffler : NPC, ISimpleLog
+    public class JunimoShuffler : JunimoBase
     {
-        private float alpha = 1f;
-        private float alphaChange;
-        private readonly NetColor color = new NetColor();
-        private bool destroy;
-        private readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
         private readonly NetRef<Inventory> carrying = new NetRef<Inventory>(new Inventory());
         private readonly WorkFinder? workFinder;
         private bool isScared = false;
@@ -31,55 +26,31 @@ namespace NermNermNerm.Junimatic
 
         public JunimoShuffler()
         {
-            this.Breather = false;
-            this.speed = 3;
-            this.forceUpdateTimer = 9999;
-            this.ignoreMovementAnimation = true;
-            this.farmerPassesThrough = true;
-            this.Scale = 0.75f;
-            this.willDestroyObjectsUnderfoot = false;
-            this.collidesWithOtherCharacters.Value = false;
-            this.SimpleNonVillagerNPC = true;
-
-            this.alpha = 0;
-            this.alphaChange = 0.05f;
-            this.LogTrace($"Junimo cloned");
+            this.LogTrace($"Junimo Shuffler cloned");
         }
 
-        public JunimoShuffler(JunimoAssignment assignment, WorkFinder workFinder)
-            : base(new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), assignment.origin.ToVector2()*64, 2, I("Junimo"))
-        {
-            this.color.Value = assignment.projectType switch {
+        private static Color GetJunimoColorForAssignment(JunimoAssignment assignment) =>
+            assignment.projectType switch
+            {
                 JunimoType.Mining => Color.OrangeRed,
                 JunimoType.Animals => Color.PapayaWhip,
                 JunimoType.Forestry => Color.ForestGreen,
                 JunimoType.Crops => Color.Purple,
                 JunimoType.IndoorPots => Color.Orange,
-                _ => UnlockFishing.JunimoColor }; // Fishing
-            this.currentLocation = assignment.hut.Location;
-            this.Breather = false;
-            this.speed = workFinder.AreJunimosRaisinPowered ? 5 : 3;
-            this.forceUpdateTimer = 9999;
-            this.ignoreMovementAnimation = true;
-            this.farmerPassesThrough = true;
-            this.Scale = 0.75f;
-            this.willDestroyObjectsUnderfoot = false;
-            this.collidesWithOtherCharacters.Value = false;
-            this.SimpleNonVillagerNPC = true;
+                _ => UnlockFishing.JunimoColor
+            }; // Fishing
 
+        public JunimoShuffler(JunimoAssignment assignment, WorkFinder workFinder)
+            : base(assignment.hut.Location, GetJunimoColorForAssignment(assignment),
+                  new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), assignment.origin.ToVector2()*64, 2, I("Junimo"))
+        {
             this.Assignment = assignment;
             this.controller = new PathFindController(this, assignment.hut.Location, assignment.source.AccessPoint, 0, this.JunimoReachedSource);
-            this.alpha = 0;
-            this.alphaChange = 0.05f;
             this.workFinder = workFinder;
-            this.SetSpeed();
             this.LogTrace($"Junimo created {this.Assignment}");
         }
 
-        private void SetSpeed()
-        {
-            this.speed = this.isScared ? 6 : (this.workFinder?.AreJunimosRaisinPowered == true ? 5 : 3);
-        }
+        protected override int TravelingSpeed => this.isScared ? 6 : (this.workFinder?.AreJunimosRaisinPowered == true ? 5 : 3);
 
         public JunimoAssignment? Assignment { get; private set; }
 
@@ -230,8 +201,7 @@ namespace NermNermNerm.Junimatic
             }
 
             this.LogTrace($"Junimo returned to its hut {this.Assignment}");
-            this.controller = null;
-            this.destroy = true;
+            base.FadeOutJunimo();
 
             if (this.isScared && this.currentLocation is not Farm)
             {
@@ -270,65 +240,7 @@ namespace NermNermNerm.Junimatic
         {
             base.initNetFields();
             base.NetFields
-                .AddField(this.color, nameof(this.color))
-                .AddField(this.netAnimationEvent, nameof(this.netAnimationEvent))
                 .AddField(this.carrying, nameof(this.carrying));
-            this.netAnimationEvent.onEvent += this.doAnimationEvent;
-        }
-
-        protected virtual void doAnimationEvent(int animId)
-        {
-            switch (animId)
-            {
-                case 0:
-                    this.Sprite.CurrentAnimation = null;
-                    break;
-
-                // 2-5 are unused, as best as I can figure.
-                case 2:
-                    this.Sprite.currentFrame = 0;
-                    break;
-                case 3:
-                    this.Sprite.currentFrame = 1;
-                    break;
-                case 4:
-                    this.Sprite.currentFrame = 2;
-                    break;
-                case 5:
-                    this.Sprite.currentFrame = 44;
-                    break;
-
-                // These are set randomly in Update
-                case 6:
-                    this.Sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
-                    {
-                        new FarmerSprite.AnimationFrame(12, 200),
-                        new FarmerSprite.AnimationFrame(13, 200),
-                        new FarmerSprite.AnimationFrame(14, 200),
-                        new FarmerSprite.AnimationFrame(15, 200)
-                    });
-                    break;
-                case 7:
-                    this.Sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
-                    {
-                        new FarmerSprite.AnimationFrame(44, 200),
-                        new FarmerSprite.AnimationFrame(45, 200),
-                        new FarmerSprite.AnimationFrame(46, 200),
-                        new FarmerSprite.AnimationFrame(47, 200)
-                    });
-                    break;
-                case 8:
-                    this.Sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
-                    {
-                        new FarmerSprite.AnimationFrame(28, 100),
-                        new FarmerSprite.AnimationFrame(29, 100),
-                        new FarmerSprite.AnimationFrame(30, 100),
-                        new FarmerSprite.AnimationFrame(31, 100)
-                    });
-                    break;
-                case 1:
-                    break;
-            }
         }
 
         public void OnDayEnding(GameLocation location)
@@ -365,88 +277,6 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            this.netAnimationEvent.Poll();
-            base.update(time, location);
-
-            this.forceUpdateTimer = 99999;
-
-            if (this.destroy)
-            {
-                this.alphaChange = -0.05f;
-            }
-
-            this.alpha += this.alphaChange;
-            if (this.alpha > 1f)
-            {
-                this.alpha = 1f;
-            }
-            else if (this.alpha < 0f)
-            {
-                this.alpha = 0f;
-                if (this.destroy)
-                {
-                    location.characters.Remove(this);
-                    return;
-                }
-            }
-
-            if (Game1.IsMasterGame)
-            {
-                if (Game1.random.NextDouble() < 0.002)
-                {
-                    switch (Game1.random.Next(6))
-                    {
-                        case 0:
-                            this.netAnimationEvent.Fire(6);
-                            break;
-                        case 1:
-                            this.netAnimationEvent.Fire(7);
-                            break;
-                        case 2:
-                            this.netAnimationEvent.Fire(0);
-                            break;
-                        case 3:
-                            this.jumpWithoutSound();
-                            this.yJumpVelocity /= 2f;
-                            this.netAnimationEvent.Fire(0);
-                            break;
-                        case 5:
-                            this.netAnimationEvent.Fire(8);
-                            break;
-                    }
-                }
-            }
-
-            this.Sprite.CurrentAnimation = null;
-            if (this.moveRight)
-            {
-                this.flip = false;
-                if (this.Sprite.Animate(time, 16, 8, 50f))
-                {
-                    this.Sprite.currentFrame = 16;
-                }
-            }
-            else if (this.moveLeft)
-            {
-                if (this.Sprite.Animate(time, 16, 8, 50f))
-                {
-                    this.Sprite.currentFrame = 16;
-                }
-
-                this.flip = true;
-            }
-            else if (this.moveUp)
-            {
-                if (this.Sprite.Animate(time, 32, 8, 50f))
-                {
-                    this.Sprite.currentFrame = 32;
-                }
-            }
-            else if (this.moveDown)
-            {
-                this.Sprite.Animate(time, 0, 8, 50f);
-            }
-
             if (!this.isScared
                 && ((Game1.random.Next(500) == 0 && IsVillagerNear(this.currentLocation, this.Tile, VillagerDetectionRange))
                  || IsVillagerNear(this.currentLocation, this.Tile, 10)))
@@ -456,42 +286,21 @@ namespace NermNermNerm.Junimatic
                 this.JunimoQuitsInDisgust();
                 this.speed = 0;
                 this.jumpWithoutSound();
-                Game1.delayedActions.Add(new DelayedAction(1500, () => this.SetSpeed()));
+                Game1.delayedActions.Add(new DelayedAction(1500, () => { this.speed = this.TravelingSpeed; }));
             }
 
-            if (this.speed != 0)
-            {
-                this.SetSpeed(); // Various things, including bumping into things, seem to change the speed...
-            }
+            // Note that we need to call this last because it might remove this junimo from the scene
+            base.update(time, location);
         }
 
-        private static readonly int[] yBounceBasedOnFrame = new int[] { 12, 10, 8, 6, 4, 4, 8, 10 };
-        private static readonly int[] xBounceBasedOnFrame = new int[] { 1, 3, 1, -1, -3, -1, 1, 0  };
+        private static readonly int[] yBounceBasedOnFrame = [12, 10, 8, 6, 4, 4, 8, 10];
+        private static readonly int[] xBounceBasedOnFrame = [1, 3, 1, -1, -3, -1, 1, 0];
+
         public override void draw(SpriteBatch b, float alpha = 1f)
         {
-            if (this.alpha > 0f)
+            base.draw(b, alpha);
+            if (alpha > 0f)
             {
-                float num = (float)base.StandingPixel.Y / 10000f;
-                b.Draw(
-                    this.Sprite.Texture,
-                    this.getLocalPosition(Game1.viewport)
-                        + new Vector2(
-                            this.Sprite.SpriteWidth * 4 / 2,
-                            (float)this.Sprite.SpriteHeight * 3f / 4f * 4f / (float)Math.Pow(this.Sprite.SpriteHeight / 16, 2.0) + (float)this.yJumpOffset - 8f)  // Apparently yJumpOffset is always 0.
-                        + ((this.shakeTimer > 0) // Apparently shakeTimer is always 0.
-                            ? new Vector2(Game1.random.Next(-1, 2), Game1.random.Next(-1, 2))
-                            : Vector2.Zero),
-                    this.Sprite.SourceRect,
-                    this.color.Value * this.alpha, this.rotation,
-                    new Vector2(this.Sprite.SpriteWidth * 4 / 2,
-                    (float)(this.Sprite.SpriteHeight * 4) * 3f / 4f) / 4f,
-                    Math.Max(0.2f, this.Scale) * 4f, this.flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                    Math.Max(0f, this.drawOnTop ? 0.991f : num));
-                if (!this.swimming.Value)
-                {
-                    b.Draw(Game1.shadowTexture, Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2((float)(this.Sprite.SpriteWidth * 4) / 2f, 44f)), Game1.shadowTexture.Bounds, this.color.Value * this.alpha, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), (4f + (float)this.yJumpOffset / 40f) * this.Scale, SpriteEffects.None, Math.Max(0f, num) - 1E-06f);
-                }
-
                 float xOffset = 0;
                 foreach (var carried in this.Carrying)
                 {
@@ -511,16 +320,6 @@ namespace NermNermNerm.Junimatic
                     carried.drawInMenu(b, position, scaling, 1f, 0.9f, StackDrawType.Hide, Color.White, drawShadow: true);
                 }
             }
-
-            if (!Game1.eventUp)
-            {
-                this.DrawEmote(b);
-            }
-        }
-
-        public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
-        {
-            this.workFinder?.WriteToLog(message, level, isOnceOnly);
         }
 
         public static bool IsVillagerNear(GameLocation location, Vector2 tile, int withinTiles)
@@ -540,7 +339,7 @@ namespace NermNermNerm.Junimatic
 
             return !ModEntry.Config.AllowAllLocations
                 && npc.Name != I("Truffle Crab")
-                && npc.modData.ContainsKey("Junimatic.NotScary")
+                && !npc.modData.ContainsKey("Junimatic.NotScary")
                 && npc.currentLocation is not IslandWest
                 && !IsCustomCompanion(npc)
                 && npc is not JunimoShuffler && npc is not Junimo && npc is not JunimoHarvester
