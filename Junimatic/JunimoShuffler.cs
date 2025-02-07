@@ -342,7 +342,7 @@ namespace NermNermNerm.Junimatic
                 && !npc.modData.ContainsKey("Junimatic.NotScary")
                 && npc.currentLocation is not IslandWest
                 && !IsCustomCompanion(npc)
-                && npc is not JunimoShuffler && npc is not Junimo && npc is not JunimoHarvester
+                && npc is not JunimoBase && npc is not Junimo && npc is not JunimoHarvester
                 && npc is not Horse && npc is not Pet && npc is not Child && npc.getSpouse() is null;
         }
 

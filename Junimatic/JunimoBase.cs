@@ -53,6 +53,11 @@ namespace NermNermNerm.Junimatic
             this.alphaChange = 0.05f;
         }
 
+        public void Meep()
+        {
+            this.currentLocation.playSound("junimoMeep1");
+        }
+
         public void FadeOutJunimo()
         {
             this.controller = null;

@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Buildings;
 using StardewValley.Characters;
 using StardewValley.Locations;
-using StardewValley.Pathfinding;
-using xTile.Tiles;
 
 namespace NermNermNerm.Junimatic
 {
@@ -27,12 +18,15 @@ namespace NermNermNerm.Junimatic
             this.mod.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
             this.mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
 
+            // TODO: Comment this out prior to shipping  Or maybe #if debug?
             this.mod.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
         }
 
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
         {
             // TODO: Ensure there aren't any Junimo Playmates still around
+
+            // Q:  What happens to playmates when we leave the scene?
         }
 
         private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
@@ -44,8 +38,6 @@ namespace NermNermNerm.Junimatic
 
             this.LaunchJunimoPlaymate();
         }
-
-
 
         private void GameLoop_OneSecondUpdateTicked(object? sender, StardewModdingAPI.Events.OneSecondUpdateTickedEventArgs e)
         {
@@ -91,6 +83,15 @@ namespace NermNermNerm.Junimatic
                     if (playmate.IsViable)
                     {
                         farmhouse.characters.Add(playmate);
+                        if (child.Age == Child.newborn)
+                        {
+                            DelayedAction.functionAfterDelay(() => {
+                                var parentJunimo = new JunimoParent(farmhouse, tile.ToVector2() * 64);
+                                farmhouse.characters.Add(parentJunimo);
+                                playmate.Parent = parentJunimo;
+                            }, 1000);
+                        }
+
                         return;
                     }
                 }
