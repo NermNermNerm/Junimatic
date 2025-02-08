@@ -23,7 +23,7 @@ namespace NermNermNerm.Junimatic
             var crib = location.GetCribBounds()!.Value; // crib is in Tile coordinates
             var target = new Vector2(crib.X-1, crib.Bottom /* neither +1 or -1 work in this spot */);
             
-            this.controller = new PathFindController(this, location, target.ToPoint(), 0, null);
+            this.controller = new PathFindController(this, location, target.ToPoint(), 1, null);
             this.LogTrace($"Junimo parent created");
         }
 
@@ -41,6 +41,19 @@ namespace NermNermNerm.Junimatic
             if (this.controller is null)
             {
                 var crib = ((FarmHouse)location).GetCribBounds()!.Value; // crib is in Tile coordinates
+                if (this.Tile.X == crib.X - 1 && (this.Tile.Y == crib.Bottom || this.Tile.Y == crib.Bottom - 1))
+                {
+                    float targetYPos = crib.Bottom * 64 - 32;
+                    if (this.Position.Y > targetYPos)
+                    {
+                        this.Position = new Vector2(this.Position.X, this.Position.Y - 1);
+                        if (this.Position.Y == targetYPos)
+                        {
+                            this.FacingDirection = 1;
+                            this.Sprite?.faceDirection(1);
+                        }
+                    }
+                }
             }
         }
 
