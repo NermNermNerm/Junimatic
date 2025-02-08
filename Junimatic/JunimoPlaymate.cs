@@ -44,6 +44,7 @@ namespace NermNermNerm.Junimatic
             this.gamesPlayed = 0;
             this.activity = Activity.Playing;
             this.DoCribGame();
+            this.FacingDirection = 0;
             if (this.childToPlayWith!.Age == Child.baby)
             {
                 this.DoCribBabyResponses();
@@ -150,12 +151,14 @@ namespace NermNermNerm.Junimatic
 
                 int CribGameEmote()
                 {
+                    this.FacingDirection = 0;
                     this.doEmote(20);
                     return 3000;
                 };
 
                 int CribGameJump()
                 {
+                    this.FacingDirection = 0;
                     this.jump();
                     return 1000;
                 };

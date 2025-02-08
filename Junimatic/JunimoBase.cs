@@ -190,39 +190,33 @@ namespace NermNermNerm.Junimatic
             }
 
             this.Sprite.CurrentAnimation = null;
-            if (this.moveRight)
+            int frame;
+            bool isStationary = !(this.moveRight || this.moveLeft || this.moveUp || this.moveDown);
+            if (this.moveRight || (isStationary && this.FacingDirection == 1))
             {
+                frame = 16;
                 this.flip = false;
-                if (this.Sprite.Animate(time, 16, 8, 50f))
-                {
-                    this.Sprite.currentFrame = 16;
-                }
             }
-            else if (this.moveLeft)
+            else if (this.moveLeft || (isStationary && this.FacingDirection == 3))
             {
-                if (this.Sprite.Animate(time, 16, 8, 50f))
-                {
-                    this.Sprite.currentFrame = 16;
-                }
-
+                frame = 16;
                 this.flip = true;
             }
-            else if (this.moveUp)
+            else if (this.moveUp || (isStationary && this.FacingDirection == 0))
             {
-                if (this.Sprite.Animate(time, 32, 8, 50f))
-                {
-                    this.Sprite.currentFrame = 32;
-                }
+                frame = 32;
             }
-            else if (this.moveDown)
+            else // must be true: (this.moveDown || (isStationary && this.FacingDirection == 2))
             {
-                this.Sprite.Animate(time, 0, 8, 50f);
+                frame = 0;
             }
-            else if (Game1.random.Next(16) < 4)
+
+            if (this.isMoving() || Game1.random.Next(4) == 0)
             {
-                if (this.Sprite.Animate(time, 32, 8, 50f))
+                if (this.Sprite.Animate(time, frame, 8, 50f))
                 {
-                    this.Sprite.currentFrame = 32;
+                    // I don't seriously believe this statement does anything valuable, but the base game does it.
+                    this.Sprite.currentFrame = frame;
                 }
             }
         }
