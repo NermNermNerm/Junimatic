@@ -44,7 +44,10 @@ namespace NermNermNerm.Junimatic
             this.gamesPlayed = 0;
             this.activity = Activity.Playing;
             this.DoCribGame();
-            this.DoCribBabyResponses();
+            if (this.childToPlayWith!.Age == Child.baby)
+            {
+                this.DoCribBabyResponses();
+            }
         }
 
         private const int NumAwakeCribBabyGamesToPlay = 20;
