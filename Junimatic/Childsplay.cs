@@ -24,8 +24,9 @@ namespace NermNermNerm.Junimatic
 
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
         {
-            // TODO: Ensure there aren't any Junimo Playmates still around
-
+            var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
+            var toRemove = farmhouse.characters.OfType<JunimoBase>().Where(c => c is not JunimoShuffler).ToArray();
+            farmhouse.characters.RemoveWhere(c => c is JunimoParent || c is JunimoPlaymate);
             // Q:  What happens to playmates when we leave the scene?
         }
 

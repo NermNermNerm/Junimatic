@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Pathfinding;
+using xTile.Dimensions;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -32,6 +33,18 @@ namespace NermNermNerm.Junimatic
         public void GoHome(Point homeTile)
         {
             this.controller = new PathFindController(this, this.currentLocation, homeTile, 0, (_, _) => this.FadeOutJunimo());
+        }
+
+        public void SetByCrib()
+        {
+            // Place the parent in the final location - happens if the player leaves the scene while play is ongoing.
+            var crib = ((FarmHouse)(this.currentLocation)).GetCribBounds()!.Value; // crib is in Tile coordinates
+            this.Position = new Vector2((crib.X - 1)*64, crib.Bottom*64-32 /* neither +1 or -1 work in this spot */);
+            this.FacingDirection = 1;
+            this.Sprite.faceDirection(1);
+            this.moveUp = this.moveDown = this.moveLeft = this.moveRight = false;
+            this.Sprite.ClearAnimation();
+            this.controller = null;
         }
 
         public override void update(GameTime time, GameLocation location)

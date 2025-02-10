@@ -6,6 +6,8 @@ using Netcode;
 using StardewModdingAPI;
 using StardewValley;
 
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
+
 namespace NermNermNerm.Junimatic
 {
     /// <summary>
@@ -51,6 +53,11 @@ namespace NermNermNerm.Junimatic
             this.SimpleNonVillagerNPC = true;
             this.alpha = 0;
             this.alphaChange = 0.05f;
+
+            // There's code in FarmHouse.resetSharedState that deletes all duplicate characters for some reason, where duplicate is
+            // defined as both by reference and by *NAME*.  It's not made clear why this is done.  Since we don't have more than one
+            // of a given color Junimo visible at any one time, this happens to work to make that code not cause a problem.
+            this.Name = IF($"Junimo{color}");
         }
 
         public void Meep()
