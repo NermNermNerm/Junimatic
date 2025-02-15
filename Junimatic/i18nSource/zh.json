@@ -723,24 +723,6 @@
       "ingestionDate": "2025-01-09T11:12:26.6385852-08:00"
     },
     {
-      "source": "Normally Junimos only work on player farms, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
-      "translation": "平时祝尼魔因为害羞，只在农场工作。这个可以使祝尼魔在任意地点出现",
-      "author": "nexus:duya0135",
-      "ingestionDate": "2025-01-09T11:12:26.6385852-08:00"
-    },
-    {
-      "source": "Minimal Questing",
-      "translation": "进行最基本的探索/追求",
-      "author": "nexus:duya0135",
-      "ingestionDate": "2025-01-09T11:12:26.6385852-08:00"
-    },
-    {
-      "source": "Normally quests are required to unlock the Junimos.  This enables skipping most of the quests - you just have to complete the portal quest.",
-      "translation": "通常，需要完成一系列任务才能解锁Junimos。但这样可以让你跳过大部分任务——你只需要完成传送门任务即可。",
-      "author": "nexus:duya0135",
-      "ingestionDate": "2025-01-09T11:12:26.6385852-08:00"
-    },
-    {
       "source": "Enter the Cindersap Forest during the day.",
       "translation": "在白天进入煤炭森林。",
       "author": "nexus:duya0135",
@@ -1039,6 +1021,150 @@
       "translation": "今天早上祝尼魔们吃掉了一整盒葡萄！",
       "author": "nexus:duya0135",
       "ingestionDate": "2025-01-09T11:12:26.6385852-08:00"
+    },
+    {
+      "source": "Normally Junimos only work where there are no villagers or monsters, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
+      "translation": "平时祝尼魔因为害羞，只在没有村民或怪物的地方工作。打开这个可以使祝尼魔在任意地点出现。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "No Questing",
+      "translation": "关闭任务",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Normally quests are required to unlock the Junimos; setting this just enables all the junimos.  To get started, craft a 'Junimo Portal' and place it down.",
+      "translation": "通常需要通过任务解锁祝尼魔，改变该设置直接启用全部祝尼魔。请通过建造并放置祝尼魔传送门开始。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Allow Shipping",
+      "translation": "允许售卖",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "If this is checked, Junimos will take artisan goods to mini-shipping bins.",
+      "translation": "如果开启，祝尼魔会将工匠物品售卖。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimatic",
+      "translation": "祝尼魔自动化",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos will work with animal-related machines like cheese presses, looms and mayonnaise machines.",
+      "translation": "祝尼魔会为奶酪机、织布机和美乃滋机等动物相关机器工作。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Crops Junimo",
+      "translation": "作物祝尼魔",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos will work with crop-related machines like Kegs",
+      "translation": "祝尼魔会管理小桶等农作物相关机器。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Fishing Junimo",
+      "translation": "捕鱼祝尼魔",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos will work with fishing-related machines like crab pots and recycling machines.",
+      "translation": "祝尼魔会管理蟹笼和垃圾回收机等捕鱼相关机器。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Forestry Junimo",
+      "translation": "林业祝尼魔",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos will work with foraging-related machines like tappers and mushroom logs",
+      "translation": "祝尼魔会为树液收集器和蘑菇原木等采集相关机器工作",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Mining Junimo",
+      "translation": "采矿祝尼魔",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos will work with mining-related machines like furnaces and geode crushers.",
+      "translation": "祝尼魔会管理熔炉和晶球破碎机等采矿相关机器。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos are afraid of villagers; move this hut away from townspeople and hostile mobs.",
+      "translation": "祝尼魔害怕村民，需要把这个小屋搬离镇民和敌对生物。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "This was a Junimo Portal, but a Junimo that came out of it saw a villager, got scared, and disabled it.  It's trash now.",
+      "translation": "这里曾经是祝尼魔传送门，但一个从中出来的祝尼魔看见村民后受了惊吓，把它关闭了。现在这只是一堆废物。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Abandoned Portal",
+      "translation": "废弃的传送门",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimo Huts",
+      "translation": "祝尼魔小屋",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Construct Junimo Huts",
+      "translation": "建造祝尼魔小屋",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Indoor Pot Junimo",
+      "translation": "室内花盆祝尼魔",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos will harvest and water plants grown in indoor pots.",
+      "translation": "祝尼魔会采收和浇灌室内花盆里种植的植物。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos are not working on the {{arg0}} today.  They are scared of {{arg1}}.",
+      "translation": "祝尼魔今天不在{{arg0}}工作。他们害怕{{arg1}}。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
+    },
+    {
+      "source": "Junimos are not working in the {{arg0}} today.  They are scared of {{arg1}}.",
+      "translation": "祝尼魔今天不在{{arg0}}工作。他们害怕{{arg1}}。",
+      "author": "nexus:yukkwo",
+      "ingestionDate": "2025-02-14T20:19:22.5902103-08:00"
     }
   ]
 }
