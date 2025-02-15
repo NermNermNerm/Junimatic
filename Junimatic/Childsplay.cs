@@ -26,7 +26,7 @@ namespace NermNermNerm.Junimatic
         {
             var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
             var toRemove = farmhouse.characters.OfType<JunimoBase>().Where(c => c is not JunimoShuffler).ToArray();
-            farmhouse.characters.RemoveWhere(c => c is JunimoParent || c is JunimoPlaymate);
+            farmhouse.characters.RemoveWhere(c => c is JunimoParent || c is JunimoCribPlaymate);
             // Q:  What happens to playmates when we leave the scene?
         }
 
@@ -80,7 +80,7 @@ namespace NermNermNerm.Junimatic
                 gameMap.GetStartingInfo(portal, out var adjacentTiles, out _);
                 foreach (var tile in adjacentTiles)
                 {
-                    var playmate = new JunimoPlaymate(tile.ToVector2() * 64, child);
+                    var playmate = new JunimoCribPlaymate(tile.ToVector2() * 64, child);
                     if (playmate.IsViable)
                     {
                         farmhouse.characters.Add(playmate);

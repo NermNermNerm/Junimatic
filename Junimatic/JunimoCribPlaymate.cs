@@ -10,7 +10,7 @@ using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
-    public class JunimoPlaymate : JunimoBase
+    public class JunimoCribPlaymate : JunimoBase
     {
         private readonly Child? childToPlayWith; // Null when in a multiplayer game
 
@@ -24,14 +24,15 @@ namespace NermNermNerm.Junimatic
         private enum Activity { GoingToPlay, Playing, GoingHome };
         private Activity activity;
 
-        public JunimoPlaymate()
+        public JunimoCribPlaymate()
         {
             this.LogTrace($"Junimo playmate cloned");
         }
 
-        public JunimoPlaymate(Vector2 startingPoint, Child child)
+        public JunimoCribPlaymate(Vector2 startingPoint, Child child)
             : base(child.currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
         {
+            Child
             this.Scale = 0.6f; // regular ones are .75
             this.childToPlayWith = child;
             this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, this.PlayStartPoint.ToPoint(), 0, this.OnArrivedAtCrib);
@@ -309,28 +310,7 @@ namespace NermNermNerm.Junimatic
                         this.isCatchingUp = false;
                     }
                 }
-
-                // Going to crib:
-                //
-                // If far away from parent
-                //   set isWaitingOnParent
-                // else if isWaitingOnParent
-                //   if is close to parent
-                //     clear isWaitingOnParent
-                //   else not jumping
-                //     jump or meep
-                //
-                // Returning (parent will be ahead)
-                // If close to parent && !isWaitingOnParent
-                //   set isWaitingOnParent
-                // Else if isWaitingOnParent
-                //   Do nothing
-                // Else if far from parent
-                //   clear isWaitingOnParent (so the child moves fast enough to catch up)
-                //   parent.emote !  or meep1/meep
-                //   child.jump
             }
-
         }
 
         protected override int TravelingSpeed => this.activity == Activity.GoingHome && !this.isCatchingUp ? 2 : 5;
