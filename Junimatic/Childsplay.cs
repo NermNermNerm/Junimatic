@@ -81,18 +81,9 @@ namespace NermNermNerm.Junimatic
                 foreach (var tile in adjacentTiles)
                 {
                     var playmate = new JunimoCribPlaymate(tile.ToVector2() * 64, child);
-                    if (playmate.IsViable)
+                    if (playmate.TryGoToCrib())
                     {
                         farmhouse.characters.Add(playmate);
-                        if (child.Age == Child.newborn)
-                        {
-                            DelayedAction.functionAfterDelay(() => {
-                                var parentJunimo = new JunimoParent(farmhouse, tile.ToVector2() * 64);
-                                farmhouse.characters.Add(parentJunimo);
-                                playmate.Parent = parentJunimo;
-                            }, 1000);
-                        }
-
                         return;
                     }
                 }

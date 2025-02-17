@@ -5,66 +5,43 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Extensions;
-using StardewValley.Locations;
 using StardewValley.Pathfinding;
-using xTile.Tiles;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
-    public class JunimoCribPlaymate : JunimoBase
+    public class JunimoToddlerPlaymate : JunimoBase
     {
         private readonly Child? childToPlayWith; // Null when in a multiplayer game
 
         private int gamesPlayed = 0;
-        private bool isWaitingOnParent = false;
-        private bool isCatchingUp = false;
 
         private bool noFarmersOnLastUpdate = false;
+        private readonly List<DelayedAction> delayedActions = new List<DelayedAction>();
 
         private enum Activity { GoingToPlay, Playing, GoingHome };
         private Activity activity;
 
-        public JunimoCribPlaymate()
+        public JunimoToddlerPlaymate()
         {
-            this.LogTrace($"Junimo playmate cloned");
+            this.LogTrace($"Junimo toddler playmate cloned");
         }
 
-        public JunimoCribPlaymate(Vector2 startingPoint, Child child)
+        public JunimoToddlerPlaymate(Vector2 startingPoint, Child child)
             : base(child.currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
         {
             this.Scale = 0.6f; // regular ones are .75
             this.childToPlayWith = child;
-            this.LogTrace($"Junimo playmate created to play with {child.Name}");
+            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, this.PlayStartPoint.ToPoint(), 0, this.OnArrivedAtChild);
+            this.LogTrace($"Junimo toddler playmate created to play with {child.Name}");
             this.activity = Activity.GoingToPlay;
-        }
-
-        public bool TryGoToCrib()
-        {
-            bool canGo = this.TryGoTo(this.PlayStartPoint.ToPoint(), this.OnArrivedAtCrib, this.GoHome);
-            if (this.childToPlayWith!.Age == Child.newborn)
-            {
-                this.DoAfterDelay(() =>
-                {
-                    var parentJunimo = new JunimoParent((FarmHouse)this.currentLocation, this.DefaultPosition);
-                    if (parentJunimo.TryGoToCrib())
-                    {
-                        this.currentLocation.characters.Add(parentJunimo);
-                        this.Parent = parentJunimo;
-                    }
-                }, 1000);
-            }
-
-            return canGo;
         }
 
         private Vector2 PlayStartPoint => this.childToPlayWith!.Tile + new Vector2(0, 2); // The crib has some funny z-ordering, going a bit farther away from it.
 
-        public JunimoParent? Parent { get; set; } // When escorted, the parent pops out of the hut a second or so after the child
-
         public bool IsViable => this.controller?.pathToEndPoint is not null;
 
-        private void OnArrivedAtCrib()
+        private void OnArrivedAtChild(Character c, GameLocation l)
         {
             this.gamesPlayed = 0;
             this.activity = Activity.Playing;
@@ -77,7 +54,6 @@ namespace NermNermNerm.Junimatic
         }
 
         private const int NumAwakeCribBabyGamesToPlay = 20;
-
 
         private void DoCribBabyResponses()
         {
@@ -161,8 +137,13 @@ namespace NermNermNerm.Junimatic
                     {
                         if (current < waypoints.Length)
                         {
-                            this.GoTo((startPoint + waypoints[current]).ToPoint(), advance);
+                            this.controller = null;
+                            this.controller = new PathFindController(this, this.childToPlayWith.currentLocation, (startPoint + waypoints[current]).ToPoint(), 0, (_, _) => advance());
                             ++current;
+                        }
+                        else
+                        {
+                            this.controller = null;
                         }
                     };
                     advance();
@@ -196,13 +177,6 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public override void GoHome()
-        {
-            this.activity = Activity.GoingHome;
-            base.GoHome();
-            this.Parent?.GoHome();
-        }
-
         public override void update(GameTime time, GameLocation location)
         {
             base.update(time, location);
@@ -212,7 +186,7 @@ namespace NermNermNerm.Junimatic
                 if (this.noFarmersOnLastUpdate)
                 {
                     // Farmer just arrived
-                    this.OnArrivedAtCrib();
+                    this.OnArrivedAtChild(this, location);
 
                     this.noFarmersOnLastUpdate = false;
                 }
@@ -222,10 +196,6 @@ namespace NermNermNerm.Junimatic
                 // If it's late or the junimo was going home anyway, just remove them from the scene.
                 if (Game1.timeOfDay > 1200 + 700 || this.activity == Activity.GoingHome)
                 {
-                    if (this.Parent is not null)
-                    {
-                        location.characters.Remove(this.Parent);
-                    }
                     location.characters.Remove(this);
                     return;
                 }
@@ -239,62 +209,13 @@ namespace NermNermNerm.Junimatic
                     this.Position = this.PlayStartPoint*64;
                     this.controller = null;
                     this.Speed = this.TravelingSpeed;
-                    this.Parent?.SetByCrib();
 
                     // And put a stop to any planned activity
                     this.CancelAllDelayedActions();
                 }
             }
-
-            if (this.Parent is not null)
-            {
-                float distanceToParent = Math.Max(Math.Abs(this.Position.X - this.Parent.Position.X), Math.Abs(this.Position.Y - this.Parent.Position.Y));
-                bool isTooFarFromParent = distanceToParent > 64 * 5;
-                bool isCloseEnoughToParent = distanceToParent < 64 + 32;
-                if (this.activity == Activity.GoingToPlay)
-                {
-                    if (this.isWaitingOnParent)
-                    {
-                        if (this.yJumpOffset == 0)
-                        {
-                            if (isCloseEnoughToParent)
-                            {
-                                this.isWaitingOnParent = false;
-                                this.speed = this.TravelingSpeed;
-                                this.Meep();
-
-                            }
-                            else
-                            {
-                                this.jump(5);
-                            }
-                        }
-                    }
-                    else if (isTooFarFromParent && !this.isWaitingOnParent)
-                    {
-                        this.isWaitingOnParent = true;
-                        this.speed = 0;
-                        this.jump(4);
-                    }
-                }
-                else if (this.activity == Activity.GoingHome)
-                {
-                    if (isTooFarFromParent)
-                    {
-                        this.isCatchingUp = true;
-                        if ((int)distanceToParent % 64 == 0)
-                        {
-                            this.Meep();
-                        }
-                    }
-                    else if (this.isCatchingUp && isCloseEnoughToParent)
-                    {
-                        this.isCatchingUp = false;
-                    }
-                }
-            }
         }
 
-        protected override int TravelingSpeed => this.activity == Activity.GoingHome && !this.isCatchingUp ? 2 : 5;
+        protected override int TravelingSpeed => 5;
     }
 }

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
 using StardewModdingAPI;
 using StardewValley;
-
+using StardewValley.Pathfinding;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
@@ -21,6 +23,8 @@ namespace NermNermNerm.Junimatic
         private readonly NetColor color = new NetColor();
         protected bool destroy;
         private readonly NetEvent1Field<int, NetInt> netAnimationEvent = new NetEvent1Field<int, NetInt>();
+        private Action? pathBlockedAction = null;
+        private readonly List<DelayedAction> delayedActions = new List<DelayedAction>();
 
         public JunimoBase()
         {
@@ -59,6 +63,87 @@ namespace NermNermNerm.Junimatic
             // of a given color Junimo visible at any one time, this happens to work to make that code not cause a problem.
             this.Name = IF($"Junimo{color}");
         }
+
+        /// <summary>
+        ///   Tries to plot a path to <paramref name="targetTile"/>.  If it cannot do so, it returns false and
+        ///   does not call <paramref name="onCancel"/>.
+        /// </summary>
+        /// <param name="targetTile">The tile to go to.</param>
+        /// <param name="onArrival">The action to call when the Junimo reaches the given point.</param>
+        /// <param name="onCancel">This is called if the Junimo becomes unable to reach its assigned destination.</param>
+        /// <returns>True if the course is plotted, false otherwise.</returns>
+        public bool TryGoTo(Point targetTile, Action onArrival, Action? onCancel = null)
+        {
+            this.controller = null;
+            this.pathBlockedAction = onCancel;
+            this.controller = new PathFindController(this, this.currentLocation, targetTile, 0, (_, _) => {
+                this.pathBlockedAction = null;
+                this.controller = null;
+                onArrival();
+            });
+            if (this.controller.pathToEndPoint is not null)
+            {
+                return true;
+            }
+            else
+            {
+                this.controller = null;
+                this.pathBlockedAction = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///   Goes to the assigned <paramref name="targetTile"/>.  If it cannot go there, <paramref name="onCancel"/> is called immediately.
+        /// </summary>
+        public void GoTo(Point targetTile, Action onArrival, Action? onCancel = null)
+        {
+            if (!this.TryGoTo(targetTile, onArrival, onCancel))
+            {
+                if (onCancel is not null)
+                {
+                    onCancel();
+                }
+            }
+        }
+
+        public virtual void GoHome()
+        {
+            this.CancelAllDelayedActions();
+            var gameMap = new GameMap(this.currentLocation);
+            foreach (var portal in this.currentLocation.Objects.Values.Where(o => o.QualifiedItemId == UnlockPortal.JunimoPortalQiid).OrderBy(o => Math.Abs(o.TileLocation.X - this.Tile.X) + Math.Abs(o.TileLocation.Y - this.Tile.Y)))
+            {
+                gameMap.GetStartingInfo(portal, out var adjacentTiles, out _);
+                foreach (var tile in adjacentTiles)
+                {
+                    if (this.TryGoTo(tile, this.FadeOutJunimo, () => { this.LogWarning($"Junimo could not reach its home"); this.FadeOutJunimo(); }))
+                    {
+                        return;
+                    }
+                }
+            }
+
+            this.LogWarning($"Junimo playmate could not find its way back to a hut!");
+            this.FadeOutJunimo();
+        }
+
+
+
+        protected void DoAfterDelay(Action a, int delayInMs)
+        {
+            this.delayedActions.Add(DelayedAction.functionAfterDelay(a, delayInMs));
+        }
+
+        protected void CancelAllDelayedActions()
+        {
+            foreach (var da in this.delayedActions)
+            {
+                Game1.delayedActions.Remove(da);
+            }
+
+            this.delayedActions.Clear();
+        }
+
 
         public void Meep()
         {
@@ -146,6 +231,14 @@ namespace NermNermNerm.Junimatic
 
             this.netAnimationEvent.Poll();
             base.update(time, location);
+
+            if (this.controller is null && this.pathBlockedAction is not null)
+            {
+                // Clear pathBlockedAction before calling the action just in case that action involves calling GoTo again.
+                var a = this.pathBlockedAction;
+                this.pathBlockedAction = null;
+                a();
+            }
 
             this.forceUpdateTimer = 99999;
 

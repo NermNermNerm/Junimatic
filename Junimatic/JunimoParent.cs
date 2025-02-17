@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
-using StardewValley.Pathfinding;
 using xTile.Dimensions;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
@@ -21,18 +20,14 @@ namespace NermNermNerm.Junimatic
         public JunimoParent(FarmHouse location, Vector2 startingPoint)
             : base(location, Color.MediumOrchid/* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
         {
-            var crib = location.GetCribBounds()!.Value; // crib is in Tile coordinates
-            var target = new Vector2(crib.X-1, crib.Bottom /* neither +1 or -1 work in this spot */);
-            
-            this.controller = new PathFindController(this, location, target.ToPoint(), 1, null);
             this.LogTrace($"Junimo parent created");
         }
 
-        public bool IsViable => this.controller?.pathToEndPoint is not null;
-
-        public void GoHome(Point homeTile)
+        public bool TryGoToCrib()
         {
-            this.controller = new PathFindController(this, this.currentLocation, homeTile, 0, (_, _) => this.FadeOutJunimo());
+            var crib = ((FarmHouse)this.currentLocation).GetCribBounds()!.Value; // crib is in Tile coordinates
+            var target = new Point(crib.X - 1, crib.Bottom /* neither +1 or -1 work in this spot */);
+            return this.TryGoTo(target, () => { }, this.GoHome);
         }
 
         public void SetByCrib()
