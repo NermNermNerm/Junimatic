@@ -104,41 +104,40 @@ namespace NermNermNerm.Junimatic
                 void CircleRun()
                 {
                     var junimoStartingTile = this.TilePoint;
-                    this.GoTo(junimoStartingTile + new Point(2, 0), () =>
+                    int numAtDestination = 0;
+                    void endGame()
                     {
-                        this.GoTo(junimoStartingTile + new Point(2, -1), () =>
+                        ++numAtDestination;
+                        if (numAtDestination == 2)
                         {
-                            this.GoTo(junimoStartingTile + new Point(0, -1), () =>
-                            {
-                                this.GoTo(junimoStartingTile + new Point(0, 0), () =>
-                                {
-                                    this.DoAfterDelay(this.PlayGame, 1000);
-                                });
-                            });
-                        });
-                    });
+                            this.DoAfterDelay(this.PlayGame, 1000);
+                        }
+                    };
+                    this.controller = null;
+                    this.controller = new PathFindController(new Stack<Point>([
+                            junimoStartingTile + new Point(0, 0),
+                            junimoStartingTile + new Point(0, -1),
+                            junimoStartingTile + new Point(2, -1),
+                            junimoStartingTile + new Point(2, 0),
+                        ]), this, this.currentLocation);
+                    this.controller.endPoint = junimoStartingTile;
+                    this.controller.finalFacingDirection = 0 /* up */;
+                    this.controller.endBehaviorFunction = (_, _) => endGame();
+
                     var childStartingTile = this.childToPlayWith!.TilePoint;
                     this.childToPlayWith!.Speed = 5;
-                    GoTo(this.childToPlayWith!, childStartingTile + new Point(-1, 0), () =>
-                    {
-                        GoTo(this.childToPlayWith!, childStartingTile + new Point(-1, 1), () =>
-                        {
-                            GoTo(this.childToPlayWith!, childStartingTile + new Point(1, 1), () =>
-                            {
-                                GoTo(this.childToPlayWith!, childStartingTile + new Point(1, 0), () =>
-                                {
-                                    GoTo(this.childToPlayWith!, childStartingTile + new Point(0, 0), () => {});
-                                });
-                            });
-                        });
-                    });
-
-                    this.DoAfterDelay(() =>
-                    {
-                        this.PlayGame();
-                    }, 3500);
+                    this.childToPlayWith!.controller = null;
+                    this.childToPlayWith!.controller = new PathFindController(new Stack<Point>([
+                            childStartingTile + new Point(0, 0),
+                            childStartingTile + new Point(1, 0),
+                            childStartingTile + new Point(1, 1),
+                            childStartingTile + new Point(-1, 1),
+                            childStartingTile + new Point(-1, 0),
+                        ]), this.childToPlayWith, this.currentLocation);
+                    this.childToPlayWith!.controller.finalFacingDirection = 2 /* down */;
+                    this.childToPlayWith!.controller.endPoint = childStartingTile;
+                    this.childToPlayWith!.controller.endBehaviorFunction = (_, _) => endGame();
                 }
-
 
                 Game1.random.Choose(JumpAround, CircleRun)();
             }
