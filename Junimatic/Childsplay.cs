@@ -57,14 +57,11 @@ namespace NermNermNerm.Junimatic
         private void LaunchJunimoPlaymate()
         {
             var children = Game1.MasterPlayer.getChildren();
-            var child = children[1 /* Game1.random.Next(children.Count) */];
-            if (child.isInCrib())
-            {
-                this.StartCribVisit(child);
-            }
+            var child = children[0 /* Game1.random.Next(children.Count) */];
+            this.StartPlayDate(child);
         }
 
-        private void StartCribVisit(Child child)
+        private void StartPlayDate(Child child)
         {
             var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
             var cribBounds = farmhouse.GetCribBounds();
@@ -80,11 +77,23 @@ namespace NermNermNerm.Junimatic
                 gameMap.GetStartingInfo(portal, out var adjacentTiles, out _);
                 foreach (var tile in adjacentTiles)
                 {
-                    var playmate = new JunimoCribPlaymate(tile.ToVector2() * 64, child);
-                    if (playmate.TryGoToCrib())
+                    if (child.Age == Child.toddler)
                     {
-                        farmhouse.characters.Add(playmate);
-                        return;
+                        var playmate = new JunimoToddlerPlaymate(tile.ToVector2() * 64, child);
+                        if (playmate.TryGoToChild())
+                        {
+                            farmhouse.characters.Add(playmate);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        var playmate = new JunimoCribPlaymate(tile.ToVector2() * 64, child);
+                        if (playmate.TryGoToCrib())
+                        {
+                            farmhouse.characters.Add(playmate);
+                            return;
+                        }
                     }
                 }
             }

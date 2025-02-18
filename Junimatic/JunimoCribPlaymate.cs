@@ -144,7 +144,7 @@ namespace NermNermNerm.Junimatic
         private void DoCribGame()
         {
             if (this.gamesPlayed >= NumAwakeCribBabyGamesToPlay // Junimo gets tired and goes home
-                || Game1.timeOfDay > 1200+740) // Babies sleep at 8, so knock off before 7:40
+                || Game1.timeOfDay > 1200+730) // Babies sleep at 8, so knock off before 7:40
             {
                 this.GoHome();
             }

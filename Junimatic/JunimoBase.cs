@@ -107,6 +107,33 @@ namespace NermNermNerm.Junimatic
             }
         }
 
+        public static bool TryGoTo(NPC character, Point targetTile, Action onArrival)
+        {
+            character.controller = null;
+            character.controller = new PathFindController(character, character.currentLocation, targetTile, 0, (_, _) => {
+                character.controller = null;
+                onArrival();
+            });
+            if (character.controller.pathToEndPoint is not null)
+            {
+                return true;
+            }
+            else
+            {
+                character.controller = null;
+                return false;
+            }
+        }
+
+        public static void GoTo(NPC character, Point targetTile, Action onArrival)
+        {
+            character.controller = null;
+            character.controller = new PathFindController(character, character.currentLocation, targetTile, 0, (_, _) => {
+                character.controller = null;
+                onArrival();
+            });
+        }
+
         public virtual void GoHome()
         {
             this.CancelAllDelayedActions();
