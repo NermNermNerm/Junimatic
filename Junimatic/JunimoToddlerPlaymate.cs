@@ -112,6 +112,7 @@ namespace NermNermNerm.Junimatic
                         {
                             this.DoAfterDelay(this.PlayGame, 1000);
                         }
+                        // ELSE TODO: Perhaps we should add a timer so if the other player gets stuck, we reset and choose a new play spot.
                     };
                     this.controller = null;
                     this.controller = new PathFindController(new Stack<Point>([
@@ -125,7 +126,7 @@ namespace NermNermNerm.Junimatic
                     this.controller.endBehaviorFunction = (_, _) => endGame();
 
                     var childStartingTile = this.childToPlayWith!.TilePoint;
-                    this.childToPlayWith!.Speed = 5;
+                    this.childToPlayWith!.Speed = 3; // Normally the child cruises at 5.  Setting this seems sketch.  Perhaps it should be unset at the end?
                     this.childToPlayWith!.controller = null;
                     this.childToPlayWith!.controller = new PathFindController(new Stack<Point>([
                             childStartingTile + new Point(0, 0),
@@ -138,8 +139,33 @@ namespace NermNermNerm.Junimatic
                     this.childToPlayWith!.controller.endPoint = childStartingTile;
                     this.childToPlayWith!.controller.endBehaviorFunction = (_, _) => endGame();
                 }
+                void FindNewSpot()
+                {
+                    var fh = (FarmHouse)this.currentLocation;
+                    // getRandomOpenPointInHouse returns the center of a 3x3 square of clear area
+                    var openPoint = fh.getRandomOpenPointInHouse(Game1.random);
+                    if (openPoint == Point.Zero)
+                    {
+                        this.LogWarning($"Your house is too crowded - it's hard to find a place to play.");
+                        this.DoAfterDelay(this.PlayGame, 1000);
+                    }
 
-                Game1.random.Choose(JumpAround, CircleRun)();
+                    int numAtDestination = 0;
+                    void endGame()
+                    {
+                        ++numAtDestination;
+                        if (numAtDestination == 2)
+                        {
+                            this.DoAfterDelay(this.PlayGame, 1000);
+                        }
+                        // ELSE TODO: Perhaps we should add a timer so if the other player gets stuck, we reset and choose a new play spot
+                    };
+
+                    this.GoTo(openPoint + new Point(-1, 0), endGame);
+                    GoTo(this.childToPlayWith!, openPoint + new Point(0, -1), endGame);
+                }
+
+                Game1.random.Choose(JumpAround, CircleRun, FindNewSpot)();
             }
         }
 
