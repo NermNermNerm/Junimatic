@@ -79,6 +79,19 @@ namespace NermNermNerm.Junimatic
             this.PlayGame();
         }
 
+        public override void GoHome()
+        {
+            this.activity = Activity.GoingHome;
+
+            this.doEmote(sleepEmote);
+            this.DoAfterDelay(() => this.childToPlayWith!.doEmote(32 /* smile */), 1500);
+
+            this.DoAfterDelay(() =>
+            {
+                base.GoHome();
+            }, 3000);
+        }
+
         private void PlayGame()
         {
             if (this.gamesPlayed == 20 || Game1.timeOfDay > 1200 + 730)

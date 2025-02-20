@@ -199,8 +199,24 @@ namespace NermNermNerm.Junimatic
         public override void GoHome()
         {
             this.activity = Activity.GoingHome;
-            base.GoHome();
-            this.Parent?.GoHome();
+
+            if (this.childToPlayWith!.Age == Child.baby)
+            {
+                this.doEmote(sleepEmote);
+                this.DoAfterDelay(() => this.childToPlayWith!.doEmote(32 /* smile */), 1500);
+            }
+            else
+            {
+                this.Parent!.doEmote(sleepEmote);
+                this.Meep();
+                this.DoAfterDelay(() => this.doEmote(28 /*tears*/), 1500);
+            }
+
+            this.DoAfterDelay(() =>
+            {
+                base.GoHome();
+                this.Parent?.GoHome();
+            }, 3000);
         }
 
         public override void update(GameTime time, GameLocation location)
