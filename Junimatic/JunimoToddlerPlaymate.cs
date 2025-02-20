@@ -30,8 +30,8 @@ namespace NermNermNerm.Junimatic
         //   then they run game1.
 
         private readonly Child? childToPlayWith; // Null when in a multiplayer game
-        private int gamesPlayed = 0;
         private bool noFarmersOnLastUpdate = false;
+        private readonly int timeToGoHome;
 
         private Point? child1ParkedTile;
         private PathFindController? child1Controller;
@@ -49,6 +49,7 @@ namespace NermNermNerm.Junimatic
         {
             this.Scale = 0.6f; // regular ones are .75
             this.childToPlayWith = child;
+            this.timeToGoHome = Math.Min(Game1.timeOfDay + 200, 1200 + 640); // Play for 2 hours or until 6:40pm.  Child.tenMinuteUpdate sends toddlers to bed at 7pm.
             this.LogTrace($"Junimo toddler playmate created to play with {child.Name}");
         }
 
@@ -73,8 +74,6 @@ namespace NermNermNerm.Junimatic
 
         private void OnArrivedAtChild()
         {
-            this.gamesPlayed = 0;
-
             // TODO: Get the second toddler to show up.
             this.PlayGame();
         }
@@ -94,14 +93,12 @@ namespace NermNermNerm.Junimatic
 
         private void PlayGame()
         {
-            if (this.gamesPlayed == 20 || Game1.timeOfDay > 1200 + 730)
+            if (Game1.timeOfDay >= this.timeToGoHome)
             {
                 this.GoHome();
             }
             else
             {
-                ++this.gamesPlayed;
-
                 var child = this.childToPlayWith!;
 
                 void JumpAround()
