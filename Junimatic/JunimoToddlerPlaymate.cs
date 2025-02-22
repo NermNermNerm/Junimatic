@@ -38,6 +38,7 @@ namespace NermNermNerm.Junimatic
 
         private enum Activity { GoingToPlay, Playing, GoingHome };
         private Activity activity;
+        private GameBall? gameBall;
 
         public JunimoToddlerPlaymate()
         {
@@ -158,6 +159,38 @@ namespace NermNermNerm.Junimatic
                         endGame();
                     };
                 }
+                void BallHunt()
+                {
+                    // 30 tries...
+                    for (int i = 0; i < 5 && this.gameBall is null; ++i)
+                    {
+                        var fh = (FarmHouse)this.currentLocation;
+                        // getRandomOpenPointInHouse returns the center of a 3x3 square of clear area
+                        var openPoint = fh.getRandomOpenPointInHouse(Game1.random, buffer: 0, tries: 20);
+                        if (openPoint != Point.Zero && (Math.Abs(openPoint.X - this.TilePoint.X)) > 15 || Math.Abs(openPoint.Y - this.TilePoint.Y) > 15)
+                        {
+                            this.controller = null; // Should already be null, but just to be sure...
+                            var controller = new PathFindController(this, this.currentLocation, openPoint, 0);
+                            if (controller.pathToEndPoint is not null)
+                            {
+                                this.gameBall = new GameBall(this.currentLocation, this.Tile.ToPoint() + new Point(1, 0), openPoint, () =>
+                                {
+                                    this.controller = controller;
+                                    // Consider adding some kind of dither where the players run a few tiles in random directions before
+                                    // bee-lining it to the ball.
+                                    GoTo(this.childToPlayWith!, openPoint, () => { });
+                                });
+                                this.currentLocation.addCritter(this.gameBall);
+                            }
+                        }
+                    }
+
+                    if (this.gameBall is null)
+                    {
+                        this.LogInfo($"The house is pretty crowded - can't play chase-the-ball");
+                        this.DoAfterDelay(this.PlayGame, 5000);
+                    }
+                }
 
                 var distance = child.Tile - this.Tile;
                 if (Math.Abs(distance.X) > 1 || Math.Abs(distance.Y) > 1)
@@ -167,7 +200,7 @@ namespace NermNermNerm.Junimatic
                 }
                 else
                 {
-                    Game1.random.Choose(JumpAround, CircleRun, this.FindNewSpot)();
+                    Game1.random.Choose(JumpAround, CircleRun, this.FindNewSpot, BallHunt)();
                 }
             }
         }
@@ -246,6 +279,12 @@ namespace NermNermNerm.Junimatic
             }
             else // Nobody here.
             {
+                if (this.gameBall is not null)
+                {
+                    this.currentLocation.critters.Remove(this.gameBall);
+                    this.gameBall = null;
+                }
+
                 // If it's late or the junimo was going home anyway, just remove them from the scene.
                 if (Game1.timeOfDay > 1200 + 700 || this.activity == Activity.GoingHome)
                 {
@@ -269,6 +308,29 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
+            if (this.gameBall is not null)
+            {
+                float junimoDistance = Math.Max(Math.Abs(this.Position.X - this.gameBall.endingPosition.X), Math.Abs(this.Position.Y - this.gameBall.endingPosition.Y));
+                float childDistance = Math.Max(Math.Abs(this.childToPlayWith!.Position.X - this.gameBall.endingPosition.X), Math.Abs(this.childToPlayWith!.Position.Y - this.gameBall.endingPosition.Y));
+                if (junimoDistance <= 64 || childDistance <= 64)
+                {
+                    UnlockFishing.MakePoof(this.gameBall.position / 64, 1F);
+                    this.currentLocation.critters.Remove(this.gameBall);
+                    this.gameBall = null;
+
+                    if (junimoDistance < childDistance)
+                    {
+                        this.doEmote(16 /* bang emote */);
+                        this.childToPlayWith!.doEmote(12 /* angry emote */);
+                    }
+                    else
+                    {
+                        this.childToPlayWith!.doEmote(16 /* bang emote */);
+                        this.doEmote(12 /* angry emote */);
+                    }
+                    this.DoAfterDelay(this.FindNewSpot, 1500);
+                }
+            }
 
             if (this.childToPlayWith is not null && this.child1ParkedTile is not null && this.childToPlayWith.controller is not null)
             {

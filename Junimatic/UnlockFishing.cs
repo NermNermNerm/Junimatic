@@ -217,7 +217,7 @@ namespace NermNermNerm.Junimatic
             if (f is not null)
             {
                 Game1.playSound("Cowboy_monsterDie");
-                this.MakePoof(f.TileLocation - new Vector2(.5f, 1f), 2f);
+                MakePoof(f.TileLocation - new Vector2(.5f, 1f), 2f);
                 Game1.currentLocation.furniture.Remove(f);
                 DelayedAction.functionAfterDelay(this.RemoveProps, 750);
                 return;
@@ -226,7 +226,7 @@ namespace NermNermNerm.Junimatic
             if (f is not null)
             {
                 Game1.playSound("explosion");
-                this.MakePoof(f.TileLocation - new Vector2(0f, 1f), 2f);
+                MakePoof(f.TileLocation - new Vector2(0f, 1f), 2f);
                 Game1.currentLocation.furniture.Remove(f);
                 DelayedAction.functionAfterDelay(this.RemoveProps, 750);
                 return;
@@ -234,7 +234,7 @@ namespace NermNermNerm.Junimatic
             var junimo = Game1.currentLocation.characters.OfType<Junimo>().FirstOrDefault();
             if (junimo is null)
             {
-                this.MakePoof(new Vector2(7,12), 1f);
+                MakePoof(new Vector2(7,12), 1f);
                 Game1.playSound("junimoMeep1");
                 junimo = new EventJunimo(new Vector2(7, 12), new Vector2(3, 0), JunimoColor);
                 Game1.currentLocation.characters.Add(junimo);
@@ -244,14 +244,14 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                this.MakePoof(new Vector2(10, 12), 1f);
+                MakePoof(new Vector2(10, 12), 1f);
                 Game1.currentLocation.characters.Remove(junimo);
                 Game1.playSound("wand");
                 Game1.DrawDialogue(new Dialogue(null, null, L("You've made a new Junimo friend that will help with traps and fishing-related machines")));
             }
         }
 
-        private void MakePoof(Vector2 tile, float scale)
+        public static void MakePoof(Vector2 tile, float scale)
         {
 
             Vector2 landingPos = tile * 64f;
