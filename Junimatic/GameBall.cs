@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.BellsAndWhistles;
 
@@ -90,6 +91,31 @@ namespace NermNermNerm.Junimatic
             }
 
             return result;
+        }
+
+        public override void draw(SpriteBatch b)
+        {
+            // The base class' draw method draws the object two tiles above and one to the left of where the position says it should go, because
+            // obviously that should be the default behavior...
+
+            this.sprite.draw(
+                b,
+                Game1.GlobalToLocal(
+                    Game1.viewport,
+                    Utility.snapDrawPosition(this.position + new Vector2(0f, -20f + this.yJumpOffset + this.yOffset))),
+                    (this.position.Y + 64f - 32f) / 10000f, 0, 0, Color.White, false, 4f);
+            b.Draw(
+                Game1.shadowTexture,
+                Game1.GlobalToLocal(
+                        Game1.viewport,
+                        this.position + new Vector2(32f, 40f)),
+                Game1.shadowTexture.Bounds,
+                Color.White,
+                0f,
+                new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y),
+                3f + Math.Max(-3f, (this.yJumpOffset + this.yOffset) / 16f),
+                SpriteEffects.None,
+                (this.position.Y - 1f) / 10000f);
         }
     }
 }

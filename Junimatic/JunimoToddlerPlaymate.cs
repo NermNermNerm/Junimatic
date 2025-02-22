@@ -244,15 +244,6 @@ namespace NermNermNerm.Junimatic
             this.child1Controller = child.controller;
         }
 
-        private bool IsTileBlocked(Point p)
-        {
-            return !this.currentLocation.hasTileAt(p.X, p.Y, I("Back"))
-                || !this.currentLocation.CanItemBePlacedHere(p.ToVector2())
-                || ((FarmHouse)this.currentLocation).isTileOnWall(p.X, p.Y)
-                || this.currentLocation.getTileIndexAt(p.X, p.Y, I("Back"), I("indoor")) == 0;
-        }
-
-
         public override void update(GameTime time, GameLocation location)
         {
             var oldController = this.controller; // this.controller might be set to null by base.update
@@ -339,7 +330,7 @@ namespace NermNermNerm.Junimatic
                 this.childToPlayWith.Position = this.child1ParkedTile.Value.ToVector2() * 64;
             }
 
-            bool needsReset = false; // True if 
+            bool needsReset = false;
             if (this.childToPlayWith is not null && this.child1Controller is not null && this.childToPlayWith.controller != this.child1Controller)
             {
                 if (this.childToPlayWith.controller is null)
