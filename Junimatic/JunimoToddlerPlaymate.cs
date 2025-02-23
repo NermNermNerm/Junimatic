@@ -175,6 +175,8 @@ namespace NermNermNerm.Junimatic
                             {
                                 this.gameBall = new GameBall(this.currentLocation, this.Tile.ToPoint() + new Point(1, 0), openPoint, () =>
                                 {
+                                    this.child1ParkedTile = this.childToPlayWith!.Tile.ToPoint();
+                                    this.child1ParkedTile = null;
                                     this.controller = controller;
                                     // Consider adding some kind of dither where the players run a few tiles in random directions before
                                     // bee-lining it to the ball.
