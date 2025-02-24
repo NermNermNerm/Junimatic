@@ -29,12 +29,12 @@ namespace NermNermNerm.Junimatic
         //   ball, it animates up and poofs.  Jumping and emotes follow,
         //   then they run game1.
 
-        private readonly Child? childToPlayWith; // Null when in a multiplayer game
+        private readonly IReadOnlyList<Child> childrenToPlayWith = new List<Child>(); // Null when in a multiplayer game
         private bool noFarmersOnLastUpdate = false;
         private readonly int timeToGoHome;
 
-        private Point? child1ParkedTile;
-        private PathFindController? child1Controller;
+        private readonly Dictionary<Child, Point> childParkedTiles = new();
+        private readonly Dictionary<Child, PathFindController> childControllers = new();
 
         private enum Activity { GoingToPlay, Playing, GoingHome };
         private Activity activity;
@@ -45,46 +45,95 @@ namespace NermNermNerm.Junimatic
             this.LogTrace($"Junimo toddler playmate cloned");
         }
 
-        public JunimoToddlerPlaymate(Vector2 startingPoint, Child child)
-            : base(child.currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
+        public JunimoToddlerPlaymate(Vector2 startingPoint, IReadOnlyList<Child> children)
+            : base(children[0].currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
         {
             this.Scale = 0.6f; // regular ones are .75
-            this.childToPlayWith = child;
+            this.childrenToPlayWith = children;
             this.timeToGoHome = Math.Min(Game1.timeOfDay + 200, 1200 + 640); // Play for 2 hours or until 6:40pm.  Child.tenMinuteUpdate sends toddlers to bed at 7pm.
-            this.LogTrace($"Junimo toddler playmate created to play with {child.Name}");
+            this.LogTrace($"Junimo toddler playmate created to play with {children[0].Name}");
         }
 
         public bool TryGoToChild()
         {
-            // (base.currentLocation as FarmHouse).getRandomOpenPointInHouse(r, 1, 200);
-            if (this.childToPlayWith!.controller is not null)
+            var firstChild = this.childrenToPlayWith.First();
+            var playPoint = firstChild.controller?.endPoint ?? firstChild.Tile.ToPoint();
+            this.LogTrace($"Starting a playdate with {firstChild.Name}");
+
+            return this.TryGoToNewPlayArea(playPoint);
+        }
+
+        private bool TryGoToNewPlayArea(Point playPoint)
+        {
+            var firstChild = this.childrenToPlayWith.First();
+            int numberOfArrivals = 0;
+            void OnArrivedAtPlayPoint(Child? whoArrived) // If null, it's the Junimo
             {
-                // child's on the move - try again another time
-                return false;
+                if (whoArrived is not null)
+                {
+                    this.childControllers.Remove(whoArrived);
+                    this.childParkedTiles[whoArrived] = whoArrived.TilePoint;
+                }
+
+                ++numberOfArrivals;
+                if (numberOfArrivals == 1 + this.childrenToPlayWith.Count)
+                {
+                    this.PlayGame();
+                }
             }
-            
-            bool canGo = this.TryGoTo(this.childToPlayWith.TilePoint + new Point(-1,1), this.OnArrivedAtChild, this.GoHome);
+
+            // Note - TryGoTo has a side-effect of setting the controller if it returns true.  This method
+            //  *should* do nothing if it returns false.  We're not going to bother fussing over it because
+            //  if this method returns false, this instance is going to get scrapped anyway.  This test gets
+            //  run first for that reason and because the most likely cause of failure is if the hut is
+            //  in a cordoned off room.
+            bool canGo = this.TryGoTo(playPoint + new Point(0, 1), () => OnArrivedAtPlayPoint(null), this.GoHome);
             if (!canGo)
             {
                 return false;
             }
 
-            this.activity = Activity.GoingToPlay;
-            return canGo;
-        }
+            List<PathFindController> controllers = new List<PathFindController>();
+            foreach (var child in this.childrenToPlayWith)
+            {
+                Point offset = child == firstChild ? new Point(-1, 0) : new Point(1, 0);
+                var oldController = child.controller;
+                child.controller = null;
+                GoTo(child, playPoint + offset, () => OnArrivedAtPlayPoint(child));
+                if (child.controller is null || child.controller.pathToEndPoint is null)
+                {
+                    child.controller = oldController;
+                    return false;
+                }
 
-        private void OnArrivedAtChild()
-        {
-            // TODO: Get the second toddler to show up.
-            this.PlayGame();
+                child.controller.finalFacingDirection = 2 /* down */;
+                controllers.Add(child.controller);
+                child.controller = oldController;
+            }
+
+            // If we get here, then it's a go
+            this.childParkedTiles.Clear();
+            for (int i = 0; i < this.childrenToPlayWith.Count; ++i)
+            {
+                var child = this.childrenToPlayWith[i];
+                child.controller = controllers[i];
+                this.childControllers[child] = controllers[i];
+            }
+
+            return true;
         }
 
         public override void GoHome()
         {
+            this.LogTrace($"Playdate ending");
             this.activity = Activity.GoingHome;
 
             this.doEmote(sleepEmote);
-            this.DoAfterDelay(() => this.childToPlayWith!.doEmote(32 /* smile */), 1500);
+            this.DoAfterDelay(() => this.childrenToPlayWith[0].doEmote(happyEmote), 1500);
+            if (this.childrenToPlayWith.Count > 1)
+            {
+                this.DoAfterDelay(() => this.childrenToPlayWith[1].doEmote(sadEmote), 2250);
+            }
 
             this.DoAfterDelay(() =>
             {
@@ -100,68 +149,95 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                var child = this.childToPlayWith!;
-
                 void JumpAround()
                 {
-                    this.child1ParkedTile = child.Tile.ToPoint();
-                    this.jump();
-                    child.doEmote(heartEmote);
-                    DoToddlerArmFlapAnimation(child);
-                    this.DoAfterDelay(this.jump, 1500);
-                    this.DoAfterDelay(() =>
+                    this.LogTrace($"Playing jump-around game");
+                    this.FixChildControllers();
+
+                    foreach (var child in this.childrenToPlayWith)
                     {
-                        this.child1ParkedTile = null;
-                        this.PlayGame();
-                    }, 3500);
+                        this.childParkedTiles[child] = child.TilePoint;
+                    }
+
+                    this.childrenToPlayWith[0].doEmote(heartEmote);
+                    DoToddlerArmFlapAnimation(this.childrenToPlayWith[0]);
+                    if (this.childrenToPlayWith.Count > 1)
+                    {
+                        this.DoAfterDelay(() =>
+                        {
+                            this.childrenToPlayWith[1].doEmote(happyEmote);
+                            this.childrenToPlayWith[1].jump(6);
+                        }, 500);
+                    }
+
+                    this.jump();
+                    this.DoAfterDelay(this.Meep, 500);
+                    this.DoAfterDelay(this.jump, 1500);
+                    this.DoAfterDelay(this.PlayGame, 3500);
                 }
                 void CircleRun()
                 {
+                    this.LogTrace($"Playing circle-run game");
                     var junimoStartingTile = this.TilePoint;
                     int numAtDestination = 0;
                     void endGame()
                     {
                         ++numAtDestination;
-                        if (numAtDestination == 2)
+                        if (numAtDestination == 1 + this.childrenToPlayWith.Count)
                         {
                             this.DoAfterDelay(this.PlayGame, 1000);
                         }
-                        // ELSE TODO: Perhaps we should add a timer so if the other player gets stuck, we reset and choose a new play spot.
                     };
                     this.controller = null;
+                    // Junimo starts in lower center of area
+                    // NOTE: Paths are in reverse order!
+                    this.Meep();
                     this.controller = new PathFindController(new Stack<Point>([
-                            junimoStartingTile + new Point(0, 0),
-                            junimoStartingTile + new Point(0, -1),
-                            junimoStartingTile + new Point(2, -1),
-                            junimoStartingTile + new Point(2, 0),
+                            junimoStartingTile,
+                            junimoStartingTile + new Point(1, 0),
+                            junimoStartingTile + new Point(1, -1),
+                            junimoStartingTile + new Point(-1, -1),
+                            junimoStartingTile + new Point(-1, 0),
                         ]), this, this.currentLocation);
                     this.controller.endPoint = junimoStartingTile;
                     this.controller.finalFacingDirection = 0 /* up */;
                     this.controller.endBehaviorFunction = (_, _) => endGame();
 
-                    var child = this.childToPlayWith!;
-                    var childStartingTile = child.TilePoint;
-                    child.Speed = 3; // Normally the child cruises at 5.  Setting this seems sketch.  Perhaps it should be unset at the end?
-                    child.controller = null;
-                    child.controller = new PathFindController(new Stack<Point>([
-                            childStartingTile + new Point(0, 0),
-                            childStartingTile + new Point(1, 0),
-                            childStartingTile + new Point(1, 1),
-                            childStartingTile + new Point(-1, 1),
-                            childStartingTile + new Point(-1, 0),
-                        ]), this.childToPlayWith, this.currentLocation);
-                    child.controller.finalFacingDirection = 2 /* down */;
-                    child.controller.endPoint = childStartingTile;
-                    this.child1Controller = child.controller;
-                    child.controller.endBehaviorFunction = (_, _) =>
+                    foreach (var child in this.childrenToPlayWith)
                     {
-                        this.child1Controller = null;
-                        endGame();
-                    };
+                        var childStartingTile = child.TilePoint;
+                        child.Speed = 3; // Normally the child cruises at 5.  Setting this seems sketch.  Perhaps it should be unset at the end?
+                        child.controller = null;
+                        var path = new Stack<Point>(child == this.childrenToPlayWith.First()
+                            ? [
+                                childStartingTile,
+                                childStartingTile + new Point(0, 1),
+                                childStartingTile + new Point(2, 1),
+                                childStartingTile + new Point(2, 0), // starts upper left corner
+                            ]
+                            : [
+                                childStartingTile,
+                                childStartingTile + new Point(-2, 0),
+                                childStartingTile + new Point(-2, 1),
+                                childStartingTile + new Point(0, 1), // starts upper right corner
+                            ]);
+
+                        child.controller = new PathFindController(path, child, this.currentLocation);
+                        child.controller.finalFacingDirection = 2 /* down */;
+                        child.controller.endPoint = childStartingTile;
+                        child.controller.endBehaviorFunction = (_, _) =>
+                        {
+                            this.childControllers.Remove(child);
+                            this.childParkedTiles[child] = child.TilePoint;
+                            endGame();
+                        };
+                    }
+                    this.FixChildControllers();
                 }
                 void BallHunt()
                 {
-                    // 30 tries...
+                    // 5 tries to find a place
+                    this.LogTrace($"Playing ball-hunt game");
                     for (int i = 0; i < 5 && this.gameBall is null; ++i)
                     {
                         var fh = (FarmHouse)this.currentLocation;
@@ -173,16 +249,21 @@ namespace NermNermNerm.Junimatic
                             var controller = new PathFindController(this, this.currentLocation, openPoint, 0);
                             if (controller.pathToEndPoint is not null)
                             {
+                                this.FixChildControllers(); // Parks the children in their current position while the ball is bouncing
                                 this.gameBall = new GameBall(this.currentLocation, this.Tile.ToPoint() + new Point(1, 0), openPoint, () =>
                                 {
-                                    this.child1ParkedTile = this.childToPlayWith!.Tile.ToPoint();
-                                    this.child1ParkedTile = null;
-                                    this.controller = controller;
-                                    // Consider adding some kind of dither where the players run a few tiles in random directions before
-                                    // bee-lining it to the ball.
-                                    GoTo(this.childToPlayWith!, openPoint, () => { });
+                                    this.controller = controller; // Send the Junimo on its way.
+                                    foreach (var child in this.childrenToPlayWith)
+                                    {
+                                        child.Speed = Game1.random.Next(3) + 2;
+                                        // Consider adding some kind of dither where the players run a few tiles in random directions before
+                                        // bee-lining it to the ball.
+                                        GoTo(child, openPoint, () => { });
+                                    }
+                                    this.FixChildControllers();
                                 });
-                                this.currentLocation.addCritter(this.gameBall);
+                                this.currentLocation.instantiateCrittersList(); // <- only does something if the critters list is non-existent.
+                                this.currentLocation.addCritter(this.gameBall); // <- if the critters list doesn't exist, this will do nothing.
                             }
                         }
                     }
@@ -194,22 +275,42 @@ namespace NermNermNerm.Junimatic
                     }
                 }
 
-                var distance = child.Tile - this.Tile;
-                if (Math.Abs(distance.X) > 1 || Math.Abs(distance.Y) > 1)
+                if (this.childrenToPlayWith.Any(c => Math.Abs(c.Tile.X - this.Tile.X) > 1 || Math.Abs(c.Tile.Y - this.Tile.Y) > 1))
                 {
-                    this.LogInfo($"{child.Name} and the Junimo got separated.  Picking a new place to play.");
+                    this.LogInfo($"The child(ren) and the Junimo got separated.  Picking a new place to play.");
                     this.FindNewSpot();
                 }
                 else
                 {
-                    Game1.random.Choose(JumpAround, CircleRun, this.FindNewSpot, BallHunt)();
+                    Game1.random.Choose(JumpAround, JumpAround, JumpAround, CircleRun, CircleRun, CircleRun, CircleRun, BallHunt, BallHunt, this.FindNewSpot)();
                 }
             }
         }
 
+        /// <summary>
+        ///   Make sure children's controllers don't get reset from where they are now.
+        /// </summary>
+        private void FixChildControllers()
+        {
+            this.childControllers.Clear();
+            this.childParkedTiles.Clear();
+            foreach (var c in this.childrenToPlayWith)
+            {
+                if (c.controller is null)
+                {
+                    this.childParkedTiles[c] = c.TilePoint;
+                }
+                else
+                {
+                    this.childControllers[c] = c.controller;
+                }
+            }
+        }
+
+
         private void FindNewSpot()
         {
-            var child = this.childToPlayWith!;
+            this.LogTrace($"Finding a new place to play");
             var fh = (FarmHouse)this.currentLocation;
             // getRandomOpenPointInHouse returns the center of a 3x3 square of clear area
             var openPoint = fh.getRandomOpenPointInHouse(Game1.random, buffer: 1, tries: 100);
@@ -220,30 +321,11 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            int numAtDestination = 0;
-            void endGame()
-            {
-                ++numAtDestination;
-                if (numAtDestination == 2)
-                {
-                    this.DoAfterDelay(this.PlayGame, 1000);
-                }
-                // ELSE TODO: Perhaps we should add a timer so if the other player gets stuck, we reset and choose a new play spot
-            };
-
-            this.GoTo(openPoint + new Point(-1, 0), endGame);
-            GoTo(this.childToPlayWith!, openPoint + new Point(0, -1), () => { this.child1Controller = null; endGame(); });
-            if (this.controller is null || this.controller.pathToEndPoint is null || child.controller is null || child.controller.pathToEndPoint is null)
+            if (!this.TryGoToNewPlayArea(openPoint))
             {
                 this.LogInfo($"Either the child or the Junimo can't reach the next play point.");
-                this.controller = null;
-                child.controller = null;
-                this.DoAfterDelay(this.PlayGame, 1000);
-                return;
+                this.DoAfterDelay(this.FindNewSpot, 1000);
             }
-
-            child.controller.finalFacingDirection = 2 /* down */;
-            this.child1Controller = child.controller;
         }
 
         public override void update(GameTime time, GameLocation location)
@@ -264,9 +346,7 @@ namespace NermNermNerm.Junimatic
                     this.noFarmersOnLastUpdate = false;
                     // Farmer just arrived - Reset play.
 
-                    // I think this is guaranteed to be correct because the game puts children in the center of a 3x3 clear area.
-                    this.Position = (this.Tile + new Vector2(-1, 1)) * 64;
-                    this.OnArrivedAtChild();
+                    this.FindNewSpot();
                     return;
                 }
             }
@@ -301,52 +381,68 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            if (this.gameBall is not null)
+            if (this.gameBall is not null && this.gameBall.IsLanded)
             {
-                float junimoDistance = Math.Max(Math.Abs(this.Position.X - this.gameBall.endingPosition.X), Math.Abs(this.Position.Y - this.gameBall.endingPosition.Y));
-                float childDistance = Math.Max(Math.Abs(this.childToPlayWith!.Position.X - this.gameBall.endingPosition.X), Math.Abs(this.childToPlayWith!.Position.Y - this.gameBall.endingPosition.Y));
-                if (junimoDistance <= 64 || childDistance <= 64)
+                float roughDistance(Vector2 v1, Vector2 v2) => Math.Max(Math.Abs(v1.X - v2.X), Math.Abs(v1.Y - v2.Y));
+
+                float junimoDistance = roughDistance(this.Position, this.gameBall.position);
+                Child? winningChild = null;
+                float winningDistance = junimoDistance;
+                foreach (var c in this.childrenToPlayWith)
+                {
+                    float distance = roughDistance(c.Position, this.gameBall.position);
+                    if (distance < winningDistance)
+                    {
+                        winningChild = c;
+                        winningDistance = distance;
+                    }
+                }
+
+                if (winningDistance <= 64)
                 {
                     UnlockFishing.MakePoof(this.gameBall.position / 64, 1F);
+                    this.currentLocation.playSound("dwoop");
                     this.currentLocation.critters.Remove(this.gameBall);
                     this.gameBall = null;
 
-                    if (junimoDistance < childDistance)
+                    this.doEmote(winningChild is null ? exclamationEmote : angryEmote);
+                    foreach (var c in this.childrenToPlayWith)
                     {
-                        this.doEmote(16 /* bang emote */);
-                        this.childToPlayWith!.doEmote(12 /* angry emote */);
+                        c.doEmote(c == winningChild ? exclamationEmote : angryEmote);
                     }
-                    else
-                    {
-                        this.childToPlayWith!.doEmote(16 /* bang emote */);
-                        this.doEmote(12 /* angry emote */);
-                    }
+
                     this.DoAfterDelay(this.FindNewSpot, 1500);
                 }
             }
 
-            if (this.childToPlayWith is not null && this.child1ParkedTile is not null && this.childToPlayWith.controller is not null)
+            foreach (var c in this.childrenToPlayWith)
             {
-                this.LogWarning($"{this.childToPlayWith.Name} tried to run off - clearing the controller."); // TODO Verbose
-                this.childToPlayWith.controller = null;
-                this.childToPlayWith.Position = this.child1ParkedTile.Value.ToVector2() * 64;
+                if (this.childParkedTiles.TryGetValue(c, out var tileParkedAt) && c.controller is not null && c.TilePoint != c.controller.endPoint)
+                {
+                    this.LogWarning($"{c.Name} tried to run off - clearing the controller."); // TODO Verbose
+                    c.controller = null;
+                    c.Position = tileParkedAt.ToVector2() * 64F;
+                }
             }
 
             bool needsReset = false;
-            if (this.childToPlayWith is not null && this.child1Controller is not null && this.childToPlayWith.controller != this.child1Controller)
+            foreach (var c in this.childrenToPlayWith)
             {
-                if (this.childToPlayWith.controller is null)
+                if (this.childControllers.TryGetValue(c, out var assignedController) && c.controller != assignedController)
                 {
-                    if (this.childToPlayWith.Tile.ToPoint() != this.child1Controller.endPoint)
+                    if (c.controller is null)
                     {
-                        this.LogInfo($"{this.childToPlayWith.Name} can't reach the next spot to play - resetting.");
-                        needsReset = true;
+                        if (c.Tile.ToPoint() != assignedController.endPoint)
+                        {
+                            this.LogInfo($"{c.Name} can't reach the next spot to play - resetting.");
+                            needsReset = true;
+                        }
                     }
-                }
-                else
-                {
-                    this.LogWarning($"Something outside of Junimatic changed {this.childToPlayWith.Name}'s destination - putting it back to the play destination.");
-                    this.childToPlayWith.controller = this.child1Controller;
+                    else
+                    {
+                        this.LogWarning($"Something outside of Junimatic changed {c.Name}'s destination - putting it back to the play destination.");
+                        c.controller = assignedController;
+                    }
                 }
             }
 

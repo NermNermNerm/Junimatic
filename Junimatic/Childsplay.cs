@@ -70,6 +70,12 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
+            if (farmhouse.characters.Any(c => c is JunimoCribPlaymate || c is JunimoToddlerPlaymate))
+            {
+                this.LogInfo($"Can't start playdate because there's one going on already.");
+                return;
+            }
+
             var gameMap = new GameMap(farmhouse);
             foreach (var portal in farmhouse.Objects.Values.Where(o => o.QualifiedItemId == UnlockPortal.JunimoPortalQiid))
             {
@@ -78,7 +84,8 @@ namespace NermNermNerm.Junimatic
                 {
                     if (child.Age == Child.toddler)
                     {
-                        var playmate = new JunimoToddlerPlaymate(tile.ToVector2() * 64, child);
+                        var toddlers = Game1.MasterPlayer.getChildren().Where(c => c.Age == Child.toddler).ToList();
+                        var playmate = new JunimoToddlerPlaymate(tile.ToVector2() * 64, toddlers);
                         if (playmate.TryGoToChild())
                         {
                             farmhouse.characters.Add(playmate);

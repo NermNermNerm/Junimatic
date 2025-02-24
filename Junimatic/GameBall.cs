@@ -12,15 +12,15 @@ namespace NermNermNerm.Junimatic
     {
         private const int BaseballBobberTileSheetIndex = 50;
 
-        private readonly Action doWhenLands;
-        private readonly GameLocation location;
-
         // 10 tiles/second = 640 pixels/second => (640/60) pixels/update-tick ~= 10 pixels/update-tick
         private const float MaxSingleDimensionSpeed = 10; // in pixels/update
 
+        private readonly Action doWhenLands;
+        private readonly GameLocation location;
+        private readonly Vector2 endingPosition;
+
         private int bounceNumber;
 
-        public readonly Vector2 endingPosition;
 
         public GameBall(GameLocation farmHouse, Point startingTile, Point endingTile, Action doWhenLands)
         {
@@ -30,7 +30,7 @@ namespace NermNermNerm.Junimatic
             this.baseFrame = BaseballBobberTileSheetIndex;
             this.endingPosition = endingTile.ToVector2()*64F;
             this.doWhenLands = doWhenLands;
-            this.bounceNumber = 1;
+            this.bounceNumber = 0;
             this.location = farmHouse;
             this.gravityAffectedDY = - this.bounceNumber * 2f; // 7 will yield 1.5 tiles
         }
@@ -44,7 +44,7 @@ namespace NermNermNerm.Junimatic
             if (this.bounceNumber < 5 && this.yJumpOffset >= 0)
             {
                 ++this.bounceNumber;
-                this.gravityAffectedDY = -this.bounceNumber * 3f;
+                this.gravityAffectedDY = -this.bounceNumber * 2.5f;
                 this.location.playSound("dwop");
             }
             else if (this.bounceNumber == 5)
@@ -92,6 +92,8 @@ namespace NermNermNerm.Junimatic
 
             return result;
         }
+
+        public bool IsLanded => this.bounceNumber > 6;
 
         public override void draw(SpriteBatch b)
         {

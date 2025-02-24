@@ -154,11 +154,16 @@ namespace NermNermNerm.Junimatic
             this.FadeOutJunimo();
         }
 
-
-
         protected void DoAfterDelay(Action a, int delayInMs)
         {
-            this.delayedActions.Add(DelayedAction.functionAfterDelay(a, delayInMs));
+            var newAction = DelayedAction.functionAfterDelay(() => { }, delayInMs);
+            newAction.behavior = () =>
+            {
+                this.delayedActions.Remove(newAction);
+                a();
+            };
+
+            this.delayedActions.Add(newAction);
         }
 
         protected void CancelAllDelayedActions()
@@ -170,7 +175,6 @@ namespace NermNermNerm.Junimatic
 
             this.delayedActions.Clear();
         }
-
 
         public void Meep()
         {
