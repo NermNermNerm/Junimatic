@@ -3,6 +3,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Characters;
+using StardewValley.Extensions;
 using StardewValley.Locations;
 
 namespace NermNermNerm.Junimatic
@@ -15,48 +16,80 @@ namespace NermNermNerm.Junimatic
         {
             this.mod = mod;
 
-            this.mod.Helper.Events.GameLoop.OneSecondUpdateTicked += this.GameLoop_OneSecondUpdateTicked;
+            this.mod.Helper.Events.GameLoop.TimeChanged += this.GameLoop_TimeChanged;
             this.mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
+            this.mod.Helper.Events.Player.Warped += this.Player_Warped;
 
             // TODO: Comment this out prior to shipping  Or maybe #if debug?
             this.mod.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
         }
 
+        private void Player_Warped(object? sender, WarpedEventArgs e)
+        {
+
+            if (e.NewLocation is FarmHouse farmHouse
+                && Game1.IsMasterGame
+                && this.IsPlaytime
+                && Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler) // No games for crawlers right now.
+                && !this.IsPlaydateHappening
+                && Game1.random.Next(3) == 0)
+            {
+                // Consider doing a thing where we just plunk all the kids in an open spot so things get started faster.
+                this.LaunchJunimoPlaymate();
+            }
+        }
+
+        private void GameLoop_TimeChanged(object? sender, TimeChangedEventArgs e)
+        {
+            if (Game1.IsMasterGame
+                && this.IsPlaytime
+                && Game1.getAllFarmers().Any(f => f.currentLocation is FarmHouse)
+                && Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler) // No games for crawlers right now.
+                && !this.IsPlaydateHappening
+                && Game1.random.Next(3) == 0) // 1:3 chance of happening
+            {
+                this.LaunchJunimoPlaymate();
+            }
+        }
+
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
         {
             var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
-            farmhouse.characters.RemoveWhere(c => c is JunimoParent || c is JunimoCribPlaymate);
+            farmhouse.characters.RemoveWhere(c => c is JunimoParent || c is JunimoCribPlaymate || c is JunimoToddlerPlaymate);
             farmhouse.critters.RemoveAll(c => c is GameBall);
         }
 
         private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
-            if (e.Button != SButton.O)
+            if (e.Button == SButton.O && e.IsDown(SButton.LeftShift))
             {
-                return;
-            }
-
-            this.LaunchJunimoPlaymate();
-        }
-
-        private void GameLoop_OneSecondUpdateTicked(object? sender, StardewModdingAPI.Events.OneSecondUpdateTickedEventArgs e)
-        {
-            if (Game1.IsMasterGame
-                && Game1.getAllFarmers().Any(f => f.currentLocation is FarmHouse)
-                && Game1.MasterPlayer.getChildrenCount() > 0
-                && this.IsPlaytime
-                && !this.IsAnimationOngoing
-                && this.HasFrequencyLimitPassed
-                && this.ShouldStartAnimation)
-            {
-                this.LaunchJunimoPlaymate();
+                if (!Game1.IsMasterGame)
+                {
+                    this.LogWarning($"Only the master player can start a Junimo playdate");
+                }
+                else if (Game1.timeOfDay >= 1200 + 700)
+                {
+                    this.LogWarning($"Can't start playdates after children's bedtime.");
+                }
+                else if (!Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler))
+                {
+                    this.LogWarning($"No children are available for playdates - (Crawler playdates are not implemented yet, alas).");
+                }
+                else if (this.IsPlaydateHappening)
+                {
+                    this.LogWarning($"Can only do one playdate at a time.");
+                }
+                else
+                {
+                    this.LaunchJunimoPlaymate();
+                }
             }
         }
 
         private void LaunchJunimoPlaymate()
         {
             var children = Game1.MasterPlayer.getChildren();
-            var child = children[0 /* Game1.random.Next(children.Count) */];
+            var child = Game1.random.Choose(children.Where(c => c.Age != Child.crawler).ToArray());
             this.StartPlayDate(child);
         }
 
@@ -64,15 +97,16 @@ namespace NermNermNerm.Junimatic
         {
             var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
             var cribBounds = farmhouse.GetCribBounds();
-            if (cribBounds is null) // Shouldn't happen; but safety first.
-            {
-                this.LogError($"Tried to start a Junimo Playmate to go to the crib, but the crib can't be found?!");
-                return;
-            }
 
             if (farmhouse.characters.Any(c => c is JunimoCribPlaymate || c is JunimoToddlerPlaymate))
             {
                 this.LogInfo($"Can't start playdate because there's one going on already.");
+                return;
+            }
+
+            if (cribBounds is null && child.Age != Child.toddler) // Shouldn't happen; but safety first.
+            {
+                this.LogError($"Tried to start a Junimo Playmate to go to the crib, but the crib can't be found?!");
                 return;
             }
 
@@ -110,21 +144,11 @@ namespace NermNermNerm.Junimatic
         /// <summary>
         ///   True if there's a Junimo hopping about right now.
         /// </summary>
-        private bool IsAnimationOngoing => false;
+        private bool IsPlaydateHappening => Game1.getFarm().GetMainFarmHouse().GetIndoors().characters.Any(c => c is JunimoCribPlaymate || c is JunimoToddlerPlaymate);
 
-        /// <summary>
-        ///   True if the Junimo playmate hasn't been seen in a while.
-        /// </summary>
-        private bool HasFrequencyLimitPassed => false;
 
-        /// <summary>
-        ///   True if this seems like a good time to start the Junimo animation.  This doesn't check other factors like
-        ///   whether there's already one going, it just looks at random chance and maybe how long the player has been
-        ///   in the house.
-        /// </summary>
-        private bool ShouldStartAnimation => false;
-
-        private bool IsPlaytime => Game1.timeOfDay < 1200 + 700; // Kids go to bed at 8
+        private bool IsPlaytime => Game1.timeOfDay < 1200 + 600 // Kids go to bed at 7
+                                   && Game1.timeOfDay > 630; // Don't start playdates right at 6, since the player is likely to leave quickly.
 
         public void WriteToLog(string message, LogLevel level, bool isOnceOnly)
             => this.mod.WriteToLog(message, level, isOnceOnly);
