@@ -137,6 +137,9 @@ namespace NermNermNerm.Junimatic
                     }
                 }
             }
+
+            // TODO: Just move the child when this happens.
+            this.LogInfo($"Couldn't start a playdate because the Child wasn't in a good spot");
         }
 
 
