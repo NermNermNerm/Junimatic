@@ -56,6 +56,14 @@ namespace NermNermNerm.Junimatic
                 setValue: value => Config.AllowShippingArtisan = value,
                 tooltip: () => L("If this is checked, Junimos will take artisan goods to mini-shipping bins.")
             );
+
+            configMenu.AddBoolOption(
+                mod: ModManifest,
+                name: () => L("Allow Playdates"),
+                getValue: () => Config.AllowPlaydates,
+                setValue: value => Config.AllowPlaydates = value,
+                tooltip: () => L("If this is checked, Junimos occasionally pop out of Junimo huts in the house to play with children.")
+            );
         }
     }
 }

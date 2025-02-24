@@ -20,14 +20,14 @@ namespace NermNermNerm.Junimatic
             this.mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
             this.mod.Helper.Events.Player.Warped += this.Player_Warped;
 
-            // TODO: Comment this out prior to shipping  Or maybe #if debug?
+            // Consider removing this or perhaps #if DEBUG
             this.mod.Helper.Events.Input.ButtonPressed += this.Input_ButtonPressed;
         }
 
         private void Player_Warped(object? sender, WarpedEventArgs e)
         {
-
             if (e.NewLocation is FarmHouse farmHouse
+                && ModEntry.Config.AllowPlaydates
                 && Game1.IsMasterGame
                 && this.IsPlaytime
                 && Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler) // No games for crawlers right now.
@@ -42,6 +42,7 @@ namespace NermNermNerm.Junimatic
         private void GameLoop_TimeChanged(object? sender, TimeChangedEventArgs e)
         {
             if (Game1.IsMasterGame
+                && ModEntry.Config.AllowPlaydates
                 && this.IsPlaytime
                 && Game1.getAllFarmers().Any(f => f.currentLocation is FarmHouse)
                 && Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler) // No games for crawlers right now.
