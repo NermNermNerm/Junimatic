@@ -179,7 +179,7 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     IDictionary<string, string> data = editor.AsDictionary<string, string>().Data;
-                    data[MeetLinusMailKey] = SdvMail($"@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus%item quest {MeetLinusInWoodsQuestKey}%%[#]Meet at Linus' camp in the woods");
+                    data[MeetLinusMailKey] = SdvMail($"@,^How are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus%item quest {MeetLinusInWoodsQuestKey}%%[#]Meet at Linus' camp in the woods");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))
