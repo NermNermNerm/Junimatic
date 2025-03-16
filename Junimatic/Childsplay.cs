@@ -44,7 +44,7 @@ namespace NermNermNerm.Junimatic
             if (Game1.IsMasterGame
                 && ModEntry.Config.AllowPlaydates
                 && this.IsPlaytime
-                && Game1.getAllFarmers().Any(f => f.currentLocation is FarmHouse)
+                && Game1.getOnlineFarmers().Any(f => f.currentLocation is FarmHouse)
                 && Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler) // No games for crawlers right now.
                 && !this.IsPlaydateHappening
                 && Game1.random.Next(3) == 0) // 1:3 chance of happening
@@ -57,7 +57,7 @@ namespace NermNermNerm.Junimatic
         {
             var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
             farmhouse.characters.RemoveWhere(c => c is JunimoParent || c is JunimoCribPlaymate || c is JunimoToddlerPlaymate);
-            farmhouse.critters.RemoveAll(c => c is GameBall);
+            farmhouse.critters?.RemoveAll(c => c is GameBall);
         }
 
         private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
