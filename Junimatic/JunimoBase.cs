@@ -45,6 +45,15 @@ namespace NermNermNerm.Junimatic
         public JunimoBase(GameLocation currentLocation, Color color, AnimatedSprite sprite, Vector2 position, int facingDir, string name, LocalizedContentManager? content = null)
             : base(sprite, position, facingDir, name, content)
         {
+            // NOTES ON NAME!
+            //  You wouldn't think it'd be a big deal...  but actually...
+            //
+            //  1. There's code in FarmHouse that deletes all "non-unique" NPC's, where "Unique" is
+            //     based on having the same name.
+            //  2. There's code in GameLocation.isCollidingPosition that makes it so that a tile is
+            //     considered "blocked" if it has a property, "NPCBarrier" set on it...  UNLESS the
+            //     NPC's name happens to contain "NPC".  Yep, really.
+
             this.color.Value = color;
             this.currentLocation = currentLocation;
             this.Breather = false;
@@ -57,11 +66,6 @@ namespace NermNermNerm.Junimatic
             this.SimpleNonVillagerNPC = true;
             this.alpha = 0;
             this.alphaChange = 0.05f;
-
-            // There's code in FarmHouse.resetSharedState that deletes all duplicate characters for some reason, where duplicate is
-            // defined as both by reference and by *NAME*.  It's not made clear why this is done.  Since we don't have more than one
-            // of a given color Junimo visible at any one time, this happens to work to make that code not cause a problem.
-            this.Name = IF($"Junimo{color}");
         }
 
         /// <summary>

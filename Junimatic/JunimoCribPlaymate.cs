@@ -31,7 +31,7 @@ namespace NermNermNerm.Junimatic
         }
 
         public JunimoCribPlaymate(Vector2 startingPoint, Child child)
-            : base(child.currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
+            : base(child.currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, IF($"NPC_Junimo_Playmate"))
         {
             this.Scale = 0.6f; // regular ones are .75
             this.childToPlayWith = child;

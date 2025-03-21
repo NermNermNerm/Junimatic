@@ -46,7 +46,7 @@ namespace NermNermNerm.Junimatic
         }
 
         public JunimoToddlerPlaymate(Vector2 startingPoint, IReadOnlyList<Child> children)
-            : base(children[0].currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
+            : base(children[0].currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("NPC_Junimo_ToddlerPlaymate"))
         {
             this.Scale = 0.6f; // regular ones are .75
             this.childrenToPlayWith = children;

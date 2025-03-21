@@ -18,7 +18,7 @@ namespace NermNermNerm.Junimatic
         }
 
         public JunimoParent(FarmHouse location, Vector2 startingPoint)
-            : base(location, Color.MediumOrchid/* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("Junimo"))
+            : base(location, Color.MediumOrchid/* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("NPC_Junimo_Parent"))
         {
             this.LogTrace($"Junimo parent created");
         }

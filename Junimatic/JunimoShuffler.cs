@@ -42,7 +42,7 @@ namespace NermNermNerm.Junimatic
 
         public JunimoShuffler(JunimoAssignment assignment, WorkFinder workFinder)
             : base(assignment.hut.Location, GetJunimoColorForAssignment(assignment),
-                  new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), assignment.origin.ToVector2()*64, 2, I("Junimo"))
+                  new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), assignment.origin.ToVector2()*64, 2, IF($"NPC_Junimo_{assignment.projectType}"))
         {
             this.Assignment = assignment;
             this.controller = new PathFindController(this, assignment.hut.Location, assignment.source.AccessPoint, 0, this.JunimoReachedSource);
