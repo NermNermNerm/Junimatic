@@ -226,40 +226,50 @@ namespace NermNermNerm.Junimatic
         /// the chest didn't contain all the things on the list</returns>
         public bool TryFulfillShoppingList(List<Item> shoppingList, Inventory toteBag)
         {
-            // Ensure enough stuff exists
             var chestInventory = this.RawInventory;
-            foreach (var item in shoppingList)
+
+            // Define a function that ensures that the quantity-testing method is exactly the same as the item-removal method.
+            bool isSameItem(Item listItem, Item? chestItem)
+                => chestItem is not null && chestItem.Stack > 0 && chestItem.ItemId == listItem.ItemId && chestItem.Quality == listItem.Quality;
+
+            // Ensure enough stuff exists - we do this check beforehand because we want it to be an all-or-nothing result and not leave
+            //  the list partially fulfilled.
+            foreach (var shoppingListEntry in shoppingList)
             {
-                if (chestInventory.Where(i => i?.ItemId == item.ItemId).Select(i => i.Stack).DefaultIfEmpty().Sum() < item.Stack)
+                if (chestInventory.Where(i => isSameItem(shoppingListEntry, i)).Select(i => i.Stack).DefaultIfEmpty().Sum() < shoppingListEntry.Stack)
                 {
                     return false;
                 }
             }
 
-            // Pull the stuff out of the chest's inventory
-            foreach (var item in shoppingList)
+            // Actually transfer the stuff from the chest to the Junimo's inventory (toteBag)
+            foreach (var shoppingListEntry in shoppingList)
             {
-                int leftToRemove = item.Stack;
+                int numLeft = shoppingListEntry.Stack;
                 Item template = null!; // The while loop is guaranteed to be run once because leftToRemove will always be > 1
-                while (leftToRemove > 0)
+                while (numLeft > 0)
                 {
-                    var first = chestInventory.First(i => i is not null && i.Stack > 0 && i.ItemId == item.ItemId && i.Quality == item.Quality);
+                    var firstMatchingStack = chestInventory.FirstOrDefault(i => isSameItem(shoppingListEntry, i));
+                    if ( firstMatchingStack is null)
+                    {
+                        throw new InvalidOperationException(IF($"Somehow the chest no longer contains the requested shopping list item, '{shoppingListEntry.DisplayName}', quantity={shoppingListEntry.Stack}"));
+                    }
 
-                    var forBag = first.getOne();
-                    forBag.Stack = Math.Min(item.Stack, leftToRemove);
+                    var forBag = firstMatchingStack.getOne();
+                    forBag.Stack = Math.Min(shoppingListEntry.Stack, numLeft);
                     toteBag.Add(forBag);
 
-                    if (first.Stack > item.Stack)
+                    if (firstMatchingStack.Stack > shoppingListEntry.Stack)
                     {
-                        first.Stack -= leftToRemove;
-                        leftToRemove = 0;
+                        firstMatchingStack.Stack -= numLeft;
+                        numLeft = 0;
                     }
                     else
                     {
-                        leftToRemove -= first.Stack;
-                        chestInventory.Remove(first);
+                        numLeft -= firstMatchingStack.Stack;
+                        chestInventory.Remove(firstMatchingStack);
                     }
-                    template = first;
+                    template = firstMatchingStack;
                 }
             }
 
