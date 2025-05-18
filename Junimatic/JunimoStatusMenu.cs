@@ -115,63 +115,56 @@ namespace NermNermNerm.Junimatic
             if (slot is not null)
             {
                 // Bat-spit-crazy stuff to replicate what's in InventoryMenu.leftClick
-                int num = Convert.ToInt32(slot.name);
-                Item? slotItem = this.ItemsToGrabMenu.actualInventory[num];
+                int indexOfSelectedItemInShinyList = Convert.ToInt32(slot.name);
+                Item? itemInShinyMenu = this.ItemsToGrabMenu.actualInventory[indexOfSelectedItemInShinyList];
                 // end bsc
 
                 bool shinyListChanged = false;
-                if (base.heldItem is not null && slotItem is null)
+                if (base.heldItem is not null && itemInShinyMenu is null)
                 {
                     if (base.heldItem.Stack > 1)
                     {
-                        slotItem = base.heldItem.getOne();
+                        Utility.addItemToInventory(base.heldItem.getOne(), indexOfSelectedItemInShinyList, this.ItemsToGrabMenu.actualInventory, this.ItemsToGrabMenu.onAddItem);
                         --base.heldItem.Stack;
                     }
                     else
                     {
-                        slotItem = base.heldItem;
+                        Utility.addItemToInventory(base.heldItem, indexOfSelectedItemInShinyList, this.ItemsToGrabMenu.actualInventory, this.ItemsToGrabMenu.onAddItem);
                         base.heldItem = null;
                     }
                     shinyListChanged = true;
                 }
-                else if (base.heldItem is not null && slotItem is not null)
+                else if (base.heldItem is not null && itemInShinyMenu is not null)
                 {
                     if (base.heldItem.Stack == 1)
                     {
-                        var hold = base.heldItem;
-                        base.heldItem = slotItem;
-                        slotItem = hold;
+                        Utility.removeItemFromInventory(indexOfSelectedItemInShinyList, this.ItemsToGrabMenu.actualInventory);
+                        Utility.addItemToInventory(itemInShinyMenu, indexOfSelectedItemInShinyList, this.ItemsToGrabMenu.actualInventory, this.ItemsToGrabMenu.onAddItem);
+                        // Above two lines are probably no different than:
+                        // this.ItemsToGrabMenu.actualInventory[indexOfSelectedItemInShinyList] = base.heldItem;
+
+                        base.heldItem = itemInShinyMenu;
                         shinyListChanged = true;
                     }
                     // else can't exchange - it'd create 3 stacks
                 }
-                else if (base.heldItem is null && slotItem is not null)
+                else if (base.heldItem is null && itemInShinyMenu is not null) // no item in-hand and clicking on a full slot.
                 {
-                    if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(slotItem))
+                    if (Game1.oldKBState.IsKeyDown(Keys.LeftShift) && Game1.player.addItemToInventoryBool(itemInShinyMenu))
                     {
                         // nothing to do in here, addItem made the magic happen already.
                     }
                     else
                     {
-                        base.heldItem = slotItem;
+                        base.heldItem = itemInShinyMenu;
                     }
-                    slotItem = null;
+
+                    Utility.removeItemFromInventory(indexOfSelectedItemInShinyList, this.ItemsToGrabMenu.actualInventory);
                     shinyListChanged = true;
                 }
 
                 if (shinyListChanged)
                 {
-                    // begin bsc
-                    if (slotItem is null)
-                    {
-                        Utility.removeItemFromInventory(num, this.ItemsToGrabMenu.actualInventory);
-                    }
-                    else
-                    {
-                        Utility.addItemToInventory(slotItem, num, this.ItemsToGrabMenu.actualInventory, this.ItemsToGrabMenu.onAddItem);
-                    }
-                    // end bsc
-
                     this.owner.OnPlayerChangedShinyList(this.ItemsToGrabMenu.actualInventory.Where(i => i is not null));
                     Game1.playSound("dwop");
                 }
