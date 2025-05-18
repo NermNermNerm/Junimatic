@@ -1,0 +1,1182 @@
+// Do not manually edit this file!  Follow these instructions to import changes:
+// https://github.com/NermNermNerm/LocalizeFromSource?tab=readme-ov-file#ingesting-translations
+{
+  "translations": [
+    {
+      "source": "You've been to the mines I see...  Your grandfather did too, even after his mind began to go.  I worried for him, but there was no stopping him.$0#$b#Then one day he came to me, shaken to the core.  He sobbed 'A big slime ate my friend!' but I know he went to the mines alone...$2#$b#He kept going on like that for several days.  I felt terrible for him, because although *I* knew it wasn't real, it was real enough to him.$0#$b#He never went back to the mines; that was very much for the best.$2",
+      "translation": "Tôi thấy anh đã từng đến mỏ... Ông của anh cũng vậy, ngay cả sau khi tâm trí ông bắt đầu mất kiểm soát. Tôi lo lắng cho ông, nhưng không có cách nào ngăn cản ông.$0#$b# Rồi một ngày ông đến với tôi, run rẩy đến tận xương tủy. Ông nức nở 'Một con chất nhờn lớn đã ăn mất bạn tôi!' nhưng tôi biết ông đã đến mỏ một mình...$2#$b# Ông cứ tiếp tục như vậy trong nhiều ngày. Tôi cảm thấy tệ cho ông, bởi vì mặc dù *tôi* biết điều đó không có thật, nhưng nó đủ thực với ông.$0#$b# Ông không bao giờ quay lại mỏ nữa; điều đó rất tốt.$2",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "= $ Shiny things $ =",
+      "translation": "= $ Những thứ sáng bóng $ =",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos won't put items with equal or better quality\nthan these items into machines or shipping bins.",
+      "translation": "Junimos sẽ không cho những sản phẩm có chất lượng ngang bằng hoặc tốt hơn những sản phẩm này vào máy hoặc thùng vận chuyển.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos work anywhere",
+      "translation": "Junimos làm việc ở bất cứ đâu",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Normally Junimos only work where there are no villagers or monsters, as they are shy.  Turning this on allows Junimo portals to work anywhere.",
+      "translation": "Thông thường Junimo chỉ hoạt động ở nơi không có dân làng hoặc quái vật vì chúng rất nhút nhát. Bật tính năng này cho phép cổng Junimo hoạt động ở bất cứ đâu.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "No Questing",
+      "translation": "Không có nhiệm vụ",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Normally quests are required to unlock the Junimos; setting this just enables all the junimos.  To get started, craft a 'Junimo Portal' and place it down.",
+      "translation": "Thông thường, nhiệm vụ là cần thiết để mở khóa Junimos; thiết lập này chỉ kích hoạt tất cả các Junimos. Để bắt đầu, hãy chế tạo một 'Cổng Junimo' và đặt nó xuống.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Allow Shipping",
+      "translation": "Cho phép vận chuyển",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "If this is checked, Junimos will take artisan goods to mini-shipping bins.",
+      "translation": "Nếu điều này được chọn, Junimos sẽ chuyển hàng thủ công đến các thùng vận chuyển nhỏ.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Allow Playdates",
+      "translation": "Cho phép chơi cùng nhau",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "If this is checked, Junimos occasionally pop out of Junimo huts in the house to play with children.",
+      "translation": "Nếu điều này được kiểm tra, thỉnh thoảng Junimos sẽ xuất hiện từ những túp lều Junimo trong nhà để chơi với trẻ em.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I wonder what {{arg0}} has been up to...",
+      "translation": "Tôi tự hỏi {{arg0}} đã làm gì...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Pets sometimes have an uncanny ability to spot missing things!$0#$b#Just last week I lost my favorite milking bucket.  I came across it a few days later and my cat, Muffin, was sleeping in it.$1#$b#Well, I guess she didn't exactly find it for me, but at least she knew where it was!$0",
+      "translation": "Thú cưng đôi khi có khả năng kỳ lạ trong việc phát hiện ra những thứ bị mất!$0#$b#Tuần trước, tôi đã làm mất chiếc xô đựng sữa yêu thích của mình. Vài ngày sau, tôi tìm thấy nó và con mèo của tôi, Muffin, đang ngủ trong đó.$1#$b#Ờ, tôi đoán là nó không thực sự tìm thấy nó cho tôi, nhưng ít nhất thì nó biết nó ở đâu!$0",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Do I miss my \"normal\" life on days like this?$2#$b#No, not really.  Except for Jeremy Clarkson...$1#$b#...My pet Schnauzer.  He had an uncanny ability to fetch the thing I wanted before I even knew I wanted it.$0",
+      "translation": "Tôi có nhớ cuộc sống \"bình thường\" của mình vào những ngày như thế này không?$2#$b#Không, thực ra là không. Ngoại trừ Jeremy Clarkson...$1#$b#...Chú chó Schnauzer cưng của tôi. Nó có khả năng kỳ lạ là lấy được thứ tôi muốn trước cả khi tôi biết mình muốn nó.$0",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimatic",
+      "translation": "Junimatic",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "That's not a chicken.",
+      "translation": "Đó không phải là con gà.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I wonder if it's lost and can't find its way home...  It seems distressed.",
+      "translation": "Tôi tự hỏi liệu nó có bị lạc và không tìm được đường về nhà không... Nó có vẻ rất đau khổ.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Maybe a Junimo Portal would help it find its way home.",
+      "translation": "Có lẽ Cổng Junimo sẽ giúp nó tìm được đường về nhà.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "That wasn't a chicken...  was it?$2#$b#Your grandfather had some little houses like that on his farm.  He said they were for his 'helpers'.  But as he declined, he was prone to say, well, a lot of stuff....$2#$b#I suppose I caught a glimpse of them from time to time, but, well...  I think I'm more comfortable not seeing them.$3#$b#You say they're good creatures?  Well...  Okay.  *Something* was sure keeping that farm in trim when your Grandad was declining.$2#$b#I suppose everybody needs a little magic in their lives from time to time.$0",
+      "translation": "Đó không phải là một con gà... phải không?$2#$b#Ông nội của bạn có một số ngôi nhà nhỏ như thế trên trang trại của ông. Ông ấy nói rằng chúng dành cho những 'người giúp việc' của ông. Nhưng khi ông ấy từ chối, ông ấy có xu hướng nói, ừm, rất nhiều thứ....$2#$b#Tôi cho rằng tôi đã thoáng thấy chúng thỉnh thoảng, nhưng, ừm... Tôi nghĩ rằng tôi thoải mái hơn khi không nhìn thấy chúng.$3#$b#Bạn nói chúng là những sinh vật tốt? Vâng... Được rồi. *Một cái gì đó* chắc chắn đã giữ cho trang trại đó gọn gàng khi Ông nội của bạn đang suy yếu.$2#$b#Tôi cho rằng mọi người đều cần một chút phép thuật trong cuộc sống của họ thỉnh thoảng.$0",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Thank you for helping our friend get home...",
+      "translation": "Cảm ơn bạn đã giúp bạn của chúng tôi về nhà...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I can help you, like I helped your Grandfather...",
+      "translation": "Tôi có thể giúp bạn, giống như tôi đã giúp Ông nội của bạn...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I like animals and the wonderful things you can make with their help...",
+      "translation": "Tôi thích động vật và những điều tuyệt vời bạn có thể làm được với sự giúp đỡ của chúng...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Hello @!  Are you missing any chickens?  I think one might have run off!",
+      "translation": "Xin chào @! Bạn có thiếu con gà nào không? Tôi nghĩ có thể một con đã chạy mất!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I saw it across the river to the south of my farm!  I went over to try and round it up, but it ran away from me!$2#$b#Maybe it would come to you if you went down there and called it!",
+      "translation": "Tôi thấy nó bên kia sông, phía nam trang trại của tôi! Tôi đã đi qua để cố gắng gom nó lại, nhưng nó đã chạy mất!$2#$b#Có thể nó sẽ đến với bạn nếu bạn xuống đó và gọi nó!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Oof! I need to be getting back! Anyway, I hope you can wrangle it back home!  Bye now!  Don't be a stranger!",
+      "translation": "Ồ! Tôi phải quay lại thôi! Dù sao thì, tôi hy vọng bạn có thể giải quyết ổn thỏa mọi chuyện ở nhà! Tạm biệt nhé! Đừng làm người lạ nhé!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Chicken Round-Up",
+      "translation": "Gà Round-Up",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Marnie thinks one of your chickens has escaped and is in the forest south of her farm; you should investigate.",
+      "translation": "Marnie nghĩ rằng một trong những con gà của bạn đã trốn thoát và đang ở trong khu rừng phía nam trang trại của cô ấy; bạn nên điều tra.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Enter the Cindersap Forest during the day.",
+      "translation": "Đi vào Rừng Cindersap vào ban ngày.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Help the Junimo Go Home",
+      "translation": "Giúp Junimo về nhà",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Help the Junimo in the Cindersap Forest get home.",
+      "translation": "Giúp Junimo trong Rừng Cindersap trở về nhà.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Enter the Cindersap Forest during the day with a Junimo Portal in your inventory.",
+      "translation": "Vào Rừng Cindersap vào ban ngày với Cổng Junimo trong hành trang của bạn.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos will work with animal-related machines like cheese presses, looms and mayonnaise machines.",
+      "translation": "Junimos sẽ làm việc với các loại máy liên quan đến động vật như máy ép pho mát, máy dệt và máy làm sốt mayonnaise.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Crops Junimo",
+      "translation": "Cây trồng Junimo",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "We love giant crops!  Please keep growing them!",
+      "translation": "Chúng tôi thích cây trồng khổng lồ! Hãy tiếp tục trồng chúng nhé!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "One of us will come and help with your kegs, casks and preserves jars if you connect them to a portal!",
+      "translation": "Một trong số chúng tôi sẽ đến và giúp bạn vận chuyển thùng, thùng gỗ và lọ đựng đồ bảo quản nếu bạn kết nối chúng với một cổng thông tin!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Did you ever see the giant crops your Granddad used to grow?  Crazy big pumpkins.#$b#Abby campaigned for me to buy one every year.  I think she wanted me to buy one so she could carve out a house for herself.$1",
+      "translation": "Bạn đã bao giờ nhìn thấy những vụ mùa khổng lồ mà Ông nội bạn từng trồng chưa? Những quả bí ngô to khủng khiếp.#$b#Abby đã vận động tôi mua một quả mỗi năm. Tôi nghĩ cô ấy muốn tôi mua một quả để cô ấy có thể tự xây nhà cho mình.$1",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Has Abby been needling you about growing giant pumpkins?$4#$b#Don't do it, really, there's no money in it.  Quantity is good, sure, but the quality isn't.$2#$b#Your grandpa grew them in his declining years in particular.  He said 'my helpers like them'.  Not sure what he meant by that, but he really enjoyed them that made it worth it to him!$1",
+      "translation": "Abby có thúc giục bạn trồng bí ngô khổng lồ không?$4#$b#Đừng làm thế, thực sự là không kiếm được tiền đâu. Số lượng thì tốt, chắc chắn rồi, nhưng chất lượng thì không.$2#$b#Ông nội của bạn đã trồng chúng trong những năm tháng cuối đời. Ông ấy nói 'những người giúp việc của tôi thích chúng'. Không chắc ông ấy có ý gì khi nói vậy, nhưng ông ấy thực sự thích chúng nên điều đó xứng đáng với ông ấy!$1",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
+      "translation": "Khi bạn còn là một đứa trẻ đến thăm trang trại, bạn đã bao giờ nhìn thấy bất kỳ cây súp lơ khổng lồ nào mà ông nội bạn trồng chưa? Ý tôi là rất lớn! khổng lồ! $1#$b#Tôi chỉ được nhìn thấy chúng một lần mà tôi có thể nhớ lại khi mẹ tôi đưa tôi xuống đó vào một buổi chiều. #$b#Tôi trèo lên một cây như trèo lên một cái cây và mẹ tôi đã rất lo lắng. #$b#Ông nội của bạn đã kéo tôi xuống và nói với mẹ tôi đừng lo lắng vì những sinh vật kỳ diệu sẽ bảo vệ tôi. #$b#Tôi không biết tại sao, tôi đoán là vì tôi chỉ là một đứa trẻ, nhưng tôi cảm thấy thực sự đặc biệt trong một thời gian dài sau ngày hôm đó.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn't buy one and your grandad invented this cock&bull story about magical creatures.$5#$b#Didn't he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2",
+      "translation": "Ông nội của bạn đã từng trồng những quả bí ngô khổng lồ này. Tôi thực sự muốn khắc một trong những thứ đó.$1#$b#Nhưng mẹ tôi không mua một quả và ông nội của bạn đã bịa ra câu chuyện vớ vẩn này về những sinh vật kỳ diệu.$5#$b#Ông ấy không biết tôi đã quá già để kể những câu chuyện như thế sao? Ờ. Tôi đoán là tôi nên thông cảm cho ông ấy vì ông ấy đã già và lú lẫn.$2#$b#Vậy thì... Bạn có muốn nghe thêm về bất kỳ vấn đề nào của thế giới thứ nhất của tôi không?$2",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos will work with crop-related machines like Kegs",
+      "translation": "Junimos sẽ làm việc với các máy móc liên quan đến cây trồng như thùng ủ",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Enables the fishing Junimo - Enables the Junimo for handling fishing things with or without having done the quest.",
+      "translation": "Cho phép Junimo câu cá - Cho phép Junimo xử lý các hoạt động câu cá có hoặc không có nhiệm vụ.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "{{arg0}} of 6 teleported",
+      "translation": "{{arg0}} trong số 6 đã dịch chuyển",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "You've made a new Junimo friend that will help with traps and fishing-related machines",
+      "translation": "Bạn đã kết bạn với một người bạn Junimo mới, người sẽ giúp bạn với các loại bẫy và máy móc liên quan đến câu cá",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "@!  I'm so glad you came!",
+      "translation": "@! Tôi rất vui vì bạn đã đến!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Please come to the mines with me.  There's something I have to show you!",
+      "translation": "Xin hãy đi cùng tôi đến mỏ. Tôi có thứ này muốn cho bạn xem!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I had been having these recurring dreams...  In it, there was somebody like me, but wasn't me...  You know how dreams are.",
+      "translation": "Tôi đã có những giấc mơ lặp đi lặp lại... Trong đó, có một người giống tôi, nhưng không phải là tôi... Bạn biết đấy, giấc mơ thì thế nào mà.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Anyway, this other me was at a pool, deep in a cave.  It was filled with litter, but the whole community was pitching in to clean it up.",
+      "translation": "Dù sao thì, tôi kia đang ở một cái hồ, sâu trong hang động. Nó đầy rác, nhưng cả cộng đồng đang chung tay dọn dẹp.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "They cleaned it, but there were no fish in it anymore, which made the other me sad.",
+      "translation": "Họ đã rửa sạch nó, nhưng không còn con cá nào trong đó nữa, điều này khiến tôi buồn.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "But then a fish tank appeared!  And then fish started appearing in the fish tank, and the other me started netting them out and releasing them into the pond!",
+      "translation": "Nhưng rồi một bể cá xuất hiện! Và rồi cá bắt đầu xuất hiện trong bể cá, và tôi kia bắt đầu dùng lưới bắt chúng và thả chúng vào ao!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "As to what happened next, well, you'd best see for yourself.  Please take the elevator down to 60.",
+      "translation": "Còn chuyện gì xảy ra tiếp theo, tốt nhất là bạn nên tự mình xem. Vui lòng đi thang máy xuống tầng 60.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "It was just a dream, I thought, but the next night I dreamt the same thing, so I just had to come down here.",
+      "translation": "Tôi nghĩ đó chỉ là một giấc mơ, nhưng đêm hôm sau tôi lại mơ thấy điều tương tự, thế nên tôi phải xuống đây.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Look at this!  The fish tank from my dream!  Where did that come from?",
+      "translation": "Nhìn này! Bể cá trong mơ của tôi! Nó từ đâu ra thế?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Well, the tank was empty, and I decided I'd try putting a fish in there, so I caught a ghostfish and put it in there.",
+      "translation": "Vâng, bể cá đang cạn nước, và tôi quyết định thử thả một con cá vào đó, thế là tôi bắt một con cá ma và thả nó vào đó.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "AND IT DISAPPEARED!",
+      "translation": "VÀ NÓ BIẾN MẤT!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Poof!",
+      "translation": "Bùm!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Gone!",
+      "translation": "Đi mất!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "So I put in another, and it disappeared too!",
+      "translation": "Thế là tôi nhét thêm một cái nữa vào và nó cũng biến mất!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Is it going to the world in my dream?  I don't know, but after about half a dozen fish went in there they stopped disappearing.",
+      "translation": "Liệu nó có giống như trong giấc mơ của tôi không? Tôi không biết, nhưng sau khi thả khoảng nửa tá cá vào đó, chúng không còn biến mất nữa.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "...But the tank is still here...",
+      "translation": "...Nhưng bể vẫn còn đây...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I see some smaller fish darting around in the pool, but I haven't been able to land any of them.",
+      "translation": "Tôi thấy một số con cá nhỏ hơn bơi quanh hồ, nhưng tôi không thể bắt được con nào.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "You're the only one that can help since you've got the skill, the equipment and can handle yourself this deep in the mine.",
+      "translation": "Bạn là người duy nhất có thể giúp được vì bạn có kỹ năng, thiết bị và có thể tự xử lý được ở sâu trong mỏ như thế này.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Could you try and catch some of those little fish and put them in the tank and see what happens?",
+      "translation": "Bạn có thể thử bắt một số con cá nhỏ đó và thả chúng vào bể rồi xem điều gì xảy ra không?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I'm afraid I've got to leave you to it.  I know it could take a while to catch them and I...",
+      "translation": "Tôi e rằng tôi phải để bạn tự lo liệu. Tôi biết có thể mất một thời gian để bắt được chúng và tôi...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Well, I've got a lot to think about.",
+      "translation": "Vâng, tôi có rất nhiều điều phải suy nghĩ.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Fishing Junimo",
+      "translation": "Câu cá Junimo",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos will work with fishing-related machines like crab pots and recycling machines.",
+      "translation": "Junimos sẽ làm việc với các máy móc liên quan đến đánh bắt cá như lồng bắt cua và máy tái chế.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Find Linus At His Tent",
+      "translation": "Tìm Linus ở Lều của Anh ấy",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Linus said he had something he needed your help with.",
+      "translation": "Linus nói anh ấy có chuyện cần anh giúp.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Go to Linus' tent before 10pm",
+      "translation": "Đến lều của Linus trước 10 giờ tối",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Meet Linus At Level 60",
+      "translation": "Gặp Linus ở cấp độ 60",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Linus had something he wanted to show you at level 60 of the mines.",
+      "translation": "Linus có thứ muốn cho bạn xem ở cấp độ 60 của hầm mỏ.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Follow Linus to level 60",
+      "translation": "Đi theo Linus đến cấp độ 60",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Catch Six Ice Pips",
+      "translation": "Bắt Sáu cá Ice Pips",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Catch six ice pips and put them in the mysterious fish tank.",
+      "translation": "Bắt sáu cá ice pips và thả chúng vào bể cá bí ẩn.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "@,^Please come visit me at my tent.  I've found something and I need your help to sort it out.^   -Linus",
+      "translation": "@,^Xin hãy đến thăm tôi tại lều của tôi. Tôi đã tìm thấy một thứ và tôi cần sự giúp đỡ của bạn để giải quyết nó.^ -Linus",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Meet Linus at his tent",
+      "translation": "Gặp Linus tại lều của anh ấy",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I'm still having those dreams.  The other me...  who seems less and less like me each night, keeps checking that fish tank in his world.  He's disappointed and puzzled.#$b#I'm pretty puzzled too.  But I'm glad you're working on it.",
+      "translation": "Tôi vẫn đang mơ những giấc mơ đó. Tôi kia... người dường như ngày càng không giống tôi mỗi đêm, cứ kiểm tra bể cá trong thế giới của anh ấy. Anh ấy thất vọng và bối rối.#$b#Tôi cũng khá bối rối. Nhưng tôi mừng là bạn đang giải quyết vấn đề đó.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Did you finish collecting those fish?  I'm betting you have.  I had one last dream, where the fish were released and the tank disappeared.#$b#You know, one of the reasons I adopted my, uh...  lifestyle is that I was, well, not so stable in the head.#$b#And sometimes angry.  That was the part that made me take what most would regard as a drastic lifestyle change.#$b#But I've never felt saner.  At least up until these dreams started happening.#$b#But in these visions there is nothing like anger, so, well, that's good.#$b#But I still hope they go away.",
+      "translation": "Bạn đã thu thập xong những con cá đó chưa? Tôi cá là bạn đã làm rồi. Tôi đã có một giấc mơ cuối cùng, trong đó những con cá được thả ra và bể cá biến mất. #$b#Bạn biết đấy, một trong những lý do khiến tôi áp dụng lối sống của mình, ừm... là vì tôi, ừm, không ổn định lắm trong đầu. #$b#Và đôi khi tức giận. Đó là phần khiến tôi thực hiện những gì mà hầu hết mọi người coi là một sự thay đổi lối sống triệt để. #$b#Nhưng tôi chưa bao giờ cảm thấy tỉnh táo hơn thế. Ít nhất là cho đến khi những giấc mơ này bắt đầu xảy ra. #$b#Nhưng trong những hình ảnh này không có gì giống như sự tức giận, vì vậy, ừm, điều đó tốt. #$b#Nhưng tôi vẫn hy vọng chúng sẽ biến mất.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Hey I just read a paper written by one of my old college buddies on habitat restoration of an underground pool populated with Ghostfish and Ice Pips!$1#$b#I'm told we have such a cavern deep in the mines.  Perhaps you could take me to it one day.#$b#Funny, the paper didn't specify where he got the fish to repopulate from...$3",
+      "translation": "Này, tôi vừa đọc một bài báo do một trong những người bạn đại học cũ của tôi viết về việc phục hồi môi trường sống của một hồ nước ngầm có nhiều Ghostfish và Ice Pips!$1#$b#Tôi được biết chúng tôi có một hang động sâu trong các mỏ. Có lẽ bạn có thể đưa tôi đến đó một ngày nào đó.#$b#Thật buồn cười, bài báo không nêu rõ anh ta lấy cá ở đâu để tái tạo...$3",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Thx!  Bai!!!",
+      "translation": "Cảm ơn! Tạm biệt!!!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "The giant trees were cut down to make ships and buildings and other wonderful things...",
+      "translation": "Những cây khổng lồ bị chặt hạ để làm tàu ​​thuyền, tòa nhà và nhiều thứ tuyệt vời khác...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "...but they cut like there would always be more, until they cut down the last one.",
+      "translation": "...nhưng họ cắt như thể vẫn còn nhiều hơn nữa, cho đến khi họ cắt đi cây cuối cùng.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "You will be wiser.  We will help.",
+      "translation": "Bạn sẽ khôn ngoan hơn. Chúng tôi sẽ giúp bạn.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Welcome!  You're just in time!",
+      "translation": "Chào mừng! Bạn đến đúng lúc quá!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I hiked the back-woods trail today.",
+      "translation": "Hôm nay tôi đi bộ đường dài trên con đường rừng rậm.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "It can be a bit treacherous at my age...",
+      "translation": "Có thể hơi nguy hiểm ở độ tuổi của tôi...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "But the view of the desert is breathtaking.",
+      "translation": "Nhưng quang cảnh của sa mạc thì ngoạn mục vô cùng.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I picked a few wild mushrooms and herbs along the way.",
+      "translation": "Tôi đã hái một ít nấm dại và thảo mộc trên đường đi.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Dinner is served!",
+      "translation": "Bữa tối đã sẵn sàng!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "What do you think?",
+      "translation": "Bạn nghĩ sao?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I'm glad you like it.",
+      "translation": "Tôi vui vì bạn thích nó.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "You know, when people see you talking to the trees, well...  They tend to think you're crazy.$2",
+      "translation": "Bạn biết đấy, khi mọi người thấy bạn nói chuyện với cây cối, họ sẽ... Họ có xu hướng nghĩ bạn bị điên.$2",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "But when you hear the trees talking *to* *you*, then... well...#$b#Then maybe they're right.$2",
+      "translation": "Nhưng khi bạn nghe thấy cây cối nói chuyện *với* *bạn*, thì... chúng ta sẽ...#$b#Thì có lẽ chúng đúng.$2",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Last night I dreamt I saw what these trees looked like before they were cut...",
+      "translation": "Đêm qua tôi mơ thấy mình nhìn thấy những cái cây này trông như thế nào trước khi chúng bị chặt...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Then, the vision pivoted to your farm; your farm when those big stumps and logs were standing trees...",
+      "translation": "Sau đó, tầm nhìn chuyển sang trang trại của bạn; trang trại của bạn khi những gốc cây và khúc gỗ lớn còn là những cây đứng...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I found these seeds in my tent as I was stepping out this morning.#$b#I guess I tracked them in last night.  They're usually not so easy to find.  Here.  I think they're meant for you.",
+      "translation": "Tôi tìm thấy những hạt giống này trong lều của mình khi tôi bước ra ngoài sáng nay.#$b#Tôi đoán là tôi đã theo dõi chúng vào đêm qua. Chúng thường không dễ tìm. Ở đây. Tôi nghĩ chúng dành cho bạn.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I'm glad you're the sort of friend that doesn't mind listening to the ravings of a crazy old man.",
+      "translation": "Tôi mừng vì bạn là kiểu bạn không ngại lắng nghe những lời lảm nhảm của một ông già điên.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Well...  It's getting late.  You should get back to your farm and I should crawl into my tent.#$b#I plan on breaking camp in the morning and making the hike up to the mountain.",
+      "translation": "Vâng... Trời đã muộn rồi. Cháu nên quay lại trang trại và Ông nên chui vào lều.#$b#Ông dự định sẽ dỡ trại vào sáng mai và đi bộ lên núi.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Do the trees talk to you too?",
+      "translation": "Cây cối cũng nói chuyện với bạn à?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Hm.  Perhaps it's best not to answer that one...",
+      "translation": "Ừm. Có lẽ tốt nhất là không nên trả lời câu hỏi đó...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Forestry Junimo",
+      "translation": "Lâm nghiệp Junimo",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos will work with foraging-related machines like tappers and mushroom logs",
+      "translation": "Junimo sẽ hỗ trợ vận hành các thiết bị hái lượm như vòi hứng và khúc gỗ trồng nấm.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Plant The Mystic Seed",
+      "translation": "Gieo hạt giống thần bí",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Linus gave you some tree seeds...  Do the Junimos talk to him too?",
+      "translation": " Linus đã đưa bạn vài hạt giống cây... Junimo cũng nói chuyện với ông ấy sao?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Grow a Mystic Tree and 2 Mahogony Trees to adulthood on your farm.",
+      "translation": "Trồng một cây Thần Bí và hai cây Gụ cho đến khi trưởng thành trên nông trại của bạn.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Meet Linus In The Secret Woods",
+      "translation": "Gặp Linus trong Khu Rừng Bí Ẩn",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Have dinner with Linus in the Secret Woods",
+      "translation": "Ăn tối cùng Linus trong Khu Rừng Bí Ẩn",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Enter the secret woods on a sunny day between 6 and 11pm.",
+      "translation": "Vào Khu Rừng Bí Ẩn vào một ngày nắng từ 6 giờ đến 11 giờ tối.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "@,^How are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
+      "translation": "@,^Dạo này bạn thế nào? Tôi định dành một, hai đêm ở khu rừng sâu phía tây trang trại của Marnie. Bạn có muốn cùng tôi ăn bữa tối giữa thiên nhiên hoang dã không? ^ - Linus",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Meet at Linus' camp in the woods",
+      "translation": "Gặp nhau tại lán trại của Linus trong rừng",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Give the strange orb to the host player - only the host can advance this quest.  (Put it in a chest for them)",
+      "translation": "Đưa quả cầu lạ cho người chơi chủ nhà — chỉ chủ nhà mới có thể tiến triển nhiệm vụ này. (Đặt quả cầu vào rương cho họ)",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "a strange faintly glowing orb",
+      "translation": "một quả cầu lạ phát sáng mờ ảo",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "It looks vaguely magical. It's quite hard and smooth.",
+      "translation": "Nó trông có vẻ huyền bí. Nó khá cứng và mịn",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...",
+      "translation": "Cháu trai của ông...^ Cháu gái thân yêu của ông...#$b#Ông xin lỗi vì đến với cháu bất ngờ thế này, nhưng ông phải cảm ơn cháu đã cứu người bạn Junimo quý giá của ông.#$b#Hắn đã bảo vệ ông khi tâm trí ông rối bời nhất.#$b#Ngày xưa, hắn giúp ông vận hành lò luyện và các máy móc trong mỏ. Hắn cũng sẽ giúp cháu; hắn rất thích ngắm ánh lửa bập bùng kia!#$b#Giờ ông yên tâm hơn khi biết bạn mình an toàn. Ông thật tự hào về cháu...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "What have you brought for me this time?",
+      "translation": "Lần này cháu mang cho ông món gì đây?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Hm..  Yes...#$b#Junimos are harmless, but they are not defenseless.  When this one was overwhelmed by the slime, it bound itself into a protective stasis and went into a sort of torpor.#$b#If we return this to the Junimo's world, they will be able to care for this one.",
+      "translation": "Ừm... Vâng...#$b#Junimo không gây hại, nhưng chúng không hề bất lực. Khi con Junimo này bị bọn slime áp đảo, nó đã tự bao bọc mình trong trạng thái bảo vệ và rơi vào cơn mê tạm thời.#$b#Nếu ta đưa nó về thế giới của Junimo, họ sẽ chăm sóc được cho nó.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I shall, using my immense powers, transport this one back to the Junimo realm!",
+      "translation": "Ta sẽ dùng sức mạnh vô biên của mình để đưa con này trở về cõi Junimo!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "There.  Done.",
+      "translation": "Xong rồi.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Yes.  Done.  It's safely back to the Junimo realm and you should get about your business.",
+      "translation": "Rồi. Xong rồi. Nó đã trở về an toàn cõi Junimo, giờ cháu nên lo việc của mình đi.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "That's it...#$b#Really...#$b#I think.",
+      "translation": "Đó là tất cả...#$b#Thật sự đấy...#$b#Tôi nghĩ vậy.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "The Strange Orb",
+      "translation": "Quả Cầu Lạ",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Investigate the strange glowing thing you found inside a big slime.",
+      "translation": "Điều tra vật phát sáng lạ mà bạn tìm thấy bên trong con slime lớn.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Bring the faintly glowing orb to the wizard's tower.",
+      "translation": "Mang quả cầu phát sáng mờ đến tháp pháp sư.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Mining Junimo",
+      "translation": "Junimo Khai Mỏ.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos will work with mining-related machines like furnaces and geode crushers.",
+      "translation": "Junimo sẽ làm việc cùng các máy móc liên quan đến khai thác mỏ như lò luyện và máy nghiền đá quý.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Ah... Come in.",
+      "translation": "À... Mời vào đi.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Give the strange little structure to the host player - only the host can advance this quest.  (Put it in a chest for them.)",
+      "translation": "Đưa cấu trúc nhỏ lạ cho người chơi chủ nhà — chỉ chủ nhà mới có thể tiến hành nhiệm vụ này. (Đặt nó vào rương cho họ.)",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos are afraid of villagers; move this hut away from townspeople and hostile mobs.",
+      "translation": "Junimo sợ dân làng; hãy di chuyển cái túp lều này ra xa dân làng và quái vật thù địch.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "A portal through which Junimos who want to help out on the farm can appear.  Place pathways next to these when placing them outdoors so the Junimos will know where to go.",
+      "translation": "Một cổng dịch chuyển để những Junimo muốn giúp việc trên trang trại có thể xuất hiện. Khi đặt ngoài trời, hãy đặt lối đi bên cạnh cổng để Junimo biết đường di chuyển.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimo Portal",
+      "translation": "Cổng Junimo",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "This was a Junimo Portal, but a Junimo that came out of it saw a villager, got scared, and disabled it.  It's trash now.",
+      "translation": "Đây từng là một Cổng Junimo, nhưng một Junimo đi ra khỏi đó thấy dân làng, hoảng sợ và làm nó ngừng hoạt động. Giờ nó chỉ còn là đống phế thải.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Abandoned Portal",
+      "translation": "Cổng Bỏ Hoang",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "a strange little structure",
+      "translation": "cấu trúc nhỏ lạ",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "At first it looked like a woody weed, but a closer look makes it like a little structure, and it smells sorta like the Wizard's forest-magic potion.",
+      "translation": "Lúc đầu trông nó như một bụi cỏ gỗ, nhưng nhìn kỹ hơn thì giống như một cấu trúc nhỏ, và nó có mùi hơi giống thuốc phép rừng của Pháp Sư.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "You have something to show me?  Well, bring it to me!",
+      "translation": "Cháu có thứ gì muốn cho ông xem à? Thế thì mang đến đây cho ông xem ngay!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...",
+      "translation": "À, tôi hiểu vì sao cháu lại nghĩ ông nên xem cái này...#$b#Tôi tin là mình nhận ra dấu vết phép thuật, nhưng để chắc chắn, để tôi tra cứu trong kho tài liệu rộng lớn của mình đã...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Come along then!",
+      "translation": "Đi thôi nào!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Yes.  I was right...#$b#As always.",
+      "translation": "Đúng rồi. Tôi đã đúng...#$b#Như mọi khi.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.",
+      "translation": "Đây là một cổng dịch chuyển thô sơ, do ông của cháu tạo ra để Junimo dễ dàng đi lại giữa thế giới của chúng và thế giới của ta.#$b#Nó rất dễ xây dựng, ngay cả người học việc mới tập cũng làm được. Nè, để ông chỉ cho cháu cách làm.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I learned how to craft a 'Junimo Portal'",
+      "translation": "Tôi đã học được cách chế tạo ‘Cổng Junimo’.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Enticing a Junimo to *use* it, well, that's up to the Junimo...",
+      "translation": "Dụ dỗ một Junimo sử dụng nó, thì… chuyện đó tùy thuộc vào Junimo rồi...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Usage: After completing quests to get junimo helpers, you can place Junimo Portals either in buildings or outside.  If outside, place walkways between the hut and any chests or machines you want the Junimo to automate.  If in a building, you can place walkways or just leave a clear path.",
+      "translation": "Cách dùng: Sau khi hoàn thành các nhiệm vụ để có được những Junimo trợ giúp, bạn có thể đặt Cổng Junimo trong nhà hoặc ngoài trời. Nếu đặt ngoài trời, hãy đặt lối đi giữa túp lều và các rương hoặc máy móc mà bạn muốn Junimo tự động hóa. Nếu đặt trong nhà, bạn có thể đặt lối đi hoặc để đường đi thông thoáng.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "That was some storm!  I wonder if the rain washed the mud off of any of Grandpa's old stuff!",
+      "translation": "Cơn bão dữ thật! Không biết mưa có rửa sạch bùn trên mấy món đồ cũ của ông nội không nhỉ!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimo Huts",
+      "translation": "Những túp lều Junimo",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Construct Junimo Huts",
+      "translation": "Xây dựng túp lều Junimo",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "The Strange Little Structure",
+      "translation": "Cấu Trúc Nhỏ Kỳ Lạ",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "You found the remnants of what looks like a little building.  It smells like it has some Forest Magic in it.",
+      "translation": "Bạn tìm thấy những mảnh vỡ của một công trình nhỏ, trông như một ngôi nhà bé xíu. Nó có mùi như chứa phép thuật rừng xanh.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Bring the remnants of the strange little structure to the wizard's tower.",
+      "translation": "Mang những mảnh vỡ của cấu trúc nhỏ kỳ lạ đến tháp pháp sư.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Sometimes Lewis goes off into the deep woods...  Usually when his spirits are low.#$b#I wish he wouldn't do that; it can be dangerous there.  But when he's in that mood, well...#$b#It seems like whatever I say I just make it worse.$s",
+      "translation": "Thỉnh thoảng Lewis lại đi sâu vào rừng... Thường là khi tâm trạng ông ấy đang sa sút.#$b#Tôi thật sự mong ông ấy đừng làm vậy; nơi đó rất nguy hiểm. Nhưng khi ông ấy trong tâm trạng như thế, thì...#$b#Dường như lời tôi nói chỉ làm tình hình thêm phần phức tạp mà thôi.$s",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Lewis sure has doubled-down on gardening lately!  It's been good for his mood, that's for sure.  Maybe Shane could try it...",
+      "translation": "Gần đây Lewis thật sự tập trung chăm sóc vườn nhiều hơn! Điều đó chắc chắn tốt cho tâm trạng ông ấy. Có khi nào Shane cũng nên thử làm vậy không nhỉ...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I've seen Lewis go into the deep woods from time to time...  I wonder what he's up to.#$b#Do you suppose he performs some kinda magic ritual??   With pentagrams and blood sacrifices??!#$b#Lewis is nice...  Maybe a little *too* nice.",
+      "translation": "Tôi đã thấy Lewis thỉnh thoảng đi vào sâu trong rừng... Không biết ông ấy đang làm gì.#$b#Chẳng lẽ ông ấy thực hiện nghi thức ma thuật nào đó với những ngôi sao năm cánh và hiến tế máu sao??!#$b#Lewis thì tốt bụng thật... Có lẽ còn tốt bụng quá mức rồi.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "When Lewis gets the blues, he likes to take walks in the deep woods.#$b#It can be a little bit dangerous, but Lewis can handle himself just fine.#$b#Of course, it'd be better for business if he'd drink his troubles away!$h",
+      "translation": "Khi Lewis buồn bã, ông thường thích đi dạo sâu trong rừng.#$b#Chỗ đó có thể hơi nguy hiểm, nhưng Lewis tự biết cách chăm sóc bản thân rất tốt.#$b#Dĩ nhiên, tốt hơn cho công việc nếu ông ấy uống rượu cho quên đi muộn phiền!$h",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "A house plant that a Junimo wants me to give to Lewis.",
+      "translation": "Một chậu cây cảnh mà Junimo muốn tôi tặng cho Lewis.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Mightabeen Rose",
+      "translation": "Hồng Ký Ức",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos can get water from this to water indoor pots.",
+      "translation": "Junimo có thể lấy nước từ đây để tưới cây trong nhà.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Indoor Well",
+      "translation": "Giếng Trong Nhà",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Bring the plant to Lewis",
+      "translation": "Mang chậu cây đến cho Lewis.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Bring the Mightabeen Rose to Lewis",
+      "translation": "Mang Hoa Hồng Ký Ức đến cho Lewis.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Evelyn might want to have a look at this plant before you give it to Lewis, drop by her house for her to check it out.",
+      "translation": "Evelyn có thể muốn xem qua chậu cây này trước khi bạn đưa cho Lewis, ghé qua nhà Bà  ấy để cô ấy kiểm tra nhé.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Please come in!",
+      "translation": "Mời vào!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Oh now what have you got there?  Bring it over here where the light is better.",
+      "translation": "Ồ, giờ thì cậu đang cầm gì đó? Mang qua đây chỗ có ánh sáng tốt hơn đi.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I haven't seen one of these plants for a long, long time.#$b#My grandfather kept one in his study.  It was always a happy, beautiful plant.#$b#Whenever he fell into a funk, he'd go tend to it and emerge feeling better.$1#$b#When he passed, my mother tried to take care of it, but it just slowly withered away.  It missed him too I guess!",
+      "translation": "Lâu lắm rồi Bà mới thấy lại một chậu cây như thế này.#$b#Ông của Bà từng để một chậu trong phòng làm việc, luôn tươi tốt và xinh đẹp lắm.#$b#Mỗi khi ông rơi vào tâm trạng buồn bã, ông lại ra chăm sóc nó, rồi lại thấy khá hơn rất nhiều.$1#$b#Khi ông mất, mẹ của Bà cũng cố gắng giữ gìn nó, nhưng cây dần héo úa. Có lẽ nó cũng nhớ ông ấy thật...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I researched it as a young woman, and it turns out these plants are rare, somewhat finicky, and notoriously hard to propagate.#$b#Some people say the smell of the flower helps them to remember that what might have been isn't necessarily better than the here and now.$1",
+      "translation": "Bà đã nghiên cứu về nó khi còn là một phụ nữ trẻ và hóa ra những cây này rất hiếm, hơi khó tính và nổi tiếng là khó nhân giống.#$b#Một số người nói rằng mùi hương của hoa giúp họ nhớ rằng những gì đã có thể xảy ra chưa chắc đã tốt hơn hiện tại.$1",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "But honestly, I don't feel anything at all from smelling it!  But you say you mean to give it as a gift?",
+      "translation": "Nhưng thành thật mà nói, Bà không cảm thấy gì khi ngửi nó cả! Nhưng Cháu nói Cháu định tặng nó làm quà?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "For Lewis?",
+      "translation": "Cho Lewis?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Oh...$2",
+      "translation": "Ồ...$2",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "You know Lewis was quite the Casanova in his youth.  He made time with *all* the girls.$1",
+      "translation": "Cháu biết đấy, Lewis từng là một chàng Casanova khi còn trẻ. Anh ấy dành thời gian cho *tất cả* các cô gái.$1",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "There was one girl that was special to him, but she wasn't the sort who wanted to worry about what her man was up to when her back was turned...#$b#At the time, he played like he didn't care.  He was too cool to admit that there was a girl he couldn't get - and kept chasing other girls like it didn't mean anything to him.  I've often wondered if she was the reason he never married.",
+      "translation": "Có một cô gái đặc biệt với anh ấy, nhưng cô ấy không phải là kiểu người muốn lo lắng về việc người đàn ông của mình đang làm gì khi cô ấy quay lưng lại... #$b# Vào thời điểm đó, anh ấy tỏ ra như thể anh ấy không quan tâm. Anh ấy quá tuyệt vời khi thừa nhận rằng có một cô gái mà anh ấy không thể có được - và tiếp tục theo đuổi những cô gái khác như thể điều đó chẳng có ý nghĩa gì với anh ấy. Bà thường tự hỏi liệu cô ấy có phải là lý do khiến anh ấy không bao giờ kết hôn không.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "But just between you and me, I think it turned out for the best for both of them.$1",
+      "translation": "Nhưng chỉ giữa chúng ta với nhau, Bà nghĩ điều đó đã diễn ra tốt nhất cho cả hai người họ. $1",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Thank you for bringing my flower to Lewis...",
+      "translation": "Cảm ơn cháu đã mang hoa đến cho Lewis...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Since you helped Lewis, I will help with your indoor plants...",
+      "translation": "Vì Cháu đã giúp Lewis, Bà sẽ giúp Cháu chăm sóc cây trồng trong nhà...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I learned how to craft an indoor well",
+      "translation": "Bà đã học cách chế tạo một cái giếng trong nhà",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Ah!  @!  What brings you to the forest today?  Exotic mushrooms?  Fishing?",
+      "translation": "À! @! Hôm nay Cháu đến khu rừng này để làm gì? Nấm lạ? Câu cá?",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "It's a good place for that.",
+      "translation": "Đây là một nơi tốt cho việc đó.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Me??",
+      "translation": "Ông ư??",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Well, I guess I just like a good walk in the woods from time to time.  It cheers me up.",
+      "translation": "Vâng, Ông đoán là Ông chỉ thích đi bộ trong rừng thỉnh thoảng thôi. Nó làm Ông vui lên.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Feeling down?  Me?  No no no.  Right as rain.",
+      "translation": "Cảm thấy chán nản? Ông ư? Không, không, không. Đúng như mưa.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "It was nice chatting with you!  I'd better get back to town!#$b#Being mayor is a 24x7 job!",
+      "translation": "Rất vui được trò chuyện với Cháu! Ông nên quay lại thị trấn thôi!#$b#Làm thị trưởng là công việc 24x7!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Oh hi @!...  Nice to see you again.",
+      "translation": "Ồ chào @!... Rất vui được gặp lại cháu.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Me?  Feeling down?  No...",
+      "translation": "Ông ư? Cảm thấy chán nản ư? Không...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Well, not exactly.",
+      "translation": "Thực ra không hẳn vậy.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I come here on those days I can't stop kicking myself for things I should have done and said but didn't.$2",
+      "translation": "Ông đến đây vào những ngày Ông không thể ngừng tự trách mình vì những điều Ông đáng lẽ phải làm và nói nhưng không làm.$2",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "So many years have passed, yet I just can't seem to let it go.",
+      "translation": "Nhiều năm đã trôi qua nhưng Ông vẫn không thể quên được.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Being a bachelor at my age isn't the only way things could have turned out for me...$2",
+      "translation": "Trở thành một người độc thân ở độ tuổi của Ông không phải là cách duy nhất mọi thứ có thể diễn ra với Ông...$2",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I'm not unhappy...",
+      "translation": "Ông không bất hạnh...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "But sometimes...$2",
+      "translation": "Nhưng đôi khi...$2",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I shouldn't trouble you.  I hope you'll forgive me for dumping this on you; thanks for lending an ear.",
+      "translation": "Ông không nên làm phiền Cháu. Ông hy vọng Cháu sẽ tha thứ cho Ông vì đã trút bầu tâm sự này lên Cháu; cảm ơn vì đã lắng nghe.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I should get back to town.  I'll see you around.",
+      "translation": "Ông phải quay lại thị trấn. Ông sẽ gặp lại Cháu sau.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "I think the Junimo wants to help...",
+      "translation": "Tôi nghĩ Junimo muốn giúp...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "The Junimo wants me to give this plant to Lewis...",
+      "translation": "Junimo muốn tôi tặng cây này cho Lewis...",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Huh...  I wonder why a plant would be of help.  Junimos work in strange ways.",
+      "translation": "Hử... Tôi tự hỏi tại sao một cái cây lại có thể giúp ích. Junimos hoạt động theo những cách kỳ lạ.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Indoor Pot Junimo",
+      "translation": "Chậu trồng cây trong nhà Junimo",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos will harvest and water plants grown in indoor pots.",
+      "translation": "Junimos sẽ thu hoạch và tưới nước cho cây trồng trong chậu trong nhà.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos are not working on the {{arg0}} today.  They are scared of {{arg1}}.",
+      "translation": "Junimos không làm việc trên {{arg0}} ngày hôm nay. Họ sợ {{arg1}}.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "Junimos are not working in the {{arg0}} today.  They are scared of {{arg1}}.",
+      "translation": "Junimos không làm việc trong {{arg0}} ngày hôm nay. Họ sợ {{arg1}}.",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    },
+    {
+      "source": "The Junimos munched a box of grapes this morning!",
+      "translation": "Sáng nay Junimos đã ăn hết một hộp nho!",
+      "author": "nexus:zujikang",
+      "ingestionDate": "2025-05-18T08:30:13.755412-07:00"
+    }
+  ]
+}
