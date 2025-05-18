@@ -111,21 +111,21 @@ namespace NermNermNerm.Junimatic
                 e.Edit(editor =>
                 {
                     var d = editor.AsDictionary<string, string>().Data;
-                    d[IF($"{GiantCropCelebrationEventId}/H/sawEvent {UnlockPortal.JunimoPortalDiscoveryEvent}/{EventCustomConditionGiantCropIsGrowingOnFarm}")] = SdvEvent($@"playful/
--1000 -1000/
-farmer 8 24 0/
-skippable/
-{EventCustomCommandFocusOnGiantCrop}/
-pause 2000/
-{EventCustomCommandSpringJunimosFromCrop}/
-pause 2000/
-spriteText 4 ""We love giant crops!  Please keep growing them!""/
-spriteText 4 ""One of us will come and help with your kegs, casks and preserves jars if you connect them to a portal!""/
-{EventCustomCommandJunimosDisappear}/
-spriteText 4 ""Thx!  Bai!!!""/
-pause 2000/
+                    d[IF($"{GiantCropCelebrationEventId}/H/sawEvent {UnlockPortal.JunimoPortalDiscoveryEvent}/{EventCustomConditionGiantCropIsGrowingOnFarm}")] = SdvEvent($@"playful
+-1000 -1000
+farmer 8 24 0
+skippable
+{EventCustomCommandFocusOnGiantCrop}
+pause 2000
+{EventCustomCommandSpringJunimosFromCrop}
+pause 2000
+spriteText 4 ""We love giant crops!  Please keep growing them!""
+spriteText 4 ""One of us will come and help with your kegs, casks and preserves jars if you connect them to a portal!""
+{EventCustomCommandJunimosDisappear}
+spriteText 4 ""Thx!  Bai!!!""
+pause 2000
 end
-");
+").Replace("\r", "").Replace("\n", "/");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Caroline"))

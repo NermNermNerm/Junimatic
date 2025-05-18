@@ -124,7 +124,7 @@ pause 1000
 itemAboveHead
 playsound getNewSpecialItem
 addCraftingRecipe {IndoorWellRecipeId}
-message ""I learned how to craft an indoor well""/
+message ""I learned how to craft an indoor well""
 animate Junimo true true 100 28 29 30 31
 pause 2000
 fade

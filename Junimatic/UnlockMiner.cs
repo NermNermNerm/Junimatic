@@ -128,99 +128,99 @@ namespace NermNermNerm.Junimatic
         private void EditFarmHouseEvents(IDictionary<string, string> eventData)
         {
             eventData[IF($"{MiningJunimoDreamEvent}/H/sawEvent {ReturnJunimoOrbEvent}/time 600 620")]
-                = SdvEvent($@"grandpas_theme/
--2000 -1000/
-farmer 13 23 2/
-skippable/
-addTemporaryActor Grandpa 1 1 -100 -100 2 true/
-specificTemporarySprite grandpaSpirit/
-viewport -1000 -1000/
-pause 8000/
-speak Grandpa ""My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...""/
-playmusic none/
-pause 1000/
-end bed");
+                = SdvEvent($@"grandpas_theme
+-2000 -1000
+farmer 13 23 2
+skippable
+addTemporaryActor Grandpa 1 1 -100 -100 2 true
+specificTemporarySprite grandpaSpirit
+viewport -1000 -1000
+pause 8000
+speak Grandpa ""My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...""
+playmusic none
+pause 1000
+end bed").Replace("\r", "").Replace("\n", "/");
         }
 
         private void EditWizardHouseEvents(IDictionary<string, string> eventData)
         {
-            eventData[IF($"{ReturnJunimoOrbEvent}/H/i {JunimoChrysalisQiid}")] = SdvEvent(@$"WizardSong/
--1000 -1000/
-farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
-{ModEntry.SetJunimoColorEventCommand} OrangeRed/
-removeQuest {JunimoChrysalisToWizardQuest}/
-removeItem {JunimoChrysalisQiid} 2/
-skippable/
-showFrame Wizard 20/
-viewport 8 18 clamp/
-move farmer 0 -3 0/
-pause 2000/
-speak Wizard ""Ah... Come in.""/
-pause 800/
-animate Wizard false false 100 20 21 22 0/
-playSound dwop/
-pause 1000/
-stopAnimation Wizard/
-move Wizard -2 0 3 false/
-move Wizard 0 2 2/
-pause 1500/
-speak Wizard ""What have you brought for me this time?""/
-move farmer -1 0 3/
-move farmer 0 -4 0/
-faceDirection farmer 1/
-faceDirection Wizard 3/
-itemAboveHead (O)Junimatic.JunimoChrysalis/
-pause 500/
-faceDirection farmer 1/
-speak Wizard ""Hm..  Yes...#$b#Junimos are harmless, but they are not defenseless.  When this one was overwhelmed by the slime, it bound itself into a protective stasis and went into a sort of torpor.#$b#If we return this to the Junimo's world, they will be able to care for this one.""/
-pause 1000/
-faceDirection Wizard 1/
-speak Wizard ""I shall, using my immense powers, transport this one back to the Junimo realm!""/
-playMusic none/
-pause 800/
-playSound dwop/
-screenFlash .8/
-addObject 10 17 Junimatic.JunimoChrysalis/
-specificTemporarySprite junimoCage/
-pause 5000/
-playSound wand/
-screenFlash .8/
-removeObject 10 17/
-specificTemporarySprite junimoCageGone/
-playMusic WizardSong/
-pause 1000/
-faceDirection Wizard 3/
-speak Wizard ""There.  Done.""/
-emote farmer 8/
-pause 1000/
-speak Wizard ""Yes.  Done.  It's safely back to the Junimo realm and you should get about your business.""/
-move farmer 0 2  2/
-jump Wizard/
-playSound junimoMeep1/
-screenFlash .8/
-warp Junimo 10 17/
-specificTemporarySprite junimoCage/
-faceDirection farmer 1/
-faceDirection Wizard 1/
-pause 2000/
-emote Junimo 20/
-jump Junimo/
-pause 3000/
-playSound junimoMeep1/
-screenFlash .8/
-warp Junimo -3000 -3000/
-specificTemporarySprite junimoCageGone/
-faceDirection Wizard 2/
-faceDirection farmer 0/
-pause 1000/
-faceDirection farmer 1/
-faceDirection Wizard 1/
-pause 1000/
-faceDirection Wizard 2/
-speak Wizard ""That's it...#$b#Really...#$b#I think.""/
-move farmer 0 3 2 false/
-end warpOut/
-");
+            eventData[IF($"{ReturnJunimoOrbEvent}/H/i {JunimoChrysalisQiid}")] = SdvEvent(@$"WizardSong
+-1000 -1000
+farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2
+{ModEntry.SetJunimoColorEventCommand} OrangeRed
+removeQuest {JunimoChrysalisToWizardQuest}
+removeItem {JunimoChrysalisQiid} 2
+skippable
+showFrame Wizard 20
+viewport 8 18 clamp
+move farmer 0 -3 0
+pause 2000
+speak Wizard ""Ah... Come in.""
+pause 800
+animate Wizard false false 100 20 21 22 0
+playSound dwop
+pause 1000
+stopAnimation Wizard
+move Wizard -2 0 3 false
+move Wizard 0 2 2
+pause 1500
+speak Wizard ""What have you brought for me this time?""
+move farmer -1 0 3
+move farmer 0 -4 0
+faceDirection farmer 1
+faceDirection Wizard 3
+itemAboveHead (O)Junimatic.JunimoChrysalis
+pause 500
+faceDirection farmer 1
+speak Wizard ""Hm..  Yes...#$b#Junimos are harmless, but they are not defenseless.  When this one was overwhelmed by the slime, it bound itself into a protective stasis and went into a sort of torpor.#$b#If we return this to the Junimo's world, they will be able to care for this one.""
+pause 1000
+faceDirection Wizard 1
+speak Wizard ""I shall, using my immense powers, transport this one back to the Junimo realm!""
+playMusic none
+pause 800
+playSound dwop
+screenFlash .8
+addObject 10 17 Junimatic.JunimoChrysalis
+specificTemporarySprite junimoCage
+pause 5000
+playSound wand
+screenFlash .8
+removeObject 10 17
+specificTemporarySprite junimoCageGone
+playMusic WizardSong
+pause 1000
+faceDirection Wizard 3
+speak Wizard ""There.  Done.""
+emote farmer 8
+pause 1000
+speak Wizard ""Yes.  Done.  It's safely back to the Junimo realm and you should get about your business.""
+move farmer 0 2  2
+jump Wizard
+playSound junimoMeep1
+screenFlash .8
+warp Junimo 10 17
+specificTemporarySprite junimoCage
+faceDirection farmer 1
+faceDirection Wizard 1
+pause 2000
+emote Junimo 20
+jump Junimo
+pause 3000
+playSound junimoMeep1
+screenFlash .8
+warp Junimo -3000 -3000
+specificTemporarySprite junimoCageGone
+faceDirection Wizard 2
+faceDirection farmer 0
+pause 1000
+faceDirection farmer 1
+faceDirection Wizard 1
+pause 1000
+faceDirection Wizard 2
+speak Wizard ""That's it...#$b#Really...#$b#I think.""
+move farmer 0 3 2 false
+end warpOut
+").Replace("\r", "").Replace("\n", "/");
         }
 
         private void EditQuests(IDictionary<string, string> data)

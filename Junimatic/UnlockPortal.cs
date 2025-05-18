@@ -186,57 +186,57 @@ namespace NermNermNerm.Junimatic
 
         private void EditWizardHouseEvents(IDictionary<string, string> eventData)
         {
-            string commonPart1 = SdvEvent($@"WizardSong/
--1000 -1000/
-farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2/
-removeQuest {OldJunimoPortalQuest}/
-addConversationTopic {ConversationKeys.JunimosLastTripToMine} 200/
-addConversationTopic {UnlockCropMachines.ConversationKeyBigCrops} 200/
-setSkipActions MarkCraftingRecipeKnown All {JunimoPortalRecipe}#removeItem {OldJunimoPortalQiid}/
-skippable/
-showFrame Wizard 20/
-viewport 8 18 clamp/
-move farmer 0 -3 0/
-pause 2000/
-speak Wizard ""Ah... Come in.""/
-pause 800/
-animate Wizard false false 100 20 21 22 0/
-playSound dwop/
-pause 1000/
-stopAnimation Wizard/
-move Wizard -2 0 3/
-move Wizard 0 2 2/
-pause 1500/
-speak Wizard ""You have something to show me?  Well, bring it to me!""/
-move farmer -1 0 3/
-move farmer 0 -4 0/
-faceDirection farmer 1/
-itemAboveHead {OldJunimoPortalQiid}/ 
-playSound dwop/
-faceDirection farmer 1/
-pause 1000/
-faceDirection Wizard 3/
-speak Wizard ""Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...""/
+            string commonPart1 = SdvEvent($@"WizardSong
+-1000 -1000
+farmer 8 24 0 Wizard 10 15 2 Junimo -2000 -2000 2
+removeQuest {OldJunimoPortalQuest}
+addConversationTopic {ConversationKeys.JunimosLastTripToMine} 200
+addConversationTopic {UnlockCropMachines.ConversationKeyBigCrops} 200
+setSkipActions MarkCraftingRecipeKnown All {JunimoPortalRecipe}#removeItem {OldJunimoPortalQiid}
+skippable
+showFrame Wizard 20
+viewport 8 18 clamp
+move farmer 0 -3 0
+pause 2000
+speak Wizard ""Ah... Come in.""
+pause 800
+animate Wizard false false 100 20 21 22 0
+playSound dwop
+pause 1000
+stopAnimation Wizard
+move Wizard -2 0 3
+move Wizard 0 2 2
+pause 1500
+speak Wizard ""You have something to show me?  Well, bring it to me!""
+move farmer -1 0 3
+move farmer 0 -4 0
+faceDirection farmer 1
+itemAboveHead {OldJunimoPortalQiid}
+playSound dwop
+faceDirection farmer 1
+pause 1000
+faceDirection Wizard 3
+speak Wizard ""Ah I see why you thought I should see this...#$b#I believe I recognize the magical traces, but let me consult my vast reference library to be certain...""
 ");
 
             string stockPart2 = SdvEvent($@"
-move Wizard 0 -2 0/
-faceDirection Wizard 2/
-faceDirection farmer 0/
-speak Wizard ""Come along then!""/
-move Wizard 0 -10 0 farmer 0 -10 0/
-move Wizard 1 0 1/
-faceDirection Wizard 0/
-emote Wizard 40/
-pause 1000/
-move Wizard -3 0 3/
-faceDirection Wizard 0/
-emote Wizard 40/
-pause 1000/
-faceDirection Wizard 2/
-speak Wizard ""Yes.  I was right...#$b#As always.""/
-move Wizard 2 0 1/
-move Wizard 0 2 2/
+move Wizard 0 -2 0
+faceDirection Wizard 2
+faceDirection farmer 0
+speak Wizard ""Come along then!""
+move Wizard 0 -10 0 farmer 0 -10 0
+move Wizard 1 0 1
+faceDirection Wizard 0
+emote Wizard 40
+pause 1000
+move Wizard -3 0 3
+faceDirection Wizard 0
+emote Wizard 40
+pause 1000
+faceDirection Wizard 2
+speak Wizard ""Yes.  I was right...#$b#As always.""
+move Wizard 2 0 1
+move Wizard 0 2 2
 ");
             string svePart2 = SdvEvent($@"
 move Wizard 0 4 2
@@ -271,26 +271,27 @@ speak Wizard ""Yes.  I was right...#$b#As always.""
 ").Replace("\r", "").Replace("\n", "/");
 
             string commonPart3 = SdvEvent($@"
-faceDirection Wizard 3/
-faceDirection farmer 1/
-speak Wizard ""This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.""/
-removeItem {OldJunimoPortalQiid}/
-pause 500/
-itemAboveHead/
-playsound getNewSpecialItem/
-addCraftingRecipe {JunimoPortalRecipe}/
-pause 3300/
-message ""I learned how to craft a 'Junimo Portal'""/
-playMusic none/
-shake Wizard 1500/
-speak Wizard ""Enticing a Junimo to *use* it, well, that's up to the Junimo...""/
-globalFade/
-viewport -1000 -1000/
-message ""Usage: After completing quests to get junimo helpers, you can place Junimo Portals either in buildings or outside.  If outside, place walkways between the hut and any chests or machines you want the Junimo to automate.  If in a building, you can place walkways or just leave a clear path.""/
+faceDirection Wizard 3
+faceDirection farmer 1
+speak Wizard ""This is a sort of a crude portal, made by your Grandfather to allow Junimos to easily travel between their world and ours.#$b#It's an easy thing to construct, even the greenest apprentice could do it.  Here, let me teach it to you.""
+removeItem {OldJunimoPortalQiid}
+pause 500
+itemAboveHead
+playsound getNewSpecialItem
+addCraftingRecipe {JunimoPortalRecipe}
+pause 3300
+message ""I learned how to craft a 'Junimo Portal'""
+playMusic none
+shake Wizard 1500
+speak Wizard ""Enticing a Junimo to *use* it, well, that's up to the Junimo...""
+globalFade
+viewport -1000 -1000
+message ""Usage: After completing quests to get junimo helpers, you can place Junimo Portals either in buildings or outside.  If outside, place walkways between the hut and any chests or machines you want the Junimo to automate.  If in a building, you can place walkways or just leave a clear path.""
 end warpOut");
 
             eventData[IF($"{JunimoPortalDiscoveryEvent}/H/i {OldJunimoPortalQiid}")]
-                = commonPart1 + (this.mod.IsRunningSve ? svePart2 : stockPart2) + commonPart3;
+                = (commonPart1 + (this.mod.IsRunningSve ? svePart2 : stockPart2) + commonPart3)
+                  .Replace("\r", "").Replace("\n", "/");
         }
 
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
