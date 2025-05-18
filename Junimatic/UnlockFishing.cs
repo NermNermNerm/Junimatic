@@ -410,13 +410,11 @@ namespace NermNermNerm.Junimatic
         private void EditMountainEvents(IDictionary<string, string> eventData)
         {
             eventData[I($"{MeetLinusAtTentEvent}/H/t 600 2200/n {LinusHadADreamMailKey}")] = SdvEvent($@"spring_day_ambient
--1000 -1000
+20 9
 farmer 5 9 1 Linus 25 9 1
 removeQuest {MeetLinusAtTentQuest}
 addQuest {MeetLinusAt60Quest}
 skippable
-
-viewport 21 20 true
 
 move farmer 10 0 1 true
 pause 1500
