@@ -434,7 +434,7 @@ changeLocation Mine
 warp Linus 17 6
 warp farmer 17 9
 faceDirection farmer 0
-viewport 18 12
+viewport 18 12 clamp
 fade unfade
 
 pause 2000
@@ -463,7 +463,7 @@ skippable
 setskipactions addquest Junimatic.CatchIcePips
 {AddFishTankPropEventCommand}
 
-viewport 18 8 true
+viewport 18 8 clamp
 
 pause 1000
 

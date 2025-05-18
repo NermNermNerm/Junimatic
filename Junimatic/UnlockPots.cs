@@ -113,7 +113,7 @@ farmer {29 + modDeltaX} {14 + modDeltaY} 3 Junimo {26 + modDeltaX} {14 + modDelt
 setSkipActions MarkCraftingRecipeKnown All {IndoorWellRecipeId}
 skippable
 changeLocation Woods
-viewport {27 + modDeltaX} {12 + modDeltaY} true
+viewport {27 + modDeltaX} {12 + modDeltaY} clamp
 animate Junimo true true 50 16 17 18 19 20 21 22 23
 spriteText 4 ""Thank you for bringing my flower to Lewis...""
 pause 3000
@@ -144,7 +144,7 @@ end bed
 farmer {78 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDeltaY} 0 Junimo -2000 -2000 2
 skippable
 makeInvisible 68 22 4 9
-viewport {67 - modDeltaX} {27 - modDeltaY} true
+viewport {67 - modDeltaX} {27 - modDeltaY} clamp
 
 move farmer -7 0 3
 pause 100
@@ -190,7 +190,7 @@ farmer {78 - modDeltaX} {29 - modDeltaY} 3 Lewis {69 - modDeltaX} {28 - modDelta
 setSkipActions addItem {MightHaveBeenRoseObjectQiid} 1#addQuest {GiveLewisPlantQuestId}
 skippable
 makeInvisible 68 22 4 9
-viewport {67 - modDeltaX} {27 - modDeltaY} true
+viewport {67 - modDeltaX} {27 - modDeltaY} clamp
 
 move farmer -7 0 3
 pause 100
@@ -288,7 +288,7 @@ end fade
 -1000 -1000
 farmer 9 23 0 Evelyn 2 17 1 George 16 22 0
 skippable
-viewport 4 18 true
+viewport 4 18 clamp
 textAboveHead Evelyn ""Please come in!""
 pause 1000
 move farmer 0 -2 0

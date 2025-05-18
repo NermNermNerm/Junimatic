@@ -95,7 +95,7 @@ addQuest {RescueCindersapJunimoQuest}/
 {ModEntry.SetJunimoColorEventCommand} Gold/
 skippable/
 makeInvisible 89 60 3 15/
-viewport 90 69 true/
+viewport 90 69 clamp/
 move farmer 0 3 2/
 move farmer 0 3 2 true/ 
 advancedMove Junimo false -5 0/
@@ -135,7 +135,7 @@ farmer 90 60 2 Junimo 89 72 3 Marnie 87 48 2/
 removeQuest {RescueCindersapJunimoQuest}/
 skippable/
 makeInvisible 86 48 6 27/
-viewport 90 69 true/
+viewport 90 69 clamp/
 {ModEntry.SetJunimoColorEventCommand} Gold/
 animate Junimo false true 100 8 8 9 10 11 11 10 9/
 move farmer 0 5 2/
@@ -213,7 +213,7 @@ farmer {29+modDeltaX} {14+modDeltaY} 3 Junimo {26+modDeltaX} {14+modDeltaY} 1
 {ModEntry.SetJunimoColorEventCommand} PapayaWhip
 skippable
 changeLocation Woods
-viewport {27 + modDeltaX} {12 + modDeltaY} true
+viewport {27 + modDeltaX} {12 + modDeltaY} clamp
 animate Junimo true true 50 16 17 18 19 20 21 22 23
 spriteText 4 ""Thank you for helping our friend get home...""
 pause 3000

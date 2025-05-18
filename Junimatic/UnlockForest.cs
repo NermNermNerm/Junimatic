@@ -234,7 +234,7 @@ farmer {40+modDeltaX} {14+modDeltaY} 3 Linus {29+modDeltaX} {13+modDeltaY} 1
 removeQuest {MeetLinusInWoodsQuestKey}
 
 makeInvisible {28+modDeltaX} {7+modDeltaY} 4 9
-viewport {27+modDeltaX} {12+modDeltaY} true
+viewport {27+modDeltaX} {12+modDeltaY} clamp
 
 temporaryAnimatedSprite ""LooseSprites\Cursors_1_6"" 48 208 64 48 999999 1 0  {28+modDeltaX} {9+modDeltaY}  false false 10 0 1 0 0 0/
 temporaryAnimatedSprite ""LooseSprites\Cursors_1_6"" 0 192 48 64  999999 1 0  {29+modDeltaX} {7+modDeltaY}  false false 11 0 1 0 0 0/
@@ -368,7 +368,7 @@ pause 1000
 move farmer 5 0 1 true
 pause 1000
 fade
-viewport -1000 -1000 true
+viewport -1000 -1000
 Junimatic.LightCampFires {30 + modDeltaX} {13 + modDeltaY}
 addQuest {GrowMysticTreeQuest}
 end warpOut

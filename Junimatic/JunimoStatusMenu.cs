@@ -139,7 +139,7 @@ namespace NermNermNerm.Junimatic
                     if (base.heldItem.Stack == 1)
                     {
                         Utility.removeItemFromInventory(indexOfSelectedItemInShinyList, this.ItemsToGrabMenu.actualInventory);
-                        Utility.addItemToInventory(itemInShinyMenu, indexOfSelectedItemInShinyList, this.ItemsToGrabMenu.actualInventory, this.ItemsToGrabMenu.onAddItem);
+                        Utility.addItemToInventory(base.heldItem, indexOfSelectedItemInShinyList, this.ItemsToGrabMenu.actualInventory, this.ItemsToGrabMenu.onAddItem);
                         // Above two lines are probably no different than:
                         // this.ItemsToGrabMenu.actualInventory[indexOfSelectedItemInShinyList] = base.heldItem;
 

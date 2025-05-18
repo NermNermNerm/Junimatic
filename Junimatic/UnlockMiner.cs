@@ -134,7 +134,7 @@ farmer 13 23 2/
 skippable/
 addTemporaryActor Grandpa 1 1 -100 -100 2 true/
 specificTemporarySprite grandpaSpirit/
-viewport -1000 -1000 true/
+viewport -1000 -1000/
 pause 8000/
 speak Grandpa ""My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...""/
 playmusic none/
@@ -152,7 +152,7 @@ removeQuest {JunimoChrysalisToWizardQuest}/
 removeItem {JunimoChrysalisQiid} 2/
 skippable/
 showFrame Wizard 20/
-viewport 8 18 true/
+viewport 8 18 clamp/
 move farmer 0 -3 0/
 pause 2000/
 speak Wizard ""Ah... Come in.""/

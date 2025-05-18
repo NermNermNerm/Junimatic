@@ -195,7 +195,7 @@ addConversationTopic {UnlockCropMachines.ConversationKeyBigCrops} 200/
 setSkipActions MarkCraftingRecipeKnown All {JunimoPortalRecipe}#removeItem {OldJunimoPortalQiid}/
 skippable/
 showFrame Wizard 20/
-viewport 8 18 true/
+viewport 8 18 clamp/
 move farmer 0 -3 0/
 pause 2000/
 speak Wizard ""Ah... Come in.""/
@@ -254,7 +254,7 @@ warp Wizard 12 13
 warp farmer 8 13
 faceDirection farmer 1
 faceDirection Wizard 3
-viewport 8 13
+viewport 8 13 clamp
 fade unfade
 
 pause 500
