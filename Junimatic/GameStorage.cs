@@ -46,7 +46,8 @@ namespace NermNermNerm.Junimatic
             }
             else if (item is Chest chest && (chest.SpecialChestType == Chest.SpecialChestTypes.None || chest.SpecialChestType == Chest.SpecialChestTypes.JunimoChest || chest.SpecialChestType == Chest.SpecialChestTypes.BigChest))
             {
-                return new ChestStorage(chest, accessPoint);
+                // The special case for ItemId==-1 here is for the gift box left in cabins containing starter seeds.  I see no other way to identify it.
+                return item.ItemId == "-1" ? null : new ChestStorage(chest, accessPoint);
             }
             else if (item.ItemId == "165") // auto-grabber
             {
