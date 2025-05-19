@@ -129,7 +129,7 @@ animate Junimo true true 100 28 29 30 31
 pause 2000
 fade
 end bed
-").Replace("\r", "").Replace("\n", "/");
+");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/Woods"))
@@ -181,7 +181,7 @@ move farmer -1 0 3
 addConversationTopic {SawLewisMopingConversationTopic} 90
 
 end fade
-").Replace("\r", "").Replace("\n", "/");
+");
 
                     // 'e 900553' means seen Evelyn's plant-pot event
                     d[IF($"{MetLewisMopingPart2EventId}/H/f Lewis 2000/e {MetLewisMopingPart1EventId}/e {UnlockPortal.JunimoPortalDiscoveryEvent}/e 900553/w sunny")] = SdvEvent($@"AbigailFlute
@@ -276,7 +276,7 @@ addQuest {GiveLewisPlantQuestId}
 
 message ""Huh...  I wonder why a plant would be of help.  Junimos work in strange ways.""
 end fade
-").Replace("\r", "").Replace("\n", "/");
+");
             });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Events/JoshHouse"))
@@ -335,7 +335,7 @@ faceDirection Evelyn 2
 speak Evelyn ""But just between you and me, I think it turned out for the best for both of them.$1""
 end fade
 
-").Replace("\r", "").Replace("\n", "/");
+");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/Powers"))

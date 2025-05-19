@@ -125,7 +125,7 @@ spriteText 4 ""One of us will come and help with your kegs, casks and preserves 
 spriteText 4 ""Thx!  Bai!!!""
 pause 2000
 end
-").Replace("\r", "").Replace("\n", "/");
+");
                 });
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Characters/Dialogue/Caroline"))

@@ -268,7 +268,7 @@ emote Wizard 40
 pause 1000
 faceDirection Wizard 2
 speak Wizard ""Yes.  I was right...#$b#As always.""
-").Replace("\r", "").Replace("\n", "/");
+");
 
             string commonPart3 = SdvEvent($@"
 faceDirection Wizard 3
@@ -290,8 +290,7 @@ message ""Usage: After completing quests to get junimo helpers, you can place Ju
 end warpOut");
 
             eventData[IF($"{JunimoPortalDiscoveryEvent}/H/i {OldJunimoPortalQiid}")]
-                = (commonPart1 + (this.mod.IsRunningSve ? svePart2 : stockPart2) + commonPart3)
-                  .Replace("\r", "").Replace("\n", "/");
+                = (commonPart1 + (this.mod.IsRunningSve ? svePart2 : stockPart2) + commonPart3);
         }
 
         private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)

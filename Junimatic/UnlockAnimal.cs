@@ -127,7 +127,7 @@ speed Junimo 7
 advancedMove Junimo false 5 0
 pause 1500
 message ""Maybe a Junimo Portal would help it find its way home.""
-end/").Replace("\r", "").Replace("\n", "/");
+end/");
             eventData[IF($"{DropPortalForJunimoEvent}/H/sawEvent {LostJunimoDiscoveryEvent}/time 600 1900/i (BC){UnlockPortal.JunimoPortal}")]
     = SdvEvent($@"sadpiano
 -2000 -2000
@@ -199,7 +199,7 @@ pause 2000
 faceDirection farmer 3
 speak Marnie ""That wasn't a chicken...  was it?$2#$b#Your grandfather had some little houses like that on his farm.  He said they were for his 'helpers'.  But as he declined, he was prone to say, well, a lot of stuff....$2#$b#I suppose I caught a glimpse of them from time to time, but, well...  I think I'm more comfortable not seeing them.$3#$b#You say they're good creatures?  Well...  Okay.  *Something* was sure keeping that farm in trim when your Grandad was declining.$2#$b#I suppose everybody needs a little magic in their lives from time to time.$0""
 pause 1000
-end fade/").Replace("\r", "").Replace("\n", "/");
+end fade/");
         }
 
         private void EditFarmHouseEvents(IDictionary<string, string> eventData)
@@ -224,7 +224,7 @@ pause 3000
 animate Junimo true true 100 28 29 30 31
 spriteText 4 ""I like animals and the wonderful things you can make with their help...""
 fade
-end bed").Replace("\r", "").Replace("\n", "/");
+end bed");
         }
 
         private void EditFarmEvents(IDictionary<string, string> eventData)
@@ -247,7 +247,7 @@ speak Marnie ""Oof! I need to be getting back! Anyway, I hope you can wrangle it
 pause 200
 globalFade
 viewport -1000 -1000
-end").Replace("\r", "").Replace("\n", "/");
+end");
         }
 
         private void EditQuests(IDictionary<string, string> data)

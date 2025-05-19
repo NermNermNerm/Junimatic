@@ -221,7 +221,7 @@ spriteText 4 ""You will be wiser.  We will help.""
 spriteText 4 ""Thx!  Bai!!!""
 pause 2000
 end
-").Replace("\r", "").Replace("\n", "/");
+");
         }
 
         private void EditWoodsEvents(IDictionary<string, string> eventData)
@@ -372,7 +372,7 @@ viewport -1000 -1000
 Junimatic.LightCampFires {30 + modDeltaX} {13 + modDeltaY}
 addQuest {GrowMysticTreeQuest}
 end warpOut
-").Replace("\r", "").Replace("\n", "/");
+");
         }
     }
 }

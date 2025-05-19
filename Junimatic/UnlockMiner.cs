@@ -139,7 +139,7 @@ pause 8000
 speak Grandpa ""My dear boy...^My beloved grand-daughter...#$b#I am sorry to come to you like this, but I had to thank you for rescuing my dear Junimo friend.#$b#He protected me at a time when my darkest enemy was my own failing mind.#$b#In better days, he helped me with my smelters and other mine-related machines.  He will help you too; he really enjoys watching the glow of the fires!#$b#I rest much easier now knowing that my friend is safe.  I am so proud of you...""
 playmusic none
 pause 1000
-end bed").Replace("\r", "").Replace("\n", "/");
+end bed");
         }
 
         private void EditWizardHouseEvents(IDictionary<string, string> eventData)
@@ -220,7 +220,7 @@ faceDirection Wizard 2
 speak Wizard ""That's it...#$b#Really...#$b#I think.""
 move farmer 0 3 2 false
 end warpOut
-").Replace("\r", "").Replace("\n", "/");
+");
         }
 
         private void EditQuests(IDictionary<string, string> data)

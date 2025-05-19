@@ -448,7 +448,7 @@ move Linus 0 -2 0 true
 move farmer 0 -2 0 true
 {SetExitLocationCommand} UndergroundMine60 12 10 
 end fade
-").Replace("\r", "").Replace("\n", "/");
+");
         }
 
         private string GetIcePipEventText()
@@ -502,7 +502,7 @@ faceDirection Linus 2
 speak Linus ""Well, I've got a lot to think about.""
 move Linus 0 -4 0
 
-end").Replace("\r", "").Replace("\n", "/");
+end");
         }
     }
 }
