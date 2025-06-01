@@ -356,7 +356,7 @@ namespace NermNermNerm.Junimatic
             {
                 foreach (var rule in machineData.OutputRules)
                 {
-                    foreach (var trigger in rule.Triggers)
+                    foreach (var trigger in rule.Triggers ?? [])
                     {
                         hasLegibleOutputRule |= trigger.RequiredTags is not null && trigger.RequiredTags.Any();
                         hasLegibleOutputRule |= trigger.RequiredItemId is not null;
