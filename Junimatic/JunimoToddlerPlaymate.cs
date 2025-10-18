@@ -11,7 +11,7 @@ using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
-    public class JunimoToddlerPlaymate : JunimoBase
+    public class JunimoToddlerPlaymate : JunimoPlaymateBase
     {
         // Junimo runs to toddler - fix toddler in-place while junimo is going
         // Upon arrival, see if current location is 3x2 clear.  If not, run game1
@@ -128,11 +128,11 @@ namespace NermNermNerm.Junimatic
             this.LogTrace($"Playdate ending");
             this.activity = Activity.GoingHome;
 
-            this.doEmote(sleepEmote);
-            this.DoAfterDelay(() => this.childrenToPlayWith[0].doEmote(happyEmote), 1500);
+            this.BroadcastEmote(sleepEmote);
+            this.DoAfterDelay(() => this.BroadcastEmote(this.childrenToPlayWith[0], happyEmote), 1500);
             if (this.childrenToPlayWith.Count > 1)
             {
-                this.DoAfterDelay(() => this.childrenToPlayWith[1].doEmote(sadEmote), 2250);
+                this.DoAfterDelay(() => this.BroadcastEmote(this.childrenToPlayWith[1], sadEmote), 2250);
             }
 
             this.DoAfterDelay(() =>
@@ -159,13 +159,13 @@ namespace NermNermNerm.Junimatic
                         this.childParkedTiles[child] = child.TilePoint;
                     }
 
-                    this.childrenToPlayWith[0].doEmote(heartEmote);
+                    this.BroadcastEmote( this.childrenToPlayWith[0], heartEmote);
                     DoToddlerArmFlapAnimation(this.childrenToPlayWith[0]);
                     if (this.childrenToPlayWith.Count > 1)
                     {
                         this.DoAfterDelay(() =>
                         {
-                            this.childrenToPlayWith[1].doEmote(happyEmote);
+                            this.BroadcastEmote(this.childrenToPlayWith[1], happyEmote);
                             this.childrenToPlayWith[1].jump(6);
                         }, 500);
                     }
@@ -405,10 +405,10 @@ namespace NermNermNerm.Junimatic
                     this.currentLocation.critters.Remove(this.gameBall);
                     this.gameBall = null;
 
-                    this.doEmote(winningChild is null ? exclamationEmote : angryEmote);
+                    this.BroadcastEmote(winningChild is null ? exclamationEmote : angryEmote);
                     foreach (var c in this.childrenToPlayWith)
                     {
-                        c.doEmote(c == winningChild ? exclamationEmote : angryEmote);
+                        this.BroadcastEmote(c, c == winningChild ? exclamationEmote : angryEmote);
                     }
 
                     this.DoAfterDelay(this.FindNewSpot, 1500);
@@ -461,6 +461,8 @@ namespace NermNermNerm.Junimatic
 
         private static void DoToddlerArmFlapAnimation(Child c)
         {
+            // TODO: Multiplayer Broadcast
+
             c.Sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
             {
                 new(16, 120, 0, secondaryArm: false, flip: false),

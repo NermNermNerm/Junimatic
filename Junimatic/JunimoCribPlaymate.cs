@@ -12,7 +12,7 @@ using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
-    public class JunimoCribPlaymate : JunimoBase
+    public class JunimoCribPlaymate : JunimoPlaymateBase
     {
         private readonly Child? childToPlayWith; // Null when in a multiplayer game
 

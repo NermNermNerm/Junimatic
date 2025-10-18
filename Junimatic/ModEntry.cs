@@ -33,6 +33,7 @@ namespace NermNermNerm.Junimatic
         public readonly UnlockFishing UnlockFishing = new UnlockFishing();
         public readonly UnlockPots UnlockPots = new UnlockPots();
         public readonly JunimoStatus JunimoStatusDialog = new JunimoStatus();
+        public readonly PlaymateMultiplayerSupport PlaymateMultiplayerSupport = new PlaymateMultiplayerSupport();
 
         public readonly Powers Powers = new Powers();
 
@@ -70,6 +71,7 @@ namespace NermNermNerm.Junimatic
             this.UnlockPots.Entry(this);
             this.PetFindsThings.Entry(this);
             this.JunimoStatusDialog.Entry(this);
+            this.PlaymateMultiplayerSupport.Entry(this);
             this.Powers.Entry(this);
             this.childsplay.Entry(this);
 
