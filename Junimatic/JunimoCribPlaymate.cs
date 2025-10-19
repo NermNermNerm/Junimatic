@@ -117,7 +117,7 @@ namespace NermNermNerm.Junimatic
 
             int DoEmote()
             {
-                this.childToPlayWith!.doEmote(32);
+                this.BroadcastEmote( this.childToPlayWith!, Character.happyEmote);
                 return 3000;
             };
 
@@ -173,7 +173,7 @@ namespace NermNermNerm.Junimatic
                 int CribGameEmote()
                 {
                     this.FacingDirection = 0;
-                    this.doEmote(20);
+                    this.BroadcastEmote(this, heartEmote);
                     return 3000;
                 };
 
@@ -202,14 +202,14 @@ namespace NermNermNerm.Junimatic
 
             if (this.childToPlayWith!.Age == Child.baby)
             {
-                this.doEmote(sleepEmote);
-                this.DoAfterDelay(() => this.childToPlayWith!.doEmote(32 /* smile */), 1500);
+                this.BroadcastEmote(this,sleepEmote);
+                this.DoAfterDelay(() => this.BroadcastEmote(this.childToPlayWith!, happyEmote /* smile */), 1500);
             }
             else
             {
-                this.Parent!.doEmote(sleepEmote);
+                this.BroadcastEmote(this.Parent!, sleepEmote);
                 this.Meep();
-                this.DoAfterDelay(() => this.doEmote(28 /*tears*/), 1500);
+                this.DoAfterDelay(() => this.BroadcastEmote(sadEmote /*tears*/), 1500);
             }
 
             this.DoAfterDelay(() =>
