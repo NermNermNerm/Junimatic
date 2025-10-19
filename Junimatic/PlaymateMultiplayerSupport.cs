@@ -12,7 +12,6 @@ public class PlaymateMultiplayerSupport : ModLet
     private const string DoEmoteMessageId = "Junimatic.DoEmote";
     private const string StartBallMessageId = "Junimatic.StartBall";
     private const string RemoveBallMessageId = "Junimatic.RemoveBall";
-    private const string ArmFlapMessageId = "Junimatic.ArmFlap";
 
     private GameBall? gameBall = null;
 
@@ -40,11 +39,6 @@ public class PlaymateMultiplayerSupport : ModLet
     public void BroadcastRemoveBall()
     {
         this.Helper.Multiplayer.SendMessage("", PlaymateMultiplayerSupport.RemoveBallMessageId, [this.Mod.ModManifest.UniqueID], null);
-    }
-
-    public void BroadcastArmFlap(Character emoter)
-    {
-        this.Helper.Multiplayer.SendMessage(emoter.Name, PlaymateMultiplayerSupport.ArmFlapMessageId, [this.Mod.ModManifest.UniqueID], null);
     }
 
     private void Multiplayer_ModMessageReceived(object? sender, ModMessageReceivedEventArgs e)
@@ -82,15 +76,6 @@ public class PlaymateMultiplayerSupport : ModLet
                     this.gameBall = null;
                 }
                 break;
-
-            case PlaymateMultiplayerSupport.ArmFlapMessageId:
-            {
-                if (Game1.getCharacterFromName(e.ReadAs<string>(), mustBeVillager: false) is Child c)
-                {
-                    JunimoToddlerPlaymate.DoToddlerArmFlapAnimation(c);
-                }
-                break;
-            }
 
             default:
                 break;

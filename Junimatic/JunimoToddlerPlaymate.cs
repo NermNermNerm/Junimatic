@@ -160,7 +160,6 @@ namespace NermNermNerm.Junimatic
                     }
 
                     this.BroadcastEmote( this.childrenToPlayWith[0], heartEmote);
-                    ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastArmFlap(this.childrenToPlayWith[0]);
                     DoToddlerArmFlapAnimation(this.childrenToPlayWith[0]);
                     if (this.childrenToPlayWith.Count > 1)
                     {
