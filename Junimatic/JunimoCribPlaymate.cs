@@ -25,6 +25,8 @@ namespace NermNermNerm.Junimatic
         private enum Activity { GoingToPlay, Playing, GoingHome };
         private Activity activity;
 
+        private JunimoParent? parent; // When escorted, the parent pops out of the hut a second or so after the child
+
         public JunimoCribPlaymate()
         {
             this.LogTrace($"Junimo playmate cloned");
@@ -50,7 +52,7 @@ namespace NermNermNerm.Junimatic
                     if (parentJunimo.TryGoToCrib())
                     {
                         this.currentLocation.characters.Add(parentJunimo);
-                        this.Parent = parentJunimo;
+                        this.parent = parentJunimo;
                     }
                 }, 1000);
             }
@@ -59,8 +61,6 @@ namespace NermNermNerm.Junimatic
         }
 
         private Vector2 PlayStartPoint => this.childToPlayWith!.Tile + new Vector2(0, 2); // The crib has some funny z-ordering, going a bit farther away from it.
-
-        public JunimoParent? Parent { get; set; } // When escorted, the parent pops out of the hut a second or so after the child
 
         public bool IsViable => this.controller?.pathToEndPoint is not null;
 
@@ -207,7 +207,7 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                this.BroadcastEmote(this.Parent!, sleepEmote);
+                this.BroadcastEmote(this.parent!, sleepEmote);
                 this.Meep();
                 this.DoAfterDelay(() => this.BroadcastEmote(sadEmote /*tears*/), 1500);
             }
@@ -215,7 +215,7 @@ namespace NermNermNerm.Junimatic
             this.DoAfterDelay(() =>
             {
                 base.GoHome();
-                this.Parent?.GoHome();
+                this.parent?.GoHome();
             }, 3000);
         }
 
@@ -238,9 +238,9 @@ namespace NermNermNerm.Junimatic
                 // If it's late or the junimo was going home anyway, just remove them from the scene.
                 if (Game1.timeOfDay > 1200 + 700 || this.activity == Activity.GoingHome)
                 {
-                    if (this.Parent is not null)
+                    if (this.parent is not null)
                     {
-                        location.characters.Remove(this.Parent);
+                        location.characters.Remove(this.parent);
                     }
                     location.characters.Remove(this);
                     return;
@@ -255,16 +255,16 @@ namespace NermNermNerm.Junimatic
                     this.Position = this.PlayStartPoint*64;
                     this.controller = null;
                     this.Speed = this.TravelingSpeed;
-                    this.Parent?.SetByCrib();
+                    this.parent?.SetByCrib();
 
                     // And put a stop to any planned activity
                     this.CancelAllDelayedActions();
                 }
             }
 
-            if (this.Parent is not null)
+            if (this.parent is not null)
             {
-                float distanceToParent = Math.Max(Math.Abs(this.Position.X - this.Parent.Position.X), Math.Abs(this.Position.Y - this.Parent.Position.Y));
+                float distanceToParent = Math.Max(Math.Abs(this.Position.X - this.parent.Position.X), Math.Abs(this.Position.Y - this.parent.Position.Y));
                 bool isTooFarFromParent = distanceToParent > 64 * 5;
                 bool isCloseEnoughToParent = distanceToParent < 64 + 32;
                 if (this.activity == Activity.GoingToPlay)

@@ -160,6 +160,7 @@ namespace NermNermNerm.Junimatic
                     }
 
                     this.BroadcastEmote( this.childrenToPlayWith[0], heartEmote);
+                    ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastArmFlap(this.childrenToPlayWith[0]);
                     DoToddlerArmFlapAnimation(this.childrenToPlayWith[0]);
                     if (this.childrenToPlayWith.Count > 1)
                     {
@@ -250,6 +251,8 @@ namespace NermNermNerm.Junimatic
                             if (controller.pathToEndPoint is not null)
                             {
                                 this.FixChildControllers(); // Parks the children in their current position while the ball is bouncing
+                                var startingTile = this.Tile.ToPoint() + new Point(1, 0);
+                                ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastBall(startingTile, openPoint);
                                 this.gameBall = new GameBall(this.currentLocation, this.Tile.ToPoint() + new Point(1, 0), openPoint, () =>
                                 {
                                     this.controller = controller; // Send the Junimo on its way.
@@ -355,6 +358,7 @@ namespace NermNermNerm.Junimatic
                 if (this.gameBall is not null)
                 {
                     this.currentLocation.critters.Remove(this.gameBall);
+                    ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBall();
                     this.gameBall = null;
                 }
 
@@ -404,6 +408,7 @@ namespace NermNermNerm.Junimatic
                     this.currentLocation.playSound("dwoop");
                     this.currentLocation.critters.Remove(this.gameBall);
                     this.gameBall = null;
+                    ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBall();
 
                     this.BroadcastEmote(winningChild is null ? exclamationEmote : angryEmote);
                     foreach (var c in this.childrenToPlayWith)
@@ -459,10 +464,8 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        private static void DoToddlerArmFlapAnimation(Child c)
+        public static void DoToddlerArmFlapAnimation(Child c)
         {
-            // TODO: Multiplayer Broadcast
-
             c.Sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
             {
                 new(16, 120, 0, secondaryArm: false, flip: false),
