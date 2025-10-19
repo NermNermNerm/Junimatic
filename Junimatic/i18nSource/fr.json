@@ -129,12 +129,6 @@
       "ingestionDate": "2024-06-21T18:33:20.7594795-07:00"
     },
     {
-      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
-      "translation": "Lorsque tu étais enfant et que tu visitais la ferme, as-tu déjà vu les choux-fleurs géants que ton grand-père cultivait ? Énorme, je veux dire ! Genre, vraiment énorme !$1#$b#Je n'ai pu les voir qu'une seule fois et je me souviens que ma mère m'y avait emmené un après-midi.#$b#J'en ai grimpé un comme si c’était un arbre et ma mère s'est inquiétée.#$b#Ton grand-père m'a récupéré et a dit à ma mère de ne pas s'inquiéter parce que des créatures magiques me protégeraient.#$b#Je ne sais pas pourquoi, je suppose que c'est parce que je n'étais qu'un enfant, mais je me suis sentie vraiment spéciale longtemps après ce jour.",
-      "author": "github:CaranudLapin",
-      "ingestionDate": "2024-06-21T18:33:20.7594795-07:00"
-    },
-    {
       "source": "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn't buy one and your grandad invented this cock&bull story about magical creatures.$5#$b#Didn't he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2",
       "translation": "Ton grand-père cultivait ces gigantesques citrouilles. Je voulais absolument sculpter une de ces choses.$1#$b#Mais ma mère ne voulait pas en acheter et ton grand-père a inventé cette histoire à dormir debout sur des créatures magiques.$5#$b#Il ne savait pas que j'étais trop vieille pour des histoires comme ça ? Hum. Je suppose que je devrais laisser passer parce qu'il était vieux et sénile.$2#$b#Alors... Tu veux en savoir plus sur mes problèmes de riche ?$2",
       "author": "github:CaranudLapin",
@@ -489,12 +483,6 @@
       "ingestionDate": "2024-06-21T18:33:20.7594795-07:00"
     },
     {
-      "source": "Plant The Mystic Seed",
-      "translation": "Plantez la graine mystique",
-      "author": "github:CaranudLapin",
-      "ingestionDate": "2024-06-21T18:33:20.7594795-07:00"
-    },
-    {
       "source": "Linus gave you some tree seeds...  Do the Junimos talk to him too?",
       "translation": "Linus vous a donné des graines d'arbres... Est-ce que les Junimos lui parlent aussi ?",
       "author": "github:CaranudLapin",
@@ -521,12 +509,6 @@
     {
       "source": "Enter the secret woods on a sunny day between 6 and 11pm.",
       "translation": "Entrez dans les bois secrets par une journée ensoleillée entre 18h et 23h.",
-      "author": "github:CaranudLapin",
-      "ingestionDate": "2024-06-21T18:33:20.7594795-07:00"
-    },
-    {
-      "source": "@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
-      "translation": "@,^comment vas-tu ? J'ai décidé de passer une nuit ou deux dans les bois profonds, à l'ouest du ranch de Marnie. Souhaiterais-tu partager un repas dans la nature avec moi ?^  - Linus",
       "author": "github:CaranudLapin",
       "ingestionDate": "2024-06-21T18:33:20.7594795-07:00"
     },
@@ -1081,6 +1063,120 @@
       "translation": "Les Junimos ont croqué une caisse de raisins ce matin !",
       "author": "github:CaranudLapin",
       "ingestionDate": "2025-01-03T10:12:30.7682493-08:00"
+    },
+    {
+      "source": "Allow Playdates",
+      "translation": "Autoriser le jeu avec les enfants",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "If this is checked, Junimos occasionally pop out of Junimo huts in the house to play with children.",
+      "translation": "Si cette option est activée, les Junimos sortirons occasionnellement de leur hutte pour jouer dans la maison avec les enfants.",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Junimatic",
+      "translation": "Junimatic",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Junimos will work with animal-related machines like cheese presses, looms and mayonnaise machines.",
+      "translation": "Les Juminos travaillerons avec les machines de production animales comme la presse à fromage, les métiers à tisser et les machines à mayonnaise.",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Crops Junimo",
+      "translation": "Jumino cultivateur",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  Like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
+      "translation": "Lorsque tu étais enfant et que tu visitais la ferme, as-tu déjà vu les choux-fleurs géants que ton grand-père cultivait ? Énorme, je veux dire ! Genre, vraiment énorme !$1#$b#Je n'ai pu les voir qu'une seule fois et je me souviens que ma mère m'y avait emmené un après-midi.#$b#J'en ai grimpé un comme si c’était un arbre et ma mère s'est inquiétée.#$b#Ton grand-père m'a récupéré et a dit à ma mère de ne pas s'inquiéter parce que des créatures magiques me protégeraient.#$b#Je ne sais pas pourquoi, je suppose que c'est parce que je n'étais qu'un enfant, mais je me suis sentie vraiment spéciale longtemps après ce jour.",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Junimos will work with crop-related machines like Kegs",
+      "translation": "Les Juminos travaillerons avec les machines de production agricoles comme les fûts",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Fishing Junimo",
+      "translation": "Jumino pêcheur",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Junimos will work with fishing-related machines like crab pots and recycling machines.",
+      "translation": "Les Juminos travaillerons avec les machines de pêche comme les casiers à crabes et de recyclage.",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Forestry Junimo",
+      "translation": "Jumino forestier",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Junimos will work with foraging-related machines like tappers and mushroom logs",
+      "translation": "Les Juminos travaillerons avec les machines de production forestières comme les saigneurs et les bûches à champignons.",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Grow a Mystic Tree",
+      "translation": "Cultivez un arbre mystique et deux acajous jusqu'à l'âge adulte dans votre ferme.",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "@,^How are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
+      "translation": "@,^comment vas-tu ? J'ai décidé de passer une nuit ou deux dans les bois profonds, à l'ouest du ranch de Marnie. Souhaiterais-tu partager un repas dans la nature avec moi ?^  - Linus",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Mining Junimo",
+      "translation": "Junimo mineur",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Junimos will work with mining-related machines like furnaces and geode crushers.",
+      "translation": "Les Juminos travaillerons avec les machines de production minières comme les fournaises et les broyeurs de géodes.",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Junimo Huts",
+      "translation": "Hutte de Jumino",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Construct Junimo Huts",
+      "translation": "Construire hutte de Jumino",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Indoor Pot Junimo",
+      "translation": "Jumino jardinier d’intérieur",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
+    },
+    {
+      "source": "Junimos will harvest and water plants grown in indoor pots.",
+      "translation": "Les Juminos récolterons et arroserons les plantes d’intérieur",
+      "author": "github:N0mekop",
+      "ingestionDate": "2025-10-19T13:14:12.1364193-07:00"
     }
   ]
 }
