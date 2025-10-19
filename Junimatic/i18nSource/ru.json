@@ -165,12 +165,6 @@
       "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
     },
     {
-      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
-      "translation": "Когда ты был ребёнком и посещал ферму, ты когда-нибудь видел гигантские цветные капусты, которые выращивал твой дедушка? Ну, прям гигантские! Просто огромные!$1#$b#Я видела их только один раз, когда мама привела меня туда в какой-то день.#$b#Я залезла на одну, как на дерево, и моя мама очень переживала.#$b#Твой дедушка спустил меня и сказал маме не волноваться, потому что меня будут защищать магические существа.#$b#Не знаю, почему, наверное, потому что я была ребёнком, но я долго чувствовала себя особенной после того дня.",
-      "author": "github:KREZOO",
-      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
-    },
-    {
       "source": "Your grandad used to grow these gigantic pumpkins.  I totally wanted to carve one of those things.$1#$b#But my mom wouldn't buy one and your grandad invented this cock&bull story about magical creatures.$5#$b#Didn't he know I was too old for stories like that?  Meh.  I guess I should cut him slack for being old and senile.$2#$b#So...  Do you want to hear about any more of my first-world problems?$2",
       "translation": "Твой дедушка раньше выращивал эти гигантские тыквы. Я реально хотела вырезать одну из них.$1#$b#Но моя мама не хотела её покупать, и твой дедушка выдумал эту чепуху про магических существ.$5#$b#Неужели он не знал, что я уже слишком взрослая для таких историй? Ммм. Думаю, можно простить его, ведь он был стар и немощен.$2#$b#Так... Хочешь послушать ещё о моих проблемах из мира богатых?$2",
       "author": "github:KREZOO",
@@ -525,12 +519,6 @@
       "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
     },
     {
-      "source": "Plant The Mystic Seed",
-      "translation": "Посади мистическое семя",
-      "author": "github:KREZOO",
-      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
-    },
-    {
       "source": "Linus gave you some tree seeds...  Do the Junimos talk to him too?",
       "translation": "Линус дал тебе семена деревьев... Джунимо тоже с ним разговаривают?",
       "author": "github:KREZOO",
@@ -557,12 +545,6 @@
     {
       "source": "Enter the secret woods on a sunny day between 6 and 11pm.",
       "translation": "Войдите в Тайный Лес в солнечный день между 18:00 и 23:00.",
-      "author": "github:KREZOO",
-      "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
-    },
-    {
-      "source": "@,^how are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
-      "translation": "@,^Как твои дела? Я решил провести пару ночей в глухих лесах на западе от ранчо Марни. Ты не хочешь разделить со мной ужин в дикой природе? ^   -Линус",
       "author": "github:KREZOO",
       "ingestionDate": "2024-12-20T10:34:36.1109586-08:00"
     },
@@ -1081,6 +1063,120 @@
       "translation": "Джунимо сегодня не работают в {{arg0}}. Они боятся {{arg1}}.",
       "author": "github:KREZOO",
       "ingestionDate": "2025-01-16T16:16:01.296639-08:00"
+    },
+    {
+      "source": "Allow Playdates",
+      "translation": "Разрешить совместные игры",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "If this is checked, Junimos occasionally pop out of Junimo huts in the house to play with children.",
+      "translation": "Если эта опция включена, Джунимо время от времени выходят из домиков в доме, чтобы поиграть с детьми.",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Junimatic",
+      "translation": "Джуниматик",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Junimos will work with animal-related machines like cheese presses, looms and mayonnaise machines.",
+      "translation": "Джунимо будут работать с устройствами, связанными с животноводством, такими как пресс для сыра, прялка и майонезный автомат.",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Crops Junimo",
+      "translation": "Урожай Джунимо",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "When you were a kid visiting the farm, did you ever see any of the giant cauliflowers that your grandpa grew?  I mean huge!  Like way huge!$1#$b#I only got to see them once that I can recall when my Mom took me down there one afternoon.#$b#I climbed one like a tree and my Mom got all worried.#$b#Your grandad fished me down and told my mom not to worry because magical creatures would protect me.#$b#I don't know why, I guess it's because I was just a kid, but I felt really special for a long time after that day.",
+      "translation": "Когда ты был ребёнком и посещал ферму, ты когда-нибудь видел гигантские цветные капусты, которые выращивал твой дедушка? Ну, прям гигантские! Просто огромные!$1#$b#Я видела их только один раз, когда мама привела меня туда в какой-то день.#$b#Я залезла на одну, как на дерево, и моя мама очень переживала.#$b#Твой дедушка спустил меня и сказал маме не волноваться, потому что меня будут защищать магические существа.#$b#Не знаю, почему, наверное, потому что я была ребёнком, но я долго чувствовала себя особенной после того дня.",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Junimos will work with crop-related machines like Kegs",
+      "translation": "Джунимо будут работать с устройствами, связанными с урожаем, такими как бочонки.",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Fishing Junimo",
+      "translation": "Рыболовный Джунимо",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Junimos will work with fishing-related machines like crab pots and recycling machines.",
+      "translation": "Джунимо будут работать с устройствами, связанными с рыболовством, такими как крабовые ловушки и перерабатывающие машины.",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Forestry Junimo",
+      "translation": "Лесной Джунимо",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Junimos will work with foraging-related machines like tappers and mushroom logs",
+      "translation": "Джунимо будут работать с устройствами, связанными со сбором природных ресурсов, такими как подсочники и грибные пни.",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Grow a Mystic Tree",
+      "translation": "Вырастите мистическое дерево",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "@,^How are you doing?  I've decided to spend a night or two in the deep woods, west of Marnie's ranch.  Would you care to share a meal in the wild with me? ^   -Linus",
+      "translation": "@,^Как твои дела? Я решил провести пару ночей в глухих лесах на западе от ранчо Марни. Ты не хочешь разделить со мной ужин в дикой природе? ^   -Линус",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Mining Junimo",
+      "translation": "Шахтёрский Джунимо",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Junimos will work with mining-related machines like furnaces and geode crushers.",
+      "translation": "Джунимо будут работать с устройствами, связанными с шахтёрским делом, такими как плавильная печь и раскалыватель жеод.",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Junimo Huts",
+      "translation": "Домики Джунимо",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Construct Junimo Huts",
+      "translation": "Построить Домики Джунимо",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Indoor Pot Junimo",
+      "translation": "Джунимо в горшке для комнатных растений",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
+    },
+    {
+      "source": "Junimos will harvest and water plants grown in indoor pots.",
+      "translation": "Джунимо будут собирать урожай и поливать растения, выращенные в горшках для комнатных растений.",
+      "author": "github:krezoo",
+      "ingestionDate": "2025-10-19T10:50:29.9170222-07:00"
     }
   ]
 }
