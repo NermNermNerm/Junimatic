@@ -1,31 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Extensions;
 using StardewValley.Locations;
-using StardewValley.Pathfinding;
-using xTile.Tiles;
-using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
     public class JunimoCribPlaymate : JunimoPlaymateBase
     {
-        private readonly Child? childToPlayWith; // Null when in a multiplayer game
-
-        private int gamesPlayed = 0;
-        private bool isWaitingOnParent = false;
-        private bool isCatchingUp = false;
-
-        private bool noFarmersOnLastUpdate = false;
-
-        private enum Activity { GoingToPlay, Playing, GoingHome };
-        private Activity activity;
-
         private JunimoParent? parent; // When escorted, the parent pops out of the hut a second or so after the child
+        private bool isWaitingOnParent;
+        private bool isCatchingUp;
+        private int gamesPlayed = 0;
 
         public JunimoCribPlaymate()
         {
@@ -33,18 +20,23 @@ namespace NermNermNerm.Junimatic
         }
 
         public JunimoCribPlaymate(Vector2 startingPoint, Child child)
-            : base(child.currentLocation, Color.Pink /* TODO */, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, IF($"NPC_Junimo_Playmate"))
+            : base(startingPoint, [child])
         {
             this.Scale = 0.6f; // regular ones are .75
-            this.childToPlayWith = child;
             this.LogTrace($"Junimo playmate created to play with {child.Name}");
-            this.activity = Activity.GoingToPlay;
+        }
+
+        private Child childToPlayWith => this.childrenToPlayWith[0];
+
+        protected override void PlayGame()
+        {
+            this.LogError($"Crib Playmate shouldn't get here.");
         }
 
         public bool TryGoToCrib()
         {
             bool canGo = this.TryGoTo(this.PlayStartPoint.ToPoint(), this.OnArrivedAtCrib, this.GoHome);
-            if (this.childToPlayWith!.Age == Child.newborn)
+            if (this.childToPlayWith.Age == Child.newborn)
             {
                 this.DoAfterDelay(() =>
                 {
@@ -60,9 +52,7 @@ namespace NermNermNerm.Junimatic
             return canGo;
         }
 
-        private Vector2 PlayStartPoint => this.childToPlayWith!.Tile + new Vector2(0, 2); // The crib has some funny z-ordering, going a bit farther away from it.
-
-        public bool IsViable => this.controller?.pathToEndPoint is not null;
+        private Vector2 PlayStartPoint => this.childToPlayWith.Tile + new Vector2(0, 2); // The crib has some funny z-ordering, going a bit farther away from it.
 
         private void OnArrivedAtCrib()
         {
@@ -146,7 +136,7 @@ namespace NermNermNerm.Junimatic
             if (this.gamesPlayed >= NumAwakeCribBabyGamesToPlay // Junimo gets tired and goes home
                 || Game1.timeOfDay > 1200+730) // Babies sleep at 8, so knock off before 7:40
             {
-                this.GoHome();
+                this.EndPlayDate();
             }
             else
             {
@@ -168,21 +158,21 @@ namespace NermNermNerm.Junimatic
                     advance();
 
                     return 3000;
-                };
+                }
 
                 int CribGameEmote()
                 {
                     this.FacingDirection = 0;
                     this.BroadcastEmote(this, heartEmote);
                     return 3000;
-                };
+                }
 
                 int CribGameJump()
                 {
                     this.FacingDirection = 0;
                     this.jump();
                     return 1000;
-                };
+                }
 
                 int CribGameMeep()
                 {
@@ -196,10 +186,8 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        public override void GoHome()
+        private void EndPlayDate()
         {
-            this.activity = Activity.GoingHome;
-
             if (this.childToPlayWith!.Age == Child.baby)
             {
                 this.BroadcastEmote(this,sleepEmote);
@@ -219,48 +207,45 @@ namespace NermNermNerm.Junimatic
             }, 3000);
         }
 
-        public override void update(GameTime time, GameLocation location)
+        protected override void OnFarmerEnteredFarmhouse()
         {
-            base.update(time, location);
+            base.OnFarmerEnteredFarmhouse();
+            this.OnArrivedAtCrib();
+        }
 
-            if (location.farmers.Any() || Game1.currentLocation == location)
+        protected override void OnFarmersLeftFarmhouse()
+        {
+            base.OnFarmersLeftFarmhouse();
+
+            // Reset to the play-starting position
+            this.Position = this.PlayStartPoint*64;
+            this.controller = null;
+            this.Speed = this.TravelingSpeed;
+            this.parent?.SetByCrib();
+        }
+
+        protected override void OnCharacterIsStuck(NPC stuckCharacter)
+        {
+            this.CancelAllDelayedActions();
+            // Don't call parent, cancel the playdate.
+            this.GoHome();
+            this.parent?.GoHome();
+        }
+
+        protected override void OnPastBedtime()
+        {
+            base.OnPastBedtime();
+            if (this.parent is not null)
             {
-                if (this.noFarmersOnLastUpdate)
-                {
-                    // Farmer just arrived
-                    this.OnArrivedAtCrib();
-
-                    this.noFarmersOnLastUpdate = false;
-                }
+                this.parent.currentLocation.characters.Remove(this.parent);
+                this.parent = null;
             }
-            else // Nobody here.
-            {
-                // If it's late or the junimo was going home anyway, just remove them from the scene.
-                if (Game1.timeOfDay > 1200 + 700 || this.activity == Activity.GoingHome)
-                {
-                    if (this.parent is not null)
-                    {
-                        location.characters.Remove(this.parent);
-                    }
-                    location.characters.Remove(this);
-                    return;
-                }
+        }
 
-                // Else right after the player leaves...
-                if (!this.noFarmersOnLastUpdate)
-                {
-                    this.noFarmersOnLastUpdate = true;
 
-                    // Reset to the play-starting position
-                    this.Position = this.PlayStartPoint*64;
-                    this.controller = null;
-                    this.Speed = this.TravelingSpeed;
-                    this.parent?.SetByCrib();
-
-                    // And put a stop to any planned activity
-                    this.CancelAllDelayedActions();
-                }
-            }
+        public override void update(GameTime time, GameLocation farmHouse)
+        {
+            base.update(time, farmHouse);
 
             if (this.parent is not null)
             {

@@ -263,17 +263,17 @@ namespace NermNermNerm.Junimatic
             this.LogTrace($"JunimoShuffler.OnDayEnding - done cleaning up the Junimo in {location.Name}");
         }
 
-        public override void update(GameTime time, GameLocation location)
+        public override void update(GameTime time, GameLocation farmHouse)
         {
             if (Game1.IsMasterGame && this.controller is null && this.workFinder is not null && this.Assignment is not null && !this.destroy)
             {
                 this.workFinder.LogTrace($"Junimo returned due to players leaving scene");
                 if (this.Carrying.Count > 0)
                 {
-                    this.JunimoReachedTarget(this, location);
+                    this.JunimoReachedTarget(this, farmHouse);
                 }
 
-                location.characters.Remove(this);
+                farmHouse.characters.Remove(this);
                 return;
             }
 
@@ -290,7 +290,7 @@ namespace NermNermNerm.Junimatic
             }
 
             // Note that we need to call this last because it might remove this junimo from the scene
-            base.update(time, location);
+            base.update(time, farmHouse);
         }
 
         private static readonly int[] yBounceBasedOnFrame = [12, 10, 8, 6, 4, 4, 8, 10];

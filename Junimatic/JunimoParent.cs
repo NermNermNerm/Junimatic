@@ -42,13 +42,13 @@ namespace NermNermNerm.Junimatic
             this.controller = null;
         }
 
-        public override void update(GameTime time, GameLocation location)
+        public override void update(GameTime time, GameLocation farmHouse)
         {
-            base.update(time, location);
+            base.update(time, farmHouse);
 
             if (this.controller is null)
             {
-                var crib = ((FarmHouse)location).GetCribBounds()!.Value; // crib is in Tile coordinates
+                var crib = ((FarmHouse)farmHouse).GetCribBounds()!.Value; // crib is in Tile coordinates
                 if (this.Tile.X == crib.X - 1 && (this.Tile.Y == crib.Bottom || this.Tile.Y == crib.Bottom - 1))
                 {
                     float targetYPos = crib.Bottom * 64 - 32;

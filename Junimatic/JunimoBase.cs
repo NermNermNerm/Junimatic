@@ -138,7 +138,7 @@ namespace NermNermNerm.Junimatic
             });
         }
 
-        public virtual void GoHome()
+        public void GoHome()
         {
             this.CancelAllDelayedActions();
             var gameMap = new GameMap(this.currentLocation);
@@ -257,7 +257,7 @@ namespace NermNermNerm.Junimatic
 
         protected virtual int TravelingSpeed => 3;
 
-        public override void update(GameTime time, GameLocation location)
+        public override void update(GameTime time, GameLocation farmHouse)
         {
             if (this.speed != 0)
             {
@@ -265,7 +265,7 @@ namespace NermNermNerm.Junimatic
             }
 
             this.netAnimationEvent.Poll();
-            base.update(time, location);
+            base.update(time, farmHouse);
 
             if (this.controller is null && this.pathBlockedAction is not null)
             {
@@ -292,7 +292,7 @@ namespace NermNermNerm.Junimatic
                 this.alpha = 0f;
                 if (this.destroy)
                 {
-                    location.characters.Remove(this);
+                    farmHouse.characters.Remove(this);
                     return;
                 }
             }
