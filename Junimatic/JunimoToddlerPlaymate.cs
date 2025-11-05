@@ -131,12 +131,13 @@ namespace NermNermNerm.Junimatic
                         var fh = (FarmHouse)this.currentLocation;
                         // getRandomOpenPointInHouse returns the center of a 3x3 square of clear area
                         var openPoint = fh.getRandomOpenPointInHouse(Game1.random, buffer: 0, tries: 20);
-                        if (openPoint != Point.Zero && (Math.Abs(openPoint.X - this.TilePoint.X)) > 15 || Math.Abs(openPoint.Y - this.TilePoint.Y) > 15)
+                        if (openPoint != Point.Zero && (Math.Abs(openPoint.X - this.TilePoint.X) > 15 || Math.Abs(openPoint.Y - this.TilePoint.Y) > 15))
                         {
                             this.controller = null; // Should already be null, but just to be sure...
                             var controller = new PathFindController(this, this.currentLocation, openPoint, 0);
                             if (controller.pathToEndPoint is not null)
                             {
+                                this.LogTrace($"Starting ball game, ball will land at {openPoint}");
                                 this.FixChildControllers(); // Parks the children in their current position while the ball is bouncing
                                 var startingTile = this.Tile.ToPoint() + new Point(1, 0);
                                 ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastBall(startingTile, openPoint);
