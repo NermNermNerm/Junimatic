@@ -79,7 +79,6 @@ dotnet_naming_symbols.pascal_types.applicable_kinds=namespace, class, struct, in
 dotnet_naming_symbols.pascal_types.applicable_accessibilities=*
 dotnet_naming_rule.most_identifiers_should_be_pascal_case.symbols=pascal_types
 dotnet_naming_rule.most_identifiers_should_be_pascal_case.style=pascal_case_style
-dotnet_naming_rule.most_identifiers_should_be_pascal_case.severity=suggestion
 
 ##########
 ## Column guidelines
