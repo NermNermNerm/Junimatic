@@ -30,7 +30,7 @@ namespace NermNermNerm.Junimatic
                 && ModEntry.Config.AllowPlaydates
                 && Game1.IsMasterGame
                 && this.IsPlaytime
-                && Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler) // No games for crawlers right now.
+                && Game1.MasterPlayer.getChildren().Any()
                 && !this.IsPlaydateHappening
                 && Game1.random.Next(3) == 0)
             {
@@ -45,7 +45,7 @@ namespace NermNermNerm.Junimatic
                 && ModEntry.Config.AllowPlaydates
                 && this.IsPlaytime
                 && Game1.getOnlineFarmers().Any(f => f.currentLocation is FarmHouse)
-                && Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler) // No games for crawlers right now.
+                && Game1.MasterPlayer.getChildren().Any()
                 && !this.IsPlaydateHappening
                 && Game1.random.Next(3) == 0) // 1:3 chance of happening
             {
@@ -72,9 +72,9 @@ namespace NermNermNerm.Junimatic
                 {
                     this.LogWarning($"Can't start playdates after children's bedtime.");
                 }
-                else if (!Game1.MasterPlayer.getChildren().Any(c => c.Age != Child.crawler))
+                else if (!Game1.MasterPlayer.getChildren().Any())
                 {
-                    this.LogWarning($"No children are available for playdates - (Crawler playdates are not implemented yet, alas).");
+                    this.LogWarning($"No children are available for playdates.");
                 }
                 else if (this.IsPlaydateHappening)
                 {
@@ -89,23 +89,17 @@ namespace NermNermNerm.Junimatic
 
         private void LaunchJunimoPlaymate()
         {
-            var children = Game1.MasterPlayer.getChildren();
-            var child = Game1.random.Choose(children.Where(c => c.Age != Child.crawler).ToArray());
-            this.StartPlayDate(child);
-        }
-
-        private void StartPlayDate(Child child)
-        {
+            var child = Game1.random.Choose(Game1.MasterPlayer.getChildren().ToArray());
             var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
             var cribBounds = farmhouse.GetCribBounds();
 
-            if (farmhouse.characters.Any(c => c is JunimoCribPlaymate || c is JunimoToddlerPlaymate))
+            if (farmhouse.characters.Any(c => c is JunimoPlaymateBase))
             {
                 this.LogInfo($"Can't start playdate because there's one going on already.");
                 return;
             }
 
-            if (cribBounds is null && child.Age != Child.toddler) // Shouldn't happen; but safety first.
+            if (cribBounds is null && (child.Age == Child.baby || child.Age == Child.newborn)) // Shouldn't happen; but safety first.
             {
                 this.LogError($"Tried to start a Junimo Playmate to go to the crib, but the crib can't be found?!");
                 return;
@@ -121,6 +115,15 @@ namespace NermNermNerm.Junimatic
                     {
                         var toddlers = Game1.MasterPlayer.getChildren().Where(c => c.Age == Child.toddler).ToList();
                         var playmate = new JunimoToddlerPlaymate(tile.ToVector2() * 64, toddlers);
+                        if (playmate.TryGoToChild())
+                        {
+                            farmhouse.characters.Add(playmate);
+                            return;
+                        }
+                    }
+                    else if (child.Age == Child.crawler)
+                    {
+                        var playmate = new JunimoCrawlerPlaymate(tile.ToVector2() * 64, child);
                         if (playmate.TryGoToChild())
                         {
                             farmhouse.characters.Add(playmate);

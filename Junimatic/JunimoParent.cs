@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
-using xTile.Dimensions;
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic

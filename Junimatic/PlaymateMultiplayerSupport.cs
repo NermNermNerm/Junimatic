@@ -2,7 +2,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Characters;
 using StardewValley.Locations;
 
 namespace NermNermNerm.Junimatic;

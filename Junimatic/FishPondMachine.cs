@@ -5,8 +5,6 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Inventories;
 
-using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
-
 namespace NermNermNerm.Junimatic
 {
     public class FishPondMachine

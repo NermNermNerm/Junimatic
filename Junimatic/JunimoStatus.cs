@@ -2,15 +2,10 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI;
 using StardewValley;
 using Microsoft.Xna.Framework;
-using StardewValley.Menus;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
-
-using Microsoft.Xna.Framework.Graphics;
-using StardewValley.TerrainFeatures;
-
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 using System;
 

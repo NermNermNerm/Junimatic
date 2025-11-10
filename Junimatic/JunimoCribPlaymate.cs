@@ -60,7 +60,7 @@ namespace NermNermNerm.Junimatic
             this.activity = Activity.Playing;
             this.DoCribGame();
             this.FacingDirection = 0;
-            if (this.childToPlayWith!.Age == Child.baby)
+            if (this.childToPlayWith.Age == Child.baby)
             {
                 this.DoCribBabyResponses();
             }
@@ -79,52 +79,51 @@ namespace NermNermNerm.Junimatic
 
             int MoveAroundCrib()
             {
-                float startingPos = this.childToPlayWith!.Position.X;
+                float startingPos = this.childToPlayWith.Position.X;
                 Vector2 movementInterval = new Vector2(-1, 0);
-                Action advance = () => { };
-                advance = () =>
+                void advance()
                 {
-                    this.childToPlayWith!.Position += movementInterval;
-                    if (this.childToPlayWith!.Position.X <= startingPos - 64)
+                    this.childToPlayWith.Position += movementInterval;
+                    if (this.childToPlayWith.Position.X <= startingPos - 64)
                     {
                         movementInterval = new Vector2(1, 0);
                         this.DoAfterDelay(advance, 500); // Hang around on the side for half a second, then go back
                     }
-                    else if (this.childToPlayWith!.Position.X >= startingPos)
+                    else if (this.childToPlayWith.Position.X >= startingPos)
                     {
-                        this.childToPlayWith!.Position = new Vector2(startingPos, this.childToPlayWith!.Position.Y);
+                        this.childToPlayWith.Position = new Vector2(startingPos, this.childToPlayWith.Position.Y);
                         // don't do anything more.
                     }
                     else
                     {
                         this.DoAfterDelay(advance, 1000/64); // Take ~1 second to track from one side to the other.
                     }
-                };
+                }
                 advance();
 
                 return 2500;
-            };
+            }
 
             int DoEmote()
             {
-                this.BroadcastEmote( this.childToPlayWith!, Character.happyEmote);
+                this.BroadcastEmote( this.childToPlayWith, Character.happyEmote);
                 return 3000;
-            };
+            }
 
             int JumpUpAndDown()
             {
-                this.childToPlayWith!.jump(2 + Game1.random.Next(1)); // 8 is the normal jump height
+                this.childToPlayWith.jump(2 + Game1.random.Next(1)); // 8 is the normal jump height
                 for (int i = 300; i <= 1800; i += 300)
                 {
-                    this.DoAfterDelay(() => this.childToPlayWith!.jump(2 + Game1.random.Next(1)), i);
+                    this.DoAfterDelay(() => this.childToPlayWith.jump(2 + Game1.random.Next(1)), i);
                 }
                 return 2000;
-            };
+            }
 
             int DoNothing()
             {
                 return 1000;
-            };
+            }
 
             int millisecondsToDelay = Game1.random.Choose(MoveAroundCrib, DoEmote, JumpUpAndDown, DoNothing)();
             ++this.gamesPlayed;
@@ -143,19 +142,16 @@ namespace NermNermNerm.Junimatic
                 int CribGameSwitchSide()
                 {
                     // Move to the right or left side of the crib
-                    var startPoint = this.childToPlayWith!.Tile + new Vector2(0, 2);
+                    var startPoint = this.childToPlayWith.Tile + new Vector2(0, 2);
                     var waypoints = new Vector2[] { new(1, 0), new(1, -1), new(-1, -1), new(-1, 0), new(0, 0) };
-                    int current = 0;
-                    Action advance = () => { };
-                    advance = () =>
+                    void advance(int waypointIndex)
                     {
-                        if (current < waypoints.Length)
+                        if (waypointIndex < waypoints.Length)
                         {
-                            this.GoTo((startPoint + waypoints[current]).ToPoint(), advance);
-                            ++current;
+                            this.GoTo((startPoint + waypoints[waypointIndex]).ToPoint(), () => advance(waypointIndex+1));
                         }
-                    };
-                    advance();
+                    }
+                    advance(0);
 
                     return 3000;
                 }
@@ -178,7 +174,7 @@ namespace NermNermNerm.Junimatic
                 {
                     this.Meep();
                     return 1000;
-                };
+                }
 
                 int millisecondsToDelay = Game1.random.Choose(CribGameSwitchSide, CribGameEmote, CribGameMeep, CribGameJump)();
                 ++this.gamesPlayed;
@@ -188,10 +184,10 @@ namespace NermNermNerm.Junimatic
 
         private void EndPlayDate()
         {
-            if (this.childToPlayWith!.Age == Child.baby)
+            if (this.childToPlayWith.Age == Child.baby)
             {
                 this.BroadcastEmote(this,sleepEmote);
-                this.DoAfterDelay(() => this.BroadcastEmote(this.childToPlayWith!, happyEmote /* smile */), 1500);
+                this.DoAfterDelay(() => this.BroadcastEmote(this.childToPlayWith, happyEmote /* smile */), 1500);
             }
             else
             {
@@ -202,7 +198,7 @@ namespace NermNermNerm.Junimatic
 
             this.DoAfterDelay(() =>
             {
-                base.GoHome();
+                this.GoHome();
                 this.parent?.GoHome();
             }, 3000);
         }

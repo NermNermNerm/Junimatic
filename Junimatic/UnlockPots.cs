@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Powers;
-using StardewValley.TerrainFeatures;
-
 using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic

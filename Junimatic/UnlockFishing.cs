@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Framework.ModLoading.Rewriters.StardewValley_1_6;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.GameData.Powers;

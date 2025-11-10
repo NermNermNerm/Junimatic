@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.Buildings;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 
