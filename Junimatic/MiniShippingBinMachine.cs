@@ -34,9 +34,8 @@ namespace NermNermNerm.Junimatic
                 return false;
             }
 
-            var shippable = storage.RawInventory.FirstOrDefault(
-                i => i is not null
-                  && i.Category == StardewValley.Object.artisanGoodsCategory
+            var shippable = storage.SafeInventory.FirstOrDefault(
+                i => i.Category == StardewValley.Object.artisanGoodsCategory
                   && i.Stack > 0
                   && !isShinyTest(i));
             if (shippable is null)
@@ -52,7 +51,7 @@ namespace NermNermNerm.Junimatic
 
             Item duplicate = shippable.getOne();
             duplicate.Stack = numToTake;
-            storage.RawInventory.Reduce(shippable, numToTake);
+            storage.SafeInventory.Reduce(shippable, numToTake);
             this.chest.addItem(duplicate);
             return true;
         }
@@ -64,9 +63,8 @@ namespace NermNermNerm.Junimatic
                 return null;
             }
 
-            var shippable = storage.RawInventory.FirstOrDefault(
-                i => i is not null
-                  && i.Category == StardewValley.Object.artisanGoodsCategory
+            var shippable = storage.SafeInventory.FirstOrDefault(
+                i => i.Category == StardewValley.Object.artisanGoodsCategory
                   && i.Stack > 0
                   && !isShinyTest(i));
             if (shippable is not null && this.CanHold(shippable, 5))

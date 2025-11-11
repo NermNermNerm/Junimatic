@@ -46,11 +46,11 @@ namespace NermNermNerm.Junimatic
             //  since we're not, granting farming XP and so forth when a Junimo does the trapping.  Perhaps the
             //  Junimo can be said to not have the ability, and so the owner doesn't matter at all.
 
-            foreach (var item in storage.RawInventory)
+            foreach (var item in storage.SafeInventory)
             {
                 if (item.TypeDefinitionId == I(ItemRegistry.type_object) && item.Category == StardewValley.Object.baitCategory && item.Stack > 0)
                 {
-                    return new List<Item> { ItemRegistry.Create(item.QualifiedItemId) };
+                    return [ItemRegistry.Create(item.QualifiedItemId)];
                 }
             }
 
@@ -80,14 +80,14 @@ namespace NermNermNerm.Junimatic
 
             // The game code seems to be busted.  It does properly fill the machine, but it doesn't
             // remove the items.
-            var inventoryStack = storage.RawInventory.First(i => i.QualifiedItemId == this.Machine.bait.Value.QualifiedItemId);
+            var inventoryStack = storage.SafeInventory.First(i => i.QualifiedItemId == this.Machine.bait.Value.QualifiedItemId);
             if (inventoryStack.Stack > 1)
             {
                 --inventoryStack.Stack;
             }
             else
             {
-                storage.RawInventory.Remove(inventoryStack);
+                storage.SafeInventory.Remove(inventoryStack);
             }
             return true;
         }

@@ -68,7 +68,7 @@ namespace NermNermNerm.Junimatic
             }
         }
 
-        private bool TryFill(IInventory inventory, Func<Item, bool> isShinyTest)
+        private bool TryFill(SafeInventory inventory, Func<Item, bool> isShinyTest)
         {
             var possibleInputs = inventory.Where(item => item is not null && !isShinyTest(item) && this.Building.IsValidObjectForChest(item, this.InputChest)).ToArray();
             if (!possibleInputs.Any())
@@ -116,19 +116,19 @@ namespace NermNermNerm.Junimatic
         /// <inheritdoc/>
         public override bool FillMachineFromChest(GameStorage storage, Func<Item,bool> isShinyTest)
         {
-            return this.TryFill(storage.RawInventory, isShinyTest);
+            return this.TryFill(storage.SafeInventory, isShinyTest);
         }
 
         /// <inheritdoc/>
         public override void FillMachineFromInventory(Inventory inventory)
         {
-            this.TryFill(inventory, item => false);
+            this.TryFill(new SafeInventory(inventory), item => false);
         }
 
         /// <inheritdoc/>
         public override List<Item>? GetRecipeFromChest(GameStorage storage, Func<Item, bool> isShinyTest)
         {
-            var possibleInputs = storage.RawInventory.Where(item => item is not null && !isShinyTest(item) && this.Building.IsValidObjectForChest(item, this.InputChest)).ToArray();
+            var possibleInputs = storage.SafeInventory.Where(item => !isShinyTest(item) && this.Building.IsValidObjectForChest(item, this.InputChest)).ToArray();
             if (!possibleInputs.Any())
             {
                 return null;

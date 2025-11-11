@@ -35,9 +35,8 @@ namespace NermNermNerm.Junimatic
                 return false;
             }
 
-            var shippable = storage.RawInventory.FirstOrDefault(
-                i => i is not null
-                  && i.Category == StardewValley.Object.artisanGoodsCategory
+            var shippable = storage.SafeInventory.FirstOrDefault(
+                i => i.Category == StardewValley.Object.artisanGoodsCategory
                   && i.Stack > 0
                   && !isShinyTest(i));
             if (shippable is null)
@@ -48,7 +47,7 @@ namespace NermNermNerm.Junimatic
             int numToTake = Math.Min(MaxToteableStack, shippable.Stack);
             Item duplicate = shippable.getOne();
             duplicate.Stack = numToTake;
-            storage.RawInventory.Reduce(shippable, numToTake);
+            storage.SafeInventory.Reduce(shippable, numToTake);
 
             var farm = Game1.getFarm();
             farm.getShippingBin(Game1.MasterPlayer).Add(duplicate);
@@ -65,9 +64,8 @@ namespace NermNermNerm.Junimatic
                 return null;
             }
 
-            var shippable = storage.RawInventory.FirstOrDefault(
-                i => i is not null
-                  && i.Category == StardewValley.Object.artisanGoodsCategory
+            var shippable = storage.SafeInventory.FirstOrDefault(
+                i => i.Category == StardewValley.Object.artisanGoodsCategory
                   && i.Stack > 0
                   && !isShinyTest(i));
             if (shippable is not null)

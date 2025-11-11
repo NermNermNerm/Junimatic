@@ -21,7 +21,7 @@ namespace NermNermNerm.Junimatic
         {
         }
 
-        public StardewValley.Object Machine => (StardewValley.Object)base.GameObject;
+        public StardewValley.Object Machine => (StardewValley.Object)this.GameObject;
 
         internal static ObjectMachine? TryCreate(StardewValley.Object item, Point accessPoint)
         {
@@ -93,7 +93,7 @@ namespace NermNermNerm.Junimatic
             var inputs = new List<Item>();
 
             var sourceInventory = new Inventory();
-            sourceInventory.AddRange(storage.RawInventory.Where(i => i is not null && !isShinyTest(i)).ToArray());
+            sourceInventory.AddRange(storage.SafeInventory.Where(i => !isShinyTest(i)).ToArray());
             // Ensure it has the coal (aka all the 'AdditionalConsumedItems')
             if (machineData.AdditionalConsumedItems is not null)
             {
@@ -180,7 +180,7 @@ namespace NermNermNerm.Junimatic
                 return false;
             }
 
-            var rawInventory = storage.RawInventory;
+            var rawInventory = storage.UnsafeInventory;
             StardewValley.Object.autoLoadFrom = rawInventory;
             bool filledIt = rawInventory.Any(item => item is not null && !isShinyTest(item) && this.Machine.performObjectDropInAction(item, probe: false, Game1.MasterPlayer));
             StardewValley.Object.autoLoadFrom = null;
@@ -206,7 +206,7 @@ namespace NermNermNerm.Junimatic
         private static Dictionary<string,bool> cachedCompatList = new Dictionary<string,bool>();
 
 
-        private static string[][] tags = [
+        private static readonly string[][] tags = [
             [I("category_minerals"), I("category_gem"), I("bone_item"), I("ore_item")],
             [I("egg_item"), I("large_egg_item"), I("slime_egg_item"), I("milk_item")],
             [I("category_vegetable"), I("category_fruit"), I("keg_wine"), I("preserves_pickle"), I("preserves_jelly"), I("coffee_item"),

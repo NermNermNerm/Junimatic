@@ -38,7 +38,7 @@ namespace NermNermNerm.Junimatic
         }
 
         /// <inheritdoc/>
-        public override IInventory RawInventory
+        protected override IInventory RawInventory
         {
             get => this.chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
         }

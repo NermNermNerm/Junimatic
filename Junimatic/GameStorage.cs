@@ -225,7 +225,7 @@ namespace NermNermNerm.Junimatic
         /// the chest didn't contain all the things on the list</returns>
         public bool TryFulfillShoppingList(List<Item> shoppingList, Inventory toteBag)
         {
-            var chestInventory = this.RawInventory;
+            var chestInventory = this.SafeInventory;
 
             // Define a function that ensures that the quantity-testing method is exactly the same as the item-removal method.
             bool isSameItem(Item listItem, Item? chestItem)
@@ -282,6 +282,10 @@ namespace NermNermNerm.Junimatic
         ///   This is strictly for use by the <see cref="GameMachine"/> class, which
         ///   can remove items from this inventory.
         /// </remarks>
-        public abstract IInventory RawInventory { get; }
+        protected abstract IInventory RawInventory { get; }
+
+        public SafeInventory SafeInventory => new SafeInventory(this.RawInventory);
+
+        public IInventory UnsafeInventory => this.RawInventory;
     }
 }

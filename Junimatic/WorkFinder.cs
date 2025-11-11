@@ -308,11 +308,11 @@ namespace NermNermNerm.Junimatic
                 {
                     foreach (var storage in network.Chests)
                     {
-                        var raisinStack = storage.RawInventory.FirstOrDefault(i => i?.QualifiedItemId == "(O)Raisins" && !isShinyTest(i));
+                        var raisinStack = storage.SafeInventory.FirstOrDefault(i => i.QualifiedItemId == "(O)Raisins" && !isShinyTest(i));
                         if (raisinStack is not null)
                         {
                             this.LogTrace($"Automated Raisin collection from {storage} at {location.Name}");
-                            storage.RawInventory.Reduce(raisinStack, 1);
+                            storage.SafeInventory.Reduce(raisinStack, 1);
                             this.JunimosGotDailyRaisin();
                         }
                     }
@@ -740,7 +740,7 @@ namespace NermNermNerm.Junimatic
 
                         if (chest is not null && !knownChests.Contains(chest))
                         {
-                            var raisinStack = chest.RawInventory.FirstOrDefault(i => i?.QualifiedItemId == "(O)Raisins" && i.Stack > 0 && !isShinyTest(i));
+                            var raisinStack = chest.SafeInventory.FirstOrDefault(i => i.QualifiedItemId == "(O)Raisins" && i.Stack > 0 && !isShinyTest(i));
                             if (raisinStack != null)
                             {
                                 var targetHut = new JunimoHutMachine(portal, startingTile, this);

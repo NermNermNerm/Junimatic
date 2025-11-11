@@ -28,7 +28,7 @@ namespace NermNermNerm.Junimatic
         public override bool TryStore(IEnumerable<StardewValley.Item> items) => false;
 
         /// <inheritdoc/>
-        public override IInventory RawInventory
+        protected override IInventory RawInventory
         {
             get => this.Chest.GetItemsForPlayer(Game1.player.UniqueMultiplayerID);
         }
