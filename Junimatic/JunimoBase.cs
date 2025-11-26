@@ -161,8 +161,15 @@ namespace NermNermNerm.Junimatic
             var newAction = DelayedAction.functionAfterDelay(() => { }, delayInMs);
             newAction.behavior = () =>
             {
+                if (Game1.activeClickableMenu == null || Game1.IsMultiplayer) // if time isn't paused by a menu
+                {
+                    a();
+                }
+                else // reschedule if time is paused
+                {
+                    this.DoAfterDelay(a, 250);
+                }
                 this.delayedActions.Remove(newAction);
-                a();
             };
 
             this.delayedActions.Add(newAction);
