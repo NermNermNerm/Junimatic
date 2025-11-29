@@ -46,15 +46,6 @@ namespace NermNermNerm.Junimatic
             ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastEmote(emoter, emoteId);
         }
 
-        public bool TryGoToChild()
-        {
-            var firstChild = this.childrenToPlayWith.First();
-            var playPoint = firstChild.controller?.endPoint ?? firstChild.Tile.ToPoint();
-            this.LogTrace($"Starting a playdate with {firstChild.Name}");
-
-            return this.TryGoToNewPlayArea(playPoint);
-        }
-
         protected void ParkChild(Child child)
         {
             this.childControllers.Remove(child);
@@ -70,65 +61,6 @@ namespace NermNermNerm.Junimatic
             this.childControllers[child] = child.controller;
             this.childParkedTiles.Remove(child);
         }
-
-        private bool TryGoToNewPlayArea(Point playPoint)
-        {
-            var firstChild = this.childrenToPlayWith.First();
-            int numberOfArrivals = 0;
-            void OnArrivedAtPlayPoint(Child? whoArrived) // If null, it's the Junimo
-            {
-                if (whoArrived is not null)
-                {
-                    this.ParkChild(whoArrived);
-                }
-
-                ++numberOfArrivals;
-                if (numberOfArrivals == 1 + this.childrenToPlayWith.Count)
-                {
-                    this.PlayGame();
-                }
-            }
-
-            // Note - TryGoTo has a side effect of setting the controller if it returns true.  This method
-            //  *should* do nothing if it returns false.  We're not going to bother fussing over it because
-            //  if this method returns false, this instance is going to get scrapped anyway.  This test gets
-            //  run first for that reason and because the most likely cause of failure is if the hut is
-            //  in a cordoned off room.
-            bool canGo = this.TryGoTo(playPoint + new Point(0, 1), () => OnArrivedAtPlayPoint(null), this.GoHome);
-            if (!canGo)
-            {
-                return false;
-            }
-
-            List<PathFindController> controllers = new List<PathFindController>();
-            foreach (var child in this.childrenToPlayWith)
-            {
-                Point offset = child == firstChild ? new Point(-1, 0) : new Point(1, 0);
-                var oldController = child.controller;
-                child.controller = null;
-                GoTo(child, playPoint + offset, () => OnArrivedAtPlayPoint(child));
-                if (child.controller is null || child.controller.pathToEndPoint is null)
-                {
-                    child.controller = oldController;
-                    return false;
-                }
-
-                child.controller.finalFacingDirection = 2 /* down */;
-                controllers.Add(child.controller);
-                child.controller = oldController;
-            }
-
-            // If we get here, then it should be possible for the children and the Junimo to reach the spot.
-            this.childParkedTiles.Clear();
-            for (int i = 0; i < this.childrenToPlayWith.Count; ++i)
-            {
-                var child = this.childrenToPlayWith[i];
-                this.SetChildController(child, controllers[i]);
-            }
-
-            return true;
-        }
-
 
         /// <summary>
         ///   Make sure children's controllers don't get reset from where they are now.
@@ -151,53 +83,27 @@ namespace NermNermNerm.Junimatic
         }
 
 
-        protected void FindNewSpot()
-        {
-            if (this is JunimoCribPlaymate)
-            {
-                this.LogError($"FindNewSpot should not be called for the crib playmate.");
-                return;
-            }
-
-            this.LogTrace($"Finding a new place to play");
-            var fh = (FarmHouse)this.currentLocation;
-            // getRandomOpenPointInHouse returns the center of a 3x3 square of clear area
-            var openPoint = fh.getRandomOpenPointInHouse(Game1.random, buffer: 1, tries: 100);
-            if (openPoint == Point.Zero)
-            {
-                this.LogWarning($"Your house is very crowded - it's hard to find a place to play.");
-                this.DoAfterDelay(this.FindNewSpot, 500);
-                return;
-            }
-
-            if (!this.TryGoToNewPlayArea(openPoint))
-            {
-                this.LogInfo($"Either the child or the Junimo can't reach the next play point.");
-                this.DoAfterDelay(this.FindNewSpot, 1000);
-            }
-        }
-
         /// <summary>
         ///   Called when the farmer leaves the farmhouse.  Implementations should remove all
         ///   game-related props.
         /// </summary>
-        protected virtual void OnFarmersLeftFarmhouse() { }
+        protected virtual void OnFarmersLeftFarmhouse()
+        {
+            this.CancelAllDelayedActions();
+        }
 
         /// <summary>
         ///   Called when to resume a playdate that was suspended because the farmers left the farmhouse.
         /// </summary>
         protected virtual void OnFarmerEnteredFarmhouse()
-        {
-            this.FindNewSpot();
-        }
+        { }
 
         /// <summary>
         ///    Called when a child or the Junimo can't reach their target.
         /// </summary>
-        protected virtual void OnCharacterIsStuck(NPC stuckCharacter)
+        protected virtual void OnCharacterIsStuck()
         {
             this.CancelAllDelayedActions();
-            this.FindNewSpot();
         }
 
         /// <summary>
@@ -289,7 +195,7 @@ namespace NermNermNerm.Junimatic
 
             if (stuckCharacter is not null)
             {
-                this.OnCharacterIsStuck(stuckCharacter);
+                this.OnCharacterIsStuck();
             }
         }
 

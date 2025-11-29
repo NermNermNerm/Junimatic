@@ -167,7 +167,7 @@ namespace NermNermNerm.Junimatic
                 }
                 else // reschedule if time is paused
                 {
-                    this.DoAfterDelay(a, 250);
+                    this.DoAfterDelay(a, 100);
                 }
                 this.delayedActions.Remove(newAction);
             };

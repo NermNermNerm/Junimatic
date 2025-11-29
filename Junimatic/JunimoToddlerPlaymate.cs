@@ -25,6 +25,93 @@ namespace NermNermNerm.Junimatic
             this.LogTrace($"Junimo toddler playmate created to play with {children[0].Name}");
         }
 
+        public bool TryFindPlaceToPlay()
+        {
+            var firstChild = this.childrenToPlayWith.First();
+            var playPoint = firstChild.controller?.endPoint ?? firstChild.Tile.ToPoint();
+            this.LogTrace($"Starting a playdate with {firstChild.Name}");
+
+            return this.TryGoToNewPlayArea(playPoint);
+        }
+
+        private bool TryGoToNewPlayArea(Point playPoint)
+        {
+            var firstChild = this.childrenToPlayWith.First();
+            int numberOfArrivals = 0;
+            void OnArrivedAtPlayPoint(Child? whoArrived) // If null, it's the Junimo
+            {
+                if (whoArrived is not null)
+                {
+                    this.ParkChild(whoArrived);
+                }
+
+                ++numberOfArrivals;
+                if (numberOfArrivals == 1 + this.childrenToPlayWith.Count)
+                {
+                    this.PlayGame();
+                }
+            }
+
+            // Note - TryGoTo has a side effect of setting the controller if it returns true.  This method
+            //  *should* do nothing if it returns false.  We're not going to bother fussing over it because
+            //  if this method returns false, this instance is going to get scrapped anyway.  This test gets
+            //  run first for that reason and because the most likely cause of failure is if the hut is
+            //  in a cordoned off room.
+            bool canGo = this.TryGoTo(playPoint + new Point(0, 1), () => OnArrivedAtPlayPoint(null), this.GoHome);
+            if (!canGo)
+            {
+                return false;
+            }
+
+            List<PathFindController> controllers = new List<PathFindController>();
+            foreach (var child in this.childrenToPlayWith)
+            {
+                Point offset = child == firstChild ? new Point(-1, 0) : new Point(1, 0);
+                var oldController = child.controller;
+                child.controller = null;
+                GoTo(child, playPoint + offset, () => OnArrivedAtPlayPoint(child));
+                if (child.controller is null || child.controller.pathToEndPoint is null)
+                {
+                    child.controller = oldController;
+                    return false;
+                }
+
+                child.controller.finalFacingDirection = 2 /* down */;
+                controllers.Add(child.controller);
+                child.controller = oldController;
+            }
+
+            // If we get here, then it should be possible for the children and the Junimo to reach the spot.
+            for (int i = 0; i < this.childrenToPlayWith.Count; ++i)
+            {
+                var child = this.childrenToPlayWith[i];
+                this.SetChildController(child, controllers[i]);
+            }
+
+            return true;
+        }
+
+        private void FindNewSpot()
+        {
+            this.LogTrace($"Finding a new place to play");
+            var fh = (FarmHouse)this.currentLocation;
+            // getRandomOpenPointInHouse returns the center of a 3x3 square of clear area
+            var openPoint = fh.getRandomOpenPointInHouse(Game1.random, buffer: 1, tries: 100);
+            if (openPoint == Point.Zero)
+            {
+                this.LogWarning($"Your house is very crowded - it's hard to find a place to play.");
+                this.DoAfterDelay(this.FindNewSpot, 500);
+                return;
+            }
+
+            if (!this.TryGoToNewPlayArea(openPoint))
+            {
+                this.LogInfo($"Either the child or the Junimo can't reach the next play point.");
+                this.DoAfterDelay(this.FindNewSpot, 1000);
+            }
+        }
+
+
         protected override void PlayGame()
         {
             if (Game1.timeOfDay >= this.timeToGoHome)
@@ -191,6 +278,12 @@ namespace NermNermNerm.Junimatic
             }
 
             this.DoAfterDelay(this.GoHome, 3000);
+        }
+
+        protected override void OnCharacterIsStuck()
+        {
+            base.OnCharacterIsStuck();
+            this.FindNewSpot();
         }
 
         protected override void OnFarmerEnteredFarmhouse()

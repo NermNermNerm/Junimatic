@@ -115,7 +115,7 @@ namespace NermNermNerm.Junimatic
                     {
                         var toddlers = Game1.MasterPlayer.getChildren().Where(c => c.Age == Child.toddler).ToList();
                         var playmate = new JunimoToddlerPlaymate(tile.ToVector2() * 64, toddlers);
-                        if (playmate.TryGoToChild())
+                        if (playmate.TryFindPlaceToPlay())
                         {
                             farmhouse.characters.Add(playmate);
                             return;

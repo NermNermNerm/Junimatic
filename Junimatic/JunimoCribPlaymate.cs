@@ -220,7 +220,7 @@ namespace NermNermNerm.Junimatic
             this.parent?.SetByCrib();
         }
 
-        protected override void OnCharacterIsStuck(NPC stuckCharacter)
+        protected override void OnCharacterIsStuck()
         {
             this.CancelAllDelayedActions();
             // Don't call parent, cancel the playdate.

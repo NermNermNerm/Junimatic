@@ -5,7 +5,10 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Extensions;
+using StardewValley.Locations;
 using StardewValley.Pathfinding;
+
+using static NermNermNerm.Stardew.LocalizeFromSource.SdvLocalize;
 
 namespace NermNermNerm.Junimatic
 {
@@ -20,6 +23,38 @@ namespace NermNermNerm.Junimatic
             : base(startingPoint, [childToPlayWith])
         {
         }
+
+        private Child childToPlayWith => this.childrenToPlayWith.First();
+
+        public bool TryGoToChild()
+        {
+            // See if there's free tiles around the child's current location.
+            var point = this.childToPlayWith.TilePoint;
+            for (int y = 0; y < 1; ++y)
+            {
+                for (int x = -1; x <= 1; ++x)
+                {
+                    if (!(x == 0 && y == 0) && !this.isPositionOpen(point.X + x, point.Y + y))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return this.TryGoTo(point + new Point(0, 1), this.PlayGame);
+        }
+
+        private bool isPositionOpen(int tileX, int tileY)
+        {
+            var farmHouse = (FarmHouse)this.childToPlayWith.currentLocation;
+            var tile = new Vector2(tileX, tileY);
+
+            return farmHouse.hasTileAt(tileX, tileY, I("Back"))
+                   && farmHouse.CanItemBePlacedHere(tile, collisionMask: CollisionMask.Furniture | CollisionMask.Objects | CollisionMask.TerrainFeatures)
+                   && !farmHouse.isTileOnWall(tileX, tileY)
+                   && farmHouse.getTileIndexAt(tileX, tileY, I("Back"), I("indoor")) != 0;
+        }
+
 
         protected override void PlayGame()
         {
@@ -45,6 +80,22 @@ namespace NermNermNerm.Junimatic
                 this.DoAfterDelay(this.jump, 1500);
                 this.DoAfterDelay(this.PlayGame, 3500);
             }
+
+            // Some privates that might help
+            //
+            //         child.Sprite.SpriteHeight = 16 /*0x10*/;
+            //         child.Sprite.setCurrentAnimation(this.getRandomCrawlerAnimation(1));
+            // getRandomCrawlerAnimation(0) means the animation where it seems to have something between its legs
+            //                          (1) means just sitting on the floor
+            //
+            //  setState(n)
+            //           0=up, 1=>right, 2=>down, 3=>left
+            //           5=sitting with toys
+            //           6=sitting without toys
+            //
+            // performToss() look for code that swaps into the arms-flapping animation.
+            //
+            // resetForPlayerEntry() will clear old animations and reset for whatever the 'state' is.
 
             void CircleRun()
             {
@@ -117,12 +168,12 @@ namespace NermNermNerm.Junimatic
 
             if (this.childrenToPlayWith.Any(c => Math.Abs(c.Tile.X - this.Tile.X) > 1 || Math.Abs(c.Tile.Y - this.Tile.Y) > 1))
             {
-                this.LogInfo($"The child(ren) and the Junimo got separated.  Picking a new place to play.");
-                this.FindNewSpot();
+                this.LogInfo($"The child(ren) and the Junimo got separated.");
+                this.OnCharacterIsStuck();
             }
             else
             {
-                Game1.random.Choose(JumpAround, JumpAround, JumpAround, CircleRun, CircleRun, CircleRun, CircleRun, this.FindNewSpot)();
+                Game1.random.Choose(JumpAround)();
             }
         }
 
