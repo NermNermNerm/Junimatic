@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Characters;
@@ -14,6 +15,10 @@ namespace NermNermNerm.Junimatic
 {
     public class JunimoCrawlerPlaymate : JunimoPlaymateBase
     {
+        private Point? childCrawlDestination;
+
+        private static readonly MethodInfo? setStateMethod  = typeof(Child).GetMethod("setState", BindingFlags.Instance | BindingFlags.NonPublic);
+
         public JunimoCrawlerPlaymate()
         {
             this.LogTrace($"Junimo crawler playmate cloned");
@@ -28,20 +33,29 @@ namespace NermNermNerm.Junimatic
 
         public bool TryGoToChild()
         {
-            // See if there's free tiles around the child's current location.
-            var point = this.childToPlayWith.TilePoint;
-            for (int y = 0; y < 1; ++y)
+            if (JunimoCrawlerPlaymate.setStateMethod is null)
             {
-                for (int x = -1; x <= 1; ++x)
-                {
-                    if (!(x == 0 && y == 0) && !this.isPositionOpen(point.X + x, point.Y + y))
-                    {
-                        return false;
-                    }
-                }
+                this.LogWarningOnce($"Can't do crawler playdates, this version of sdv 1.6 doesn't support the setState method");
+                return false;
             }
 
-            return this.TryGoTo(point + new Point(0, 1), this.PlayGame);
+            if (this.childToPlayWith.isMoving())
+            {
+                // Maybe skip this check and just park the child where he's at?
+                // this.LogTrace($"Not doing playdate because baby is on the move");
+                // return false;
+            }
+
+            // See if the tile below the child is free
+            var junimosPoint = this.childToPlayWith.TilePoint + new Point(0,1);
+
+            if (!this.isPositionOpen(junimosPoint.X, junimosPoint.Y + 1))
+            {
+                this.LogTrace($"Not doing playdate because the tile below the crawler is not free");
+                return false;
+            }
+
+            return this.TryGoTo(junimosPoint, this.PlayGame);
         }
 
         private bool isPositionOpen(int tileX, int tileY)
@@ -181,6 +195,53 @@ namespace NermNermNerm.Junimatic
         {
             // Todo, embellish this.
             this.GoHome();
+        }
+
+        public override void update(GameTime time, GameLocation farmHouse)
+        {
+            base.update(time, farmHouse);
+
+            if (this.childCrawlDestination.HasValue)
+            {
+                // Ensure the child's still going that right direction
+                if (this.childCrawlDestination.Value.X == this.childToPlayWith.TilePoint.X)
+                {
+                    // Reached the promised land!
+                    this.SetChildStateSitting();
+                    this.childCrawlDestination = null;
+                }
+                else if (this.childCrawlDestination.Value.X < this.childToPlayWith.TilePoint.X // Destination is to the right
+                         && this.childToPlayWith.getDirection() != 1) // But not moving that way
+                {
+                    this.SetChildStateCrawlingRight();
+                }
+                else if (this.childCrawlDestination.Value.X > this.childToPlayWith.TilePoint.X // Destination is to the left
+                         && this.childToPlayWith.getDirection() != 3) // But not moving that way
+                {
+                    this.SetChildStateCrawlingLeft();
+                }
+            }
+            else
+            {
+                if (this.childToPlayWith.isMoving())
+                {
+                    this.SetChildStateSitting();
+                }
+            }
+        }
+
+        private void SetChildStateSitting()
+        {
+            // 4 => sitting with the toy in his lap, 5 without it.
+            this.SetChildState(Random.Shared.Next(1) + 4);
+        }
+
+        private void SetChildStateCrawlingRight() => this.SetChildState(1);
+        private void SetChildStateCrawlingLeft() => this.SetChildState(3);
+
+        private void SetChildState(int state)
+        {
+            JunimoCrawlerPlaymate.setStateMethod!.Invoke(this.childToPlayWith, [state]);
         }
 
         protected override int TravelingSpeed => 5;
