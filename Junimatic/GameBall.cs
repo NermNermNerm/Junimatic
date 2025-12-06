@@ -16,6 +16,7 @@ namespace NermNermNerm.Junimatic
         private readonly Action doWhenLands;
         private readonly GameLocation location;
         private readonly Vector2 endingPosition;
+        private float rotation;
 
         private int bounceNumber;
 
@@ -29,6 +30,7 @@ namespace NermNermNerm.Junimatic
             this.endingPosition = endingTile.ToVector2()*64F;
             this.doWhenLands = doWhenLands;
             this.bounceNumber = 0;
+            this.rotation = 0;
             this.location = farmHouse;
             this.gravityAffectedDY = - this.bounceNumber * 2f; // 7 will yield 1.5 tiles
         }
@@ -88,6 +90,13 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
+            if (!this.IsLanded)
+            {
+                // update is called ~60 times per second, we want a full revolution every 2 seconds, a full rotation is 2*pi
+                // radians/tick = (.5 revolution / second) * 2*pi radians/revolution * 1/60 seconds/tick
+                this.rotation += ((this.bounceNumber & 1) == 0 ? 1 : -1) * (float)Math.PI / 60;
+            }
+
             return result;
         }
 
@@ -98,12 +107,27 @@ namespace NermNermNerm.Junimatic
             // The base class' draw method draws the object two tiles above and one to the left of where the position says it should go, because
             // obviously that should be the default behavior...
 
-            this.sprite.draw(
-                b,
+            // this.sprite.draw(
+            //     b,
+            //     Game1.GlobalToLocal(
+            //         Game1.viewport,
+            //         Utility.snapDrawPosition(this.position + new Vector2(0f, -20f + this.yJumpOffset + this.yOffset))),
+            //     (this.position.Y + 64f - 32f) / 10000f, 0, 0, Color.White, false, 4f,
+            //     rotation: this.rotation,
+            //     characterSourceRectOffset: true);
+
+            b.Draw(this.sprite.Texture,
                 Game1.GlobalToLocal(
-                    Game1.viewport,
-                    Utility.snapDrawPosition(this.position + new Vector2(0f, -20f + this.yJumpOffset + this.yOffset))),
-                    (this.position.Y + 64f - 32f) / 10000f, 0, 0, Color.White, false, 4f);
+                             Game1.viewport,
+                             Utility.snapDrawPosition(this.position + new Vector2(32f, 40f) + new Vector2(0f, -20f + this.yJumpOffset + this.yOffset))),
+                new Rectangle?(new Rectangle(this.sprite.sourceRect.X, this.sprite.sourceRect.Y, this.sprite.sourceRect.Width, this.sprite.sourceRect.Height)),
+                Color.White,
+                this.rotation,
+                new Vector2(this.sprite.SpriteWidth / 2f, this.sprite.SpriteHeight / 2f),
+                4f,
+                this.sprite.CurrentAnimation != null && this.sprite.CurrentAnimation[this.sprite.currentAnimationIndex].flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                (this.position.Y + 64f - 32f) / 10000f);
+
             b.Draw(
                 Game1.shadowTexture,
                 Game1.GlobalToLocal(
