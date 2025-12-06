@@ -16,6 +16,7 @@ namespace NermNermNerm.Junimatic
     public class JunimoCrawlerPlaymate : JunimoPlaymateBase
     {
         private Point? childCrawlDestination;
+        private Action onChildReachedDestination = () => { };
 
         private static readonly MethodInfo? setStateMethod  = typeof(Child).GetMethod("setState", BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -70,6 +71,69 @@ namespace NermNermNerm.Junimatic
         }
 
 
+        void JumpAroundGame()
+        {
+            this.LogTrace($"Playing jump-around game");
+            this.FixChildControllers();
+
+            foreach (var child in this.childrenToPlayWith)
+            {
+                this.ParkChild(child);
+            }
+
+            this.BroadcastEmote(this.childrenToPlayWith[0], heartEmote);
+
+            this.DoAfterDelay(this.Meep, 500);
+            this.DoAfterDelay(this.jump, 1500);
+            this.DoAfterDelay(this.PlayGame, 3500);
+        }
+
+        void SynchronizedCrawlGame()
+        {
+            int[] freeSpacePerDirection = [0,0];
+
+            for (int i = 0; i < 2; ++i)
+            {
+                int maxFreeSpace = 0;
+                for (; maxFreeSpace < 10; ++maxFreeSpace)
+                {
+                    int x = this.childToPlayWith.TilePoint.X + (maxFreeSpace + 1) * (i * 2 - 1);
+                    int y = this.childToPlayWith.TilePoint.Y;
+                    if (!this.isPositionOpen(x, y) || !this.isPositionOpen(x, y + 1))
+                    {
+                        break;
+                    }
+                }
+                freeSpacePerDirection[i] = maxFreeSpace;
+            }
+
+            int direction = freeSpacePerDirection[0] > freeSpacePerDirection[1] ?  -1 : 1;
+            int spacesToCrawl = freeSpacePerDirection.Max();
+
+            void nextGame() => this.DoAfterDelay(this.PlayGame, 1000);
+
+            if (spacesToCrawl == 0) nextGame();
+
+            bool canGo = this.TryGoTo(this.childToPlayWith.TilePoint + new Point(spacesToCrawl * direction, 1), () =>
+            {
+                if (this.childCrawlDestination is null) // If this child is done crawling, then the game's over.
+                {
+                    this.DoAfterDelay(this.PlayGame, 1000);
+                }
+            } );
+
+            if (!canGo) nextGame();
+
+            this.childCrawlDestination = this.childToPlayWith.TilePoint + new Point(spacesToCrawl * direction, 0);
+            this.onChildReachedDestination = () =>
+            {
+                if (this.controller is null) // Junimo reached its destionation already
+                {
+                    this.DoAfterDelay(this.PlayGame, 1000);
+                }
+            };
+        }
+
         protected override void PlayGame()
         {
             if (Game1.timeOfDay >= this.timeToGoHome)
@@ -78,107 +142,6 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            void JumpAround()
-            {
-                this.LogTrace($"Playing jump-around game");
-                this.FixChildControllers();
-
-                foreach (var child in this.childrenToPlayWith)
-                {
-                    this.ParkChild(child);
-                }
-
-                this.BroadcastEmote(this.childrenToPlayWith[0], heartEmote);
-
-                this.DoAfterDelay(this.Meep, 500);
-                this.DoAfterDelay(this.jump, 1500);
-                this.DoAfterDelay(this.PlayGame, 3500);
-            }
-
-            // Some privates that might help
-            //
-            //         child.Sprite.SpriteHeight = 16 /*0x10*/;
-            //         child.Sprite.setCurrentAnimation(this.getRandomCrawlerAnimation(1));
-            // getRandomCrawlerAnimation(0) means the animation where it seems to have something between its legs
-            //                          (1) means just sitting on the floor
-            //
-            //  setState(n)
-            //           0=up, 1=>right, 2=>down, 3=>left
-            //           5=sitting with toys
-            //           6=sitting without toys
-            //
-            // performToss() look for code that swaps into the arms-flapping animation.
-            //
-            // resetForPlayerEntry() will clear old animations and reset for whatever the 'state' is.
-
-            void CircleRun()
-            {
-                this.LogTrace($"Playing circle-run game");
-                var junimoStartingTile = this.TilePoint;
-                int numAtDestination = 0;
-
-                void endGame()
-                {
-                    ++numAtDestination;
-                    if (numAtDestination == 1 + this.childrenToPlayWith.Count)
-                    {
-                        this.DoAfterDelay(this.PlayGame, 1000);
-                    }
-                }
-
-                this.controller = null;
-                // Junimo starts in lower center of area
-                // NOTE: Paths are in reverse order!
-                this.Meep();
-                this.controller = new PathFindController(new Stack<Point>([
-                    junimoStartingTile,
-                    junimoStartingTile + new Point(1, 0),
-                    junimoStartingTile + new Point(1, -1),
-                    junimoStartingTile + new Point(-1, -1),
-                    junimoStartingTile + new Point(-1, 0),
-                ]), this, this.currentLocation)
-                {
-                    endPoint = junimoStartingTile,
-                    finalFacingDirection = 0,
-                    endBehaviorFunction = (_, _) => endGame()
-                };
-
-                foreach (var child in this.childrenToPlayWith)
-                {
-                    var childStartingTile = child.TilePoint;
-                    child.Speed =
-                        3; // Normally the child cruises at 5.  Setting this seems sketch.  Perhaps it should be unset at the end?
-                    child.controller = null;
-                    var path = new Stack<Point>(child == this.childrenToPlayWith.First()
-                        ?
-                        [
-                            childStartingTile,
-                            childStartingTile + new Point(0, 1),
-                            childStartingTile + new Point(2, 1),
-                            childStartingTile + new Point(2, 0), // starts upper left corner
-                        ]
-                        :
-                        [
-                            childStartingTile,
-                            childStartingTile + new Point(-2, 0),
-                            childStartingTile + new Point(-2, 1),
-                            childStartingTile + new Point(0, 1), // starts upper right corner
-                        ]);
-
-                    child.controller = new PathFindController(path, child, this.currentLocation)
-                    {
-                        finalFacingDirection = 2,
-                        endPoint = childStartingTile,
-                        endBehaviorFunction = (_, _) =>
-                        {
-                            this.ParkChild(child);
-                            endGame();
-                        }
-                    };
-                }
-
-                this.FixChildControllers();
-            }
 
             if (this.childrenToPlayWith.Any(c => Math.Abs(c.Tile.X - this.Tile.X) > 1 || Math.Abs(c.Tile.Y - this.Tile.Y) > 1))
             {
@@ -187,14 +150,35 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                Game1.random.Choose(JumpAround)();
+                Game1.random.Choose(this.JumpAroundGame, this.SynchronizedCrawlGame)();
+            }
+        }
+
+        protected override void OnFarmersLeftFarmhouse()
+        {
+            this.childCrawlDestination = null;
+            base.OnFarmersLeftFarmhouse();
+        }
+
+        protected override void OnFarmerEnteredFarmhouse()
+        {
+            Point junimoSpot = this.childToPlayWith.TilePoint + new Point(0, 1);
+            if (this.isPositionOpen(junimoSpot.X, junimoSpot.Y))
+            {
+                this.Position = new Vector2(junimoSpot.X * 64, junimoSpot.Y * 64);
+                this.PlayGame();
+            }
+            else
+            {
+                this.GoHome();
             }
         }
 
         private void EndPlayDate()
         {
-            // Todo, embellish this.
-            this.GoHome();
+            this.BroadcastEmote(sleepEmote);
+            this.DoAfterDelay(() => this.BroadcastEmote(this.childToPlayWith, happyEmote), 1500);
+            this.DoAfterDelay(this.GoHome, 3000);
         }
 
         public override void update(GameTime time, GameLocation farmHouse)
@@ -209,13 +193,14 @@ namespace NermNermNerm.Junimatic
                     // Reached the promised land!
                     this.SetChildStateSitting();
                     this.childCrawlDestination = null;
+                    this.onChildReachedDestination();
                 }
-                else if (this.childCrawlDestination.Value.X < this.childToPlayWith.TilePoint.X // Destination is to the right
+                else if (this.childCrawlDestination.Value.X > this.childToPlayWith.TilePoint.X // Destination is to the right
                          && this.childToPlayWith.getDirection() != 1) // But not moving that way
                 {
                     this.SetChildStateCrawlingRight();
                 }
-                else if (this.childCrawlDestination.Value.X > this.childToPlayWith.TilePoint.X // Destination is to the left
+                else if (this.childCrawlDestination.Value.X < this.childToPlayWith.TilePoint.X // Destination is to the left
                          && this.childToPlayWith.getDirection() != 3) // But not moving that way
                 {
                     this.SetChildStateCrawlingLeft();
