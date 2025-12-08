@@ -41,6 +41,12 @@ namespace NermNermNerm.Junimatic
             // Critter.update returns true if the critter is off-screen, which shouldn't happen.
             bool result = base.update(time, environment);
 
+            // Don't change anything if time is paused by a menu in a single-player game
+            if (Game1.activeClickableMenu is not null && !Game1.IsMultiplayer)
+            {
+                return result;
+            }
+
             if (this.bounceNumber < 5 && this.yJumpOffset >= 0)
             {
                 ++this.bounceNumber;

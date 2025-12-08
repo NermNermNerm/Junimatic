@@ -21,6 +21,7 @@ namespace NermNermNerm.Junimatic
     {
         public const string BigCraftablesSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/Sprites";
         public const string OneTileSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/1x1Sprites";
+        public const string BalloonSpritesPseudoPath = "Mods/NermNermNerm/Junimatic/balloons";
 
         public const string SetJunimoColorEventCommand = "junimatic.setJunimoColor";
 
@@ -139,6 +140,10 @@ namespace NermNermNerm.Junimatic
             else if (e.NameWithoutLocale.IsEquivalentTo(OneTileSpritesPseudoPath))
             {
                 e.LoadFromModFile<Texture2D>("assets/1x1_Sprites.png", AssetLoadPriority.Exclusive);
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo(ModEntry.BalloonSpritesPseudoPath))
+            {
+                e.LoadFromModFile<Texture2D>("assets/balloons.png", AssetLoadPriority.Exclusive);
             }
             else if (e.NameWithoutLocale.StartsWith("Characters/Dialogue/"))
             {

@@ -20,6 +20,8 @@ namespace NermNermNerm.Junimatic
 
         private static readonly MethodInfo? setStateMethod  = typeof(Child).GetMethod("setState", BindingFlags.Instance | BindingFlags.NonPublic);
 
+        private Balloon? balloon = null;
+
         public JunimoCrawlerPlaymate()
         {
             this.LogTrace($"Junimo crawler playmate cloned");
@@ -71,7 +73,7 @@ namespace NermNermNerm.Junimatic
         }
 
 
-        void JumpAroundGame()
+        private void JumpAroundGame()
         {
             this.LogTrace($"Playing jump-around game");
             this.FixChildControllers();
@@ -88,7 +90,7 @@ namespace NermNermNerm.Junimatic
             this.DoAfterDelay(this.PlayGame, 3500);
         }
 
-        void SynchronizedCrawlGame()
+        private void SynchronizedCrawlGame()
         {
             int[] freeSpacePerDirection = [0,0];
 
@@ -134,6 +136,23 @@ namespace NermNermNerm.Junimatic
             };
         }
 
+        private void BalloonRideGame()
+        {
+            this.balloon = new Balloon(this.currentLocation, 3, this.childToPlayWith.Position, () => { });
+
+            this.currentLocation.instantiateCrittersList(); // <- only does something if the critters list is non-existent.
+            this.currentLocation.addCritter(this.balloon); // <- if the critters list doesn't exist, this will do nothing.
+
+            this.DoAfterDelay(() =>
+            {
+                this.currentLocation.critters.Remove(this.balloon);
+                // ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBall();
+                this.balloon = null;
+                this.PlayGame();
+            }, 30000);
+
+        }
+
         protected override void PlayGame()
         {
             if (Game1.timeOfDay >= this.timeToGoHome)
@@ -142,7 +161,6 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-
             if (this.childrenToPlayWith.Any(c => Math.Abs(c.Tile.X - this.Tile.X) > 1 || Math.Abs(c.Tile.Y - this.Tile.Y) > 1))
             {
                 this.LogInfo($"The child(ren) and the Junimo got separated.");
@@ -150,7 +168,7 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                Game1.random.Choose(this.JumpAroundGame, this.SynchronizedCrawlGame)();
+                Game1.random.Choose(/*this.JumpAroundGame, this.SynchronizedCrawlGame, */ this.BalloonRideGame)();
             }
         }
 

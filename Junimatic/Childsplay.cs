@@ -89,7 +89,7 @@ namespace NermNermNerm.Junimatic
 
         private void LaunchJunimoPlaymate()
         {
-            var child = Game1.random.Choose(Game1.MasterPlayer.getChildren().ToArray());
+            var child = Game1.MasterPlayer.getChildren().Last(); // TODO: Put back Game1.random.Choose(Game1.MasterPlayer.getChildren().ToArray());
             var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
             var cribBounds = farmhouse.GetCribBounds();
 
