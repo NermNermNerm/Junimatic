@@ -214,11 +214,12 @@ namespace NermNermNerm.Junimatic
             {
                 if (!this.childToPlayWith.IsInvisible)
                 {
+                    int firstFrame = this.childToPlayWith.darkSkinned.Value ? 5 : 1;
                     this.balloon.Sprite.setCurrentAnimation([
-                        new FarmerSprite.AnimationFrame(1, 100),
-                        new FarmerSprite.AnimationFrame(2, 100),
-                        new FarmerSprite.AnimationFrame(3, 100),
-                        new FarmerSprite.AnimationFrame(4, 100)
+                        new FarmerSprite.AnimationFrame(firstFrame, 200),
+                        new FarmerSprite.AnimationFrame(firstFrame+1, 200),
+                        new FarmerSprite.AnimationFrame(firstFrame+2, 200),
+                        new FarmerSprite.AnimationFrame(firstFrame+3, 200)
                     ]);
                     this.childToPlayWith.IsInvisible = true;
                 }
