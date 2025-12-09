@@ -18,7 +18,7 @@ namespace NermNermNerm.Junimatic
 
         private const float startingScale = 1f;
         private const float fullScale = 4f;
-        private const float scaleGrowth = (Balloon.fullScale - Balloon.startingScale)  /* total to grow */ / 120f /* 2 seconds worth of ticks */;
+        private const float scaleGrowth = (Balloon.fullScale - Balloon.startingScale)  /* total to grow */ / 60f /* 1 seconds worth of ticks */;
         private const float acceleration = .02f; // pixel/tick^2
         private const float maxSpeed = .75f; // 1 pixels/tick = 60 pixels/second = 60/64 ~= 1 tiles/second
 
@@ -29,7 +29,7 @@ namespace NermNermNerm.Junimatic
         {
             this.position = childPosition;
             this.startingPosition = childPosition;
-            this.sprite = new AnimatedSprite(ModEntry.BalloonSpritesPseudoPath, 0, 13, 36);
+            this.sprite = new AnimatedSprite(ModEntry.BalloonSpritesPseudoPath, 0, 16, 40);
             this.baseFrame = 0;
             this.speed = 0;
             this.scale = Balloon.startingScale;
@@ -37,6 +37,8 @@ namespace NermNermNerm.Junimatic
             this.location = farmHouse;
             this.floatHeightInPixels = floatHeightInTiles * 64;
         }
+
+        public AnimatedSprite Sprite => this.sprite;
 
         public override bool update(GameTime time, GameLocation environment)
         {
@@ -80,11 +82,12 @@ namespace NermNermNerm.Junimatic
             //     rotation: this.rotation,
             //     characterSourceRectOffset: true);
 
+            int frame = this.sprite.CurrentAnimation is null ? this.sprite.CurrentFrame : this.sprite.currentAnimation[this.sprite.currentAnimationIndex].frame;
             b.Draw(this.sprite.Texture,
                 Game1.GlobalToLocal(
                              Game1.viewport,
                              Utility.snapDrawPosition(this.position + new Vector2(32f, 20f))),
-                new Rectangle?(new Rectangle(this.sprite.sourceRect.X, this.sprite.sourceRect.Y, this.sprite.sourceRect.Width, this.sprite.sourceRect.Height)),
+                this.sprite.SourceRect,
                 Color.White,
                 0f,
                 new Vector2(this.sprite.SpriteWidth / 2f, this.sprite.SpriteHeight / 2f),

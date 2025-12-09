@@ -22,6 +22,8 @@ namespace NermNermNerm.Junimatic
 
         private Balloon? balloon = null;
 
+        private const int dangleDistance = 48;
+
         public JunimoCrawlerPlaymate()
         {
             this.LogTrace($"Junimo crawler playmate cloned");
@@ -148,8 +150,12 @@ namespace NermNermNerm.Junimatic
                 this.currentLocation.critters.Remove(this.balloon);
                 // ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBall();
                 this.balloon = null;
+                this.childToPlayWith.IsInvisible = false;
+                this.SetChildStateSitting();
+
                 this.PlayGame();
-            }, 30000);
+
+            }, 20000);
 
         }
 
@@ -202,6 +208,21 @@ namespace NermNermNerm.Junimatic
         public override void update(GameTime time, GameLocation farmHouse)
         {
             base.update(time, farmHouse);
+
+            if (this.balloon is not null
+                && this.balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance < this.childToPlayWith.Position.Y)
+            {
+                if (!this.childToPlayWith.IsInvisible)
+                {
+                    this.balloon.Sprite.setCurrentAnimation([
+                        new FarmerSprite.AnimationFrame(1, 100),
+                        new FarmerSprite.AnimationFrame(2, 100),
+                        new FarmerSprite.AnimationFrame(3, 100),
+                        new FarmerSprite.AnimationFrame(4, 100)
+                    ]);
+                    this.childToPlayWith.IsInvisible = true;
+                }
+            }
 
             if (this.childCrawlDestination.HasValue)
             {
