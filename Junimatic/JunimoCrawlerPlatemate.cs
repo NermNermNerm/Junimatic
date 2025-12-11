@@ -24,6 +24,8 @@ namespace NermNermNerm.Junimatic
 
         private const int dangleDistance = 48;
 
+        private bool isDragDownJump = false;
+
         public JunimoCrawlerPlaymate()
         {
             this.LogTrace($"Junimo crawler playmate cloned");
@@ -138,25 +140,59 @@ namespace NermNermNerm.Junimatic
             };
         }
 
+        private static float dragDownJumpInitialVelocity = 10f;
+
         private void BalloonRideGame()
         {
             this.balloon = new Balloon(this.currentLocation, 3, this.childToPlayWith.Position, () => { });
 
             this.currentLocation.instantiateCrittersList(); // <- only does something if the critters list is non-existent.
             this.currentLocation.addCritter(this.balloon); // <- if the critters list doesn't exist, this will do nothing.
+            this.currentLocation.playSound("dwop");
+
+            this.DoAfterDelay(this.jump, 2000);
+            this.DoAfterDelay(this.jump, 8000);
+            this.DoAfterDelay(this.jump, 11000);
+            this.DoAfterDelay(this.jump, 16000);
 
             this.DoAfterDelay(() =>
             {
-                this.currentLocation.critters.Remove(this.balloon);
-                // ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBall();
-                this.balloon = null;
-                this.childToPlayWith.IsInvisible = false;
-                this.SetChildStateSitting();
+                this.jump(6f); // default is 8
+                this.DoAfterDelay(() =>
+                {
+                    this.jump(9f);
+                    this.DoAfterDelay(() =>
+                    {
+                        this.jump(7f);
+                        this.DoAfterDelay(() =>
+                        {
+                            this.jump(8f);
+                            this.DoAfterDelay(() =>
+                            {
+                                this.jump(9f);
+                                this.DoAfterDelay(() =>
+                                {
+                                    this.jump(JunimoCrawlerPlaymate.dragDownJumpInitialVelocity);
+                                    this.isDragDownJump = true;
+                                    this.balloon.IsGoingDown = true;
+                                }, 5000);
+                            }, 4000);
+                        }, 4000);
+                    }, 1000);
+                }, 2000);
+            }, 4000);
+        }
 
-                this.PlayGame();
+        private void DoAfterLanding()
+        {
+            this.currentLocation.critters.Remove(this.balloon);
+            // ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBall();
+            this.balloon = null;
+            this.childToPlayWith.IsInvisible = false;
+            this.isDragDownJump = false;
+            this.SetChildStateSitting();
 
-            }, 20000);
-
+            this.PlayGame();
         }
 
         protected override void PlayGame()
@@ -207,7 +243,24 @@ namespace NermNermNerm.Junimatic
 
         public override void update(GameTime time, GameLocation farmHouse)
         {
+            // Don't change anything if time is paused by a menu in a single-player game
+            if (Game1.activeClickableMenu is not null && !Game1.IsMultiplayer)
+            {
+                return;
+            }
+
+            if (this.isDragDownJump && this.yJumpVelocity <= 0)
+            {
+                this.yJumpVelocity = 0;
+                this.yJumpOffset = (int)Math.Min(0f, 30 + this.balloon!.position.Y + JunimoCrawlerPlaymate.dangleDistance - this.childToPlayWith.Position.Y);
+            }
+
             base.update(time, farmHouse);
+
+            if (this.isDragDownJump && this.yJumpOffset == 0 && this.balloon is not null && this.balloon.IsGoingDown && this.balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance > this.childToPlayWith.Position.Y)
+            {
+                this.DoAfterLanding();
+            }
 
             if (this.balloon is not null
                 && this.balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance < this.childToPlayWith.Position.Y)

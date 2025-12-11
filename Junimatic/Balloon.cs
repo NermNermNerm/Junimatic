@@ -21,6 +21,7 @@ namespace NermNermNerm.Junimatic
         private const float scaleGrowth = (Balloon.fullScale - Balloon.startingScale)  /* total to grow */ / 60f /* 1 seconds worth of ticks */;
         private const float acceleration = .02f; // pixel/tick^2
         private const float maxSpeed = .75f; // 1 pixels/tick = 60 pixels/second = 60/64 ~= 1 tiles/second
+        private const float downSpeed = 0.5f; // Matches JunimoCrawlerPlatemate.floatDownJumpVelocity
 
         private int floatHeightInPixels;
 
@@ -38,6 +39,8 @@ namespace NermNermNerm.Junimatic
             this.floatHeightInPixels = floatHeightInTiles * 64;
         }
 
+        public bool IsGoingDown { get; set; }= false;
+
         public AnimatedSprite Sprite => this.sprite;
 
         public override bool update(GameTime time, GameLocation environment)
@@ -52,15 +55,21 @@ namespace NermNermNerm.Junimatic
                 return result;
             }
 
-            this.position.Y = this.position.Y + this.speed;
-
-            if (this.position.Y < this.startingPosition.Y - this.floatHeightInPixels)
+            if (this.IsGoingDown)
             {
-                this.speed = Math.Min(this.speed + Balloon.acceleration, Balloon.maxSpeed);
+                this.position.Y = this.position.Y + Balloon.downSpeed;
             }
             else
             {
-                this.speed = Math.Max(this.speed - Balloon.acceleration, - Balloon.maxSpeed);
+                this.position.Y = this.position.Y + this.speed;
+                if (this.position.Y < this.startingPosition.Y - this.floatHeightInPixels)
+                {
+                    this.speed = Math.Min(this.speed + Balloon.acceleration, Balloon.maxSpeed);
+                }
+                else
+                {
+                    this.speed = Math.Max(this.speed - Balloon.acceleration, - Balloon.maxSpeed);
+                }
             }
 
             this.scale = Math.Min(this.scale + Balloon.scaleGrowth, Balloon.fullScale);
@@ -82,7 +91,6 @@ namespace NermNermNerm.Junimatic
             //     rotation: this.rotation,
             //     characterSourceRectOffset: true);
 
-            int frame = this.sprite.CurrentAnimation is null ? this.sprite.CurrentFrame : this.sprite.currentAnimation[this.sprite.currentAnimationIndex].frame;
             b.Draw(this.sprite.Texture,
                 Game1.GlobalToLocal(
                              Game1.viewport,
