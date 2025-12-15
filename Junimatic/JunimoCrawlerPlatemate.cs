@@ -252,7 +252,10 @@ namespace NermNermNerm.Junimatic
             if (this.isDragDownJump && this.yJumpVelocity <= 0)
             {
                 this.yJumpVelocity = 0;
-                this.yJumpOffset = (int)Math.Min(0f, 30 + this.balloon!.position.Y + JunimoCrawlerPlaymate.dangleDistance - this.childToPlayWith.Position.Y);
+                // I have no idea why the *.5 is needed here.  The draw code that consumes yJumpOffset seems to use it
+                // as a just a straight pixel offset, so why would we need halve it?  If you don't, the junimo descends
+                // at twice the rate of the balloon.
+                this.yJumpOffset = (int)Math.Min(0f, .5f*(-45 + this.balloon!.position.Y + JunimoCrawlerPlaymate.dangleDistance - this.childToPlayWith.Position.Y));
             }
 
             base.update(time, farmHouse);
