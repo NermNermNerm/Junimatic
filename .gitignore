@@ -11,6 +11,9 @@
 [Oo]bj/
 _releases/
 
+# Backups
+*~
+
 # Visual Studio cache/options
 .vs/
 

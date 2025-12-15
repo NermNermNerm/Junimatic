@@ -79,7 +79,7 @@ namespace NermNermNerm.Junimatic
 
         public override void draw(SpriteBatch b)
         {
-            // The base class' draw method draws the object two tiles above and one to the left of where the position says it should go, because
+            // The base class' draw me`thod draws the object two tiles above and one to the left of where the position says it should go, because
             // obviously that should be the default behavior...
 
             // this.sprite.draw(

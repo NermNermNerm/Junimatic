@@ -150,19 +150,16 @@ namespace NermNermNerm.Junimatic
             this.currentLocation.addCritter(this.balloon); // <- if the critters list doesn't exist, this will do nothing.
             this.currentLocation.playSound("dwop");
 
-            this.DoAfterDelay(this.jump, 2000);
-            this.DoAfterDelay(this.jump, 8000);
-            this.DoAfterDelay(this.jump, 11000);
-            this.DoAfterDelay(this.jump, 16000);
-
             this.DoAfterDelay(() =>
             {
+                this.Meep();
                 this.jump(6f); // default is 8
                 this.DoAfterDelay(() =>
                 {
                     this.jump(9f);
                     this.DoAfterDelay(() =>
                     {
+                        this.Meep();
                         this.jump(7f);
                         this.DoAfterDelay(() =>
                         {
@@ -172,6 +169,7 @@ namespace NermNermNerm.Junimatic
                                 this.jump(9f);
                                 this.DoAfterDelay(() =>
                                 {
+                                    this.Meep();
                                     this.jump(JunimoCrawlerPlaymate.dragDownJumpInitialVelocity);
                                     this.isDragDownJump = true;
                                     this.balloon.IsGoingDown = true;
@@ -192,7 +190,9 @@ namespace NermNermNerm.Junimatic
             this.isDragDownJump = false;
             this.SetChildStateSitting();
 
-            this.PlayGame();
+            this.currentLocation.playSound("junimoMeep");
+            this.DoAfterDelay(() => this.BroadcastEmote(this.childToPlayWith, Character.happyEmote), 500);
+            this.DoAfterDelay(this.PlayGame, 2500);
         }
 
         protected override void PlayGame()
