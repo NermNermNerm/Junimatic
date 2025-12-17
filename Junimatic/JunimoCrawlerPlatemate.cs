@@ -79,7 +79,7 @@ namespace NermNermNerm.Junimatic
 
         private void JumpAroundGame()
         {
-            this.LogTrace($"Playing jump-around game");
+            this.LogTrace($"Playing Crawler jump-around game");
             this.FixChildControllers();
 
             foreach (var child in this.childrenToPlayWith)
@@ -140,12 +140,12 @@ namespace NermNermNerm.Junimatic
             };
         }
 
-        private static float dragDownJumpInitialVelocity = 10f;
+        private static float dragDownJumpInitialVelocity = 10f;  // static, not const, so that it can be changed in debugger.
 
         private void BalloonRideGame()
         {
-            this.balloon = new Balloon(this.currentLocation, 3, this.childToPlayWith.Position, () => { });
-
+            this.balloon = new Balloon(this.currentLocation, 3, this.childToPlayWith.Position);
+            ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastCreateBalloon(3, this.childToPlayWith);
             this.currentLocation.instantiateCrittersList(); // <- only does something if the critters list is non-existent.
             this.currentLocation.addCritter(this.balloon); // <- if the critters list doesn't exist, this will do nothing.
             this.currentLocation.playSound("dwop");
@@ -173,6 +173,7 @@ namespace NermNermNerm.Junimatic
                                     this.jump(JunimoCrawlerPlaymate.dragDownJumpInitialVelocity);
                                     this.isDragDownJump = true;
                                     this.balloon.IsGoingDown = true;
+                                    ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastDescendBalloon();
                                 }, 5000);
                             }, 4000);
                         }, 4000);
@@ -184,13 +185,13 @@ namespace NermNermNerm.Junimatic
         private void DoAfterLanding()
         {
             this.currentLocation.critters.Remove(this.balloon);
-            // ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBall();
+            ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBalloon();
             this.balloon = null;
             this.childToPlayWith.IsInvisible = false;
             this.isDragDownJump = false;
             this.SetChildStateSitting();
 
-            this.currentLocation.playSound("junimoMeep");
+            this.Meep();
             this.DoAfterDelay(() => this.BroadcastEmote(this.childToPlayWith, Character.happyEmote), 500);
             this.DoAfterDelay(this.PlayGame, 2500);
         }
@@ -217,6 +218,15 @@ namespace NermNermNerm.Junimatic
         protected override void OnFarmersLeftFarmhouse()
         {
             this.childCrawlDestination = null;
+            if (this.balloon is not null)
+            {
+                this.currentLocation.critters.Remove(this.balloon);
+                ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBalloon();
+                this.balloon = null;
+                this.childToPlayWith.IsInvisible = false;
+                this.isDragDownJump = false;
+            }
+
             base.OnFarmersLeftFarmhouse();
         }
 
@@ -260,7 +270,8 @@ namespace NermNermNerm.Junimatic
 
             base.update(time, farmHouse);
 
-            if (this.isDragDownJump && this.yJumpOffset == 0 && this.balloon is not null && this.balloon.IsGoingDown && this.balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance > this.childToPlayWith.Position.Y)
+            if (this.isDragDownJump && this.yJumpOffset == 0 && this.balloon is not null && this.balloon.IsGoingDown
+                && this.balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance > this.childToPlayWith.Position.Y)
             {
                 this.DoAfterLanding();
             }
@@ -302,12 +313,9 @@ namespace NermNermNerm.Junimatic
                     this.SetChildStateCrawlingLeft();
                 }
             }
-            else
+            else if (this.childToPlayWith.isMoving() && Game1.IsMasterGame)
             {
-                if (this.childToPlayWith.isMoving())
-                {
-                    this.SetChildStateSitting();
-                }
+                this.SetChildStateSitting();
             }
         }
 

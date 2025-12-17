@@ -6,13 +6,14 @@ using StardewValley.BellsAndWhistles;
 
 namespace NermNermNerm.Junimatic
 {
+    /// <summary>
+    ///   This is a prop used by JunimoCrawlerPlaymate that simulates the child being carried up by a balloon.
+    /// </summary>
     public class Balloon : Critter
     {
         // 10 tiles/second = 640 pixels/second => (640/60) pixels/update-tick ~= 10 pixels/update-tick
         private const float MaxSingleDimensionSpeed = 10; // in pixels/update
 
-        private readonly Action doWhenLands;
-        private readonly GameLocation location;
         private float speed;
         private float scale;
 
@@ -23,10 +24,10 @@ namespace NermNermNerm.Junimatic
         private const float maxSpeed = .75f; // 1 pixels/tick = 60 pixels/second = 60/64 ~= 1 tiles/second
         private const float downSpeed = 0.5f; // Matches JunimoCrawlerPlatemate.floatDownJumpVelocity
 
-        private int floatHeightInPixels;
+        private readonly int floatHeightInPixels;
 
 
-        public Balloon(GameLocation farmHouse, int floatHeightInTiles, Vector2 childPosition, Action doWhenLands)
+        public Balloon(GameLocation farmHouse, int floatHeightInTiles, Vector2 childPosition)
         {
             this.position = childPosition;
             this.startingPosition = childPosition;
@@ -34,8 +35,6 @@ namespace NermNermNerm.Junimatic
             this.baseFrame = 0;
             this.speed = 0;
             this.scale = Balloon.startingScale;
-            this.doWhenLands = doWhenLands;
-            this.location = farmHouse;
             this.floatHeightInPixels = floatHeightInTiles * 64;
         }
 
@@ -62,14 +61,9 @@ namespace NermNermNerm.Junimatic
             else
             {
                 this.position.Y = this.position.Y + this.speed;
-                if (this.position.Y < this.startingPosition.Y - this.floatHeightInPixels)
-                {
-                    this.speed = Math.Min(this.speed + Balloon.acceleration, Balloon.maxSpeed);
-                }
-                else
-                {
-                    this.speed = Math.Max(this.speed - Balloon.acceleration, - Balloon.maxSpeed);
-                }
+                this.speed = this.position.Y < this.startingPosition.Y - this.floatHeightInPixels
+                    ? Math.Min(this.speed + Balloon.acceleration, Balloon.maxSpeed)
+                    : Math.Max(this.speed - Balloon.acceleration, -Balloon.maxSpeed);
             }
 
             this.scale = Math.Min(this.scale + Balloon.scaleGrowth, Balloon.fullScale);
@@ -79,17 +73,6 @@ namespace NermNermNerm.Junimatic
 
         public override void draw(SpriteBatch b)
         {
-            // The base class' draw me`thod draws the object two tiles above and one to the left of where the position says it should go, because
-            // obviously that should be the default behavior...
-
-            // this.sprite.draw(
-            //     b,
-            //     Game1.GlobalToLocal(
-            //         Game1.viewport,
-            //         Utility.snapDrawPosition(this.position + new Vector2(0f, -20f + this.yJumpOffset + this.yOffset))),
-            //     (this.position.Y + 64f - 32f) / 10000f, 0, 0, Color.White, false, 4f,
-            //     rotation: this.rotation,
-            //     characterSourceRectOffset: true);
 
             b.Draw(this.sprite.Texture,
                 Game1.GlobalToLocal(
@@ -102,7 +85,9 @@ namespace NermNermNerm.Junimatic
                 this.scale,
                 this.sprite.CurrentAnimation != null && this.sprite.CurrentAnimation[this.sprite.currentAnimationIndex].flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 (this.position.Y + 64f - 32f) / 10000f);
-            //
+
+            // Not drawing a shadow...  too lazy.
+
             // b.Draw(
             //     Game1.shadowTexture,
             //     Game1.GlobalToLocal(
