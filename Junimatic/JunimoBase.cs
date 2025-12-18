@@ -190,6 +190,14 @@ namespace NermNermNerm.Junimatic
             this.currentLocation.playSound("junimoMeep1");
         }
 
+        public void Jump() => this.Jump(8f);
+
+        public void Jump(float jumpVelocity)
+        {
+            this.jump(jumpVelocity);
+            ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastJump(this, jumpVelocity);
+        }
+
         public void FadeOutJunimo()
         {
             this.controller = null;

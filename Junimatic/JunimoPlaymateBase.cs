@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Netcode;
 using StardewValley;
 using StardewValley.Characters;
 using StardewValley.Locations;
@@ -12,12 +13,13 @@ namespace NermNermNerm.Junimatic
 {
     public abstract class JunimoPlaymateBase : JunimoBase
     {
-        protected readonly IReadOnlyList<Child> childrenToPlayWith = new List<Child>();
         private bool noFarmersOnLastUpdate = false;
         protected readonly int timeToGoHome;
 
         private readonly Dictionary<Child, Point> childParkedTiles = new();
         private readonly Dictionary<Child, PathFindController> childControllers = new();
+
+        private readonly NetString namesOfChildrenToPlayWith = new NetString();
 
         protected enum Activity { GoingToPlay, Playing, GoingHome };
         protected Activity activity;
@@ -28,9 +30,29 @@ namespace NermNermNerm.Junimatic
             : base(children[0].currentLocation, JunimoPlaymateColor, new AnimatedSprite(@"Characters\Junimo", 0, 16, 16), startingPoint, 2, I("NPC_Junimo_ToddlerPlaymate"))
         {
             this.Scale = 0.6f; // regular ones are .75
-            this.childrenToPlayWith = children;
             this.timeToGoHome = Math.Min(Game1.timeOfDay + 200, 1200 + 640); // Play for 2 hours or until 6:40pm.  Child.tenMinuteUpdate sends toddlers to bed at 7pm.
+            this.namesOfChildrenToPlayWith.Value = string.Join('\n', children.Select(c => c.Name));
         }
+
+        protected override void initNetFields()
+        {
+            base.initNetFields();
+            this.NetFields.AddField(this.namesOfChildrenToPlayWith, nameof(this.namesOfChildrenToPlayWith));
+        }
+
+        private IReadOnlyList<Child>? calculatedChildrenToPlayWith = null;
+
+        protected IReadOnlyList<Child> childrenToPlayWith
+        {
+            get
+            {
+                this.calculatedChildrenToPlayWith ??= this.namesOfChildrenToPlayWith.Value.Split('\n')
+                        .Select(n => Game1.getCharacterFromName(n, mustBeVillager: false)).Cast<Child>().ToList();
+
+                return this.calculatedChildrenToPlayWith;
+            }
+        }
+
 
         private static readonly Color JunimoPlaymateColor = Color.Pink; // Should this be configurable somehow?
 

@@ -10,6 +10,7 @@ namespace NermNermNerm.Junimatic;
 public class PlaymateMultiplayerSupport : ModLet
 {
     private const string DoEmoteMessageId = "Junimatic.DoEmote";
+    private const string DoJumpMessageId = "Junimatic.DoJump";
     private const string StartBallMessageId = "Junimatic.StartBall";
     private const string RemoveBallMessageId = "Junimatic.RemoveBall";
     private const string CreateBalloonMessageId = "Junimatic.CreateBalloon";
@@ -32,6 +33,13 @@ public class PlaymateMultiplayerSupport : ModLet
     public void BroadcastEmote(Character emoter, int emoteId)
     {
         this.Helper.Multiplayer.SendMessage( new EmoteData(emoter.Name, emoteId), PlaymateMultiplayerSupport.DoEmoteMessageId, [this.Mod.ModManifest.UniqueID], null);
+    }
+
+    record JumpData(string jumper, float jumpVelocity);
+
+    public void BroadcastJump(Character jumper, float jumpVelocity = 8f)
+    {
+        this.Helper.Multiplayer.SendMessage( new JumpData(jumper.Name, jumpVelocity), PlaymateMultiplayerSupport.DoJumpMessageId, [this.Mod.ModManifest.UniqueID], null);
     }
 
     private record BallData(Point StartingTile, Point EndingTile);
@@ -80,6 +88,14 @@ public class PlaymateMultiplayerSupport : ModLet
                 break;
             }
 
+            case PlaymateMultiplayerSupport.DoJumpMessageId:
+            {
+                var d = e.ReadAs<JumpData>();
+                var c = Game1.getCharacterFromName(d.jumper, mustBeVillager: false);
+                c?.jump(d.jumpVelocity);
+                break;
+            }
+
             case PlaymateMultiplayerSupport.StartBallMessageId:
             {
                 var d = e.ReadAs<BallData>();
@@ -111,7 +127,6 @@ public class PlaymateMultiplayerSupport : ModLet
                 }
 
                 this.balloon = new Balloon(farmHouse, d.floatHeightInTiles, this.balloonChild.Position);
-                this.balloonChild.IsInvisible = true;
                 farmHouse.instantiateCrittersList(); // <- only does something if the critters list is non-existent.
                 farmHouse.addCritter(this.balloon); // <- if the critters list doesn't exist, this will do nothing.
                 break;

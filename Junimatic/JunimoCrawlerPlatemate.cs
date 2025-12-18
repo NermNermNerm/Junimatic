@@ -20,8 +20,6 @@ namespace NermNermNerm.Junimatic
 
         private static readonly MethodInfo? setStateMethod  = typeof(Child).GetMethod("setState", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private Balloon? balloon = null;
-
         private const int dangleDistance = 48;
 
         private bool isDragDownJump = false;
@@ -37,6 +35,12 @@ namespace NermNermNerm.Junimatic
         }
 
         private Child childToPlayWith => this.childrenToPlayWith.First();
+
+        private Balloon? GetBalloon()
+        {
+            var farmHouse = (FarmHouse)this.childToPlayWith.currentLocation;
+            return farmHouse.critters?.OfType<Balloon>().FirstOrDefault();
+        }
 
         public bool TryGoToChild()
         {
@@ -90,7 +94,7 @@ namespace NermNermNerm.Junimatic
             this.BroadcastEmote(this.childrenToPlayWith[0], heartEmote);
 
             this.DoAfterDelay(this.Meep, 500);
-            this.DoAfterDelay(this.jump, 1500);
+            this.DoAfterDelay(this.Jump, 1500);
             this.DoAfterDelay(this.PlayGame, 3500);
         }
 
@@ -144,35 +148,35 @@ namespace NermNermNerm.Junimatic
 
         private void BalloonRideGame()
         {
-            this.balloon = new Balloon(this.currentLocation, 3, this.childToPlayWith.Position);
+            var balloon = new Balloon(this.currentLocation, 3, this.childToPlayWith.Position);
             ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastCreateBalloon(3, this.childToPlayWith);
             this.currentLocation.instantiateCrittersList(); // <- only does something if the critters list is non-existent.
-            this.currentLocation.addCritter(this.balloon); // <- if the critters list doesn't exist, this will do nothing.
+            this.currentLocation.addCritter(balloon); // <- if the critters list doesn't exist, this will do nothing.
             this.currentLocation.playSound("dwop");
 
             this.DoAfterDelay(() =>
             {
                 this.Meep();
-                this.jump(6f); // default is 8
+                this.Jump(6f); // default is 8
                 this.DoAfterDelay(() =>
                 {
-                    this.jump(9f);
+                    this.Jump(9f);
                     this.DoAfterDelay(() =>
                     {
                         this.Meep();
-                        this.jump(7f);
+                        this.Jump(7f);
                         this.DoAfterDelay(() =>
                         {
-                            this.jump(8f);
+                            this.Jump(8f);
                             this.DoAfterDelay(() =>
                             {
-                                this.jump(9f);
+                                this.Jump(9f);
                                 this.DoAfterDelay(() =>
                                 {
                                     this.Meep();
-                                    this.jump(JunimoCrawlerPlaymate.dragDownJumpInitialVelocity);
+                                    this.Jump(JunimoCrawlerPlaymate.dragDownJumpInitialVelocity);
                                     this.isDragDownJump = true;
-                                    this.balloon.IsGoingDown = true;
+                                    balloon.IsGoingDown = true;
                                     ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastDescendBalloon();
                                 }, 5000);
                             }, 4000);
@@ -184,9 +188,12 @@ namespace NermNermNerm.Junimatic
 
         private void DoAfterLanding()
         {
-            this.currentLocation.critters.Remove(this.balloon);
-            ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBalloon();
-            this.balloon = null;
+            var balloon = this.GetBalloon();
+            if (balloon is not null)
+            {
+                this.currentLocation.critters.Remove(balloon);
+                ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBalloon();
+            }
             this.childToPlayWith.IsInvisible = false;
             this.isDragDownJump = false;
             this.SetChildStateSitting();
@@ -218,11 +225,14 @@ namespace NermNermNerm.Junimatic
         protected override void OnFarmersLeftFarmhouse()
         {
             this.childCrawlDestination = null;
-            if (this.balloon is not null)
+            var balloon = this.GetBalloon();
+            if (balloon is not null)
             {
-                this.currentLocation.critters.Remove(this.balloon);
-                ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBalloon();
-                this.balloon = null;
+                this.currentLocation.critters.Remove(balloon);
+                if (Game1.IsMasterGame)
+                {
+                    ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBalloon();
+                }
                 this.childToPlayWith.IsInvisible = false;
                 this.isDragDownJump = false;
             }
@@ -259,30 +269,31 @@ namespace NermNermNerm.Junimatic
                 return;
             }
 
-            if (this.isDragDownJump && this.yJumpVelocity <= 0)
+            var balloon = this.GetBalloon();
+            if (this.isDragDownJump && this.yJumpVelocity <= 0 && balloon is not null)
             {
                 this.yJumpVelocity = 0;
                 // I have no idea why the *.5 is needed here.  The draw code that consumes yJumpOffset seems to use it
                 // as a just a straight pixel offset, so why would we need halve it?  If you don't, the junimo descends
                 // at twice the rate of the balloon.
-                this.yJumpOffset = (int)Math.Min(0f, .5f*(-45 + this.balloon!.position.Y + JunimoCrawlerPlaymate.dangleDistance - this.childToPlayWith.Position.Y));
+                this.yJumpOffset = (int)Math.Min(0f, .5f*(-45 + balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance - this.childToPlayWith.Position.Y));
             }
 
             base.update(time, farmHouse);
 
-            if (this.isDragDownJump && this.yJumpOffset == 0 && this.balloon is not null && this.balloon.IsGoingDown
-                && this.balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance > this.childToPlayWith.Position.Y)
+            if (this.isDragDownJump && this.yJumpOffset == 0 && balloon is not null && balloon.IsGoingDown
+                && this.position.Y + JunimoCrawlerPlaymate.dangleDistance > this.childToPlayWith.Position.Y)
             {
                 this.DoAfterLanding();
             }
 
-            if (this.balloon is not null
-                && this.balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance < this.childToPlayWith.Position.Y)
+            if (balloon is not null
+                && balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance < this.childToPlayWith.Position.Y)
             {
                 if (!this.childToPlayWith.IsInvisible)
                 {
                     int firstFrame = this.childToPlayWith.darkSkinned.Value ? 5 : 1;
-                    this.balloon.Sprite.setCurrentAnimation([
+                    balloon.Sprite.setCurrentAnimation([
                         new FarmerSprite.AnimationFrame(firstFrame, 200),
                         new FarmerSprite.AnimationFrame(firstFrame+1, 200),
                         new FarmerSprite.AnimationFrame(firstFrame+2, 200),
