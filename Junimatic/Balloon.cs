@@ -71,6 +71,15 @@ namespace NermNermNerm.Junimatic
             return result;
         }
 
+        /// <summary>
+        ///  This is a public static so that it can be modified in the debugger to tweak it.
+        /// This is just a number that seemed to work out.  Not really sure it's sensible,
+        /// but I haven't seen it look bad.  It could be that the more sensible thing to do
+        /// would be to make the z-order calculation be based on the original position
+        /// of the balloon.
+        /// </summary>
+        public static float layerDepthDelta = 128f;
+
         public override void draw(SpriteBatch b)
         {
 
@@ -84,7 +93,7 @@ namespace NermNermNerm.Junimatic
                 new Vector2(this.sprite.SpriteWidth / 2f, this.sprite.SpriteHeight / 2f),
                 this.scale,
                 this.sprite.CurrentAnimation != null && this.sprite.CurrentAnimation[this.sprite.currentAnimationIndex].flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                (this.position.Y + 64f - 32f) / 10000f);
+                (this.position.Y + Balloon.layerDepthDelta) / 10000f);
 
             // Not drawing a shadow...  too lazy.
 
