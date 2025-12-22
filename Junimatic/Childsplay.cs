@@ -89,7 +89,7 @@ namespace NermNermNerm.Junimatic
 
         private void LaunchJunimoPlaymate()
         {
-            var child = Game1.MasterPlayer.getChildren().Last(); // TODO: Put back Game1.random.Choose(Game1.MasterPlayer.getChildren().ToArray());
+            var child = Game1.random.Choose(Game1.MasterPlayer.getChildren().ToArray());
             var farmhouse = (FarmHouse)Game1.getFarm().GetMainFarmHouse().GetIndoors();
             var cribBounds = farmhouse.GetCribBounds();
 
@@ -142,7 +142,7 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            // TODO: Just move the child when this happens.
+            // Could just move the child, but retrying the playdate later is easier, less error prone, and not so bad.
             this.LogInfo($"Couldn't start a playdate because the Child wasn't in a good spot");
         }
 

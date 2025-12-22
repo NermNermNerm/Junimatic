@@ -233,7 +233,7 @@ namespace NermNermNerm.Junimatic
             }
             else
             {
-                Game1.random.Choose(/*this.JumpAroundGame, this.SynchronizedCrawlGame, */ this.BalloonRideGame)();
+                Game1.random.Choose(this.JumpAroundGame, this.SynchronizedCrawlGame, this.BalloonRideGame)();
             }
         }
 
@@ -276,6 +276,8 @@ namespace NermNermNerm.Junimatic
 
         public override void update(GameTime time, GameLocation farmHouse)
         {
+            base.update(time, farmHouse);
+
             // Don't change anything if time is paused by a menu in a single-player game
             if (Game1.activeClickableMenu is not null && !Game1.IsMultiplayer)
             {
@@ -291,8 +293,6 @@ namespace NermNermNerm.Junimatic
                 // at twice the rate of the balloon.
                 this.yJumpOffset = (int)Math.Min(0f, .5f*(-45 + balloon.position.Y + JunimoCrawlerPlaymate.dangleDistance - this.childToPlayWith.Position.Y));
             }
-
-            base.update(time, farmHouse);
 
             if (this.isDragDownJump && this.yJumpOffset == 0 && balloon is not null && balloon.IsGoingDown
                 && this.position.Y + JunimoCrawlerPlaymate.dangleDistance > this.childToPlayWith.Position.Y)
@@ -316,7 +316,7 @@ namespace NermNermNerm.Junimatic
                 }
             }
 
-            if (this.childCrawlDestination.HasValue)
+            if (this.childCrawlDestination.HasValue && Game1.IsMasterGame) // Actually, ...HasValue will never be true if !IsMasterGame - in for clarity & defense.
             {
                 // Ensure the child's still going that right direction
                 if (this.childCrawlDestination.Value.X == this.childToPlayWith.TilePoint.X)
