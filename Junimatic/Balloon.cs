@@ -17,6 +17,9 @@ namespace NermNermNerm.Junimatic
         private float speed;
         private float scale;
 
+        private readonly int floatHeightInPixels;
+        private readonly float startingYPosition;
+
         private const float startingScale = 1f;
         private const float fullScale = 4f;
         private const float scaleGrowth = (Balloon.fullScale - Balloon.startingScale)  /* total to grow */ / 60f /* 1 seconds worth of ticks */;
@@ -24,12 +27,10 @@ namespace NermNermNerm.Junimatic
         private const float maxSpeed = .75f; // 1 pixels/tick = 60 pixels/second = 60/64 ~= 1 tiles/second
         private const float downSpeed = 0.5f; // Matches JunimoCrawlerPlatemate.floatDownJumpVelocity
 
-        private readonly int floatHeightInPixels;
-
-
         public Balloon(GameLocation farmHouse, int floatHeightInTiles, Vector2 childPosition)
         {
             this.position = childPosition;
+            this.startingYPosition = childPosition.Y;
             this.startingPosition = childPosition;
             this.sprite = new AnimatedSprite(ModEntry.BalloonSpritesPseudoPath, 0, 16, 40);
             this.baseFrame = 0;
@@ -71,18 +72,8 @@ namespace NermNermNerm.Junimatic
             return result;
         }
 
-        /// <summary>
-        ///  This is a public static so that it can be modified in the debugger to tweak it.
-        /// This is just a number that seemed to work out.  Not really sure it's sensible,
-        /// but I haven't seen it look bad.  It could be that the more sensible thing to do
-        /// would be to make the z-order calculation be based on the original position
-        /// of the balloon.
-        /// </summary>
-        public static float layerDepthDelta = 128f;
-
         public override void draw(SpriteBatch b)
         {
-
             b.Draw(this.sprite.Texture,
                 Game1.GlobalToLocal(
                              Game1.viewport,
@@ -93,7 +84,7 @@ namespace NermNermNerm.Junimatic
                 new Vector2(this.sprite.SpriteWidth / 2f, this.sprite.SpriteHeight / 2f),
                 this.scale,
                 this.sprite.CurrentAnimation != null && this.sprite.CurrentAnimation[this.sprite.currentAnimationIndex].flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                (this.position.Y + Balloon.layerDepthDelta) / 10000f);
+                (this.startingYPosition + 31f) / 10000f); // The baby is drawn at layer depth 32, so -1 makes it appear just behind the baby.
 
             // Not drawing a shadow...  too lazy.
 
