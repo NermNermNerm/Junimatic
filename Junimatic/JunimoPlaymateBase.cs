@@ -107,7 +107,8 @@ namespace NermNermNerm.Junimatic
 
         /// <summary>
         ///   Called when the farmer leaves the farmhouse.  Implementations should remove all
-        ///   game-related props.
+        ///   game-related props.  This method is only called for the master player.
+
         /// </summary>
         protected virtual void OnFarmersLeftFarmhouse()
         {
@@ -116,12 +117,13 @@ namespace NermNermNerm.Junimatic
 
         /// <summary>
         ///   Called when to resume a playdate that was suspended because the farmers left the farmhouse.
+        /// This method is only called for the master player.
         /// </summary>
         protected virtual void OnFarmerEnteredFarmhouse()
         { }
 
         /// <summary>
-        ///    Called when a child or the Junimo can't reach their target.
+        ///    Called when a child or the Junimo can't reach their target.  This method is only called for the master player.
         /// </summary>
         protected virtual void OnCharacterIsStuck()
         {
@@ -131,6 +133,7 @@ namespace NermNermNerm.Junimatic
         /// <summary>
         ///   Called when a playdate was ongoing, the farmer left the farmhouse, and now it's past bedtime.
         ///   Also called when the player leaves the farmhouse when the Junimo was on its way home.
+        ///   This method is only called for the master player.
         /// </summary>
         protected virtual void OnPastBedtime() {}
 

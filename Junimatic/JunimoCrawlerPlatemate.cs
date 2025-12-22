@@ -174,7 +174,10 @@ namespace NermNermNerm.Junimatic
                                 this.DoAfterDelay(() =>
                                 {
                                     this.Meep();
-                                    this.Jump(JunimoCrawlerPlaymate.dragDownJumpInitialVelocity);
+                                    // Note this is 'jump' not 'Jump', so it only affects this machine's
+                                    // Junimo.  BroadcastDescendBalloon will tell the other players'
+                                    // Junimos to launch
+                                    this.jump(JunimoCrawlerPlaymate.dragDownJumpInitialVelocity);
                                     this.isDragDownJump = true;
                                     balloon.IsGoingDown = true;
                                     ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastDescendBalloon();
@@ -186,21 +189,33 @@ namespace NermNermNerm.Junimatic
             }, 4000);
         }
 
+        public void StartGrabbingJump(Balloon balloon)
+        {
+            this.jump(JunimoCrawlerPlaymate.dragDownJumpInitialVelocity);
+            this.isDragDownJump = true;
+            balloon.IsGoingDown = true;
+        }
+
         private void DoAfterLanding()
         {
             var balloon = this.GetBalloon();
             if (balloon is not null)
             {
                 this.currentLocation.critters.Remove(balloon);
-                ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBalloon();
             }
-            this.childToPlayWith.IsInvisible = false;
-            this.isDragDownJump = false;
-            this.SetChildStateSitting();
 
-            this.Meep();
-            this.DoAfterDelay(() => this.BroadcastEmote(this.childToPlayWith, Character.happyEmote), 500);
-            this.DoAfterDelay(this.PlayGame, 2500);
+            this.isDragDownJump = false;
+            if (Game1.IsMasterGame)
+            {
+                // Note that this sets a NetField, and so could cause the child to reappear while it's still
+                // in-transit on other players' games if lag is unkind.
+                this.childToPlayWith.IsInvisible = false;
+                this.SetChildStateSitting();
+
+                this.Meep();
+                this.DoAfterDelay(() => this.BroadcastEmote(this.childToPlayWith, Character.happyEmote), 500);
+                this.DoAfterDelay(this.PlayGame, 2500);
+            }
         }
 
         protected override void PlayGame()
@@ -224,15 +239,12 @@ namespace NermNermNerm.Junimatic
 
         protected override void OnFarmersLeftFarmhouse()
         {
+            // Note this function is only called on the master game
             this.childCrawlDestination = null;
             var balloon = this.GetBalloon();
             if (balloon is not null)
             {
                 this.currentLocation.critters.Remove(balloon);
-                if (Game1.IsMasterGame)
-                {
-                    ModEntry.Instance.PlaymateMultiplayerSupport.BroadcastRemoveBalloon();
-                }
                 this.childToPlayWith.IsInvisible = false;
                 this.isDragDownJump = false;
             }
@@ -242,6 +254,7 @@ namespace NermNermNerm.Junimatic
 
         protected override void OnFarmerEnteredFarmhouse()
         {
+            // Note this function is only called on the master game
             Point junimoSpot = this.childToPlayWith.TilePoint + new Point(0, 1);
             if (this.isPositionOpen(junimoSpot.X, junimoSpot.Y))
             {

@@ -15,7 +15,6 @@ public class PlaymateMultiplayerSupport : ModLet
     private const string RemoveBallMessageId = "Junimatic.RemoveBall";
     private const string CreateBalloonMessageId = "Junimatic.CreateBalloon";
     private const string DescendBalloonMessageId = "Junimatic.DescendBalloon";
-    private const string RemoveBalloonMessageId = "Junimatic.RemoveBalloon";
 
     private GameBall? gameBall = null;
     private Balloon? balloon = null;
@@ -64,11 +63,6 @@ public class PlaymateMultiplayerSupport : ModLet
     public void BroadcastDescendBalloon()
     {
         this.Helper.Multiplayer.SendMessage("", PlaymateMultiplayerSupport.DescendBalloonMessageId, [this.Mod.ModManifest.UniqueID]);
-    }
-
-    public void BroadcastRemoveBalloon()
-    {
-        this.Helper.Multiplayer.SendMessage("", PlaymateMultiplayerSupport.RemoveBalloonMessageId, [this.Mod.ModManifest.UniqueID]);
     }
 
     private void Multiplayer_ModMessageReceived(object? sender, ModMessageReceivedEventArgs e)
@@ -136,22 +130,19 @@ public class PlaymateMultiplayerSupport : ModLet
                 if (this.balloon is not null)
                 {
                     this.balloon.IsGoingDown = true;
-                }
-                break;
-
-            case PlaymateMultiplayerSupport.RemoveBalloonMessageId:
-                if (this.balloon is not null)
-                {
-                    var farmHouse = Game1.locations.First(l => l is FarmHouse);
-                    farmHouse.critters?.Remove(this.balloon);
-                    this.balloon = null;
-                    this.balloonChild!.IsInvisible = false;
-                    this.balloonChild = null;
+                    var crawler = PlaymateMultiplayerSupport.GetPlaymate<JunimoCrawlerPlaymate>();
+                    crawler.StartGrabbingJump(this.balloon);
                 }
                 break;
 
             default:
                 break;
         };
+    }
+
+    private static T GetPlaymate<T>() where T : JunimoPlaymateBase
+    {
+        var farmHouse = Game1.locations.First(l => l is FarmHouse);
+        return farmHouse.characters.OfType<T>().First();
     }
 }
