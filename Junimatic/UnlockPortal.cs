@@ -55,6 +55,21 @@ namespace NermNermNerm.Junimatic
             this.mod.Helper.Events.GameLoop.DayEnding += this.GameLoop_DayEnding;
             this.mod.Helper.Events.GameLoop.DayStarted += this.GameLoop_DayStarted;
 
+            // This makes it so that when the master player gains the recipe, the other players gain it too.
+            // It'd probably make more sense to have an event that fires when the player joins the game
+            // and a broadcast message when the master player gains the recipe, but that'd be more code
+            // to implement and difficult to test.
+            this.mod.Helper.Events.GameLoop.TimeChanged += (sender, args) =>
+            {
+                if (!Game1.IsMasterGame
+                    && Game1.player is not null
+                    && Game1.MasterPlayer is not null
+                    && Game1.MasterPlayer.craftingRecipes.ContainsKey(UnlockPortal.JunimoPortalRecipe))
+                {
+                    Game1.player.craftingRecipes.TryAdd(UnlockPortal.JunimoPortalRecipe, 0);
+                }
+            };
+
             mod.PetFindsThings.AddObjectFinder(OldJunimoPortalQiid, .02);
         }
 

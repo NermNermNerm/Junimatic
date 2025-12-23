@@ -39,6 +39,18 @@ namespace NermNermNerm.Junimatic
         {
             this.mod = mod;
             mod.Helper.Events.Content.AssetRequested += this.OnAssetRequested;
+
+            // See comment on similar code in UnlockPortal.Entry
+            this.mod.Helper.Events.GameLoop.TimeChanged += (sender, args) =>
+            {
+                if (!Game1.IsMasterGame
+                    && Game1.player is not null
+                    && Game1.MasterPlayer is not null
+                    && Game1.MasterPlayer.craftingRecipes.ContainsKey(UnlockPots.IndoorWellRecipeId))
+                {
+                    Game1.player.craftingRecipes.TryAdd(UnlockPots.IndoorWellRecipeId, 0);
+                }
+            };
         }
 
         public bool IsUnlocked => ModEntry.Config.EnableWithoutQuests || Game1.MasterPlayer.eventsSeen.Contains(PotJunimoThankYouEventId);
