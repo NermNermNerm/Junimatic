@@ -220,7 +220,7 @@ namespace NermNermNerm.Junimatic
             [StardewValley.Object.GemCategory, StardewValley.Object.mineralsCategory, StardewValley.Object.metalResources, StardewValley.Object.monsterLootCategory],
             [StardewValley.Object.EggCategory, StardewValley.Object.MilkCategory, StardewValley.Object.meatCategory, StardewValley.Object.sellAtPierresAndMarnies /* wool, duck feather, etc. */, StardewValley.Object.artisanGoodsCategory, StardewValley.Object.CookingCategory],
             [StardewValley.Object.VegetableCategory, StardewValley.Object.FruitsCategory, StardewValley.Object.SeedsCategory, StardewValley.Object.flowersCategory, StardewValley.Object.fertilizerCategory, StardewValley.Object.artisanGoodsCategory],
-            [StardewValley.Object.junkCategory, StardewValley.Object.baitCategory],
+            [StardewValley.Object.junkCategory, StardewValley.Object.baitCategory, StardewValley.Object.sellAtFishShopCategory],
             [StardewValley.Object.buildingResources],
             []
         ];
@@ -385,7 +385,7 @@ namespace NermNermNerm.Junimatic
                         foreach (string? itemId in (outputItem.RandomItemId ?? []).Append(outputItem.ItemId))
                         {
                             // TODO: Figure out if there's a better thing to do with FLAVORED_ITEM and DROP_IN.  (For Flavored, maybe, drop-in, definitely not)
-                            if (!string.IsNullOrEmpty(itemId) && !itemId.StartsWith("FLAVORED") && itemId != "DROP_IN")
+                            if (!string.IsNullOrEmpty(itemId) && !itemId.StartsWith("FLAVORED") && !itemId.StartsWith("DROP_IN")) // DROP_IN and DROP_IN_PRESERVE are the only ones I kow.
                             {
                                 var itemData = ItemRegistry.GetData(itemId);
                                 if (itemData is null)
